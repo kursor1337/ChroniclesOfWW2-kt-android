@@ -21,7 +21,6 @@ class Engine(myName: String, enemyName: String) {
     }
 
 
-
     interface Listener {
 
     }

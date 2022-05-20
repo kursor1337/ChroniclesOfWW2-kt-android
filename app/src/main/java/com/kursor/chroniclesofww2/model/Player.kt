@@ -16,6 +16,11 @@ class Player(
         Nation.DEFAULT
     )
 
+    companion object {
+        const val ME = 601
+        const val ENEMY = 602
+    }
+
 
 }
 

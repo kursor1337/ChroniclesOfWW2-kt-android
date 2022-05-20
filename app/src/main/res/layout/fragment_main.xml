@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.ChroniclesOfWW2.FullscreenContainer"
-    tools:context=".view.menu.fragments.MainFragment">
+    tools:context=".view.menu.fragments.MainFragment"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
 
     <Button
         android:id="@+id/joinGameButton"

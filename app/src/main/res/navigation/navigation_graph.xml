@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/mainFragment">
 
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.kursor.chroniclesofww2.view.menu.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_createHostFragment"
+            app:destination="@id/createHostFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_joinGameFragment"
+            app:destination="@id/joinGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinGameFragment"
+        android:name="com.kursor.chroniclesofww2.view.menu.fragments.JoinGameFragment"
+        android:label="fragment_join_game"
+        tools:layout="@layout/fragment_join_game" />
+    <fragment
+        android:id="@+id/createHostFragment"
+        android:name="com.kursor.chroniclesofww2.view.menu.fragments.CreateHostFragment"
+        android:label="fragment_create_host"
+        tools:layout="@layout/fragment_create_host" />
 </navigation>

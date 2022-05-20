@@ -7,13 +7,6 @@ class DivisionResources(
     val playerName: String
 ) {
 
-//    constructor(
-//        infantryQuantity: Int,
-//        armoredQuantity: Int,
-//        artilleryQuantity: Int,
-//        player: Player
-//    ) : this(infantryQuantity, armoredQuantity, artilleryQuantity, player.name)
-
     private val resources =
         resMap.map { (type, quantity) -> type to Reserve(type, quantity, playerName) }.toMap()
 

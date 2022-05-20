@@ -1,22 +1,19 @@
-package com.kursor.chroniclesofww2.connection.p2p
+package com.kursor.chroniclesofww2.connection.local
 
-import android.app.Activity
 import android.util.Log
-import android.widget.Toast
-import com.kursor.chroniclesofww2.connection.Connection
+import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.println
+import com.kursor.chroniclesofww2.connection.interfaces.println
 import java.io.*
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.BlockingQueue
 
-class P2pConnection(
-    private val activity: Activity,
+class LocalConnection(
     input: BufferedReader,
     output: BufferedWriter,
-    val host: Host,
-    override val sendListener: Connection.SendListener,
-    override val receiveListener: Connection.ReceiveListener
+    override val host: Host,
+    override val sendListener: Connection.SendListener? = null,
+    override val receiveListener: Connection.ReceiveListener? = null
 ) : Connection {
 
     private val sender = Sender(output)
@@ -69,15 +66,13 @@ class P2pConnection(
                     Log.e("Sender", "Connected, Sending: $string")
                     output.println(string)
                     output.flush()
-                    activity.runOnUiThread { sendListener.onSendSuccess() }
+                    sendListener?.onSendSuccess()
                     Log.e("Sender", "Send Successful: $string")
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.i("Sender", "_____")
-                    activity.runOnUiThread {
-                        Toast.makeText(activity, "Message not sent", Toast.LENGTH_SHORT).show()
-                        sendListener.onSendFailure(e)
-                    }
+                    sendListener?.onSendFailure(e)
+
                     e.printStackTrace()
                 }
             }
@@ -106,7 +101,7 @@ class P2pConnection(
                         sleep(50)
                         val string = input.readLine() ?: continue
                         Log.e("Receiver", "RECEIVED ==> $string")
-                        activity.runOnUiThread { receiveListener.onReceive(string) }
+                        receiveListener?.onReceive(string)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()

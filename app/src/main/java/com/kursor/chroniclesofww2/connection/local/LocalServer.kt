@@ -1,45 +1,48 @@
-package com.kursor.chroniclesofww2.connection.p2p
+package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
+import android.net.nsd.NsdServiceInfo
 import android.util.Log
-import com.kursor.chroniclesofww2.connection.Connection
+import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.connection.interfaces.Server
 import java.io.*
 import java.lang.Thread.sleep
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketException
 
-class Server(
-    private val name: String,
-    private val activity: Activity,
-    private val sendListener: Connection.SendListener,
-    private val receiveListener: Connection.ReceiveListener,
-    private val serverListener: Listener
-) {
+class LocalServer(
+    val activity: Activity,
+    override val name: String,
+    override val password: String? = null,
+    override val sendListener: Connection.SendListener? = null,
+    override val receiveListener: Connection.ReceiveListener? = null,
+    override val listener: Server.Listener
+) : Server {
+
+    val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
+        override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
+            listener.onRegistered(Host(serviceInfo))
+        }
+
+        override fun onRegistrationFailed(arg0: NsdServiceInfo, arg1: Int) {
+            listener.onFail()
+        }
+    })
 
     private val serverSocket = ServerSocket(0) //TODO(dialog onBackPressed)
 
-
-    interface Listener {
-        fun onConnected(connection: P2pConnection)
-        fun onServerInfoObtained(hostName: String, port: Int)
-        fun onListeningStartError(e: Exception)
-    }
-
     private var waiting = false
 
-    fun startListening() {
+    override fun startListening() {
         waiting = true
         Thread {
             Log.i("Server", "Thread Started")
             var socket: Socket? = null
             try {
                 activity.runOnUiThread {
-                    serverListener.onServerInfoObtained(
-                        name,
-                        serverSocket.localPort
-                    )
+                    nsdBroadcast.registerService(name, serverSocket.localPort)
                 }
                 Log.i("Server", "Listening for connections")
                 socket = serverSocket.accept()
@@ -53,15 +56,14 @@ class Server(
                         Log.i("Server", "Client info not yet obtained")
                         continue
                     }
-                    val connection = P2pConnection(
-                        activity,
+                    val connection = LocalConnection(
                         input,
                         output,
                         Host(name, socket.inetAddress, socket.port),
                         sendListener,
                         receiveListener
                     )
-                    activity.runOnUiThread { serverListener.onConnected(connection) }
+                    listener.onConnectionEstablished(connection)
                     Log.i("Server", "Server Shutdown")
                     waiting = false
                     break
@@ -71,7 +73,7 @@ class Server(
                 e.printStackTrace()
             } catch (e: Exception) {
                 e.printStackTrace()
-                activity.runOnUiThread { serverListener.onListeningStartError(e) }
+                listener.onListeningStartError(e)
             } /* finally {
                 socket?.close()
             }
@@ -79,7 +81,7 @@ class Server(
         }.start()
     }
 
-    fun stopListening() {
+    override fun stopListening() {
         Log.i("Server", "Stop Listening")
         waiting = false
         serverSocket.close()

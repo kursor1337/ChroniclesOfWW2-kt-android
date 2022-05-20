@@ -6,7 +6,7 @@ import android.os.Parcelable
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-class Host(val name: String, val inetAddress: InetAddress, val port: Int) : Parcelable {
+data class Host(val name: String, val inetAddress: InetAddress, val port: Int) : Parcelable {
 
     constructor(nsdServiceInfo: NsdServiceInfo) : this(
         formatName(nsdServiceInfo),
