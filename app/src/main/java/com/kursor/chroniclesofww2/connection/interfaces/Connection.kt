@@ -37,6 +37,7 @@ interface Connection {
         val EMPTY_RECEIVE_LISTENER = object : ReceiveListener {
             override fun onReceive(string: String) {}
         }
+
     }
 }
 

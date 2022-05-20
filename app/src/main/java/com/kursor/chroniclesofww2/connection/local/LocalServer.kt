@@ -21,7 +21,7 @@ class LocalServer(
     override val listener: Server.Listener
 ) : Server {
 
-    val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
+    private val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
             listener.onRegistered(Host(serviceInfo))
         }
@@ -41,9 +41,7 @@ class LocalServer(
             Log.i("Server", "Thread Started")
             var socket: Socket? = null
             try {
-                activity.runOnUiThread {
-                    nsdBroadcast.registerService(name, serverSocket.localPort)
-                }
+                nsdBroadcast.registerService(name, serverSocket.localPort)
                 Log.i("Server", "Listening for connections")
                 socket = serverSocket.accept()
                 Log.i("Server", "Connection accepted")
@@ -84,6 +82,7 @@ class LocalServer(
     override fun stopListening() {
         Log.i("Server", "Stop Listening")
         waiting = false
+        nsdBroadcast.unregisterService()
         serverSocket.close()
     }
 }

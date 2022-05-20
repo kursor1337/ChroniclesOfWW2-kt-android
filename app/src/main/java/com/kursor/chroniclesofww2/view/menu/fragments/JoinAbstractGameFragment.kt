@@ -1,29 +1,36 @@
-package com.kursor.chroniclesofww2.view.menu.fragments.localGameFragments
+package com.kursor.chroniclesofww2.view.menu.fragments
 
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import android.widget.AdapterView.OnItemClickListener
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.connection.interfaces.Client
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-
-class JoinGameFragment : Fragment() {
+abstract class JoinAbstractGameFragment : Fragment() {
 
     private lateinit var binding: FragmentJoinGameBinding
+
+    var isAccepted = false
+    abstract var _client: Client?
+
+    val client: Client get() = _client!!
+    var hostListView: ListView? = null
+    var hostMap: MutableMap<String, Host> = TreeMap<String, Host>()
+    var hostAdapter: HostsAdapter? = null
+    var host: Host? = null
+    var statusTextView: TextView? = null
+    var clientNameEditText: EditText? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,18 +67,6 @@ class JoinGameFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    var nsdHelper: NsdHelper? = null
-    var connection: Connection? = null
-    var isAccepted = false
-    var menuActivity: MenuActivity? = null
-    var client: Client? = null
-    var hostListView: ListView? = null
-    var hostMap: MutableMap<String, Host> = TreeMap<String, Host>()
-    var hostAdapter: HostsAdapter? = null
-    var host: Host? = null
-    var statusTextView: TextView? = null
-    var clientNameEditText: EditText? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -172,7 +167,8 @@ class JoinGameFragment : Fragment() {
     fun buildMessageWaitingForAccepted() {
         val dialog: SimpleDialogFragment = Builder(menuActivity)
             .setMessage(R.string.waiting_for_accepted)
-            .setNegativeButton(R.string.cancel_request_for_accepted,
+            .setNegativeButton(
+                R.string.cancel_request_for_accepted,
                 DialogInterface.OnClickListener { dialog, which ->
                     connection.send(CANCEL_CONNECTION)
                     dialog.dismiss()
