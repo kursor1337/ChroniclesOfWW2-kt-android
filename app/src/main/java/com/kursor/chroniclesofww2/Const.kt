@@ -34,6 +34,10 @@ object Const {
 
         const val CLIENT = "Client"
         const val SERVER = "Server"
+
+        const val LOCAL = "local"
+        const val WEB = "web"
+        const val MULTIPLAYER_TYPE = "multiplayer type"
     }
 
 }

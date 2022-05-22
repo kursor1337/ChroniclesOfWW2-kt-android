@@ -1,5 +1,7 @@
 package com.kursor.chroniclesofww2.connection.local
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
@@ -13,8 +15,11 @@ class LocalConnection(
     output: BufferedWriter,
     override val host: Host,
     override val sendListener: Connection.SendListener? = null,
-    override val receiveListener: Connection.ReceiveListener? = null
+    override val receiveListener: Connection.ReceiveListener? = null,
+    looper: Looper
 ) : Connection {
+
+    override val handler = Handler(looper)
 
     private val sender = Sender(output)
     private val receiver = Receiver(input)
@@ -66,13 +71,16 @@ class LocalConnection(
                     Log.e("Sender", "Connected, Sending: $string")
                     output.println(string)
                     output.flush()
-                    sendListener?.onSendSuccess()
+                    if (sendListener != null) {
+                        handler.post { sendListener.onSendSuccess() }
+                    }
                     Log.e("Sender", "Send Successful: $string")
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.i("Sender", "_____")
-                    sendListener?.onSendFailure(e)
-
+                    if (sendListener != null) {
+                        handler.post { sendListener.onSendFailure(e) }
+                    }
                     e.printStackTrace()
                 }
             }
@@ -101,7 +109,10 @@ class LocalConnection(
                         sleep(50)
                         val string = input.readLine() ?: continue
                         Log.e("Receiver", "RECEIVED ==> $string")
-                        receiveListener?.onReceive(string)
+                        if (receiveListener != null) {
+                            handler.post { receiveListener.onReceive(string) }
+                        }
+
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()

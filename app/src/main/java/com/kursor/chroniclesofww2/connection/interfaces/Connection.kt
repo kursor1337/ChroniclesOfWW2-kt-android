@@ -1,5 +1,7 @@
 package com.kursor.chroniclesofww2.connection.interfaces
 
+import android.os.Handler
+import android.os.Looper
 import com.kursor.chroniclesofww2.connection.Host
 import java.io.BufferedWriter
 
@@ -8,6 +10,7 @@ interface Connection {
     val sendListener: SendListener?
     val receiveListener: ReceiveListener?
     val host: Host
+    val handler: Handler
 
 
     fun send(string: String)
@@ -23,7 +26,7 @@ interface Connection {
         fun onSendFailure(e: Exception)
     }
 
-    interface ReceiveListener {
+    fun interface ReceiveListener {
         fun onReceive(string: String)
     }
 
@@ -34,9 +37,7 @@ interface Connection {
             override fun onSendFailure(e: Exception) {}
         }
 
-        val EMPTY_RECEIVE_LISTENER = object : ReceiveListener {
-            override fun onReceive(string: String) {}
-        }
+        val EMPTY_RECEIVE_LISTENER = ReceiveListener { }
 
     }
 }

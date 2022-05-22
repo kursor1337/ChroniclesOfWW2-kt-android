@@ -1,6 +1,8 @@
 package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
@@ -12,7 +14,7 @@ import java.net.Socket
 import java.net.UnknownHostException
 
 class LocalClient(
-    val activity: Activity,
+    activity: Activity,
     private val name: String,
     private val sendListener: Connection.SendListener,
     private val receiveListener: Connection.ReceiveListener,
@@ -21,29 +23,45 @@ class LocalClient(
 
     override val availableHosts = mutableListOf<Host>()
 
+    override val handler = Handler(activity.mainLooper)
+
     val nsdDiscovery = NsdDiscovery(activity, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
-            availableHosts.add(host)
-            listener.onHostDiscovered(host)
+            handler.post {
+                availableHosts.add(host)
+                listener.onHostDiscovered(host)
+            }
         }
 
         override fun onHostLost(host: Host) {
-            availableHosts.remove(host)
-            listener.onHostLost(host)
+            handler.post {
+                availableHosts.remove(host)
+                listener.onHostLost(host)
+            }
+
         }
 
         override fun onDiscoveryFailed(errorCode: Int) {
-            listener.onFail(errorCode)
+            handler.post {
+                listener.onFail(errorCode)
+            }
         }
 
         override fun onResolveFailed(errorCode: Int) {
-            listener.onFail(errorCode)
+            handler.post {
+                listener.onFail(errorCode)
+            }
+
         }
 
     })
 
     override fun startDiscovery() {
         nsdDiscovery.startDiscovery()
+    }
+
+    override fun stopDiscovery() {
+        nsdDiscovery.stopDiscovery()
     }
 
     override fun connectTo(host: Host, password: String?) {
@@ -62,9 +80,18 @@ class LocalClient(
                 output.println(name)
                 output.flush()
                 val connection =
-                    LocalConnection(input, output, host, sendListener, receiveListener)
+                    LocalConnection(
+                        input,
+                        output,
+                        host,
+                        sendListener,
+                        receiveListener,
+                        handler.looper
+                    )
                 Log.i("Client", "Connection established")
-                listener.onConnectionEstablished(connection)
+                handler.post {
+                    listener.onConnectionEstablished(connection)
+                }
                 Log.i("Client", "Client shutdown")
             } catch (e: UnknownHostException) {
                 Log.e("Client", "UnknownHostException")
@@ -87,6 +114,4 @@ class LocalClient(
 
         }.start()
     }
-
-
 }

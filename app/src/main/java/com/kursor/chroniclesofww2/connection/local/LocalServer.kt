@@ -2,6 +2,7 @@ package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
 import android.net.nsd.NsdServiceInfo
+import android.os.Handler
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
@@ -13,7 +14,7 @@ import java.net.Socket
 import java.net.SocketException
 
 class LocalServer(
-    val activity: Activity,
+    activity: Activity,
     override val name: String,
     override val password: String? = null,
     override val sendListener: Connection.SendListener? = null,
@@ -21,13 +22,19 @@ class LocalServer(
     override val listener: Server.Listener
 ) : Server {
 
+    override val handler = Handler(activity.mainLooper)
+
     private val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
-            listener.onRegistered(Host(serviceInfo))
+            handler.post {
+                listener.onRegistered(Host(serviceInfo))
+            }
         }
 
         override fun onRegistrationFailed(arg0: NsdServiceInfo, arg1: Int) {
-            listener.onFail()
+            handler.post {
+                listener.onFail()
+            }
         }
     })
 
@@ -59,9 +66,12 @@ class LocalServer(
                         output,
                         Host(name, socket.inetAddress, socket.port),
                         sendListener,
-                        receiveListener
+                        receiveListener,
+                        handler.looper
                     )
-                    listener.onConnectionEstablished(connection)
+                    handler.post {
+                        listener.onConnectionEstablished(connection)
+                    }
                     Log.i("Server", "Server Shutdown")
                     waiting = false
                     break
@@ -71,7 +81,8 @@ class LocalServer(
                 e.printStackTrace()
             } catch (e: Exception) {
                 e.printStackTrace()
-                listener.onListeningStartError(e)
+                handler.post { listener.onListeningStartError(e) }
+
             } /* finally {
                 socket?.close()
             }

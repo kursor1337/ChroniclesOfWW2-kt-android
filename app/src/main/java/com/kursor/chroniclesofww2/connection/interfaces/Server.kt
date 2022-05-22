@@ -1,5 +1,7 @@
 package com.kursor.chroniclesofww2.connection.interfaces
 
+import android.os.Handler
+import android.os.Looper
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.local.LocalServer
 import java.lang.Exception
@@ -11,6 +13,7 @@ interface Server {
     val sendListener: Connection.SendListener?
     val receiveListener: Connection.ReceiveListener?
     val listener: Listener
+    val handler: Handler
 
 
     fun startListening()
