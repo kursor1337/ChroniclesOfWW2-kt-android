@@ -5,26 +5,45 @@
     android:id="@+id/navigation_graph"
     app:startDestination="@id/mainFragment">
 
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.kursor.chroniclesofww2.view.menu.fragments.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_mainFragment_to_createHostFragment"
-            app:destination="@id/createHostFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_joinGameFragment"
-            app:destination="@id/joinGameFragment" />
+            android:id="@+id/action_mainFragment_to_chooseMultiplayerGameFragment"
+            app:destination="@id/chooseMultiplayerGameFragment" />
     </fragment>
     <fragment
-        android:id="@+id/joinGameFragment"
-        android:name="com.kursor.chroniclesofww2.view.menu.fragments.JoinGameFragment"
-        android:label="fragment_join_game"
-        tools:layout="@layout/fragment_join_game" />
+        android:id="@+id/chooseMultiplayerGameFragment"
+        android:name="com.kursor.chroniclesofww2.view.menu.fragments.ChooseMultiplayerGameFragment"
+        android:label="ChooseMultiplayerGameFragment"
+        tools:layout="@layout/fragment_choose_multiplayer_game">
+        <action
+            android:id="@+id/action_chooseMultiplayerGameFragment_to_joinLocalGameFragment"
+            app:destination="@id/joinLocalGameFragment" />
+        <action
+            android:id="@+id/action_chooseMultiplayerGameFragment_to_createLocalGameFragment"
+            app:destination="@id/createLocalGameFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/createHostFragment"
-        android:name="com.kursor.chroniclesofww2.view.menu.fragments.CreateHostFragment"
-        android:label="fragment_create_host"
-        tools:layout="@layout/fragment_create_host" />
+        android:id="@+id/joinLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.view.menu.fragments.localGameFragments.JoinLocalGameFragment"
+        android:label="JoinLocalGameFragment"
+        tools:layout="@layout/fragment_join_game">
+        <action
+            android:id="@+id/action_joinLocalGameFragment_to_passwordDialogFragment"
+            app:destination="@id/passwordDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.view.menu.fragments.localGameFragments.CreateLocalGameFragment"
+        android:label="CreateLocalGameFragment"
+        tools:layout="@layout/fragment_create_game"/>
+    <dialog
+        android:id="@+id/passwordDialogFragment"
+        android:name="com.kursor.chroniclesofww2.view.menu.fragments.PasswordDialogFragment"
+        android:label="PasswordDialogFragment"
+        tools:layout="@layout/dialog_password"/>
 </navigation>

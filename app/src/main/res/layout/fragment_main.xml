@@ -9,16 +9,26 @@
     android:gravity="center_vertical">
 
     <Button
-        android:id="@+id/joinGameButton"
+        android:id="@+id/web_game_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="join game" />
+        android:text="@string/web_game"
+        />
 
     <Button
-        android:id="@+id/createHostButton"
+        android:id="@+id/local_game_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="create host" />
+        android:text="@string/local_game"
+        />
+
+
+    <Button
+        android:id="@+id/ai_game_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="create host"
+        />
 
 
 </LinearLayout>

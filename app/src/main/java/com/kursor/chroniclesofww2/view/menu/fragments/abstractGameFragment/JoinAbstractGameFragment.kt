@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.view.menu.fragments
+package com.kursor.chroniclesofww2.view.menu.fragments.abstractGameFragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.Fragment
 import com.kursor.chroniclesofww2.Const.connection.ACCEPTED
 import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.Const.connection.CLIENT
 import com.kursor.chroniclesofww2.Const.connection.CONNECTED_DEVICE
+import com.kursor.chroniclesofww2.Const.connection.HOST_IS_WITH_PASSWORD
+import com.kursor.chroniclesofww2.Const.connection.PASSWORD
 import com.kursor.chroniclesofww2.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.Const.connection.REQUEST_FOR_ACCEPT
 import com.kursor.chroniclesofww2.Const.connection.REQUEST_SCENARIO_INFO
@@ -25,15 +26,16 @@ import com.kursor.chroniclesofww2.connection.interfaces.Client
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.view.menu.activities.GameActivity
+import com.kursor.chroniclesofww2.view.menu.fragments.SimpleDialogFragment
+import com.phelat.navigationresult.BundleFragment
 
-abstract class JoinAbstractGameFragment : Fragment() {
+abstract class JoinAbstractGameFragment : BundleFragment() {
 
     private lateinit var binding: FragmentJoinGameBinding
 
     var isAccepted = false
 
-    abstract var _client: Client?
-    private val client get() = _client!!
+    protected lateinit var client: Client
 
     val hostList = mutableListOf<Host>()
     lateinit var hostAdapter: HostAdapter
@@ -66,10 +68,8 @@ abstract class JoinAbstractGameFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        _client?.stopDiscovery()
+        client.stopDiscovery()
     }
-
-    protected val sendListener = Connection.EMPTY_SEND_LISTENER
 
     protected val receiveListener: Connection.ReceiveListener =
         Connection.ReceiveListener { string ->
@@ -86,6 +86,12 @@ abstract class JoinAbstractGameFragment : Fragment() {
                     R.string.connection_refused,
                     Toast.LENGTH_SHORT
                 ).show()
+                HOST_IS_WITH_PASSWORD -> {
+                    navigate(
+                        R.id.action_joinLocalGameFragment_to_passwordDialogFragment,
+                        PASSWORD_REQUEST_ID
+                    )
+                }
                 else -> {
                     Log.i("Client", "Default branch")
                     if (isAccepted) {
@@ -104,6 +110,14 @@ abstract class JoinAbstractGameFragment : Fragment() {
                 }
             }
         }
+
+    override fun onFragmentResult(requestCode: Int, bundle: Bundle) = when (requestCode) {
+        PASSWORD_REQUEST_ID -> {
+            val password = bundle.getString(PASSWORD)!!
+            Tools.currentConnection!!.send("$PASSWORD$password")
+        }
+        else -> {}
+    }
 
 
     protected val clientListener: Client.Listener = object : Client.Listener {
@@ -134,7 +148,7 @@ abstract class JoinAbstractGameFragment : Fragment() {
     }
 
 
-    fun buildMessageWaitingForAccepted() {
+    private fun buildMessageWaitingForAccepted() {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
             .setMessage(R.string.waiting_for_accepted)
             .setNegativeButton(
@@ -144,6 +158,10 @@ abstract class JoinAbstractGameFragment : Fragment() {
                 dialog.dismiss()
             }.build()
         dialog.show(parentFragmentManager, "WaitingForAccepted")
+    }
+
+    companion object {
+        const val PASSWORD_REQUEST_ID = 101
     }
 
 }

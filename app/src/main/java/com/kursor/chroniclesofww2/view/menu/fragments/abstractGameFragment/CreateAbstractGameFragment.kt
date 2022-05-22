@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.view.menu.fragments
+package com.kursor.chroniclesofww2.view.menu.fragments.abstractGameFragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,37 +11,47 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.Const
+import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
+import com.kursor.chroniclesofww2.Const.connection.HOST_IS_WITH_PASSWORD
+import com.kursor.chroniclesofww2.Const.connection.INVALID_JSON
+import com.kursor.chroniclesofww2.Const.connection.PASSWORD
+import com.kursor.chroniclesofww2.Const.connection.REQUEST_FOR_ACCEPT
+import com.kursor.chroniclesofww2.Const.connection.REQUEST_SCENARIO_INFO
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.Tools
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
-import com.kursor.chroniclesofww2.databinding.FragmentCreateHostBinding
+import com.kursor.chroniclesofww2.databinding.FragmentCreateGameBinding
 import com.kursor.chroniclesofww2.model.Scenario
 import com.kursor.chroniclesofww2.view.menu.activities.GameActivity
 import com.kursor.chroniclesofww2.view.menu.activities.MainActivity
+import com.kursor.chroniclesofww2.view.menu.fragments.SimpleDialogFragment
 
-abstract class CreateAbstractHostFragment : Fragment() {
+abstract class CreateAbstractGameFragment : Fragment() {
 
-    lateinit var binding: FragmentCreateHostBinding
+    lateinit var binding: FragmentCreateGameBinding
 
     var currentDialog: DialogFragment? = null
 
     var chosenScenarioJson = ""
-    abstract var _server: Server?
-    val server: Server get() = _server!!
+    protected lateinit var server: Server
     lateinit var connection: Connection
     protected var isHostReady = false
 
     protected val receiveListener: Connection.ReceiveListener =
         Connection.ReceiveListener { string ->
             when (string) {
-                Const.connection.REQUEST_FOR_ACCEPT -> if (isHostReady) {
-                    currentDialog?.dismiss()
-                    buildMessageConnectionRequest(connection.host)
+                REQUEST_FOR_ACCEPT -> if (isHostReady) {
+                    if (server.password != null) {
+                        connection.send(HOST_IS_WITH_PASSWORD)
+                    } else {
+                        currentDialog?.dismiss()
+                        buildMessageConnectionRequest(connection.host)
+                    }
                 }
-                Const.connection.REQUEST_SCENARIO_INFO -> {
-                    Log.i("Server", "Client sent ${Const.connection.REQUEST_SCENARIO_INFO}")
+                REQUEST_SCENARIO_INFO -> {
+                    Log.i("Server", "Client sent $REQUEST_SCENARIO_INFO")
                     connection.send(chosenScenarioJson)
                     val intent = Intent(activity as MainActivity, GameActivity::class.java)
                     intent.putExtra(Const.connection.CONNECTED_DEVICE, connection.host)
@@ -51,12 +61,21 @@ abstract class CreateAbstractHostFragment : Fragment() {
                     server.stopListening()
                     startActivity(intent)
                 }
-                Const.connection.CANCEL_CONNECTION -> {
-                    Log.i("Server", Const.connection.CANCEL_CONNECTION)
+                CANCEL_CONNECTION -> {
+                    Log.i("Server", CANCEL_CONNECTION)
                     connection.dispose()
                     Log.i("Server", "Sent invalid json")
                 }
-                Const.connection.INVALID_JSON -> Log.i("Server", "Sent invalid json")
+                INVALID_JSON -> Log.i("Server", "Sent invalid json")
+                else -> {
+                    if (string.contains(PASSWORD)) {
+                        val password = string.removePrefix(PASSWORD)
+                        if (password == server.password) {
+                            currentDialog?.dismiss()
+                            buildMessageConnectionRequest(connection.host)
+                        }
+                    }
+                }
             }
         }
 
@@ -92,7 +111,7 @@ abstract class CreateAbstractHostFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCreateHostBinding.inflate(inflater, container, false)
+        binding = FragmentCreateGameBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -51,5 +51,9 @@
     <string name="set_password">Set Password</string>
     <string name="password">Password</string>
     <string name="game_with_password">Host requires password</string>
+    <string name="web_game">Web game</string>
+    <string name="local_game">Local game</string>
+    <string name="join_game">Join game</string>
+    <string name="create_game">Create game</string>
 
 </resources>

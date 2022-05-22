@@ -38,6 +38,9 @@ object Const {
         const val LOCAL = "local"
         const val WEB = "web"
         const val MULTIPLAYER_TYPE = "multiplayer type"
+        const val HOST_IS_WITH_PASSWORD = "host is with password"
+        const val PASSWORD = "password"
+        const val USERNAME = "username"
     }
 
 }

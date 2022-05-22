@@ -4,15 +4,13 @@ import com.kursor.chroniclesofww2.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
 import com.kursor.chroniclesofww2.connection.local.LocalServer
-import com.kursor.chroniclesofww2.view.menu.fragments.CreateAbstractHostFragment
+import com.kursor.chroniclesofww2.view.menu.fragments.abstractGameFragment.CreateAbstractGameFragment
 
-class CreateLocalHostFragment : CreateAbstractHostFragment() {
-
-    override var _server: Server? = null
+class CreateLocalGameFragment : CreateAbstractGameFragment() {
 
     override fun initServer() {
         if (chosenScenarioJson.isBlank()) return
-        _server = LocalServer(
+        server = LocalServer(
             requireActivity(),
             Tools.username,
             binding.hostPasswordEditText.text.toString(),
