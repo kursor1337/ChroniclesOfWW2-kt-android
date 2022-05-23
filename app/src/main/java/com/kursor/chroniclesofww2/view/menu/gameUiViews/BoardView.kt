@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.view.menu.gameMenu
+package com.kursor.chroniclesofww2.view.menu.gameUiViews
 
 import android.content.Context
 import android.graphics.drawable.Drawable

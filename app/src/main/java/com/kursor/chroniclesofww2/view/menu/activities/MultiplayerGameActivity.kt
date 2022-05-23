@@ -13,7 +13,7 @@ import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.Const.connection.CONNECTED_DEVICE
 import com.kursor.chroniclesofww2.Const.game.MULTIPLAYER_GAME_MODE
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.view.menu.gameMenu.TileView
+import com.kursor.chroniclesofww2.view.menu.gameUiViews.TileView
 
 class MultiplayerGameActivity : GameActivity() {
 

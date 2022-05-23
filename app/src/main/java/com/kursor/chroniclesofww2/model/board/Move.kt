@@ -2,6 +2,7 @@ package com.kursor.chroniclesofww2.model.board
 
 import com.kursor.chroniclesofww2.model.DivisionResources
 import com.kursor.chroniclesofww2.model.Engine
+import com.kursor.chroniclesofww2.model.Reserve
 
 abstract class Move {
 
@@ -33,7 +34,7 @@ abstract class Move {
 }
 
 class AddMove(
-    val divisionReserve: DivisionResources.Reserve,
+    val divisionReserve: Reserve,
     val tile: Tile
 ) : Move() {
 

@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.model
 
 import com.kursor.chroniclesofww2.model.board.Board
+import com.kursor.chroniclesofww2.model.board.MotionMove
 import com.kursor.chroniclesofww2.model.board.Tile
 
 class Engine(myName: String, enemyName: String) {

@@ -23,25 +23,6 @@ class DivisionResources(
         resources[lastReturned]!!.cancel()
     }
 
-    class Reserve(
-        val type: Division.Type,
-        var size: Int,
-        val playerName: String
-    ) {
-
-        val isEmpty: Boolean
-            get() = size == 0
-
-        fun getNewDivision(): Division? {
-            if (!isEmpty) return Division.newInstance(type, playerName)
-            return null
-        }
-
-        fun cancel() {
-            size++
-        }
-    }
-
     companion object {
         fun getDefaultInstance(playerName: String) = DivisionResources(
             mapOf(
@@ -51,7 +32,37 @@ class DivisionResources(
             ), playerName
         )
     }
+}
 
+class Reserve(
+    val type: Division.Type,
+    var size: Int,
+    val playerName: String
+) {
+
+    val isEmpty: Boolean
+        get() = size == 0
+
+    var listener: Listener? = null
+
+    fun getNewDivision(): Division? {
+        if (!isEmpty) {
+            size--
+            listener?.onGetNewDivision()
+            return Division.newInstance(type, playerName)
+        }
+        return null
+    }
+
+    fun cancel() {
+        size++
+        listener?.onCancel()
+    }
+
+    interface Listener {
+        fun onGetNewDivision()
+        fun onCancel()
+    }
 }
 
 
