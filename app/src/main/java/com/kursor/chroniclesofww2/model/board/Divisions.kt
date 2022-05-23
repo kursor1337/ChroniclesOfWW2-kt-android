@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.model.board
 
+import com.kursor.chroniclesofww2.R
 import kotlin.math.abs
 
 abstract class Division(val type: Type, val playerName: String) {
@@ -45,6 +46,12 @@ abstract class Division(val type: Type, val playerName: String) {
                 Type.ARMORED -> ArmoredDivision(playerName)
                 Type.ARTILLERY -> ArtilleryDivision(playerName)
             }
+        }
+
+        fun getDrawableResource(type: Type) = when (type) {
+            Type.INFANTRY -> R.drawable.unit_infantry
+            Type.ARMORED -> R.drawable.unit_armored
+            Type.ARTILLERY -> R.drawable.unit_artillery
         }
     }
 }

@@ -20,6 +20,14 @@ class Engine(myName: String, enemyName: String) {
         }
     }
 
+    fun processEnemyMove() {
+
+    }
+
+    fun processMyMove() {
+
+    }
+
 
     interface Listener {
 

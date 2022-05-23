@@ -17,7 +17,7 @@ class Board(val height: Int, val width: Int) {
 
     operator fun get(i: Int, j: Int) = tiles[i][j]
 
-    fun placeDivision(division: Division, i: Int, j: Int) {
+    operator fun set(i: Int, j: Int, division: Division) {
         tiles[i][j].division = division
     }
 
@@ -31,7 +31,20 @@ class Board(val height: Int, val width: Int) {
         }
     }
 
-    inline fun Board.forEachTileIndexed(action: (Int, Int, Tile) -> Unit) {
+    fun calculatePossibleMoves(i: Int, j: Int, player: Player): List<Move> {
+        if (tiles[i][j].isEmpty) return emptyList()
+        val division = tiles[i][j].division!!
+        val result = mutableListOf<Move>()
+        forEachTile { tile ->
+            val move = Move(tiles[i][j], tile)
+            if (!division.isValidMove(move)) return@forEachTile
+            if (tile.isEmpty && tile.division!!.playerName != player.name)
+                result.add(move)
+        }
+        return result
+    }
+
+    inline fun forEachTileIndexed(action: (Int, Int, Tile) -> Unit) {
         for (i in 0 until height) {
             for (j in 0 until width) {
                 action(i, j, this[i, j])
@@ -39,7 +52,7 @@ class Board(val height: Int, val width: Int) {
         }
     }
 
-    inline fun Board.forEachTile(action: (Tile) -> Unit) {
+    inline fun forEachTile(action: (Tile) -> Unit) {
         forEachTileIndexed { i, j, value -> action(value) }
     }
 
@@ -47,6 +60,8 @@ class Board(val height: Int, val width: Int) {
 }
 
 class Tile(val row: Int, val column: Int) {
+
+    val coordinate = row * 10 + column
 
     var listener: Listener? = null
 
