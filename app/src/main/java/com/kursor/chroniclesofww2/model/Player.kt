@@ -6,7 +6,7 @@ import com.kursor.chroniclesofww2.model.board.Tile
 class Player(
     val name: String,
     val divisionResources: DivisionResources,
-    nation: Nation
+    val nation: Nation
 ) {
 
     constructor(name: String) : this(

@@ -26,7 +26,7 @@ class MultiplayerGameActivity : GameActivity() {
     private val receiveListener: Connection.ReceiveListener = object : Connection.ReceiveListener {
         override fun onReceive(string: String) {
             if (string == CANCEL_CONNECTION) {
-                Toast.makeText(this@GameActivity, "Disconnected", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MultiplayerGameActivity, "Disconnected", Toast.LENGTH_SHORT).show()
                 finish()
                 return
             }
