@@ -31,14 +31,14 @@ class Board(val height: Int, val width: Int) {
         }
     }
 
-    fun calculatePossibleMoves(i: Int, j: Int, player: Player): List<MotionMove> {
+    fun calculatePossibleMoves(i: Int, j: Int, playerName: String): List<MotionMove> {
         if (tiles[i][j].isEmpty) return emptyList()
         val division = tiles[i][j].division!!
         val result = mutableListOf<MotionMove>()
         forEachTile { tile ->
             val move = MotionMove(tiles[i][j], tile)
             if (!division.isValidMove(move)) return@forEachTile
-            if (tile.isEmpty || tile.division!!.playerName != player.name)
+            if (tile.isEmpty || tile.division!!.playerName != playerName)
                 result.add(move)
         }
         return result

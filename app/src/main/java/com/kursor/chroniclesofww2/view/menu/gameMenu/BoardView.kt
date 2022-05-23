@@ -1,49 +1,66 @@
-package com.kursor.chroniclesofww2.view
+package com.kursor.chroniclesofww2.view.menu.gameMenu
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.util.AttributeSet
 import android.util.Log
-import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.Tools
 import com.kursor.chroniclesofww2.model.board.Board
 import com.kursor.chroniclesofww2.model.board.Division
+import com.kursor.chroniclesofww2.model.board.MotionMove
 import com.kursor.chroniclesofww2.model.board.Tile
 
 class BoardView(
-    board: Board,
-    tileListener: Tile.Listener,
-    private val context: Context,
-    private val tableLayout: TableLayout
-) {
+    context: Context,
+    attributeSet: AttributeSet? = null
+) : TableLayout(context, attributeSet) {
 
-    private val tileViews: List<List<TileView>> = List(board.height) { i ->
-        List(board.width) { j ->
-            TileView(
-                board[i, j],
-                context
-            )
+    var board: Board? = null
+        set(value) {
+            if (value != null) init(value)
+            field = value
         }
-    }
 
-    init {
+    private lateinit var tileViews: List<List<TileView>>
+
+    private fun init(board: Board) {
+        tileViews = List(board.height) { i ->
+            List(board.width) { j ->
+                TileView(context).apply {
+                    tile = board[i, j]
+                    setOnClickListener {
+                        val y = it.id / 10
+                        val x = it.id % 10
+                        val tile = board[y, x]
+                        if (tile.isEmpty) return@setOnClickListener
+                        showLegalMoves(
+                            board.calculatePossibleMoves(
+                                y, x, tile.division!!.playerName
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
         val tileWidth = minOf(
             Tools.getScreenWidth() / board.width,
             Tools.getScreenHeight() / board.height
         )
-        val tableRowLayoutParams =
-            TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, tileWidth)
+        val tableRowLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, tileWidth)
         val tileViewLayoutParams = TableRow.LayoutParams(tileWidth, tileWidth)
         for (i in 0 until board.height) {
             val currentTableRow = TableRow(context).apply { layoutParams = tableRowLayoutParams }
-            tableLayout.addView(currentTableRow)
+            addView(currentTableRow)
             for (j in 0 until board.width) {
-                currentTableRow.addView(tileViews[i][j].imageView.apply {
+                currentTableRow.addView(tileViews[i][j].apply {
                     layoutParams = tileViewLayoutParams
                 })
             }
@@ -61,16 +78,15 @@ class BoardView(
 }
 
 class TileView(
-    tile: Tile,
-    private val context: Context,
-    val imageView: ImageView = ImageView(context)
-) {
+    context: Context,
+    attributeSet: AttributeSet? = null
+) : AppCompatImageView(context, attributeSet) {
 
     enum class State {
         NORMAL, ATTACKED, LEGAL
     }
 
-    private var isFogged = true
+    private var isFogged = true //TODO(set and get for drawing fog)
 
     var state: State = State.NORMAL
         set(value) {
@@ -81,8 +97,13 @@ class TileView(
     private val layerMap = mutableMapOf<Int, Drawable>()
     private var layerDrawable = LayerDrawable(emptyArray())
 
+    var tile: Tile? = null
+        set(value) {
+            if (value != null) init(value)
+            field = value
+        }
 
-    init {
+    private fun init(tile: Tile) {
         state = State.NORMAL
         tile.listener = object : Tile.Listener {
             override fun onDivisionSet(division: Division) {
@@ -100,9 +121,8 @@ class TileView(
             }
 
         }
-
-        imageView.id = tile.coordinate
-        imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        id = tile.coordinate
+        scaleType = ScaleType.CENTER_INSIDE
         setImage(R.drawable.empty)
     }
 
@@ -130,8 +150,8 @@ class TileView(
         layerMap[id] = drawable
         val ds = layerMap.values.toTypedArray()
         layerDrawable = LayerDrawable(ds)
-        imageView.setImageResource(0)
-        imageView.setImageDrawable(layerDrawable)
+        setImageResource(0)
+        setImageDrawable(layerDrawable)
         Log.i(
             "TileView",
             "Set image " + layerDrawable + " length = " + layerDrawable.numberOfLayers
@@ -173,7 +193,7 @@ class TileView(
             "TileView",
             "Set image " + layerDrawable + " length = " + layerDrawable.getNumberOfLayers()
         )
-        imageView.setImageDrawable(layerDrawable)
+        setImageDrawable(layerDrawable)
     }
 
     private fun removeLayer(@DrawableRes id: Int) {
@@ -183,17 +203,4 @@ class TileView(
         val ds = layerMap.values.toTypedArray()
         layerDrawable = LayerDrawable(ds)
     }
-
-    fun isFogged(): Boolean {
-        return isFogged
-    }
-
-    fun setFog() {
-        isFogged = true
-    }
-
-    fun removeFog() {
-        isFogged = false
-    }
-
 }

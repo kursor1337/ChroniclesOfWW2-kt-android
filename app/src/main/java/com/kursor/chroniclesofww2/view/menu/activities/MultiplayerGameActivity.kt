@@ -9,15 +9,13 @@ import android.view.Window
 import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
 import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.Const.connection.CONNECTED_DEVICE
 import com.kursor.chroniclesofww2.Const.game.MULTIPLAYER_GAME_MODE
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.view.TileView
+import com.kursor.chroniclesofww2.view.menu.gameMenu.TileView
 
-class MultiplayerGameActivity : AppCompatActivity() {
+class MultiplayerGameActivity : GameActivity() {
 
     private val PICKING_MOVE = 42
     private val MOTION_MOVE = 558
