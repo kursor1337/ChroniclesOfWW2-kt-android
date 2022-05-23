@@ -7,7 +7,7 @@ class DivisionResources(
     val playerName: String
 ) {
 
-    private val resources =
+    val resources =
         resMap.map { (type, quantity) -> type to Reserve(type, quantity, playerName) }.toMap()
 
     var lastReturned: Division.Type? = null

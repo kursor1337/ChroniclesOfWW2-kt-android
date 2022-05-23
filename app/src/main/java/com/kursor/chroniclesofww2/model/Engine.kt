@@ -1,7 +1,6 @@
 package com.kursor.chroniclesofww2.model
 
 import com.kursor.chroniclesofww2.model.board.Board
-import com.kursor.chroniclesofww2.model.board.Move
 import com.kursor.chroniclesofww2.model.board.Tile
 
 class Engine(myName: String, enemyName: String) {
@@ -11,7 +10,7 @@ class Engine(myName: String, enemyName: String) {
     val enemy = Player(enemyName)
 
     val enemyMovesListener = object : EnemyListener {
-        override fun onEnemyMove(move: Move) {
+        override fun onEnemyMove(motionMove: MotionMove) {
             TODO()
         }
 

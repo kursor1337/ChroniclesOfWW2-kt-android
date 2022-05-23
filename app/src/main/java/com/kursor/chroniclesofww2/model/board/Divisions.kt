@@ -16,16 +16,16 @@ abstract class Division(val type: Type, val playerName: String) {
     val isDead: Boolean
         get() = hp <= 0
 
-    abstract fun isValidMove(move: Move): Boolean
+    abstract fun isValidMove(motionMove: MotionMove): Boolean
 
-    fun moveOrAttack(move: Move) {
-        if (move.isAttack) attack(move.destination)
-        else move(move)
+    fun moveOrAttack(motionMove: MotionMove) {
+        if (motionMove.isAttack) attack(motionMove.destination)
+        else move(motionMove)
     }
 
-    private fun move(move: Move) {
-        move.destination.division = this
-        move.start.division = null
+    private fun move(motionMove: MotionMove) {
+        motionMove.destination.division = this
+        motionMove.start.division = null
     }
 
     private fun attack(tile: Tile) {
@@ -62,9 +62,9 @@ class InfantryDivision(playerName: String) : Division(Type.INFANTRY, playerName)
     override val softAttack = 125
     override val hardAttack = 20
 
-    override fun isValidMove(move: Move): Boolean {
-        return abs(move.start.row - move.destination.row) < 2 &&
-                abs(move.start.column - move.destination.column) < 2
+    override fun isValidMove(motionMove: MotionMove): Boolean {
+        return abs(motionMove.start.row - motionMove.destination.row) < 2 &&
+                abs(motionMove.start.column - motionMove.destination.column) < 2
     }
 }
 
@@ -74,9 +74,9 @@ class ArmoredDivision(playerName: String) : Division(Type.ARMORED, playerName) {
     override val softAttack = 75
     override val hardAttack = 100
 
-    override fun isValidMove(move: Move): Boolean {
-        return abs(move.start.row - move.destination.row) < 3 &&
-                abs(move.start.column - move.destination.column) < 3
+    override fun isValidMove(motionMove: MotionMove): Boolean {
+        return abs(motionMove.start.row - motionMove.destination.row) < 3 &&
+                abs(motionMove.start.column - motionMove.destination.column) < 3
     }
 }
 
@@ -86,8 +86,8 @@ class ArtilleryDivision(playerName: String) : Division(Type.ARTILLERY, playerNam
     override val softAttack = 75
     override val hardAttack = 100
 
-    override fun isValidMove(move: Move): Boolean {
-        return abs(move.start.row - move.destination.row) +
-                abs(move.start.column - move.destination.column) < 2
+    override fun isValidMove(motionMove: MotionMove): Boolean {
+        return abs(motionMove.start.row - motionMove.destination.row) +
+                abs(motionMove.start.column - motionMove.destination.column) < 2
     }
 }

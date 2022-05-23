@@ -7,8 +7,8 @@ import java.io.BufferedWriter
 
 interface Connection {
 
-    val sendListener: SendListener?
-    val receiveListener: ReceiveListener?
+    var sendListener: SendListener?
+    var receiveListener: ReceiveListener?
     val host: Host
     val handler: Handler
 

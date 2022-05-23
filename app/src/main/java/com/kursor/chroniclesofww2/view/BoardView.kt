@@ -50,8 +50,13 @@ class BoardView(
         }
     }
 
-    fun showLegalMoves() {
-
+    fun showLegalMoves(motionMoveList: List<MotionMove>) {
+        motionMoveList.forEach { move ->
+            val dest = move.destination
+            val state = if (move.isAttack) TileView.State.ATTACKED
+            else TileView.State.LEGAL
+            tileViews[dest.row][dest.column].state = state
+        }
     }
 }
 
@@ -67,7 +72,7 @@ class TileView(
 
     private var isFogged = true
 
-    private var state: State = State.NORMAL
+    var state: State = State.NORMAL
         set(value) {
             onStateChanged(field, value)
             field = value

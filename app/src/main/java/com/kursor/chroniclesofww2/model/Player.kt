@@ -1,7 +1,5 @@
 package com.kursor.chroniclesofww2.model
 
-import com.kursor.chroniclesofww2.model.board.Division
-import com.kursor.chroniclesofww2.model.board.Move
 import com.kursor.chroniclesofww2.model.board.Tile
 
 class Player(
@@ -25,6 +23,6 @@ class Player(
 }
 
 interface EnemyListener {
-    fun onEnemyMove(move: Move)
+    fun onEnemyMove(motionMove: MotionMove)
     fun onEnemyPlaceDivision(tile: Tile)
 }

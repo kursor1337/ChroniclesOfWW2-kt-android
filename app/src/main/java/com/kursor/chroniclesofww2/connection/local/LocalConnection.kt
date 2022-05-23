@@ -14,8 +14,8 @@ class LocalConnection(
     input: BufferedReader,
     output: BufferedWriter,
     override val host: Host,
-    override val sendListener: Connection.SendListener? = null,
-    override val receiveListener: Connection.ReceiveListener? = null,
+    override var sendListener: Connection.SendListener? = null,
+    override var receiveListener: Connection.ReceiveListener? = null,
     looper: Looper
 ) : Connection {
 
@@ -72,14 +72,14 @@ class LocalConnection(
                     output.println(string)
                     output.flush()
                     if (sendListener != null) {
-                        handler.post { sendListener.onSendSuccess() }
+                        handler.post { sendListener!!.onSendSuccess() }
                     }
                     Log.e("Sender", "Send Successful: $string")
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.i("Sender", "_____")
                     if (sendListener != null) {
-                        handler.post { sendListener.onSendFailure(e) }
+                        handler.post { sendListener!!.onSendFailure(e) }
                     }
                     e.printStackTrace()
                 }
@@ -110,7 +110,7 @@ class LocalConnection(
                         val string = input.readLine() ?: continue
                         Log.e("Receiver", "RECEIVED ==> $string")
                         if (receiveListener != null) {
-                            handler.post { receiveListener.onReceive(string) }
+                            handler.post { receiveListener!!.onReceive(string) }
                         }
 
                     }
