@@ -14,13 +14,6 @@ class Player(
         DivisionResources.getDefaultInstance(name),
         Nation.DEFAULT
     )
-
-    companion object {
-        const val ME = 601
-        const val ENEMY = 602
-    }
-
-
 }
 
 interface EnemyListener {
