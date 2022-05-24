@@ -17,7 +17,8 @@ class DivisionResources(
     val resources =
         resMap.map { (type, quantity) -> type to Reserve(type, quantity, playerName) }.toMap()
 
-    var lastReturned: Division.Type? = null
+    val divisionCount: Int
+        get() = resources.values.sumOf { reserve -> reserve.size }
 
     companion object {
         fun getDefaultInstance(playerName: String) = DivisionResources(

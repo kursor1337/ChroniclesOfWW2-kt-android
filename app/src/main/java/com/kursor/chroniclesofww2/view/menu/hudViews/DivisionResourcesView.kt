@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.view.menu.gameUiViews
+package com.kursor.chroniclesofww2.view.menu.hudViews
 
 import android.content.Context
 import android.graphics.Color
@@ -9,7 +9,6 @@ import com.kursor.chroniclesofww2.Tools
 import com.kursor.chroniclesofww2.model.DivisionResources
 import com.kursor.chroniclesofww2.model.Player
 import com.kursor.chroniclesofww2.model.Reserve
-import com.kursor.chroniclesofww2.model.board.Division
 
 class DivisionResourcesView(
     context: Context,

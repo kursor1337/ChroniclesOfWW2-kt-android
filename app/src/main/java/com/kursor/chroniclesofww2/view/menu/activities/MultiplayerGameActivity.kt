@@ -12,8 +12,12 @@ import android.widget.Toast
 import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.Const.connection.CONNECTED_DEVICE
 import com.kursor.chroniclesofww2.Const.game.MULTIPLAYER_GAME_MODE
+import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.view.menu.gameUiViews.TileView
+import com.kursor.chroniclesofww2.model.Engine
+import com.kursor.chroniclesofww2.model.board.Move
+import com.kursor.chroniclesofww2.view.menu.fragments.SimpleDialogFragment
+import com.kursor.chroniclesofww2.view.menu.hudViews.TileView
 
 class MultiplayerGameActivity : GameActivity() {
 
@@ -23,65 +27,38 @@ class MultiplayerGameActivity : GameActivity() {
     private val SETTING_MOVE = 363
     private val TAG = "GameActivity"
 
-    private val receiveListener: Connection.ReceiveListener = object : Connection.ReceiveListener {
-        override fun onReceive(string: String) {
-            if (string == CANCEL_CONNECTION) {
-                Toast.makeText(this@MultiplayerGameActivity, "Disconnected", Toast.LENGTH_SHORT).show()
-                finish()
-                return
-            }
-            processReceivedMove(Move.decodeString(string, engine.getBoard(), hud))
-        }
-    }
-
-    var tileClickListener =
-        View.OnClickListener { view ->
-            val tileView = boardLayout.getTileViewByCoordinate(view.id)
-            Log.i(TAG, "" + view.id)
-            Log.i(TAG, tileView.getTile().toString() + "")
-            if (isMotionMoveNow(tileView)) {
-                motionMove(tileView)
-            } else if (isAddMoveNow(tileView)) {
-                addMove(tileView)
-            } else if (isPickingClickNow(tileView)) {
-                pickingClick(tileView)
-            }
-        }
-
-    var uiClickListener =
-        View.OnClickListener { v ->
-            if (chosenControl != null && selectedTileView != null) {
-                chosenControl.addDivision(selectedTileView.getDivision())
-                boardLayout.hideLegalMoves()
-            }
-            selectedTileView = null
-            chosenControl = hud.getControlByButtonId(v.id)
-            Log.i(TAG, "HUD click, type = " + chosenControl.type)
-            val row: Int
-            row = if (isInverted()) 0 else 7
-            boardLayout.showLegalMoves(row)
-        }
 
     private var previousMoveType = 0
     private var mode: String? = null
 
+    //tile[0] - previous, tile[1] - current
     protected val previous = 0
     protected val current = 1
 
-    protected var selectedTileView: TileView? = null
-    protected var chosenControl: HUD.Control? = null
 
-    //tile[0] - previous, tile[1] - current
+    lateinit var engine: Engine
 
-    //tile[0] - previous, tile[1] - current
-    var layout1: LinearLayout? = null
-    var layout2: LinearLayout? = null
-    var hud: HUD? = null
-    var mission: Mission? = null
-    var enemy: Player? = null
-    var me: Player? = null
-    var engine: Engine? = null
-    var boardLayout: BoardLayout? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.activity_game)
+        if (supportActionBar != null) supportActionBar!!.hide()
+
+        //SimpleDialogFragment loadingDialog = showLoadingDialog();
+        initializeMultiPlayerFeatures()
+        initializeGameFeatures(isInverted())
+        val sqr = findViewById<TableLayout>(R.id.table)
+        boardLayout = BoardLayout(sqr, this, engine.getBoard())
+        layout1 = findViewById(R.id.hud1)
+        layout2 = findViewById(R.id.hud2)
+        boardLayout.initializeBoardLayout(isInverted())
+        boardLayout.setClickListeners(getTileClickListener())
+        if (isInverted()) {
+            disableScreen()
+        }
+        //loadingDialog.dismiss();
+        boardLayout.hideLegalMoves()
+    }
 
     var eventListener: EventListener = object : EventListener() {
         override fun onMyMoveComplete(move: Move) {
@@ -123,27 +100,47 @@ class MultiplayerGameActivity : GameActivity() {
         return mode == CLIENT
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_game)
-        if (supportActionBar != null) supportActionBar!!.hide()
 
-        //SimpleDialogFragment loadingDialog = showLoadingDialog();
-        initializeMultiPlayerFeatures()
-        initializeGameFeatures(isInverted())
-        val sqr = findViewById<TableLayout>(R.id.table)
-        boardLayout = BoardLayout(sqr, this, engine.getBoard())
-        layout1 = findViewById(R.id.hud1)
-        layout2 = findViewById(R.id.hud2)
-        boardLayout.initializeBoardLayout(isInverted())
-        boardLayout.setClickListeners(getTileClickListener())
-        if (isInverted()) {
-            disableScreen()
+
+    private val receiveListener: Connection.ReceiveListener = object : Connection.ReceiveListener {
+        override fun onReceive(string: String) {
+            if (string == CANCEL_CONNECTION) {
+                Toast.makeText(this@MultiplayerGameActivity, "Disconnected", Toast.LENGTH_SHORT).show()
+                finish()
+                return
+            }
+            processReceivedMove(Move.decodeString(string, engine.getBoard(), hud))
         }
-        //loadingDialog.dismiss();
-        boardLayout.hideLegalMoves()
     }
+
+    var tileClickListener =
+        View.OnClickListener { view ->
+            val tileView = boardLayout.getTileViewByCoordinate(view.id)
+            Log.i(TAG, "" + view.id)
+            Log.i(TAG, tileView.getTile().toString() + "")
+            if (isMotionMoveNow(tileView)) {
+                motionMove(tileView)
+            } else if (isAddMoveNow(tileView)) {
+                addMove(tileView)
+            } else if (isPickingClickNow(tileView)) {
+                pickingClick(tileView)
+            }
+        }
+
+    var uiClickListener =
+        View.OnClickListener { v ->
+            if (chosenControl != null && selectedTileView != null) {
+                chosenControl.addDivision(selectedTileView.getDivision())
+                boardLayout.hideLegalMoves()
+            }
+            selectedTileView = null
+            chosenControl = hud.getControlByButtonId(v.id)
+            Log.i(TAG, "HUD click, type = " + chosenControl.type)
+            val row: Int
+            row = if (isInverted()) 0 else 7
+            boardLayout.showLegalMoves(row)
+        }
+
 
     fun showLoadingDialog(): SimpleDialogFragment? {
         val simpleDialogFragment: SimpleDialogFragment = Builder(this)
@@ -193,19 +190,11 @@ class MultiplayerGameActivity : GameActivity() {
         } else {
             getString(R.string.you_lose)
         }
-        val dialog: SimpleDialogFragment = Builder(this)
+        val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(this)
             .setMessage(result).setCancelable(false)
             .setPositiveButton("Ок",
                 DialogInterface.OnClickListener { dialog, which -> goToMainScreen() }).build()
         dialog.show(supportFragmentManager, "")
-    }
-
-    fun getEnemy(): Player? {
-        return enemy
-    }
-
-    fun getMe(): Player? {
-        return me
     }
 
     //Event listener helps to receive info from engine
@@ -216,23 +205,18 @@ class MultiplayerGameActivity : GameActivity() {
     /**
      * abstract class to receive info from the engine
      */
-    abstract class EventListener {
-        fun onGameEnd(win: Boolean) {
-            buildAlertMessageEndOfTheGame(win)
-        }
-
-        //it's for redrawing the board
-        abstract fun onMyMoveComplete(move: Move?)
-        abstract fun onEnemyMoveComplete(move: Move?)
-        fun showText(s: String?) {
-            Toast.makeText(this@GameActivity, s, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    protected fun processReceivedMove(move: Move?) {
-        Log.i(TAG, "Process received move")
-        engine.handleEnemyMove(move)
-    }
+//    abstract class EventListener {
+//        fun onGameEnd(win: Boolean) {
+//            buildAlertMessageEndOfTheGame(win)
+//        }
+//
+//        //it's for redrawing the board
+//        abstract fun onMyMoveComplete(move: Move?)
+//        abstract fun onEnemyMoveComplete(move: Move?)
+//        fun showText(s: String?) {
+//            Toast.makeText(this@GameActivity, s, Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     /*
     Some engine stuff that I decided to move into activity coz idk

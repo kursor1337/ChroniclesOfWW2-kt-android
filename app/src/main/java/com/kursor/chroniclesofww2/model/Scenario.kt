@@ -24,12 +24,12 @@ class Scenario(
         else player2
 
     private val player1: Player
-        get() = if (invertNations) Player(player1name, divisionResources2, nation2)
-        else Player(player1name, divisionResources1, nation1)
+        get() = if (invertNations) Player(player1name, divisionResources2, nation2, 0)
+        else Player(player1name, divisionResources1, nation1, 0)
 
     private val player2: Player
-        get() = if (invertNations) Player(player2name, divisionResources1, nation1)
-        else Player(player2name, divisionResources2, nation2)
+        get() = if (invertNations) Player(player2name, divisionResources1, nation1, 1)
+        else Player(player2name, divisionResources2, nation2, 1)
 
     var invertPlayers = false
 

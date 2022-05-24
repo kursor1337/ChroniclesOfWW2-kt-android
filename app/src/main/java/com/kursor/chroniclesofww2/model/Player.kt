@@ -6,17 +6,8 @@ import com.kursor.chroniclesofww2.model.board.Tile
 class Player(
     val name: String,
     val divisionResources: DivisionResources,
-    val nation: Nation
+    val nation: Nation,
+    val turnMod: Int
 ) {
 
-    constructor(name: String) : this(
-        name,
-        DivisionResources.getDefaultInstance(name),
-        Nation.DEFAULT
-    )
-}
-
-interface EnemyListener {
-    fun onEnemyMove(motionMove: MotionMove)
-    fun onEnemyPlaceDivision(tile: Tile)
 }

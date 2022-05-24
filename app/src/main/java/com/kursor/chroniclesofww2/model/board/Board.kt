@@ -2,13 +2,11 @@ package com.kursor.chroniclesofww2.model.board
 
 import com.kursor.chroniclesofww2.model.Player
 
-const val DEFAULT_BOARD_SIZE = 8
-
 class Board(val height: Int, val width: Int) {
 
     constructor(size: Int) : this(size, size)
 
-    constructor() : this(DEFAULT_BOARD_SIZE)
+    constructor() : this(DEFAULT_SIZE)
 
 
     private val tiles = List(height) { row ->
@@ -44,6 +42,13 @@ class Board(val height: Int, val width: Int) {
         return result
     }
 
+    fun safeLine(enemyName: String, i: Int): Boolean {
+        tiles[i].forEach { tile ->
+            if (!tile.isEmpty && tile.division!!.playerName == enemyName) return false
+        }
+        return true
+    }
+
     inline fun forEachTileIndexed(action: (Int, Int, Tile) -> Unit) {
         for (i in 0 until height) {
             for (j in 0 until width) {
@@ -54,6 +59,11 @@ class Board(val height: Int, val width: Int) {
 
     inline fun forEachTile(action: (Tile) -> Unit) {
         forEachTileIndexed { i, j, value -> action(value) }
+    }
+
+
+    companion object {
+        const val DEFAULT_SIZE = 8
     }
 
 
