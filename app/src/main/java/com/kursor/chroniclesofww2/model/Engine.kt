@@ -17,8 +17,7 @@ class Engine(
 
     private var clickedTile: Tile? = null
         set(value) {
-            if (value != null) listener.onTileClicked(value)
-            else if (field != null) listener.onTileClickCanceled(field!!)
+            if (field == null && value != null) listener.onTileClicked(value)
         }
     private var clickedReserve: Reserve? = null
 
@@ -152,7 +151,6 @@ class Engine(
         fun onStartingSecond()
         fun onMyMotionMoveCanceled(i: Int, j: Int)
         fun onMyAddMoveCanceled()
-        fun onTileClickCanceled(tile: Tile)
         fun onTileClicked(tile: Tile)
 
     }

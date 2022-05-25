@@ -30,7 +30,6 @@ class BoardView(
         }
 
 
-
     private lateinit var tileViews: List<List<TileView>>
 
     private fun init(board: Board) {
@@ -75,6 +74,14 @@ class BoardView(
 
     fun calculateAndShowPossibleMoves(i: Int, j: Int, playerName: String) {
         showPossibleMoves(board!!.calculatePossibleMoves(i, j, playerName))
+    }
+
+    fun hideLegalMoves() {
+        tileViews.forEach { tileRow ->
+            tileRow.forEach { tileView ->
+                tileView.state = TileView.State.NORMAL
+            }
+        }
     }
 
     fun setOnTileViewClickListener(onTileViewClickListener: TileView.OnTileViewClickListener) {
