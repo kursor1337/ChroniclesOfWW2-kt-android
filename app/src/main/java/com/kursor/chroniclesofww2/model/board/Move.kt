@@ -64,7 +64,7 @@ class AddMove(
 
         private fun returnToFullState(divisionResources: DivisionResources, board: Board): AddMove {
             return AddMove(
-                divisionResources.resources[divisionType]!!,
+                divisionResources.reserves[divisionType]!!,
                 board[tileCoordinate / 10, tileCoordinate % 10]
             )
         }

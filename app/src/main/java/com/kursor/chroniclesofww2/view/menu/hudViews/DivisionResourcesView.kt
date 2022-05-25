@@ -44,13 +44,17 @@ class DivisionResourcesView(
         val tempReserveViews = mutableListOf<ReserveView>()
         val width = Tools.getScreenWidth() / reserveViews.size
 
-        divisionResources.resources.forEach { (_, reserve) ->
+        divisionResources.reserves.forEach { (_, reserve) ->
             val reserveView = ReserveView(context).apply { this.reserve = reserve }
             tempReserveViews.add(reserveView)
 
             reserveView.layoutParams = LayoutParams(width, LayoutParams.WRAP_CONTENT)
             addView(reserveView)
             reserveView.setOnClickListener {
+                if (clickedReserveView === reserveView) {
+                    reserveView.isClicked = false
+                    clickedReserveView = null
+                }
                 clickedReserveView = reserveView
             }
         }

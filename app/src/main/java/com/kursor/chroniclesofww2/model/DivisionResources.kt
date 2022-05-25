@@ -10,15 +10,15 @@ class DivisionResources(
 
     var playerName = pName
         set(value) {
-            resources.forEach { (type, reserve) -> reserve.playerName = value }
+            reserves.forEach { (type, reserve) -> reserve.playerName = value }
             field = value
         }
 
-    val resources =
+    val reserves =
         resMap.map { (type, quantity) -> type to Reserve(type, quantity, playerName) }.toMap()
 
     val divisionCount: Int
-        get() = resources.values.sumOf { reserve -> reserve.size }
+        get() = reserves.values.sumOf { reserve -> reserve.size }
 
     companion object {
         fun getDefaultInstance(playerName: String) = DivisionResources(

@@ -1,20 +1,21 @@
 package com.kursor.chroniclesofww2.view.menu.activities
 
-import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.LinearLayout
-import android.widget.TableLayout
 import android.widget.Toast
+import com.kursor.chroniclesofww2.Const
 import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
+import com.kursor.chroniclesofww2.Const.connection.CLIENT
 import com.kursor.chroniclesofww2.Const.connection.CONNECTED_DEVICE
 import com.kursor.chroniclesofww2.Const.game.MULTIPLAYER_GAME_MODE
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.model.Engine
+import com.kursor.chroniclesofww2.model.GameData
+import com.kursor.chroniclesofww2.model.board.AddMove
 import com.kursor.chroniclesofww2.model.board.Move
 import com.kursor.chroniclesofww2.view.menu.fragments.SimpleDialogFragment
 import com.kursor.chroniclesofww2.view.menu.hudViews.TileView
@@ -35,65 +36,72 @@ class MultiplayerGameActivity : GameActivity() {
     protected val previous = 0
     protected val current = 1
 
+    private val connection = Tools.currentConnection!!
 
-    lateinit var engine: Engine
+    var clickedTileView: TileView? = null
+
+    override val engineListener = object : Engine.Listener {
+        override fun onMyMoveComplete(move: Move) {
+            Log.i("EventListener", "onMyMoveComplete")
+            connection.send(move.encodeToString())
+            disableScreen()
+        }
+
+        override fun onEnemyMoveComplete(move: Move) {
+            Log.i("EventListener", "onEnemyMoveComplete")
+            enableScreen()
+        }
+
+        override fun onGameEnd(meWon: Boolean) {
+            buildAlertMessageEndOfTheGame(meWon)
+        }
+
+        override fun onStartingSecond() {
+            disableScreen()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_game)
+        val gameData = Tools.GSON.fromJson(
+            intent.getStringExtra(Const.game.GAME_DATA),
+            GameData::class.java
+        )!!
         if (supportActionBar != null) supportActionBar!!.hide()
-
+        val engine = Engine(gameData, engineListener).apply {
+            bindViews(
+                binding.boardView,
+                binding.divisionResourcesMe,
+                binding.divisionResourcesEnemy
+            )
+        }
         //SimpleDialogFragment loadingDialog = showLoadingDialog();
         initializeMultiPlayerFeatures()
         initializeGameFeatures(isInverted())
-        val sqr = findViewById<TableLayout>(R.id.table)
-        boardLayout = BoardLayout(sqr, this, engine.getBoard())
-        layout1 = findViewById(R.id.hud1)
-        layout2 = findViewById(R.id.hud2)
-        boardLayout.initializeBoardLayout(isInverted())
-        boardLayout.setClickListeners(getTileClickListener())
-        if (isInverted()) {
-            disableScreen()
-        }
-        //loadingDialog.dismiss();
-        boardLayout.hideLegalMoves()
-    }
-
-    var eventListener: EventListener = object : EventListener() {
-        override fun onMyMoveComplete(move: Move) {
-            Log.i("EventListener", "onMyMoveComplete")
-            connection.send(move.toCode())
-            disableScreen()
-            boardLayout.hideLegalMoves()
+        binding.boardView.setOnTileClickListener { i, j, tileView, tile ->
+            if (tile.isEmpty && clickedTileView == null) return@setOnTileClickListener
+            if (tile.isEmpty && binding.divisionResourcesMe.clickedReserveView != null) {
+                engine.handleMyMove(
+                    AddMove(
+                        binding.divisionResourcesMe.clickedReserveView!!.reserve!!, tile
+                    )
+                )
+            }
         }
 
-        override fun onEnemyMoveComplete(move: Move?) {
-            Log.i("EventListener", "onEnemyMoveComplete")
-            enableScreen()
-        }
-    }
 
-    protected fun disableScreen() {
-        boardLayout.setEnabled(false)
-        hud.getMyInterface().disable()
-    }
-
-    protected fun enableScreen() {
-        boardLayout.setEnabled(true)
-        hud.getMyInterface().enable()
-    }
-
-    protected fun getMission(): Mission? {
-        return Mission.fromJson(intent.getStringExtra(MISSION))
-    }
-
-    fun goToMainScreen() {
-        Log.i(TAG, "Going to main screen")
-        val intent = Intent(this, MenuActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        System.gc()
-        startActivity(intent)
+//        boardLayout = BoardLayout(sqr, this, engine.getBoard())
+//        layout1 = findViewById(R.id.hud1)
+//        layout2 = findViewById(R.id.hud2)
+//        boardLayout.initializeBoardLayout(isInverted())
+//        boardLayout.setClickListeners(getTileClickListener())
+//        if (isInverted()) {
+//            disableScreen()
+//        }
+//        //loadingDialog.dismiss();
+//        boardLayout.hideLegalMoves()
     }
 
     fun isInverted(): Boolean {
@@ -101,11 +109,11 @@ class MultiplayerGameActivity : GameActivity() {
     }
 
 
-
     private val receiveListener: Connection.ReceiveListener = object : Connection.ReceiveListener {
         override fun onReceive(string: String) {
             if (string == CANCEL_CONNECTION) {
-                Toast.makeText(this@MultiplayerGameActivity, "Disconnected", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MultiplayerGameActivity, "Disconnected", Toast.LENGTH_SHORT)
+                    .show()
                 finish()
                 return
             }
@@ -184,16 +192,11 @@ class MultiplayerGameActivity : GameActivity() {
     }
 
     fun buildAlertMessageEndOfTheGame(win: Boolean) {
-        val result: String
-        result = if (win) {
-            getString(R.string.you_won)
-        } else {
-            getString(R.string.you_lose)
-        }
+        val result = if (win) getString(R.string.you_won)
+        else getString(R.string.you_lose)
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(this)
             .setMessage(result).setCancelable(false)
-            .setPositiveButton("Ок",
-                DialogInterface.OnClickListener { dialog, which -> goToMainScreen() }).build()
+            .setPositiveButton("Ок") { dialog, which -> goToMainScreen() }.build()
         dialog.show(supportFragmentManager, "")
     }
 

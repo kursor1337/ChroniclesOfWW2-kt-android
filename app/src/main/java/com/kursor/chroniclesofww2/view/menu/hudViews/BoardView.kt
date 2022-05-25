@@ -38,13 +38,7 @@ class BoardView(
                     setOnClickListener {
                         val y = it.id / 10
                         val x = it.id % 10
-                        val tile = board[y, x]
-                        if (tile.isEmpty) return@setOnClickListener
-                        showLegalMoves(
-                            board.calculatePossibleMoves(
-                                y, x, tile.division!!.playerName
-                            )
-                        )
+                        onTileViewClickListener.onClick(y, x, this, tile!!)
                     }
                 }
             }
@@ -75,6 +69,15 @@ class BoardView(
             tileViews[dest.row][dest.column].state = state
         }
     }
+
+    fun setOnTileClickListener(onTileViewClickListener: TileView.OnTileViewClickListener) {
+        tileViews.forEach { tileRow ->
+            tileRow.forEach { tile ->
+                tile.onTileViewClickListener = onTileViewClickListener
+            }
+        }
+    }
+
 }
 
 class TileView(
@@ -96,6 +99,7 @@ class TileView(
 
     private val layerMap = mutableMapOf<Int, Drawable>()
     private var layerDrawable = LayerDrawable(emptyArray())
+    lateinit var onTileViewClickListener: OnTileViewClickListener
 
     var tile: Tile? = null
         set(value) {
@@ -202,5 +206,9 @@ class TileView(
         Log.i("TileView", d.toString() + "")
         val ds = layerMap.values.toTypedArray()
         layerDrawable = LayerDrawable(ds)
+    }
+
+    fun interface OnTileViewClickListener {
+        fun onClick(i: Int, j: Int, tileView: TileView, tile: Tile)
     }
 }
