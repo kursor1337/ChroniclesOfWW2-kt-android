@@ -16,6 +16,10 @@ class Engine(
     private var turn = 0
 
     private var clickedTile: Tile? = null
+        set(value) {
+            if (value != null) listener.onTileClicked(value)
+            else if (field != null) listener.onTileClickCanceled(field!!)
+        }
     private var clickedReserve: Reserve? = null
 
     init {
@@ -28,8 +32,9 @@ class Engine(
         enemyDivisionResourcesView: DivisionResourcesView
     ) {
         boardView.board = board
-        meDivisionResourcesView.divisionResources = me.divisionResources
-        enemyDivisionResourcesView.divisionResources = enemy.divisionResources
+        meDivisionResourcesView.setup(me)
+        enemyDivisionResourcesView.setup(enemy)
+
     }
 
 //    fun myOwnership(division: Division): Boolean {
@@ -44,20 +49,24 @@ class Engine(
             listener.onMyMotionMoveCanceled(i, j)
             return
         }
-        if (clickedTile != null) {
-            val valid = handleMyMove(MotionMove(clickedTile!!, tile))
-            if (valid) clickedTile = null
-            return
+        when {
+            clickedTile != null -> {
+                val valid = handleMyMove(MotionMove(clickedTile!!, tile))
+                if (valid) clickedTile = null
+                return
 
-        } else if (clickedReserve != null) {
-            val valid = handleMyMove(AddMove(clickedReserve!!, tile))
-            if (valid) clickedReserve = null
-            return
+            }
+            clickedReserve != null -> {
+                val valid = handleMyMove(AddMove(clickedReserve!!, tile))
+                if (valid) clickedReserve = null
+                return
 
-        } else { // if both clickedTile and clickedReserve == null
-            // we need to set clickedTile
-            if (tile.isEmpty || tile.division!!.playerName == enemy.name) return
-            clickedTile = tile
+            }
+            else -> { // if both clickedTile and clickedReserve == null
+                // we need to set clickedTile
+                if (tile.isEmpty || tile.division!!.playerName == enemy.name) return
+                clickedTile = tile
+            }
         }
 //        if (clickedTile == null && (tile.isEmpty || tile.division!!.playerName == enemy.name)) return
 //        if (tile.isEmpty && clickedReserve != null) {
@@ -143,6 +152,8 @@ class Engine(
         fun onStartingSecond()
         fun onMyMotionMoveCanceled(i: Int, j: Int)
         fun onMyAddMoveCanceled()
+        fun onTileClickCanceled(tile: Tile)
+        fun onTileClicked(tile: Tile)
 
     }
 }

@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.Tools
+import com.kursor.chroniclesofww2.model.Player
 import com.kursor.chroniclesofww2.model.board.Board
 import com.kursor.chroniclesofww2.model.board.Division
 import com.kursor.chroniclesofww2.model.board.MotionMove
@@ -28,6 +29,8 @@ class BoardView(
             field = value
         }
 
+
+
     private lateinit var tileViews: List<List<TileView>>
 
     private fun init(board: Board) {
@@ -38,7 +41,7 @@ class BoardView(
                     setOnClickListener {
                         val y = it.id / 10
                         val x = it.id % 10
-                        onTileViewClickListener.onClick(y, x, this, tile!!)
+                        onTileViewClickListener.onClick(y, x, this)
                     }
                 }
             }
@@ -61,7 +64,7 @@ class BoardView(
         }
     }
 
-    fun showLegalMoves(motionMoveList: List<MotionMove>) {
+    fun showPossibleMoves(motionMoveList: List<MotionMove>) {
         motionMoveList.forEach { move ->
             val dest = move.destination
             val state = if (move.isAttack) TileView.State.ATTACKED
@@ -70,7 +73,11 @@ class BoardView(
         }
     }
 
-    fun setOnTileClickListener(onTileViewClickListener: TileView.OnTileViewClickListener) {
+    fun calculateAndShowPossibleMoves(i: Int, j: Int, playerName: String) {
+        showPossibleMoves(board!!.calculatePossibleMoves(i, j, playerName))
+    }
+
+    fun setOnTileViewClickListener(onTileViewClickListener: TileView.OnTileViewClickListener) {
         tileViews.forEach { tileRow ->
             tileRow.forEach { tile ->
                 tile.onTileViewClickListener = onTileViewClickListener
@@ -209,6 +216,6 @@ class TileView(
     }
 
     fun interface OnTileViewClickListener {
-        fun onClick(i: Int, j: Int, tileView: TileView, tile: Tile)
+        fun onClick(i: Int, j: Int, tileView: TileView)
     }
 }

@@ -32,7 +32,7 @@ class DivisionResourcesView(
 
     lateinit var reserveViews: List<ReserveView>
 
-    var clickedReserveView: ReserveView? = null
+    private var clickedReserveView: ReserveView? = null
         set(value) {
             if (field != null) field!!.isClicked = false
             if (value != null) value.isClicked = true
@@ -54,11 +54,17 @@ class DivisionResourcesView(
                 if (clickedReserveView === reserveView) {
                     reserveView.isClicked = false
                     clickedReserveView = null
-                }
-                clickedReserveView = reserveView
+                } else clickedReserveView = reserveView
+                reserveView.onReserveViewClickListener.onClick(reserveView)
             }
         }
         reserveViews = tempReserveViews
+    }
+
+    fun setOnReserveClickListener(onReserveViewClickListener: ReserveView.OnReserveViewClickListener) {
+        reserveViews.forEach {
+            it.onReserveViewClickListener = onReserveViewClickListener
+        }
     }
 }
 
@@ -82,6 +88,8 @@ class ReserveView(
             field = value
         }
 
+    lateinit var onReserveViewClickListener: OnReserveViewClickListener
+
     private fun init(reserve: Reserve) {
         text = "${reserve.type}: ${reserve.size}"
         reserve.listener = object : Reserve.Listener {
@@ -98,5 +106,10 @@ class ReserveView(
     fun updateText() {
         text = "${reserve!!.type}: ${reserve!!.size}"
     }
+
+    fun interface OnReserveViewClickListener {
+        fun onClick(reserveView: ReserveView)
+    }
+
 }
 
