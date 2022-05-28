@@ -22,7 +22,7 @@ object Const {
 
         /** Constants for socket communication */
         const val REQUEST_FOR_ACCEPT = "request_for_accept"
-        const val REQUEST_SCENARIO_INFO = "request_mission_info"
+        const val REQUEST_GAME_DATA = "request_mission_info"
         const val REJECTED = "rejected"
         const val ACCEPTED = "accepted"
         const val CANCEL_CONNECTION = "cancel_connection"

@@ -21,7 +21,9 @@ abstract class GameActivity : AppCompatActivity() {
 
     val engineListener = object : Engine.Listener {
         override fun onMyMoveComplete(move: Move) {
-            onMyMoveCompleteImpl(move)
+            notifyEnemy(move)
+            binding.boardView.hideLegalMoves()
+            disableScreen()
         }
 
         override fun onEnemyMoveComplete(move: Move) {
@@ -54,7 +56,7 @@ abstract class GameActivity : AppCompatActivity() {
         }
     }
 
-    abstract fun onMyMoveCompleteImpl(move: Move)
+    abstract fun notifyEnemy(move: Move)
 
     lateinit var engine: Engine
 

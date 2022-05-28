@@ -16,19 +16,21 @@ import com.kursor.chroniclesofww2.Const.connection.HOST_IS_WITH_PASSWORD
 import com.kursor.chroniclesofww2.Const.connection.INVALID_JSON
 import com.kursor.chroniclesofww2.Const.connection.PASSWORD
 import com.kursor.chroniclesofww2.Const.connection.REQUEST_FOR_ACCEPT
-import com.kursor.chroniclesofww2.Const.connection.REQUEST_SCENARIO_INFO
+import com.kursor.chroniclesofww2.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.Tools
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
 import com.kursor.chroniclesofww2.databinding.FragmentCreateGameBinding
+import com.kursor.chroniclesofww2.model.GameData
 import com.kursor.chroniclesofww2.model.Scenario
 import com.kursor.chroniclesofww2.view.menu.activities.GameActivity
 import com.kursor.chroniclesofww2.view.menu.activities.MainActivity
 import com.kursor.chroniclesofww2.view.menu.fragments.SimpleDialogFragment
+import com.phelat.navigationresult.BundleFragment
 
-abstract class CreateAbstractGameFragment : Fragment() {
+abstract class CreateAbstractGameFragment : BundleFragment() {
 
     lateinit var binding: FragmentCreateGameBinding
 
@@ -38,6 +40,8 @@ abstract class CreateAbstractGameFragment : Fragment() {
     protected lateinit var server: Server
     lateinit var connection: Connection
     protected var isHostReady = false
+    lateinit var gameData: GameData
+    lateinit var scenario: Scenario
 
     protected val receiveListener: Connection.ReceiveListener =
         Connection.ReceiveListener { string ->
@@ -50,8 +54,8 @@ abstract class CreateAbstractGameFragment : Fragment() {
                         buildMessageConnectionRequest(connection.host)
                     }
                 }
-                REQUEST_SCENARIO_INFO -> {
-                    Log.i("Server", "Client sent $REQUEST_SCENARIO_INFO")
+                REQUEST_GAME_DATA -> {
+                    Log.i("Server", "Client sent $REQUEST_GAME_DATA")
                     connection.send(chosenScenarioJson)
                     val intent = Intent(activity as MainActivity, GameActivity::class.java)
                     intent.putExtra(Const.connection.CONNECTED_DEVICE, connection.host)
@@ -95,16 +99,24 @@ abstract class CreateAbstractGameFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parentFragmentManager.setFragmentResultListener(
-            SCENARIO_INFO, this
-        ) { key, bundle ->
-            chosenScenarioJson = bundle.getString(Const.game.SCENARIO) ?: ""
-            if (chosenScenarioJson.isBlank()) return@setFragmentResultListener
-            val scenario = Scenario.fromJson(chosenScenarioJson)
+//        parentFragmentManager.setFragmentResultListener(
+//            SCENARIO_INFO, this
+//        ) { key, bundle ->
+//            chosenScenarioJson = bundle.getString(Const.game.SCENARIO) ?: ""
+//            if (chosenScenarioJson.isBlank()) return@setFragmentResultListener
+//            val scenario = Scenario.fromJson(chosenScenarioJson)
+//            binding.chosenScenarioTextView.text = scenario.name
+//        }
+    }
+
+    override fun onFragmentResult(requestCode: Int, bundle: Bundle) {
+        super.onFragmentResult(requestCode, bundle)
+        if (requestCode == SCENARIO_INFO) {
+            chosenScenarioJson = bundle.getString(Const.game.SCENARIO)!!
+            scenario = Scenario.fromJson(chosenScenarioJson)
             binding.chosenScenarioTextView.text = scenario.name
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -172,7 +184,7 @@ abstract class CreateAbstractGameFragment : Fragment() {
     }
 
     companion object {
-        const val SCENARIO_INFO = "SCENARIO_INFO"
+        const val SCENARIO_INFO = 202
     }
 
 }

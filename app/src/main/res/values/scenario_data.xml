@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="scenario_data">
+        <item>      <!--0-->
+            BRITAIN
+            INFANTRY to 6
+            ARMORED to 3
+            ARTILLERY to 2
+            GERMANY
+            INFANTRY to 6
+            ARMORED to 3
+            ARTILLERY to 2
+        </item>
+        <item>      <!--1-->
+            GERMANY
+            INFANTRY to 6
+            ARMORED to 4
+            ARTILLERY to 2
+            FRANCE
+            INFANTRY to 8
+            ARMORED to 2
+            ARTILLERY to 4
+        </item>
+        <item>      <!--2-->
+            GERMANY
+            INFANTRY to 6
+            ARMORED to 4
+            ARTILLERY to 4
+            USSR
+            INFANTRY to 8
+            ARMORED to 2
+            ARTILLERY to 4
+        </item>
+        <item>      <!--3-->
+            JAPAN
+            INFANTRY to 10
+            ARMORED to 0
+            ARTILLERY to 0
+            USA
+            INFANTRY to 6
+            ARMORED to 0
+            ARTILLERY to 4
+        </item>
+        <item>      <!--4-->
+            ITALY
+            INFANTRY to 6
+            ARMORED to 4
+            ARTILLERY to 4
+            BRITAIN
+            INFANTRY to 8
+            ARMORED to 2
+            ARTILLERY to 4
+        </item>
+        <item>      <!--5-->
+            GERMANY
+            INFANTRY to 6
+            ARMORED to 4
+            ARTILLERY to 4
+            USA
+            INFANTRY to 8
+            ARMORED to 2
+            ARTILLERY to 4
+        </item>
+    </string-array>
+
+</resources>

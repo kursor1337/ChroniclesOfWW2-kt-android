@@ -15,9 +15,9 @@ import com.kursor.chroniclesofww2.model.board.Move
 class MultiplayerGameActivity : GameActivity() {
 
     private val connection = Tools.currentConnection!!
-    
-    override fun onMyMoveCompleteImpl(move: Move) {
-        TODO("Not yet implemented")
+
+    override fun notifyEnemy(move: Move) {
+        connection.send(move.encodeToString())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

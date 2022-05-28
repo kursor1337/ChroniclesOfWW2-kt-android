@@ -15,7 +15,7 @@ import com.kursor.chroniclesofww2.Const.connection.HOST_IS_WITH_PASSWORD
 import com.kursor.chroniclesofww2.Const.connection.PASSWORD
 import com.kursor.chroniclesofww2.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.Const.connection.REQUEST_FOR_ACCEPT
-import com.kursor.chroniclesofww2.Const.connection.REQUEST_SCENARIO_INFO
+import com.kursor.chroniclesofww2.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.Const.game.MULTIPLAYER_GAME_MODE
 import com.kursor.chroniclesofww2.Const.game.SCENARIO
 import com.kursor.chroniclesofww2.R
@@ -77,8 +77,8 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
                 ACCEPTED -> {
                     Log.i("Client", ACCEPTED)
                     isAccepted = true
-                    Tools.currentConnection!!.send(REQUEST_SCENARIO_INFO)
-                    Log.i("Client", REQUEST_SCENARIO_INFO)
+                    Tools.currentConnection!!.send(REQUEST_GAME_DATA)
+                    Log.i("Client", REQUEST_GAME_DATA)
                     buildMessageWaitingForAccepted()
                 }
                 REJECTED -> Toast.makeText(

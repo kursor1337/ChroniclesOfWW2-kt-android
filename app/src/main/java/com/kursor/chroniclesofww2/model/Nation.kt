@@ -10,6 +10,7 @@ enum class Nation(val fladResId: Int) {
     JAPAN(R.drawable.nation_japan),
     USSR(R.drawable.nation_ussr),
     USA(R.drawable.nation_usa),
+    ITALY(R.drawable.nation_italy),
     DEFAULT(R.drawable.nation_default)
 
 }
