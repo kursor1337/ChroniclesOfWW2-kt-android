@@ -114,7 +114,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         if (requestCode == SCENARIO_INFO) {
             chosenScenarioJson = bundle.getString(Const.game.SCENARIO)!!
             scenario = Scenario.fromJson(chosenScenarioJson)
-            binding.chosenScenarioTextView.text = scenario.name
+            binding.chosenScenarioTextView.text = scenario.getLocalizedName(requireContext())
         }
     }
 

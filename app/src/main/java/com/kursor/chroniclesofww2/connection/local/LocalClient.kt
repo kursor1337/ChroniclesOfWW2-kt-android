@@ -69,7 +69,7 @@ class LocalClient(
         val port = host.port
         val name = host.name
         Thread {
-            var socket: Socket? = null
+            val socket: Socket
             try {
                 Log.i("Client", "Before Connection")
                 socket = Socket(inetAddress, port)

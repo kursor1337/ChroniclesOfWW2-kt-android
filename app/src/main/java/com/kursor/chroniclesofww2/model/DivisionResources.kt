@@ -20,15 +20,6 @@ class DivisionResources(
     val divisionCount: Int
         get() = reserves.values.sumOf { reserve -> reserve.size }
 
-    companion object {
-        fun getDefaultInstance(playerName: String) = DivisionResources(
-            mapOf(
-                Division.Type.INFANTRY to 9,
-                Division.Type.ARMORED to 3,
-                Division.Type.ARTILLERY to 3
-            ), playerName
-        )
-    }
 }
 
 class Reserve(

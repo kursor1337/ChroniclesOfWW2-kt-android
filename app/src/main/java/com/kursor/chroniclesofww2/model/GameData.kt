@@ -21,11 +21,16 @@ data class GameData(
             if (field == null) {
                 field = if (invertNations) Player(
                     player1name,
-                    scenario.nation2divisionResources,
+                    DivisionResources(scenario.nation2divisions, player1name),
                     scenario.nation2,
                     1
                 )
-                else Player(player1name, scenario.nation1divisionResources, scenario.nation1, 1)
+                else Player(
+                    player1name,
+                    DivisionResources(scenario.nation1divisions, player1name),
+                    scenario.nation1,
+                    1
+                )
             }
             return field
         }
@@ -35,11 +40,16 @@ data class GameData(
             if (field == null) {
                 field = if (invertNations) Player(
                     player2name,
-                    scenario.nation1divisionResources,
+                    DivisionResources(scenario.nation1divisions, player2name),
                     scenario.nation1,
                     1
                 )
-                else Player(player2name, scenario.nation2divisionResources, scenario.nation2, 1)
+                else Player(
+                    player2name,
+                    DivisionResources(scenario.nation2divisions, player2name),
+                    scenario.nation2,
+                    1
+                )
             }
             return field
         }
@@ -47,16 +57,26 @@ data class GameData(
     fun updatePlayers() {
         player1 = if (invertNations) Player(
             player1name,
-            scenario.nation2divisionResources,
+            DivisionResources(scenario.nation2divisions, player1name),
             scenario.nation2,
             1
-        ) else Player(player1name, scenario.nation1divisionResources, scenario.nation1, 1)
-        player2 = if (invertNations) Player(
-            player2name,
-            scenario.nation1divisionResources,
+        ) else Player(
+            player1name,
+            DivisionResources(scenario.nation1divisions, player1name),
             scenario.nation1,
             1
-        ) else Player(player2name, scenario.nation2divisionResources, scenario.nation2, 1)
+        )
+        player2 = if (invertNations) Player(
+            player2name,
+            DivisionResources(scenario.nation1divisions, player2name),
+            scenario.nation1,
+            1
+        ) else Player(
+            player2name,
+            DivisionResources(scenario.nation2divisions, player2name),
+            scenario.nation2,
+            1
+        )
     }
 
     var invertNations = false
