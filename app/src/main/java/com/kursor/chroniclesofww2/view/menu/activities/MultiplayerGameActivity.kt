@@ -3,10 +3,10 @@ package com.kursor.chroniclesofww2.view.menu.activities
 import android.os.Bundle
 import android.view.Window
 import android.widget.Toast
-import com.kursor.chroniclesofww2.Const
-import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
+import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Tools
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.model.Engine
 import com.kursor.chroniclesofww2.model.GameData

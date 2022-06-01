@@ -1,7 +1,6 @@
 package com.kursor.chroniclesofww2.view.menu.fragments.localGameFragments
 
-import com.kursor.chroniclesofww2.Tools
-import com.kursor.chroniclesofww2.connection.interfaces.Client
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.local.LocalClient
 import com.kursor.chroniclesofww2.view.menu.fragments.abstractGameFragment.JoinAbstractGameFragment

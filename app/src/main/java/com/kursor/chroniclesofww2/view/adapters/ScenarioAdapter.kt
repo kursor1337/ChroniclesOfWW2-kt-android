@@ -1,22 +1,20 @@
-package com.kursor.chroniclesofww2.connection
+package com.kursor.chroniclesofww2.view.adapters
 
 import android.app.Activity
-import android.content.Context
-import android.os.Bundle
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.model.Scenario
 
-class HostAdapter(
+class ScenarioAdapter(
     private val activity: Activity,
-    private val hostList: List<Host>
+    private val scenarioList: List<Scenario> = Scenario.getScenarioList(activity).toList()
 ) : RecyclerView.Adapter<HostAdapter.HostHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
@@ -72,4 +70,3 @@ class HostAdapter(
     fun interface OnItemClickListener {
         fun onItemClick(view: View, position: Int, host: Host)
     }
-}

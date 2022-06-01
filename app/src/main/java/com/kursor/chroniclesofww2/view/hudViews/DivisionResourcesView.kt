@@ -1,11 +1,11 @@
-package com.kursor.chroniclesofww2.view.menu.hudViews
+package com.kursor.chroniclesofww2.view.hudViews
 
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
-import com.kursor.chroniclesofww2.Tools
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.model.DivisionResources
 import com.kursor.chroniclesofww2.model.Player
 import com.kursor.chroniclesofww2.model.Reserve

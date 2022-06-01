@@ -5,7 +5,7 @@ import com.kursor.chroniclesofww2.model.board.Board
 data class GameData(
     private val player1name: String,
     private val player2name: String,
-    private val scenario: Scenario,
+    private val scenarioData: Scenario.Data,
     val boardHeight: Int = Board.DEFAULT_SIZE,
     val boardWidth: Int = Board.DEFAULT_SIZE,
     val isFogEnabled: Boolean = false
@@ -21,14 +21,14 @@ data class GameData(
             if (field == null) {
                 field = if (invertNations) Player(
                     player1name,
-                    DivisionResources(scenario.nation2divisions, player1name),
-                    scenario.nation2,
+                    DivisionResources(scenarioData.nation2divisions, player1name),
+                    scenarioData.nation2,
                     1
                 )
                 else Player(
                     player1name,
-                    DivisionResources(scenario.nation1divisions, player1name),
-                    scenario.nation1,
+                    DivisionResources(scenarioData.nation1divisions, player1name),
+                    scenarioData.nation1,
                     1
                 )
             }
@@ -40,14 +40,14 @@ data class GameData(
             if (field == null) {
                 field = if (invertNations) Player(
                     player2name,
-                    DivisionResources(scenario.nation1divisions, player2name),
-                    scenario.nation1,
+                    DivisionResources(scenarioData.nation1divisions, player2name),
+                    scenarioData.nation1,
                     1
                 )
                 else Player(
                     player2name,
-                    DivisionResources(scenario.nation2divisions, player2name),
-                    scenario.nation2,
+                    DivisionResources(scenarioData.nation2divisions, player2name),
+                    scenarioData.nation2,
                     1
                 )
             }
@@ -57,24 +57,24 @@ data class GameData(
     fun updatePlayers() {
         player1 = if (invertNations) Player(
             player1name,
-            DivisionResources(scenario.nation2divisions, player1name),
-            scenario.nation2,
+            DivisionResources(scenarioData.nation2divisions, player1name),
+            scenarioData.nation2,
             1
         ) else Player(
             player1name,
-            DivisionResources(scenario.nation1divisions, player1name),
-            scenario.nation1,
+            DivisionResources(scenarioData.nation1divisions, player1name),
+            scenarioData.nation1,
             1
         )
         player2 = if (invertNations) Player(
             player2name,
-            DivisionResources(scenario.nation1divisions, player2name),
-            scenario.nation1,
+            DivisionResources(scenarioData.nation1divisions, player2name),
+            scenarioData.nation1,
             1
         ) else Player(
             player2name,
-            DivisionResources(scenario.nation2divisions, player2name),
-            scenario.nation2,
+            DivisionResources(scenarioData.nation2divisions, player2name),
+            scenarioData.nation2,
             1
         )
     }

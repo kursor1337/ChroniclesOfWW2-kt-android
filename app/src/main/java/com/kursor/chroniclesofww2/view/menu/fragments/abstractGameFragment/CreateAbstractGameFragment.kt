@@ -8,17 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.kursor.chroniclesofww2.Const
-import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
-import com.kursor.chroniclesofww2.Const.connection.HOST_IS_WITH_PASSWORD
-import com.kursor.chroniclesofww2.Const.connection.INVALID_JSON
-import com.kursor.chroniclesofww2.Const.connection.PASSWORD
-import com.kursor.chroniclesofww2.Const.connection.REQUEST_FOR_ACCEPT
-import com.kursor.chroniclesofww2.Const.connection.REQUEST_GAME_DATA
+import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
+import com.kursor.chroniclesofww2.objects.Const.connection.HOST_IS_WITH_PASSWORD
+import com.kursor.chroniclesofww2.objects.Const.connection.INVALID_JSON
+import com.kursor.chroniclesofww2.objects.Const.connection.PASSWORD
+import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_FOR_ACCEPT
+import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Tools
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
@@ -111,7 +110,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     override fun onFragmentResult(requestCode: Int, bundle: Bundle) {
         super.onFragmentResult(requestCode, bundle)
-        if (requestCode == SCENARIO_INFO) {
+        if (requestCode == SCENARIO_REQUEST_CODE) {
             chosenScenarioJson = bundle.getString(Const.game.SCENARIO)!!
             scenario = Scenario.fromJson(chosenScenarioJson)
             binding.chosenScenarioTextView.text = scenario.getLocalizedName(requireContext())
@@ -184,7 +183,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     }
 
     companion object {
-        const val SCENARIO_INFO = 202
+        const val SCENARIO_REQUEST_CODE = 202
     }
 
 }

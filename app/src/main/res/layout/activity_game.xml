@@ -7,19 +7,19 @@
     tools:context=".view.menu.activities.GameActivity"
     android:orientation="vertical">
 
-    <com.kursor.chroniclesofww2.view.menu.hudViews.DivisionResourcesView
+    <com.kursor.chroniclesofww2.view.hudViews.DivisionResourcesView
         android:id="@+id/division_resources_enemy"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         />
 
-    <com.kursor.chroniclesofww2.view.menu.hudViews.BoardView
+    <com.kursor.chroniclesofww2.view.hudViews.BoardView
         android:id="@+id/board_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.kursor.chroniclesofww2.view.menu.hudViews.DivisionResourcesView
+    <com.kursor.chroniclesofww2.view.hudViews.DivisionResourcesView
         android:id="@+id/division_resources_me"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2
+package com.kursor.chroniclesofww2.objects
 
 import android.util.Log
 import java.net.InetAddress

@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2
+package com.kursor.chroniclesofww2.objects
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,10 +7,6 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.model.DivisionResources
-import com.kursor.chroniclesofww2.model.Nation
-import com.kursor.chroniclesofww2.model.Scenario
-import com.kursor.chroniclesofww2.model.board.Division
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.net.SocketException
@@ -43,14 +39,19 @@ object Tools {
         score = sharedPreferences.getInt(SCORE, 0)
     }
 
-    fun completedScenario(scenario: Scenario) {
-        completedScenarios += scenario.name
-    }
-
     fun getScreenWidth() = Resources.getSystem().displayMetrics.widthPixels
 
     fun getScreenHeight() = Resources.getSystem().displayMetrics.heightPixels
 
+    fun saveString(key: String, value: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    fun getString(key: String): String {
+        return sharedPreferences.getString(key, "") ?: ""
+    }
 
     fun getSelfIpAddress(): String {
         var selfIp = ""
@@ -88,56 +89,5 @@ object Tools {
             false
         }
     }
-
-
-//    class StandardScenarios {
-//
-//        private val missionList: MutableList<Scenario> = mutableListOf()
-//        private var counter = 0
-//        private val DEFAULT_MISSION_NAME = "Default"
-//        private lateinit var missionNames: Array<String>
-//        private lateinit var mission_intros: Array<String>
-//        private var missionsCreated = false
-//
-//        private val DEFAULT_MISSION: Scenario = Scenario(
-//            DEFAULT_MISSION_NAME, "",
-//            Nation.DEFAULT, DivisionResources(mapOf(
-//                Division.Type.INFANTRY to 1,
-//                Division.Type.ARMORED to 1,
-//                Division.Type.ARTILLERY to 1
-//            ), )
-//        )
-//
-//        fun initMissions(context: Context) {
-//            if (missionsCreated) return
-//            missionNames = context.resources.getStringArray(R.array.missions)
-//            createNewMission(
-//                Nation.BRITAIN, 6, 3, 2,
-//                Nation.GERMANY, 6, 3, 2
-//            )
-//            createNewMission(
-//                Nation.GERMANY, 6, 4, 2,
-//                Nation.FRANCE, 8, 2, 4
-//            )
-//            createNewMission(
-//                Nation.GERMANY, 6, 4, 4,
-//                Nation.USSR, 8, 2, 4
-//            )
-//            createNewMission(
-//                Nation.JAPAN, 10, 0, 0,
-//                Nation.USA, 6, 0, 4
-//            )
-//            createNewMission(
-//                Nation.ITALY, 6, 4, 4,
-//                Nation.BRITAIN, 8, 2, 4
-//            )
-//            createNewMission(
-//                Nation.GERMANY, 6, 4, 4,
-//                Nation.USA, 8, 2, 4
-//            )
-//            missionsCreated = true
-//        }
-//    }
-
 
 }

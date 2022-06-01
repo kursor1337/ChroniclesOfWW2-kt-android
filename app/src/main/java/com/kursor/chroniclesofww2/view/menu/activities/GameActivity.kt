@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
-import com.kursor.chroniclesofww2.Const
+import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Tools
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.databinding.ActivityGameBinding
 import com.kursor.chroniclesofww2.model.Engine
 import com.kursor.chroniclesofww2.model.GameData

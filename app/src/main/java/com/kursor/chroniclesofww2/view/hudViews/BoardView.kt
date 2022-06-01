@@ -1,22 +1,12 @@
-package com.kursor.chroniclesofww2.view.menu.hudViews
+package com.kursor.chroniclesofww2.view.hudViews
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.TableLayout
 import android.widget.TableRow
-import androidx.annotation.DrawableRes
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
-import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Tools
-import com.kursor.chroniclesofww2.model.Player
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.model.board.Board
-import com.kursor.chroniclesofww2.model.board.Division
 import com.kursor.chroniclesofww2.model.board.MotionMove
-import com.kursor.chroniclesofww2.model.board.Tile
 
 class BoardView(
     context: Context,

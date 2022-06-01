@@ -2,8 +2,8 @@ package com.kursor.chroniclesofww2.model
 
 import android.util.Log
 import com.kursor.chroniclesofww2.model.board.*
-import com.kursor.chroniclesofww2.view.menu.hudViews.BoardView
-import com.kursor.chroniclesofww2.view.menu.hudViews.DivisionResourcesView
+import com.kursor.chroniclesofww2.view.hudViews.BoardView
+import com.kursor.chroniclesofww2.view.hudViews.DivisionResourcesView
 
 class Engine(
     gameData: GameData,
