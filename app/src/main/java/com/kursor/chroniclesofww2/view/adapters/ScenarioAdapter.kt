@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.model.Scenario
+import com.kursor.chroniclesofww2.objects.ScenarioManager
 
 class ScenarioAdapter(
     private val activity: Activity,
-    private val scenarioList: List<Scenario> = Scenario.getScenarioList(activity).toList()
+    private val scenarioList: List<Scenario>
 ) : RecyclerView.Adapter<HostAdapter.HostHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null

@@ -13,20 +13,45 @@ object ScenarioManager {
     private const val CUSTOM_SCENARIOS = "custom scenarios"
 
     lateinit var standardScenarioList: List<Scenario>
-    lateinit var customScenarioList: List<Scenario>
-//    lateinit var standardScenarioDataList: List<Scenario.Data>
-//    lateinit var standardScenarioNameList: List<String>
-//    lateinit var standardScenarioDescriptionList: List<String>
-//    lateinit var customScenarioDataList: MutableList<Scenario.Data>
-//    lateinit var customScenarioNameList: MutableList<String>
-//    lateinit var customScenarioDescriptionList: MutableList<String>
+    lateinit var customScenarioList: MutableList<Scenario>
 
     fun init(context: Context) {
-        initStandardScenarioNames(context)
-        getStandardScenarioDataList(context)
+        initStandardScenarios(context)
+        initCustomScenarios()
     }
 
-    fun initStandardScenarios(context: Context) {
+
+    fun saveCustomScenario(scenario: Scenario) {
+        customScenarioList += scenario
+        Tools.saveString(CUSTOM_SCENARIOS, Tools.GSON.toJson(customScenarioList))
+    }
+
+    fun defaultScenarioData() =
+        Scenario.Data(
+            Scenario.DEFAULT,
+            Nation.DEFAULT,
+            mapOf(
+                Division.Type.INFANTRY to 9,
+                Division.Type.ARMORED to 3,
+                Division.Type.ARTILLERY to 3
+            ),
+            Nation.DEFAULT,
+            mapOf(
+                Division.Type.INFANTRY to 9,
+                Division.Type.ARMORED to 3,
+                Division.Type.ARTILLERY to 3
+            )
+        )
+
+    fun findScenarioById(id: Int): Scenario {
+        val customId = id - CUSTOM_PREFIX
+        return if (customId < 0) {
+            standardScenarioList[id]
+        } else customScenarioList[customId]
+    }
+
+
+    private fun initStandardScenarios(context: Context) {
         val nameArray = context.resources.getStringArray(R.array.scenario_names)
         val descriptionArray = context.resources.getStringArray(R.array.scenario_descriptions)
         val dataArray = getStandardScenarioDataList(context)
@@ -37,15 +62,11 @@ object ScenarioManager {
         standardScenarioList = tempScenarioList
     }
 
-    fun initCustomScenarios() {
-        customScenarioList = Tools.GSON.fromJson(
-            Tools.getString(CUSTOM_SCENARIOS),
-            object : TypeToken<List<Scenario>>() {}.type
-        )
-    }
+    private fun initCustomScenarios() {
+        val listJson = Tools.getString(CUSTOM_SCENARIOS)
 
-    private fun initStandardScenarioNames(context: Context) {
-        standardScenarioNameList =
+        customScenarioList = if (listJson == "") mutableListOf()
+        else Tools.GSON.fromJson(listJson, object : TypeToken<List<Scenario>>() {}.type)
     }
 
     private fun getStandardScenarioDataList(context: Context): MutableList<Scenario.Data> {
@@ -88,46 +109,5 @@ object ScenarioManager {
             )
         }
         return dataList
-    }
-
-    fun saveCustomScenario(scenario: Scenario) {
-        customScenarioDataList += scenario.data
-        customScenarioDescriptionList += scenario.localizedDescription
-        customScenarioNameList += scenario.localizedName
-
-    }
-
-    fun defaultScenarioData() =
-        Scenario.Data(
-            Scenario.DEFAULT,
-            Nation.DEFAULT,
-            mapOf(
-                Division.Type.INFANTRY to 9,
-                Division.Type.ARMORED to 3,
-                Division.Type.ARTILLERY to 3
-            ),
-            Nation.DEFAULT,
-            mapOf(
-                Division.Type.INFANTRY to 9,
-                Division.Type.ARMORED to 3,
-                Division.Type.ARTILLERY to 3
-            )
-        )
-
-    fun findStandardScenarioById(id: Int) = Scenario(
-        id,
-        standardScenarioNameList[id],
-        standardScenarioDescriptionList[id],
-        standardScenarioDataList[id]
-    )
-
-    fun findCustomScenarioById(id: Int): Scenario {
-        val customId = id - CUSTOM_PREFIX
-        return Scenario(
-            customId,
-            customScenarioNameList[customId],
-            customScenarioDescriptionList[customId],
-            customScenarioDataList[customId]
-        )
     }
 }
