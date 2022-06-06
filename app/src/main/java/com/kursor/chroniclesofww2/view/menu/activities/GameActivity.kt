@@ -11,7 +11,7 @@ import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.databinding.ActivityGameBinding
 import com.kursor.chroniclesofww2.model.Engine
 import com.kursor.chroniclesofww2.model.GameData
-import com.kursor.chroniclesofww2.model.board.Move
+import com.kursor.chroniclesofww2.model.board.moves.Move
 import com.kursor.chroniclesofww2.model.board.Tile
 import com.kursor.chroniclesofww2.view.menu.fragments.SimpleDialogFragment
 

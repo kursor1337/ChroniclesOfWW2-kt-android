@@ -1,6 +1,7 @@
-package com.kursor.chroniclesofww2.model
+package com.kursor.chroniclesofww2.core
 
-import com.kursor.chroniclesofww2.model.board.Division
+import com.kursor.chroniclesofww2.core.board.Division
+
 
 class DivisionResources(
     resMap: Map<Division.Type, Int>,

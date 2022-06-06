@@ -9,14 +9,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.model.Scenario
-import com.kursor.chroniclesofww2.objects.ScenarioManager
 
 class ScenarioAdapter(
     private val activity: Activity,
     private val scenarioList: List<Scenario>
-) : RecyclerView.Adapter<HostAdapter.HostHolder>() {
+) : RecyclerView.Adapter<ScenarioAdapter.ScenarioHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
@@ -24,7 +22,7 @@ class ScenarioAdapter(
         this.onItemClickListener = onItemClickListener
     }
 
-    class HostHolder(private val activity: Activity, val view: View) :
+    class ScenarioHolder(private val activity: Activity, val view: View) :
         RecyclerView.ViewHolder(view),
         View.OnCreateContextMenuListener {
 
@@ -38,25 +36,25 @@ class ScenarioAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HostHolder {
-        return HostHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScenarioHolder {
+        return ScenarioHolder(
             activity,
             LayoutInflater.from(activity)
-                .inflate(R.layout.recyclerview_hosts, LinearLayout(activity), false)
+                .inflate(R.layout.recyclerview_scenarios, LinearLayout(activity), false)
         )
     }
 
-    override fun onBindViewHolder(holder: HostHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScenarioHolder, position: Int) {
         val textView = holder.view.findViewById<TextView>(android.R.id.text1)
-        textView.text = hostList[position].name
+        textView.text = scenarioList[position].localizedName
         holder.view.setOnClickListener {
             onItemClickListener?.onItemClick(
-                holder.view, position, hostList[position]
+                holder.view, position, scenarioList[position]
             )
         }
     }
 
-    override fun getItemCount(): Int = hostList.size
+    override fun getItemCount(): Int = scenarioList.size
 //    :
 //    ArrayAdapter<Host>(context, R.layout.listview_missions, hostList) {
 //
@@ -69,5 +67,6 @@ class ScenarioAdapter(
 //    }
 
     fun interface OnItemClickListener {
-        fun onItemClick(view: View, position: Int, host: Host)
+        fun onItemClick(view: View, position: Int, scenario: Scenario)
     }
+}

@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Chronicles Of WW2"
 include ':app'
+include ':core'

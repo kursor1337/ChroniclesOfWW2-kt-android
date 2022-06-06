@@ -1,6 +1,7 @@
-package com.kursor.chroniclesofww2.model
+package com.kursor.chroniclesofww2.core
 
-import com.kursor.chroniclesofww2.model.board.Board
+import com.kursor.chroniclesofww2.core.board.Board
+
 
 data class GameData(
     private val player1name: String,

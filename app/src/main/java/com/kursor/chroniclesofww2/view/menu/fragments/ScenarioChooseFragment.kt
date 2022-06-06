@@ -41,7 +41,7 @@ class ScenarioChooseFragment : BundleFragment() {
         val scenarioNames = Scenario.getScenarioNames(requireContext())
 
         val scenarioAdapter =
-            ArrayAdapter(requireContext(), R.layout.listview_missions, scenarioNames)
+            ArrayAdapter(requireContext(), R.layout.recyclerview_scenarios, scenarioNames)
         binding.scenarioListView.adapter = scenarioAdapter
         binding.scenarioListView.setOnItemClickListener { _, _, position, _ ->
             navigateUpWithScenario(Scenario.getScenarioList(requireContext())[position])

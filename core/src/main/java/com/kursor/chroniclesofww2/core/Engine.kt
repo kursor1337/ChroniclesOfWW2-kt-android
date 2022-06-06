@@ -1,9 +1,8 @@
-package com.kursor.chroniclesofww2.model
+package com.kursor.chroniclesofww2.core
 
-import android.util.Log
-import com.kursor.chroniclesofww2.model.board.*
-import com.kursor.chroniclesofww2.view.hudViews.BoardView
-import com.kursor.chroniclesofww2.view.hudViews.DivisionResourcesView
+import com.kursor.chroniclesofww2.core.board.*
+import com.kursor.chroniclesofww2.core.moves.Move
+
 
 class Engine(
     gameData: GameData,
@@ -23,17 +22,6 @@ class Engine(
 
     init {
         if (me.turnMod == 1) listener.onStartingSecond()
-    }
-
-    fun bindViews(
-        boardView: BoardView,
-        meDivisionResourcesView: DivisionResourcesView,
-        enemyDivisionResourcesView: DivisionResourcesView
-    ) {
-        boardView.board = board
-        meDivisionResourcesView.setup(me)
-        enemyDivisionResourcesView.setup(enemy)
-
     }
 
 //    fun myOwnership(division: Division): Boolean {
@@ -83,7 +71,6 @@ class Engine(
     }
 
     private fun nextTurn() {
-        Log.i(TAG, "Next turn")
         turn++
         if (meLost()) listener.onGameEnd(meWon = false)
         else if (enemyLost()) listener.onGameEnd(meWon = true)
@@ -120,7 +107,6 @@ class Engine(
     }
 
     private fun handleAddMove(move: AddMove, startingRow: Int): Boolean {
-        Log.i(TAG, "Handle my add move")
         if (!move.tile.isEmpty || move.tile.row != startingRow) return false
         move.tile.division = move.divisionReserve.getNewDivision()
         nextTurn()
@@ -128,7 +114,6 @@ class Engine(
     }
 
     private fun handleMotionMove(move: MotionMove): Boolean {
-        Log.i(TAG, "Handle my motion move")
         if (move.start.isEmpty) return false
         if (!move.destination.isEmpty &&
             move.start.division!!.playerName == move.destination.division!!.playerName

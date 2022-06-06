@@ -1,6 +1,8 @@
-package com.kursor.chroniclesofww2.model.board
+package com.kursor.chroniclesofww2.core.board
 
-import com.kursor.chroniclesofww2.model.Player
+import com.kursor.chroniclesofww2.core.Player
+import com.kursor.chroniclesofww2.core.moves.MotionMove
+
 
 class Board(val height: Int, val width: Int) {
 
@@ -29,7 +31,7 @@ class Board(val height: Int, val width: Int) {
         }
     }
 
-    fun calculatePossibleMoves(i: Int, j: Int, playerName: String): List<MotionMove> {
+    fun calculatePossibleMotionMoves(i: Int, j: Int, playerName: String): List<MotionMove> {
         if (tiles[i][j].isEmpty) return emptyList()
         val division = tiles[i][j].division!!
         val result = mutableListOf<MotionMove>()
@@ -41,6 +43,8 @@ class Board(val height: Int, val width: Int) {
         }
         return result
     }
+
+    fun calculatePossibleAddMoves(playerName: String)
 
     fun safeLine(enemyName: String, i: Int): Boolean {
         tiles[i].forEach { tile ->

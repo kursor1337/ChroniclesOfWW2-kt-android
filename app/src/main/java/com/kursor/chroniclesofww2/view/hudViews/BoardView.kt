@@ -6,7 +6,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.model.board.Board
-import com.kursor.chroniclesofww2.model.board.MotionMove
+import com.kursor.chroniclesofww2.model.board.moves.MotionMove
 
 class BoardView(
     context: Context,

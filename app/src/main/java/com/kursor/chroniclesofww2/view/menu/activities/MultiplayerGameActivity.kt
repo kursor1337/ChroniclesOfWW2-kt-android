@@ -10,7 +10,7 @@ import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.model.Engine
 import com.kursor.chroniclesofww2.model.GameData
-import com.kursor.chroniclesofww2.model.board.Move
+import com.kursor.chroniclesofww2.model.board.moves.Move
 
 class MultiplayerGameActivity : GameActivity() {
 

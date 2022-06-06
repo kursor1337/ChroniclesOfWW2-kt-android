@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.model.board
+package com.kursor.chroniclesofww2.core.board
 
 class Tile(val row: Int, val column: Int) {
 
