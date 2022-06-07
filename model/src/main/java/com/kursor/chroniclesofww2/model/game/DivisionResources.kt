@@ -1,6 +1,6 @@
-package com.kursor.chroniclesofww2.core
+package com.kursor.chroniclesofww2.model.game
 
-import com.kursor.chroniclesofww2.core.board.Division
+import com.kursor.chroniclesofww2.model.game.board.Division
 
 
 class DivisionResources(

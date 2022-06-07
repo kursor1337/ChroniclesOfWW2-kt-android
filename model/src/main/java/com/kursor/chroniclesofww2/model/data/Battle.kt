@@ -1,19 +1,17 @@
-package com.kursor.chroniclesofww2.core
+package com.kursor.chroniclesofww2.model.data
 
-import com.kursor.chroniclesofww2.core.board.Division
+import com.kursor.chroniclesofww2.model.game.Nation
+import com.kursor.chroniclesofww2.model.game.board.Division
 
-data class Scenario(
+data class Battle(
     val id: Int,
-    val localizedName: String,
-    val localizedDescription: String,
+    val name: String,
+    val description: String,
     val data: Data
 ) {
 
     companion object {
-
-
         const val DEFAULT = -865
-
         const val DEFAULT_MISSION_NAME = "Default"
     }
 

@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.core
+package com.kursor.chroniclesofww2.model.game
 
 enum class Nation {
 

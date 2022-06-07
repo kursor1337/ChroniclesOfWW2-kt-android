@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.core.moves
+package com.kursor.chroniclesofww2.model.game.moves
 
 abstract class Move {
 

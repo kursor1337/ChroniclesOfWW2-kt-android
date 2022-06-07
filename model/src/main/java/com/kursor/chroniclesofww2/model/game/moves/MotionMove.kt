@@ -1,6 +1,6 @@
-package com.kursor.chroniclesofww2.core.moves
+package com.kursor.chroniclesofww2.model.game.moves
 
-import com.kursor.chroniclesofww2.core.board.Tile
+import com.kursor.chroniclesofww2.model.game.board.Tile
 import kotlin.math.abs
 
 class MotionMove(

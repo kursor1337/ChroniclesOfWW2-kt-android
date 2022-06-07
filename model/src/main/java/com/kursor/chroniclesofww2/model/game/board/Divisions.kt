@@ -1,6 +1,6 @@
-package com.kursor.chroniclesofww2.core.board
+package com.kursor.chroniclesofww2.model.game.board
 
-import com.kursor.chroniclesofww2.core.moves.MotionMove
+import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 
 abstract class Division(val type: Type, val playerName: String) {
 

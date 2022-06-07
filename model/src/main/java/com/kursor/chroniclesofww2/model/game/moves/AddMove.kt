@@ -1,8 +1,8 @@
-package com.kursor.chroniclesofww2.core.moves
+package com.kursor.chroniclesofww2.model.game.moves
 
-import com.kursor.chroniclesofww2.core.Reserve
-import com.kursor.chroniclesofww2.core.board.Division
-import com.kursor.chroniclesofww2.core.board.Tile
+import com.kursor.chroniclesofww2.model.game.Reserve
+import com.kursor.chroniclesofww2.model.game.board.Division
+import com.kursor.chroniclesofww2.model.game.board.Tile
 
 class AddMove(
     val divisionReserve: Reserve,
