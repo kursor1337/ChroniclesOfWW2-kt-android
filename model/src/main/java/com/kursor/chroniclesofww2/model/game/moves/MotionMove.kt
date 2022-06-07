@@ -5,7 +5,7 @@ import kotlin.math.abs
 
 class MotionMove(
     val start: Tile,
-    val destination: Tile
+    override val destination: Tile
 ) : Move() {
 
     val isAttack: Boolean
@@ -30,7 +30,7 @@ class MotionMove(
 
     class Simplified(
         val startCoordinate: Int,
-        val destinationCoordinate: Int
+        override val destinationCoordinate: Int
     ) : Move.Simplified() {
 
         override val type = Type.MOTION

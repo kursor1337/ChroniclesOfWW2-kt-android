@@ -1,6 +1,10 @@
 package com.kursor.chroniclesofww2.model.game.moves
 
+import com.kursor.chroniclesofww2.model.game.board.Tile
+
 abstract class Move {
+
+    abstract val destination: Tile
 
     enum class Type {
         ADD, MOTION
@@ -22,6 +26,7 @@ abstract class Move {
 
     abstract class Simplified {
         abstract val type: Type
+        abstract val destinationCoordinate: Int
     }
 
 }

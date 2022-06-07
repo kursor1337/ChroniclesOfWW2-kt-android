@@ -27,8 +27,8 @@ class Controller(
         fun onMyAddMoveCanceled()
 
         // on clicked
-        fun onReserveClicked(reserve: Reserve)
-        fun onTileClicked(tile: Tile)
+        fun onReserveClicked(reserve: Reserve, possibleMoves: List<Move>)
+        fun onTileClicked(tile: Tile, possibleMoves: List<Move>)
 
         // on game events
         fun onGameEnd(meWon: Boolean)
@@ -37,12 +37,18 @@ class Controller(
 
     private var clickedTile: Tile? = null
         set(value) {
-            if (field == null && value != null) listener.onTileClicked(value)
+            if (field == null && value != null) listener.onTileClicked(
+                value,
+                ruleManager.calculateMyPossibleMotionMoves(value.row, value.column)
+            )
             field = value
         }
     private var clickedReserve: Reserve? = null
         set(value) {
-            if (field == null && value != null) listener.onReserveClicked(value)
+            if (field == null && value != null) listener.onReserveClicked(
+                value,
+                ruleManager.calculateMyPossibleAddMoves(value.type)
+            )
             field = value
         }
 
@@ -51,6 +57,7 @@ class Controller(
     }
 
     fun processTileClick(i: Int, j: Int) {
+        if (!ruleManager.myTurn()) return
         val tile = model.board[i, j]
         if (tile == clickedTile) {
             clickedTile = null
@@ -61,14 +68,12 @@ class Controller(
             clickedTile != null -> {
                 if (!ruleManager.isValidMotionMove(MotionMove(clickedTile!!, tile))) return
                 val move = MotionMove(clickedTile!!, tile)
-                model.handleMyMove(move)
-                listener.onMyMotionMoveComplete(move)
+                sendMoveToModel(move)
             }
             clickedReserve != null -> {
                 if (!ruleManager.isValidAddMove(AddMove(clickedReserve!!, tile))) return
                 val move = AddMove(clickedReserve!!, tile)
-                model.handleMyMove(move)
-                listener.onMyAddMoveComplete(move)
+                sendMoveToModel(move)
             }
             else -> {
                 // if both clickedTile and clickedReserve == null we need to set clickedTile
@@ -79,6 +84,7 @@ class Controller(
     }
 
     fun processReserveClick(type: Division.Type) {
+        if (!ruleManager.myTurn()) return
         val reserve = model.me.divisionResources.reserves[type]!!
         if (reserve == clickedReserve) {
             clickedReserve = null
@@ -89,6 +95,15 @@ class Controller(
     fun processEnemyMove(move: Move) {
         model.handleEnemyMove(move)
         listener.onEnemyMoveComplete(move)
+    }
+
+    private fun sendMoveToModel(move: Move) {
+        model.handleMyMove(move)
+        ruleManager.nextTurn()
+        if (move.type == Move.Type.MOTION) listener.onMyMotionMoveComplete(move as MotionMove)
+        else listener.onMyAddMoveComplete(move as AddMove)
+        if (ruleManager.meLost()) listener.onGameEnd(meWon = false)
+        if (ruleManager.enemyLost()) listener.onGameEnd(meWon = true)
     }
 
 }

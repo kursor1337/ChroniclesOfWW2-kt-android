@@ -6,12 +6,12 @@ import com.kursor.chroniclesofww2.model.game.board.Tile
 
 class AddMove(
     val divisionReserve: Reserve,
-    val tile: Tile
+    override val destination: Tile
 ) : Move() {
 
     override val type = Type.ADD
 
-    override fun encodeToString() = "$type-${divisionReserve}:${tile.coordinate}"
+    override fun encodeToString() = "$type-${divisionReserve}:${destination.coordinate}"
 
     companion object {
         fun decodeFromStringToSimplified(string: String): Simplified {
@@ -24,7 +24,7 @@ class AddMove(
 
     class Simplified(
         val divisionType: Division.Type,
-        val tileCoordinate: Int
+        override val destinationCoordinate: Int
     ) : Move.Simplified() {
 
         override val type = Type.ADD

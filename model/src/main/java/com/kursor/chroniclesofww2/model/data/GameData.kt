@@ -84,7 +84,7 @@ data class GameData(
 
     var invertNations = false
 
-    fun getVersionForAnotherPlayer() {
+    fun getVersionForAnotherPlayer(): GameData {
 
     }
 

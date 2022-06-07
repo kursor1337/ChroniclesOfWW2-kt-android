@@ -28,8 +28,8 @@ class Model(gameData: GameData) {
     }
 
     private fun handleAddMove(move: AddMove, startingRow: Int) {
-        if (!move.tile.isEmpty || move.tile.row != startingRow) return
-        move.tile.division = move.divisionReserve.getNewDivision()
+        if (!move.destination.isEmpty || move.destination.row != startingRow) return
+        move.destination.division = move.divisionReserve.getNewDivision()
         return
     }
 
@@ -42,15 +42,4 @@ class Model(gameData: GameData) {
         move.start.division!!.moveOrAttack(move)
         return
     }
-
-//    interface Listener {
-//        fun onMyMoveComplete(move: Move)
-//        fun onEnemyMoveComplete(move: Move)
-//        fun onGameEnd(meWon: Boolean)
-//        fun onStartingSecond()
-//        fun onMyMotionMoveCanceled(i: Int, j: Int)
-//        fun onMyAddMoveCanceled()
-//        fun onTileClicked(tile: Tile)
-//
-//    }
 }

@@ -1,8 +1,10 @@
 package com.kursor.chroniclesofww2.model.game.board
 
 import com.kursor.chroniclesofww2.model.data.Player
+import com.kursor.chroniclesofww2.model.game.Reserve
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable
 
 
 class Board(val height: Int, val width: Int) {
@@ -30,23 +32,6 @@ class Board(val height: Int, val width: Int) {
                 if (tile.division?.playerName == playerName) it.add(tile.division!!)
             }
         }
-    }
-
-    fun calculatePossibleMotionMoves(i: Int, j: Int, playerName: String): List<MotionMove> {
-        if (tiles[i][j].isEmpty) return emptyList()
-        val division = tiles[i][j].division!!
-        val result = mutableListOf<MotionMove>()
-        forEachTile { tile ->
-            val move = MotionMove(tiles[i][j], tile)
-            if (!division.isValidMove(move)) return@forEachTile
-            if (tile.isEmpty || tile.division!!.playerName != playerName)
-                result.add(move)
-        }
-        return result
-    }
-
-    fun calculatePossibleAddMoves(playerName: String): List<AddMove> {
-
     }
 
     fun isLineSafe(row: Int, enemyName: String): Boolean {
