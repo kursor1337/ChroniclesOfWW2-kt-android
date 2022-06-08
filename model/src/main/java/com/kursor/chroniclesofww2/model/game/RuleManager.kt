@@ -3,12 +3,13 @@ package com.kursor.chroniclesofww2.model.game
 import com.kursor.chroniclesofww2.model.game.board.Division
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
+import com.kursor.chroniclesofww2.model.game.moves.Move
 
 /**
  * this class is used to manage game rules
  */
 
-internal class RuleManager(
+class RuleManager(
     val model: Model
 ) {
     private var turn = 0
@@ -48,17 +49,27 @@ internal class RuleManager(
         turn++
     }
 
-    fun myTurn() = model.me.isInitiator == (turn % 2 == 0)
+    fun isMyTurn() = model.me.isInitiator == (turn % 2 == 0)
 
-    fun enemyTurn() = !myTurn()
+    fun isEnemyTurn() = !isMyTurn()
 
-    fun isValidMotionMove(motionMove: MotionMove): Boolean {
+    fun checkMoveForValidity(move: Move): Boolean {
+        return if (move.type == Move.Type.ADD) checkAddMoveForValidity(move as AddMove)
+        else checkMotionMoveForValidity(move as MotionMove)
+    }
+
+    fun checkMotionMoveForValidity(motionMove: MotionMove): Boolean {
         if (motionMove.start.division == null) return false
+        if (motionMove.start.division!!.playerName == model.me.name && isEnemyTurn()) return false
+        else if (isMyTurn()) return false
         return motionMove.start.division!!.isValidMove(motionMove)
     }
 
-    fun isValidAddMove(addMove: AddMove): Boolean {
-        return addMove.destination.row == myRow
+    fun checkAddMoveForValidity(addMove: AddMove): Boolean {
+        if (addMove.divisionReserve.playerName == model.me.name && isEnemyTurn()) return false
+        else if (isMyTurn()) return false
+        return if (addMove.divisionReserve.playerName == model.me.name) addMove.destination.row == myRow
+        else addMove.destination.row == enemyRow
     }
 
     fun calculateMyPossibleMotionMoves(i: Int, j: Int): List<MotionMove> =
@@ -68,7 +79,7 @@ internal class RuleManager(
         calculatePossibleAddMoves(type, model.me.name)
 
 
-    private fun calculatePossibleMotionMoves(i: Int, j: Int, playerName: String): List<MotionMove> {
+    fun calculatePossibleMotionMoves(i: Int, j: Int, playerName: String): List<MotionMove> {
         if (model.board[i, j].isEmpty) return emptyList()
         val division = model.board[i, j].division!!
         val result = mutableListOf<MotionMove>()
@@ -81,7 +92,7 @@ internal class RuleManager(
         return result
     }
 
-    private fun calculatePossibleAddMoves(type: Division.Type, playerName: String): List<AddMove> {
+    fun calculatePossibleAddMoves(type: Division.Type, playerName: String): List<AddMove> {
         val row = if (model.me.name == playerName) myRow else enemyRow
         return List(model.board.width) { j ->
             AddMove(

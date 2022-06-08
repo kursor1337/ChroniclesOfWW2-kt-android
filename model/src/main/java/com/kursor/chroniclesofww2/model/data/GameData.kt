@@ -3,89 +3,49 @@ package com.kursor.chroniclesofww2.model.data
 import com.kursor.chroniclesofww2.model.game.DivisionResources
 
 data class GameData(
-    private val player1name: String,
-    private val player2name: String,
+    private val myName: String,
+    private val enemyName: String,
     private val battleData: Battle.Data,
     val boardHeight: Int,
-    val boardWidth: Int
+    val boardWidth: Int,
+    val invertNations: Boolean = false,
+    val meInitiator: Boolean = true
 ) {
 
-    val me: Player
-        get() = player1!!
-    val enemy: Player
-        get() = player2!!
+    val me = if (invertNations) Player(
+        myName,
+        DivisionResources(battleData.nation2divisions, myName),
+        battleData.nation2,
+        isInitiator = meInitiator
+    ) else Player(
+        myName,
+        DivisionResources(battleData.nation1divisions, myName),
+        battleData.nation1,
+        isInitiator = meInitiator
+    )
 
-    private var player1: Player? = null
-        get() {
-            if (field == null) {
-                field = if (invertNations) Player(
-                    player1name,
-                    DivisionResources(battleData.nation2divisions, player1name),
-                    battleData.nation2,
-                    isInitiator = true
-                )
-                else Player(
-                    player1name,
-                    DivisionResources(battleData.nation1divisions, player1name),
-                    battleData.nation1,
-                    isInitiator = true
-                )
-            }
-            return field
-        }
-
-
-    var a = 5
-        private set
-
-    private var player2: Player? = null
-        get() {
-            if (field == null) {
-                field = if (invertNations) Player(
-                    player2name,
-                    DivisionResources(battleData.nation1divisions, player2name),
-                    battleData.nation1,
-                    isInitiator = false
-                )
-                else Player(
-                    player2name,
-                    DivisionResources(battleData.nation2divisions, player2name),
-                    battleData.nation2,
-                    isInitiator = false
-                )
-            }
-            return field
-        }
-
-    fun updatePlayers() {
-        player1 = if (invertNations) Player(
-            player1name,
-            DivisionResources(battleData.nation2divisions, player1name),
-            battleData.nation2,
-            isInitiator = true
-        ) else Player(
-            player1name,
-            DivisionResources(battleData.nation1divisions, player1name),
-            battleData.nation1,
-            isInitiator = true
-        )
-        player2 = if (invertNations) Player(
-            player2name,
-            DivisionResources(battleData.nation1divisions, player2name),
-            battleData.nation1,
-            isInitiator = false
-        ) else Player(
-            player2name,
-            DivisionResources(battleData.nation2divisions, player2name),
-            battleData.nation2,
-            isInitiator = false
-        )
-    }
-
-    var invertNations = false
+    val enemy = if (invertNations) Player(
+        enemyName,
+        DivisionResources(battleData.nation1divisions, enemyName),
+        battleData.nation1,
+        isInitiator = !meInitiator
+    ) else Player(
+        enemyName,
+        DivisionResources(battleData.nation2divisions, enemyName),
+        battleData.nation2,
+        isInitiator = !meInitiator
+    )
 
     fun getVersionForAnotherPlayer(): GameData {
-
+        return GameData(
+            enemyName,
+            myName,
+            battleData,
+            boardHeight,
+            boardWidth,
+            invertNations = !invertNations,
+            meInitiator = !meInitiator
+        )
     }
 
 }
