@@ -1,7 +1,6 @@
 package com.kursor.chroniclesofww2.connection.interfaces
 
 import android.os.Handler
-import android.os.Looper
 import com.kursor.chroniclesofww2.connection.Host
 import java.io.BufferedWriter
 

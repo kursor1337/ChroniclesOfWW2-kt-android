@@ -37,9 +37,9 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
     protected lateinit var client: Client
 
-    val hostList = mutableListOf<Host>()
+    val hostList = mutableListOf<com.kursor.chroniclesofww2.connection.Host>()
     lateinit var hostAdapter: HostAdapter
-    lateinit var host: Host
+    lateinit var host: com.kursor.chroniclesofww2.connection.Host
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -125,12 +125,12 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
             Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
         }
 
-        override fun onHostDiscovered(host: Host) {
+        override fun onHostDiscovered(host: com.kursor.chroniclesofww2.connection.Host) {
             hostList.add(host)
             hostAdapter.notifyItemInserted(hostList.lastIndex)
         }
 
-        override fun onHostLost(host: Host) {
+        override fun onHostLost(host: com.kursor.chroniclesofww2.connection.Host) {
             val index = hostList.indexOf(host)
             hostList.removeAt(index)
             hostAdapter.notifyItemRemoved(index)

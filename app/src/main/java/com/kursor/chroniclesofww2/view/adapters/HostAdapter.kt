@@ -13,7 +13,7 @@ import com.kursor.chroniclesofww2.connection.Host
 
 class HostAdapter(
     private val activity: Activity,
-    private val hostList: List<Host>
+    private val hostList: List<com.kursor.chroniclesofww2.connection.Host>
 ) : RecyclerView.Adapter<HostAdapter.HostHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
@@ -58,6 +58,6 @@ class HostAdapter(
 
 
     fun interface OnItemClickListener {
-        fun onItemClick(view: View, position: Int, host: Host)
+        fun onItemClick(view: View, position: Int, host: com.kursor.chroniclesofww2.connection.Host)
     }
 }

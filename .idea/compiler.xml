@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
       <module name="Chronicles_Of_WW2.app" target="17" />
+      <module name="Chronicles_Of_WW2.connection" target="17" />
+      <module name="Chronicles_Of_WW2.data" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

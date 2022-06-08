@@ -87,7 +87,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             Tools.currentConnection = connection
         }
 
-        override fun onRegistered(host: Host) {
+        override fun onRegistered(host: com.kursor.chroniclesofww2.connection.Host) {
             buildMessageWaitingForConnections()
         }
 
@@ -161,7 +161,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         return dialog
     }
 
-    private fun buildMessageConnectionRequest(host: Host) {
+    private fun buildMessageConnectionRequest(host: com.kursor.chroniclesofww2.connection.Host) {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
             .setMessage(host.name + " wants to connect to this  device. Do you agree?")
             .setCancelable(false)
