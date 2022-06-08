@@ -8,7 +8,7 @@ import com.kursor.chroniclesofww2.model.game.moves.Move
 
 class TwoHostsController(
     model: Model,
-    listener: Controller.Listener
+    listener: Listener
 ) : Controller(model, listener) {
 
     init {
@@ -17,37 +17,14 @@ class TwoHostsController(
 
     override fun processTileClick(i: Int, j: Int) {
         if (!ruleManager.isMyTurn()) return
-        val tile = model.board[i, j]
-        if (tile == clickedTile) {
-            clickedTile = null
-            listener.onMotionMoveCanceled(i, j)
-            return
-        }
-        when {
-            clickedTile != null -> {
-                val move = MotionMove(clickedTile!!, tile)
-                checkAndSendMoveToModel(move)
-            }
-            clickedReserve != null -> {
-                val move = AddMove(clickedReserve!!, tile)
-                checkAndSendMoveToModel(move)
-            }
-            else -> {
-                // if both clickedTile and clickedReserve == null we need to set clickedTile
-                if (tile.isEmpty || tile.division!!.playerName == model.enemy.name) return
-                clickedTile = tile
-            }
-        }
+        super.processTileClick(i, j)
     }
 
     override fun processReserveClick(type: Division.Type, playerName: String) {
         if (!ruleManager.isMyTurn()) return
-        val reserve = model.me.divisionResources.reserves[type]!!
-        if (reserve == clickedReserve) {
-            clickedReserve = null
-            listener.onAddMoveCanceled()
-        } else clickedReserve = reserve
+        super.processReserveClick(type, playerName)
     }
+
 
     fun processEnemyMove(move: Move) {
         if (move.type == Move.Type.ADD) model.handleAddMove(move as AddMove)

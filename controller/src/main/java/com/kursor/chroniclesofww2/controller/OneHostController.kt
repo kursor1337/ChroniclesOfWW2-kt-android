@@ -1,12 +1,11 @@
 package com.kursor.chroniclesofww2.controller
 
 import com.kursor.chroniclesofww2.model.game.Model
+import com.kursor.chroniclesofww2.model.game.board.Division
+import com.kursor.chroniclesofww2.model.game.moves.AddMove
+import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 
 class OneHostController(
     model: Model,
-    listener: Controller.Listener
-) : Controller(model, listener) {
-
-
-
-}
+    listener: Listener
+) : Controller(model, listener)

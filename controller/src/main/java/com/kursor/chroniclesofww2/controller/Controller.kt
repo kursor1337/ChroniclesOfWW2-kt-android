@@ -37,24 +37,63 @@ abstract class Controller(
             field = value
         }
 
-    abstract fun processTileClick(i: Int, j: Int)
-
-    abstract fun processReserveClick(type: Division.Type, playerName: String)
-
-    fun checkAndSendMoveToModel(move: Move) {
-        if (!ruleManager.checkMoveForValidity(move)) return
-        if (move.type == Move.Type.MOTION) {
-            move as MotionMove
-            model.handleMotionMove(move)
-            listener.onMotionMoveComplete(move)
-        } else {
-            move as AddMove
-            model.handleAddMove(move)
-            listener.onAddMoveComplete(move)
+    open fun processTileClick(i: Int, j: Int) {
+        val tile = model.board[i, j]
+        if (tile == clickedTile) {
+            clickedTile = null
+            listener.onMotionMoveCanceled(i, j)
+            return
         }
+        when {
+            clickedTile != null -> {
+                val move = MotionMove(clickedTile!!, tile)
+                if (!ruleManager.checkMotionMoveForValidity(move)) return
+                sendMotionMoveToModel(move)
+                clickedTile = null
+            }
+            clickedReserve != null -> {
+                val move = AddMove(clickedReserve!!, tile)
+                if (!ruleManager.checkAddMoveForValidity(move)) return
+                sendAddMoveToModel(move)
+                clickedReserve = null
+            }
+            else -> {
+                // if both clickedTile and clickedReserve == null we need to set clickedTile
+                if (tile.isEmpty || tile.division!!.playerName == model.enemy.name) return
+                clickedTile = tile
+            }
+        }
+    }
+
+    open fun processReserveClick(type: Division.Type, playerName: String) {
+        val reserve = model.getPlayerByName(playerName).divisionResources.reserves[type]!!
+        if (reserve == clickedReserve) {
+            clickedReserve = null
+            listener.onAddMoveCanceled()
+            return
+        }
+
+    }
+
+    fun sendMotionMoveToModel(motionMove: MotionMove) {
+        model.handleMotionMove(motionMove)
+        listener.onMotionMoveComplete(motionMove)
         ruleManager.nextTurn()
         if (ruleManager.meLost()) listener.onGameEnd(meWon = false)
         if (ruleManager.enemyLost()) listener.onGameEnd(meWon = true)
+    }
+
+    fun sendAddMoveToModel(addMove: AddMove) {
+        model.handleAddMove(addMove)
+        listener.onAddMoveComplete(addMove)
+        ruleManager.nextTurn()
+        if (ruleManager.meLost()) listener.onGameEnd(meWon = false)
+        if (ruleManager.enemyLost()) listener.onGameEnd(meWon = true)
+    }
+
+    fun sendMoveToModel(move: Move) {
+        if (move.type == Move.Type.MOTION) sendMotionMoveToModel(move as MotionMove)
+        else sendAddMoveToModel(move as AddMove)
     }
 
     interface Listener {
