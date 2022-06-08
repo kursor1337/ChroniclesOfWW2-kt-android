@@ -1,6 +1,5 @@
 package com.kursor.chroniclesofww2.controller
 
-import com.kursor.chroniclesofww2.model.game.DivisionResources
 import com.kursor.chroniclesofww2.model.game.Model
 import com.kursor.chroniclesofww2.model.game.Reserve
 import com.kursor.chroniclesofww2.model.game.RuleManager
@@ -47,11 +46,11 @@ abstract class Controller(
         if (move.type == Move.Type.MOTION) {
             move as MotionMove
             model.handleMotionMove(move)
-            listener.onMyMotionMoveComplete(move)
+            listener.onMotionMoveComplete(move)
         } else {
             move as AddMove
             model.handleAddMove(move)
-            listener.onMyAddMoveComplete(move)
+            listener.onAddMoveComplete(move)
         }
         ruleManager.nextTurn()
         if (ruleManager.meLost()) listener.onGameEnd(meWon = false)
@@ -60,13 +59,13 @@ abstract class Controller(
 
     interface Listener {
         //on completed moves
-        fun onMyMotionMoveComplete(motionMove: MotionMove)
-        fun onMyAddMoveComplete(addMove: AddMove)
+        fun onMotionMoveComplete(motionMove: MotionMove)
+        fun onAddMoveComplete(addMove: AddMove)
         fun onEnemyMoveComplete(move: Move)
 
         //on moves canceled
-        fun onMyMotionMoveCanceled(i: Int, j: Int)
-        fun onMyAddMoveCanceled()
+        fun onMotionMoveCanceled(i: Int, j: Int)
+        fun onAddMoveCanceled()
 
         // on clicked
         fun onReserveClicked(reserve: Reserve, possibleMoves: List<Move>)

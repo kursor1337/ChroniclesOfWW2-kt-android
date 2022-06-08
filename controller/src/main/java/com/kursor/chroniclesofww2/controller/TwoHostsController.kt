@@ -1,10 +1,7 @@
 package com.kursor.chroniclesofww2.controller
 
 import com.kursor.chroniclesofww2.model.game.Model
-import com.kursor.chroniclesofww2.model.game.Reserve
-import com.kursor.chroniclesofww2.model.game.RuleManager
 import com.kursor.chroniclesofww2.model.game.board.Division
-import com.kursor.chroniclesofww2.model.game.board.Tile
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
@@ -23,7 +20,7 @@ class TwoHostsController(
         val tile = model.board[i, j]
         if (tile == clickedTile) {
             clickedTile = null
-            listener.onMyMotionMoveCanceled(i, j)
+            listener.onMotionMoveCanceled(i, j)
             return
         }
         when {
@@ -48,7 +45,7 @@ class TwoHostsController(
         val reserve = model.me.divisionResources.reserves[type]!!
         if (reserve == clickedReserve) {
             clickedReserve = null
-            listener.onMyAddMoveCanceled()
+            listener.onAddMoveCanceled()
         } else clickedReserve = reserve
     }
 
@@ -83,4 +80,6 @@ class TwoHostsController(
         }
         processEnemyMove(move)
     }
+
+
 }
