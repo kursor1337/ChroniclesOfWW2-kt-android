@@ -2,7 +2,7 @@
 <resources>
 
     <!--mission names-->
-    <string-array name="scenario_names">
+    <string-array name="standard_battle_names">
         <item>Морской Лев</item>                    <!--0-->
         <item>Арденнская Операция 1940</item>       <!--1-->
         <item>План Барбаросса</item>                <!--2-->

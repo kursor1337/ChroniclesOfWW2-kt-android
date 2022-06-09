@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="scenario_descriptions">
+    <string-array name="standard_battle_descriptions">
         <item></item>                    <!--0-->
         <item></item>     <!--1-->
         <item></item>       <!--2-->

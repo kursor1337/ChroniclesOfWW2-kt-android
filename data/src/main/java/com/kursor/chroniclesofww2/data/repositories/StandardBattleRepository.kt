@@ -1,33 +1,18 @@
-package com.kursor.chroniclesofww2.objects
+package com.kursor.chroniclesofww2.data.repositories
 
 import android.content.Context
-import com.google.gson.reflect.TypeToken
-import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.model.Nation
-import com.kursor.chroniclesofww2.model.Scenario
-import com.kursor.chroniclesofww2.model.board.Division
+import com.kursor.chroniclesofww2.data.R
+import com.kursor.chroniclesofww2.model.data.Battle
+import com.kursor.chroniclesofww2.model.game.Nation
+import com.kursor.chroniclesofww2.model.game.board.Division
 
-object ScenarioManager {
+class StandardBattleRepository(context: Context) : BattleRepository {
 
-    private const val CUSTOM_PREFIX = 1_000_000_000
-    private const val CUSTOM_SCENARIOS = "custom scenarios"
-
-    lateinit var standardScenarioList: List<Scenario>
-    lateinit var customScenarioList: MutableList<Scenario>
-
-    fun init(context: Context) {
-        initStandardScenarios(context)
-        initCustomScenarios()
-    }
-
-    fun saveCustomScenario(scenario: Scenario) {
-        customScenarioList += scenario
-        Tools.saveString(CUSTOM_SCENARIOS, Tools.GSON.toJson(customScenarioList))
-    }
+    override val battleList: List<Battle> = initStandardScenarioList(context)
 
     fun defaultScenarioData() =
-        Scenario.Data(
-            Scenario.DEFAULT,
+        Battle.Data(
+            Battle.DEFAULT,
             Nation.DEFAULT,
             mapOf(
                 Division.Type.INFANTRY to 9,
@@ -42,35 +27,25 @@ object ScenarioManager {
             )
         )
 
-    fun findScenarioById(id: Int): Scenario {
-        val customId = id - CUSTOM_PREFIX
-        return if (customId < 0) {
-            standardScenarioList[id]
-        } else customScenarioList[customId]
+    override fun findBattleById(id: Int): Battle {
+        return battleList[id]
     }
 
-
-    private fun initStandardScenarios(context: Context) {
-        val nameArray = context.resources.getStringArray(R.array.scenario_names)
-        val descriptionArray = context.resources.getStringArray(R.array.scenario_descriptions)
+    private fun initStandardScenarioList(context: Context): List<Battle> {
+        val nameArray = context.resources.getStringArray(R.array.standard_battle_names)
+        val descriptionArray =
+            context.resources.getStringArray(R.array.standard_battle_descriptions)
         val dataArray = getStandardScenarioDataList(context)
-        val tempScenarioList = mutableListOf<Scenario>()
+        val tempScenarioList = mutableListOf<Battle>()
         nameArray.forEachIndexed { index, name ->
-            tempScenarioList += Scenario(index, name, descriptionArray[index], dataArray[index])
+            tempScenarioList += Battle(index, name, descriptionArray[index], dataArray[index])
         }
-        standardScenarioList = tempScenarioList
+        return tempScenarioList
     }
 
-    private fun initCustomScenarios() {
-        val listJson = Tools.getString(CUSTOM_SCENARIOS)
-
-        customScenarioList = if (listJson == "") mutableListOf()
-        else Tools.GSON.fromJson(listJson, object : TypeToken<List<Scenario>>() {}.type)
-    }
-
-    private fun getStandardScenarioDataList(context: Context): MutableList<Scenario.Data> {
-        val dataStringArray = context.resources.getStringArray(R.array.scenario_data)
-        val dataList = mutableListOf<Scenario.Data>()
+    private fun getStandardScenarioDataList(context: Context): List<Battle.Data> {
+        val dataStringArray = context.resources.getStringArray(R.array.standard_battle_data)
+        val dataList = mutableListOf<Battle.Data>()
         dataStringArray.forEachIndexed { index, dataString ->
             val lines = dataString.trimIndent().lines()
             var nation1: Nation? = null
@@ -98,7 +73,7 @@ object ScenarioManager {
                 currentNationDivisions[type] = quantity
             }
             dataList.add(
-                Scenario.Data(
+                Battle.Data(
                     index,
                     nation1!!,
                     nation1divisions,

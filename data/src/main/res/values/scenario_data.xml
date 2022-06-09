@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="scenario_data">
+    <string-array name="standard_battle_data">
         <item>      <!--0-->
             BRITAIN
             INFANTRY to 6
