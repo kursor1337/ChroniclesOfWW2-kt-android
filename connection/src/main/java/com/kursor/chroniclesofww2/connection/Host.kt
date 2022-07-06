@@ -9,7 +9,7 @@ import java.net.UnknownHostException
 data class Host(val name: String, val inetAddress: InetAddress, val port: Int) : Parcelable {
 
     constructor(nsdServiceInfo: NsdServiceInfo) : this(
-        formatName(nsdServiceInfo),
+        formatName(nsdServiceInfo.serviceName),
         nsdServiceInfo.host,
         nsdServiceInfo.port
     )
@@ -57,8 +57,8 @@ data class Host(val name: String, val inetAddress: InetAddress, val port: Int) :
             }
         }
 
-        fun formatName(serviceInfo: NsdServiceInfo): String {
-            return serviceInfo.serviceName.substring(serviceInfo.serviceName.indexOf('.') + 1)
+        fun formatName(serviceName: String): String {
+            return serviceName.substring(serviceName.indexOf('.') + 1)
         }
 
     }

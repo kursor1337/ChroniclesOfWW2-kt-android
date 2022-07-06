@@ -4,8 +4,8 @@ import android.app.Activity
 import android.net.nsd.NsdServiceInfo
 import android.os.Handler
 import android.util.Log
-import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
 import java.io.*
 import java.lang.Thread.sleep
@@ -17,8 +17,6 @@ class LocalServer(
     activity: Activity,
     override val name: String,
     override val password: String? = null,
-    override val sendListener: Connection.SendListener? = null,
-    override val receiveListener: Connection.ReceiveListener? = null,
     override val listener: Server.Listener
 ) : Server {
 
@@ -46,7 +44,7 @@ class LocalServer(
         waiting = true
         Thread {
             Log.i("Server", "Thread Started")
-            var socket: Socket? = null
+            val socket: Socket
             try {
                 nsdBroadcast.registerService(name, serverSocket.localPort)
                 Log.i("Server", "Listening for connections")
@@ -65,10 +63,12 @@ class LocalServer(
                         input,
                         output,
                         Host(name, socket.inetAddress, socket.port),
-                        sendListener,
-                        receiveListener,
+                        sendListener = null,
+                        receiveListener = null,
                         handler.looper
-                    )
+                    ).apply {
+                        shutdownListeners.add(Connection.ShutdownListener { socket.close() })
+                    }
                     handler.post {
                         listener.onConnectionEstablished(connection)
                     }
@@ -83,10 +83,7 @@ class LocalServer(
                 e.printStackTrace()
                 handler.post { listener.onListeningStartError(e) }
 
-            } /* finally {
-                socket?.close()
             }
-            */
         }.start()
     }
 

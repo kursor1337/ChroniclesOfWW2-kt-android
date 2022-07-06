@@ -8,13 +8,13 @@ interface Connection {
 
     var sendListener: SendListener?
     var receiveListener: ReceiveListener?
+    val shutdownListeners: MutableList<ShutdownListener>
     val host: Host
     val handler: Handler
 
-
     fun send(string: String)
 
-    fun dispose()
+    fun shutdown()
 
     /**
      * Listeners for sending and receiving info
@@ -25,8 +25,13 @@ interface Connection {
         fun onSendFailure(e: Exception)
     }
 
-    fun interface ReceiveListener {
+    interface ReceiveListener {
         fun onReceive(string: String)
+        fun onDisconnected()
+    }
+
+    fun interface ShutdownListener {
+        fun onConnectionDisposed()
     }
 
     companion object {
@@ -36,7 +41,16 @@ interface Connection {
             override fun onSendFailure(e: Exception) {}
         }
 
-        val EMPTY_RECEIVE_LISTENER = ReceiveListener { }
+        val EMPTY_RECEIVE_LISTENER = object : ReceiveListener {
+            override fun onReceive(string: String) {}
+            override fun onDisconnected() {}
+        }
+
+        var currentConnection: Connection? = null
+            set(value) {
+                if (value == null) field?.shutdown()
+                field = value
+            }
 
     }
 }

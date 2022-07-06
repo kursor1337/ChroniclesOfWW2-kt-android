@@ -19,7 +19,10 @@ class LocalConnection(
     looper: Looper
 ) : Connection {
 
+    override val shutdownListeners = mutableListOf<Connection.ShutdownListener>()
+
     override val handler = Handler(looper)
+
 
     private val sender = Sender(output)
     private val receiver = Receiver(input)
@@ -33,7 +36,7 @@ class LocalConnection(
         sender.send(string)
     }
 
-    override fun dispose() {
+    override fun shutdown() {
         Log.i("Connection", "Disposing")
         receiver.dispose()
         sender.stopSending()

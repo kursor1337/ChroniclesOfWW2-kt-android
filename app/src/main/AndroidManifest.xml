@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChroniclesOfWW2">
         <activity
-            android:name=".view.menu.activities.GameActivity"
+            android:name=".presentation.ui.activities.GameActivity"
             android:exported="false" />
         <activity
-            android:name=".view.menu.activities.MainActivity"
+            android:name=".presentation.ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

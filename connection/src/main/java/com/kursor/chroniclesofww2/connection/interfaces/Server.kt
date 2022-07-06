@@ -8,8 +8,6 @@ interface Server {
 
     val name: String
     val password: String?
-    val sendListener: Connection.SendListener?
-    val receiveListener: Connection.ReceiveListener?
     val listener: Listener
     val handler: Handler
 

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.kursor.chroniclesofww2.view.menu.fragments.MainFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseMultiplayerGameFragment"
-        android:name="com.kursor.chroniclesofww2.view.menu.fragments.ChooseMultiplayerGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.ChooseMultiplayerGameFragment"
         android:label="ChooseMultiplayerGameFragment"
         tools:layout="@layout/fragment_choose_multiplayer_game">
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/joinLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.view.menu.fragments.localGameFragments.JoinLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments.JoinLocalGameFragment"
         android:label="JoinLocalGameFragment"
         tools:layout="@layout/fragment_join_game">
         <action
@@ -38,12 +38,12 @@
     </fragment>
     <fragment
         android:id="@+id/createLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.view.menu.fragments.localGameFragments.CreateLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments.CreateLocalGameFragment"
         android:label="CreateLocalGameFragment"
         tools:layout="@layout/fragment_create_game"/>
     <dialog
         android:id="@+id/passwordDialogFragment"
-        android:name="com.kursor.chroniclesofww2.view.menu.fragments.PasswordDialogFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.PasswordDialogFragment"
         android:label="PasswordDialogFragment"
         tools:layout="@layout/dialog_password"/>
 </navigation>

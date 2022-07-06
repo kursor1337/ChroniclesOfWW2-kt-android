@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.menu.activities.MainActivity"
+    tools:context=".presentation.ui.activities.MainActivity"
     android:orientation="vertical"
     android:gravity="center_vertical">
 
-    <com.kursor.chroniclesofww2.view.BackgroundView
+    <com.kursor.chroniclesofww2.presentation.BackgroundView
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-    </com.kursor.chroniclesofww2.view.BackgroundView>
+    </com.kursor.chroniclesofww2.presentation.BackgroundView>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_container"

@@ -15,27 +15,27 @@ import java.net.UnknownHostException
 class LocalClient(
     activity: Activity,
     private val name: String,
-    private val sendListener: Connection.SendListener,
-    private val receiveListener: Connection.ReceiveListener,
-    private val listener: Listener
+    override val listener: Listener
 ) : Client {
+
+    override val discoveryListeners = mutableListOf<Client.DiscoveryListener>()
 
     override val availableHosts = mutableListOf<Host>()
 
     override val handler = Handler(activity.mainLooper)
 
-    val nsdDiscovery = NsdDiscovery(activity, object : NsdDiscovery.Listener {
+    private val nsdDiscovery = NsdDiscovery(activity, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
             handler.post {
                 availableHosts.add(host)
-                listener.onHostDiscovered(host)
+                discoveryListeners.forEach { it.onHostDiscovered(host) }
             }
         }
 
         override fun onHostLost(host: Host) {
             handler.post {
                 availableHosts.remove(host)
-                listener.onHostLost(host)
+                discoveryListeners.forEach { it.onHostLost(host) }
             }
 
         }
@@ -50,9 +50,7 @@ class LocalClient(
             handler.post {
                 listener.onFail(errorCode)
             }
-
         }
-
     })
 
     override fun startDiscovery() {
@@ -83,10 +81,12 @@ class LocalClient(
                         input,
                         output,
                         host,
-                        sendListener,
-                        receiveListener,
+                        sendListener = null,
+                        receiveListener = null,
                         handler.looper
-                    )
+                    ).apply {
+                        shutdownListeners.add(Connection.ShutdownListener { socket.close() })
+                    }
                 Log.i("Client", "Connection established")
                 handler.post {
                     listener.onConnectionEstablished(connection)
@@ -98,15 +98,6 @@ class LocalClient(
                 e.printStackTrace()
                 Log.e("Client", e::class.java.name)
                 Log.e("Client", "Client Error")
-            } finally {
-                if (socket != null) {
-                    try {
-                        socket.close()
-                    } catch (e: IOException) {
-                        Log.e("Client", "Could Not Close Client")
-                        e.printStackTrace()
-                    }
-                }
             }
 
 

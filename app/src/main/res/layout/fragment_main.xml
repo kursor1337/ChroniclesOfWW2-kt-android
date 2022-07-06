@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.ChroniclesOfWW2.FullscreenContainer"
-    tools:context=".view.menu.fragments.MainFragment"
+    tools:context=".presentation.ui.fragments.MainFragment"
     android:orientation="vertical"
     android:gravity="center_vertical">
 

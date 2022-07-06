@@ -9,6 +9,5 @@ dependencyResolutionManagement {
 rootProject.name = "Chronicles Of WW2"
 include ':app'
 include ':model'
-include ':controller'
 include ':connection'
 include ':data'

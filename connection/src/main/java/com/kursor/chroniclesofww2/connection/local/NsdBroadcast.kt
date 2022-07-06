@@ -21,7 +21,6 @@ class NsdBroadcast(
     interface Listener {
         fun onServiceRegistered(serviceInfo: NsdServiceInfo)
         fun onRegistrationFailed(arg0: NsdServiceInfo, arg1: Int)
-
     }
 
     private var serviceName = SERVICE_NAME
