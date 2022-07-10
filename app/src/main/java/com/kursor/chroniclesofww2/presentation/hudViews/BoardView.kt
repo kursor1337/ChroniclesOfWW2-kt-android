@@ -6,6 +6,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.model.game.board.Board
+import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 
 class BoardView(
@@ -53,12 +54,19 @@ class BoardView(
         }
     }
 
-    fun showPossibleMoves(motionMoveList: List<MotionMove>) {
+    fun showPossibleMotionMoves(motionMoveList: List<MotionMove>) {
         motionMoveList.forEach { move ->
             val dest = move.destination
             val state = if (move.isAttack) TileView.State.ATTACKED
             else TileView.State.LEGAL
             tileViews[dest.row][dest.column].state = state
+        }
+    }
+
+    fun showPossibleAddMoves(addMoveList: List<AddMove>) {
+        addMoveList.forEach { move ->
+            val dest = move.destination
+            tileViews[dest.row][dest.column].state = TileView.State.LEGAL
         }
     }
 

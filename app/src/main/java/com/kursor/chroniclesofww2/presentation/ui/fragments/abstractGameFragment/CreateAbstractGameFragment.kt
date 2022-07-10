@@ -21,13 +21,14 @@ import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
 import com.kursor.chroniclesofww2.databinding.FragmentCreateGameBinding
-import com.kursor.chroniclesofww2.model.Scenario
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.data.GameData
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.activities.MainActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 abstract class CreateAbstractGameFragment : BundleFragment() {
 
@@ -56,7 +57,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                 REQUEST_GAME_DATA -> {
                     Log.i("Server", "Client sent $REQUEST_GAME_DATA")
                     connection.send(chosenScenarioJson)
-                    val intent = Intent(activity as MainActivity, GameActivity::class.java)
+                    val intent = Intent(activity, GameActivity::class.java)
                     intent.putExtra(Const.connection.CONNECTED_DEVICE, connection.host)
                         .putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
                         .putExtra(Const.game.SCENARIO, chosenScenarioJson)
@@ -102,24 +103,15 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         }
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-////        parentFragmentManager.setFragmentResultListener(
-////            SCENARIO_INFO, this
-////        ) { key, bundle ->
-////            chosenScenarioJson = bundle.getString(Const.game.SCENARIO) ?: ""
-////            if (chosenScenarioJson.isBlank()) return@setFragmentResultListener
-////            val scenario = Scenario.fromJson(chosenScenarioJson)
-////            binding.chosenScenarioTextView.text = scenario.name
-////        }
-//    }
 
     override fun onFragmentResult(requestCode: Int, bundle: Bundle) {
         super.onFragmentResult(requestCode, bundle)
         if (requestCode == SCENARIO_REQUEST_CODE) {
             chosenScenarioJson = bundle.getString(Const.game.SCENARIO)!!
-            battle = Scenario.fromJson(chosenScenarioJson)
-            binding.chosenScenarioTextView.text = battle.getLocalizedName(requireContext())
+            battle = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                .adapter(Battle::class.java)
+                .fromJson(chosenScenarioJson) ?: return
+            binding.chosenScenarioTextView.text = battle.name
         }
     }
 

@@ -8,13 +8,20 @@ import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.model.Engine
-import com.kursor.chroniclesofww2.model.GameData
-import com.kursor.chroniclesofww2.model.board.moves.Move
+import com.kursor.chroniclesofww2.model.controllers.Controller
+import com.kursor.chroniclesofww2.model.controllers.TwoHostsController
+import com.kursor.chroniclesofww2.model.data.GameData
+import com.kursor.chroniclesofww2.model.game.Model
+import com.kursor.chroniclesofww2.model.game.moves.Move
 
 class MultiplayerGameActivity : GameActivity() {
 
+
     private val connection = Tools.currentConnection!!
+
+    override fun initController(gameData: GameData, listener: Controller.Listener) {
+        controller = TwoHostsController(Model(gameData), listener)
+    }
 
     override fun notifyEnemy(move: Move) {
         connection.send(move.encodeToString())
@@ -24,28 +31,17 @@ class MultiplayerGameActivity : GameActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_game)
-        val gameData = Tools.GSON.fromJson(
-            intent.getStringExtra(Const.game.GAME_DATA),
-            GameData::class.java
-        )!!
-
         connection.receiveListener = receiveListener
 
-        if (supportActionBar != null) supportActionBar!!.hide()
-        engine = Engine(gameData, engineListener).apply {
-            bindViews(
-                binding.boardView,
-                binding.divisionResourcesMe,
-                binding.divisionResourcesEnemy
-            )
-        }
-
         binding.boardView.setOnTileViewClickListener { i, j, tileView ->
-            engine.processTileClick(i, j)
+            controller.processTileClick(i, j)
         }
 
         binding.divisionResourcesMe.setOnReserveClickListener {
-            engine.processReserveClick(it.reserve!!.type)
+            controller.processReserveClick(
+                it.reserve!!.type,
+                binding.divisionResourcesMe.divisionResources!!.playerName
+            )
         }
     }
 
@@ -57,9 +53,13 @@ class MultiplayerGameActivity : GameActivity() {
                 finish()
                 return
             }
-            engine.handleEnemyMove(
-                Move.decodeFromStringToSimplified(string).returnToFullState(engine)
+            (controller as TwoHostsController).processSimplifiedEnemyMove(
+                Move.decodeFromStringToSimplified(string)
             )
+        }
+
+        override fun onDisconnected() {
+            TODO("Not yet implemented")
         }
     }
 

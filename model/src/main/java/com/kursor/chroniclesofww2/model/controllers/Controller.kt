@@ -107,8 +107,8 @@ abstract class Controller(
         fun onAddMoveCanceled()
 
         // on clicked
-        fun onReserveClicked(reserve: Reserve, possibleMoves: List<Move>)
-        fun onTileClicked(tile: Tile, possibleMoves: List<Move>)
+        fun onReserveClicked(reserve: Reserve, possibleMoves: List<AddMove>)
+        fun onTileClicked(tile: Tile, possibleMoves: List<MotionMove>)
 
         // on game events
         fun onGameEnd(meWon: Boolean)

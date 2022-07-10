@@ -7,28 +7,58 @@ import android.util.Log
 import android.view.Window
 import com.kursor.chroniclesofww2.Const
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.databinding.ActivityGameBinding
-import com.kursor.chroniclesofww2.model.Engine
-import com.kursor.chroniclesofww2.model.GameData
-import com.kursor.chroniclesofww2.model.board.moves.Move
-import com.kursor.chroniclesofww2.model.board.Tile
+import com.kursor.chroniclesofww2.model.controllers.Controller
+import com.kursor.chroniclesofww2.model.data.GameData
+import com.kursor.chroniclesofww2.model.game.Reserve
+import com.kursor.chroniclesofww2.model.game.board.Tile
+import com.kursor.chroniclesofww2.model.game.moves.AddMove
+import com.kursor.chroniclesofww2.model.game.moves.MotionMove
+import com.kursor.chroniclesofww2.model.game.moves.Move
 import com.kursor.chroniclesofww2.presentation.ui.fragments.SimpleDialogFragment
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import java.util.function.ToDoubleBiFunction
 
 abstract class GameActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGameBinding
 
-    val engineListener = object : Engine.Listener {
-        override fun onMyMoveComplete(move: Move) {
-            notifyEnemy(move)
+    protected lateinit var controller: Controller
+
+    abstract fun initController(gameData: GameData, listener: Controller.Listener)
+
+    protected val controllerListener = object : Controller.Listener {
+
+        override fun onMotionMoveComplete(motionMove: MotionMove) {
             binding.boardView.hideLegalMoves()
-            disableScreen()
+            notifyEnemy(motionMove)
+        }
+
+        override fun onAddMoveComplete(addMove: AddMove) {
+            binding.boardView.hideLegalMoves()
+            notifyEnemy(addMove)
         }
 
         override fun onEnemyMoveComplete(move: Move) {
             Log.i("EventListener", "onEnemyMoveComplete")
-            enableScreen()
+            binding.boardView.hideLegalMoves()
+        }
+
+        override fun onMotionMoveCanceled(i: Int, j: Int) {
+            binding.boardView.hideLegalMoves()
+        }
+
+        override fun onAddMoveCanceled() {
+            binding.boardView.hideLegalMoves()
+        }
+
+        override fun onReserveClicked(reserve: Reserve, possibleMoves: List<AddMove>) {
+            binding.boardView.showPossibleAddMoves(possibleMoves)
+        }
+
+        override fun onTileClicked(tile: Tile, possibleMoves: List<MotionMove>) {
+            binding.boardView.showPossibleMotionMoves(possibleMoves)
         }
 
         override fun onGameEnd(meWon: Boolean) {
@@ -36,58 +66,37 @@ abstract class GameActivity : AppCompatActivity() {
         }
 
         override fun onStartingSecond() {
-            disableScreen()
-        }
-
-        override fun onMyMotionMoveCanceled(i: Int, j: Int) {
-            binding.boardView.hideLegalMoves()
-        }
-
-        override fun onMyAddMoveCanceled() {
-            binding.boardView.hideLegalMoves()
-        }
-
-        override fun onTileClicked(tile: Tile) {
-            binding.boardView.calculateAndShowPossibleMoves(
-                tile.row,
-                tile.column,
-                tile.division!!.playerName
-            )
+            TODO()
         }
     }
 
     abstract fun notifyEnemy(move: Move)
-
-    lateinit var engine: Engine
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_game)
         binding = ActivityGameBinding.inflate(layoutInflater)
-        val gameData = Tools.GSON.fromJson(
-            intent.getStringExtra(Const.game.GAME_DATA),
-            GameData::class.java
-        )!!
+        val gameData =
+            Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(GameData::class.java)
+                .fromJson(intent.getStringExtra(Const.game.GAME_DATA)!!)!!
+
+        initController(gameData, controllerListener)
 
         if (supportActionBar != null) supportActionBar!!.hide()
-        engine = Engine(gameData, engineListener).apply {
-            bindViews(
-                binding.boardView,
-                binding.divisionResourcesMe,
-                binding.divisionResourcesEnemy
-            )
-        }
 
         binding.boardView.setOnTileViewClickListener { i, j, tileView ->
-            engine.processTileClick(i, j)
+            controller.processTileClick(i, j)
         }
 
         binding.divisionResourcesMe.setOnReserveClickListener {
-            engine.processReserveClick(it.reserve!!.type)
+            controller.processReserveClick(
+                it.reserve!!.type,
+                binding.divisionResourcesMe.divisionResources?.playerName
+                    ?: return@setOnReserveClickListener
+            )
         }
     }
-
 
     fun showLoadingDialog(): SimpleDialogFragment {
         val simpleDialogFragment: SimpleDialogFragment = SimpleDialogFragment.Builder(this)
@@ -98,7 +107,6 @@ abstract class GameActivity : AppCompatActivity() {
         return simpleDialogFragment
     }
 
-
     fun buildAlertMessageEndOfTheGame(win: Boolean) {
         val result = if (win) getString(R.string.you_won)
         else getString(R.string.you_lose)
@@ -106,16 +114,6 @@ abstract class GameActivity : AppCompatActivity() {
             .setMessage(result).setCancelable(false)
             .setPositiveButton("Ок") { dialog, which -> goToMainScreen() }.build()
         dialog.show(supportFragmentManager, "")
-    }
-
-    protected fun disableScreen() {
-        binding.boardView.isEnabled = false
-        binding.divisionResourcesMe.isEnabled = false
-    }
-
-    protected fun enableScreen() {
-        binding.boardView.isEnabled = true
-        binding.divisionResourcesMe.isEnabled = true
     }
 
     fun goToMainScreen() {
