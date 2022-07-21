@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.kursor.chroniclesofww2.Const.connection.LOCAL
-import com.kursor.chroniclesofww2.Const.connection.MULTIPLAYER_TYPE
+import com.kursor.chroniclesofww2.objects.Const.connection.LOCAL
+import com.kursor.chroniclesofww2.objects.Const.connection.MULTIPLAYER_TYPE
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentChooseMultiplayerGameBinding
 

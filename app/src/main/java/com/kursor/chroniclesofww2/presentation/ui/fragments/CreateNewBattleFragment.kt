@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.DialogFragment
-import com.kursor.chroniclesofww2.Const
-import com.kursor.chroniclesofww2.Const.game.BATTLE
-import com.kursor.chroniclesofww2.Moshi
+import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
+import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.databinding.FragmentCreateBattleBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.Nation

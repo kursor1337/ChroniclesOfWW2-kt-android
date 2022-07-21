@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.kursor.chroniclesofww2.Const.game.BATTLE
-import com.kursor.chroniclesofww2.Moshi
+import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
+import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.data.repositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.data.repositories.RemoteCustomBattleRepository

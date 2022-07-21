@@ -3,8 +3,7 @@ package com.kursor.chroniclesofww2.presentation.ui.activities
 import android.os.Bundle
 import android.view.Window
 import android.widget.Toast
-import com.kursor.chroniclesofww2.Const
-import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
+import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection

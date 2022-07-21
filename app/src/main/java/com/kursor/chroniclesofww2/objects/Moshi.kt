@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2
+package com.kursor.chroniclesofww2.objects
 
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.data.GameData
