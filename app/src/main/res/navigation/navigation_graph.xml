@@ -40,10 +40,28 @@
         android:id="@+id/createLocalGameFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments.CreateLocalGameFragment"
         android:label="CreateLocalGameFragment"
-        tools:layout="@layout/fragment_create_game"/>
+        tools:layout="@layout/fragment_create_game">
+        <action
+            android:id="@+id/action_createLocalGameFragment_to_battleChooseFragment"
+            app:destination="@id/battleChooseFragment" />
+    </fragment>
     <dialog
         android:id="@+id/passwordDialogFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.PasswordDialogFragment"
         android:label="PasswordDialogFragment"
         tools:layout="@layout/dialog_password"/>
+    <fragment
+        android:id="@+id/battleChooseFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment"
+        android:label="BattleChooseFragment"
+        tools:layout="@layout/fragment_battle_choose">
+        <action
+            android:id="@+id/action_battleChooseFragment_to_createNewBattleFragment"
+            app:destination="@id/createNewBattleFragment" />
+    </fragment>
+    <dialog
+        tools:layout="@layout/fragment_create_battle"
+        android:id="@+id/createNewBattleFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.CreateNewBattleFragment"
+        android:label="CreateNewBattleFragment" />
 </navigation>

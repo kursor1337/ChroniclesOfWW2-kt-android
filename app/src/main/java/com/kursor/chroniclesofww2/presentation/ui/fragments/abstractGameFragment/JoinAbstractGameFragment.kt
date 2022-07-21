@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.viewModels
 import com.kursor.chroniclesofww2.Const.connection.ACCEPTED
 import com.kursor.chroniclesofww2.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.Const.connection.CLIENT
@@ -18,7 +17,7 @@ import com.kursor.chroniclesofww2.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.Const.connection.REQUEST_FOR_ACCEPT
 import com.kursor.chroniclesofww2.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.Const.game.MULTIPLAYER_GAME_MODE
-import com.kursor.chroniclesofww2.Const.game.SCENARIO
+import com.kursor.chroniclesofww2.Const.game.BATTLE
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
@@ -28,9 +27,7 @@ import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.SimpleDialogFragment
-import com.kursor.chroniclesofww2.viewModels.HostViewModel
 import com.phelat.navigationresult.BundleFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class JoinAbstractGameFragment : BundleFragment() {
 
@@ -111,7 +108,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
                             val intent = Intent(activity, GameActivity::class.java)
                             intent.putExtra(CONNECTED_DEVICE, host)
                                 .putExtra(MULTIPLAYER_GAME_MODE, CLIENT)
-                                .putExtra(SCENARIO, string)
+                                .putExtra(BATTLE, string)
                             client.stopDiscovery()
                             startActivity(intent)
                         }

@@ -11,7 +11,7 @@ object Const {
     object game {
         const val GAME_DATA = "game data"
         const val MISSION_INFO = "MISSION_INFO"
-        const val SCENARIO = "mission"
+        const val BATTLE = "mission"
         const val MULTIPLAYER_GAME_MODE = "mode"
         const val BOARD_SIZE = 8
     }

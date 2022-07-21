@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.DialogFragment
+import com.kursor.chroniclesofww2.Const
+import com.kursor.chroniclesofww2.Const.game.BATTLE
+import com.kursor.chroniclesofww2.Moshi
 import com.kursor.chroniclesofww2.databinding.FragmentCreateBattleBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
-import com.kursor.chroniclesofww2.model.game.board.InfantryDivision
+import com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment.Companion.CUSTOM_MISSION_REQUEST_CODE
+import com.phelat.navigationresult.navigateUp
 
 class CreateNewBattleFragment : DialogFragment() {
 
@@ -68,7 +72,7 @@ class CreateNewBattleFragment : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                nation2 = Nation.values().get(position)
+                nation2 = Nation.values()[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -106,10 +110,12 @@ class CreateNewBattleFragment : DialogFragment() {
                         )
                     )
                 )
-                val result = Bundle()
-                result.putString(MISSION, Mission.toJson(mission))
-                parentFragmentManager.setFragmentResult(MissionFragment.CUSTOM_MISSION_INFO, result)
-                dismiss()
+                navigateUp(
+                    CUSTOM_MISSION_REQUEST_CODE, Bundle().apply {
+                        putString(BATTLE, Moshi.BATTLE_ADAPTER.toJson(mission))
+                    }
+                )
+
             }
             if (nation1 == nation2) {
                 Toast.makeText(

@@ -8,7 +8,7 @@ import com.kursor.chroniclesofww2.model.data.Battle
 
 class BattleListViewModel(battleRepository: BattleRepository) : ViewModel() {
 
-    val battleLiveData: MutableLiveData<List<Battle>> = MutableLiveData<List<Battle>>().apply {
+    private val battleLiveData = MutableLiveData<List<Battle>>().apply {
         value = battleRepository.battleList
     }
 

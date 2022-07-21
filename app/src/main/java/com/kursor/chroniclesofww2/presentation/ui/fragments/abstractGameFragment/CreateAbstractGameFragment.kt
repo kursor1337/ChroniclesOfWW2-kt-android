@@ -24,7 +24,6 @@ import com.kursor.chroniclesofww2.databinding.FragmentCreateGameBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.data.GameData
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
-import com.kursor.chroniclesofww2.presentation.ui.activities.MainActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment
 import com.squareup.moshi.Moshi
@@ -60,7 +59,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                     val intent = Intent(activity, GameActivity::class.java)
                     intent.putExtra(Const.connection.CONNECTED_DEVICE, connection.host)
                         .putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
-                        .putExtra(Const.game.SCENARIO, chosenScenarioJson)
+                        .putExtra(Const.game.BATTLE, chosenScenarioJson)
                     Tools.currentConnection = connection
                     server.stopListening()
                     startActivity(intent)
@@ -106,8 +105,8 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     override fun onFragmentResult(requestCode: Int, bundle: Bundle) {
         super.onFragmentResult(requestCode, bundle)
-        if (requestCode == SCENARIO_REQUEST_CODE) {
-            chosenScenarioJson = bundle.getString(Const.game.SCENARIO)!!
+        if (requestCode == BATTLE_REQUEST_CODE) {
+            chosenScenarioJson = bundle.getString(Const.game.BATTLE)!!
             battle = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                 .adapter(Battle::class.java)
                 .fromJson(chosenScenarioJson) ?: return
@@ -181,7 +180,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     }
 
     companion object {
-        const val SCENARIO_REQUEST_CODE = 202
+        const val BATTLE_REQUEST_CODE = 202
     }
 
 }
