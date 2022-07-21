@@ -1,10 +1,6 @@
 package com.kursor.chroniclesofww2.model.game.board
 
 import com.kursor.chroniclesofww2.model.data.Player
-import com.kursor.chroniclesofww2.model.game.Reserve
-import com.kursor.chroniclesofww2.model.game.moves.AddMove
-import com.kursor.chroniclesofww2.model.game.moves.MotionMove
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable
 
 
 class Board(val height: Int, val width: Int) {

@@ -16,8 +16,8 @@
     <string name="show_mission_list">List of Missions</string>
     <string name="choose_mission">Choose Mission</string>
     <string name="scenario_title">Title of the scanario</string>
-    <string name="scenario_intro">Intro to the scenario</string>
-    <string name="enemies">Enemies</string>
+    <string name="scenario_intro">Intro of the scenario</string>
+    <string name="nations">Nations</string>
     <string name="infantry">Infantry</string>
     <string name="armored">Armored</string>
     <string name="artillery">Artillery</string>
@@ -55,5 +55,6 @@
     <string name="local_game">Local game</string>
     <string name="join_game">Join game</string>
     <string name="create_game">Create game</string>
+    <string name="save_and_done">Save and Done</string>
 
 </resources>

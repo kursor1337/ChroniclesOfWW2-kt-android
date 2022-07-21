@@ -6,10 +6,9 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-class CustomBattleRepository(
+class LocalCustomBattleRepository(
     context: Context
-) : BattleRepository {
-
+) : MutableBattleRepository {
 
     private val moshi =
         Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter<MutableList<Battle>>(
@@ -17,19 +16,43 @@ class CustomBattleRepository(
         )
 
     val sharedPreferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
-    override val battleList: MutableList<Battle> = initCustomScenarios()
+    override val battleList: MutableList<Battle> = initCustomBattles()
+    var nextBattleId = CUSTOM_PREFIX + battleList.size
+        private set
+
 
     override fun findBattleById(id: Int): Battle {
-        val customId = id - CUSTOM_PREFIX
-        return battleList[customId]
+        val index = id - CUSTOM_PREFIX
+        return battleList[index]
     }
 
-    fun saveBattle(battle: Battle) {
+    override fun nextBattleId(): Int {
+        return nextBattleId
+    }
+
+    override fun saveBattle(battle: Battle) {
         battleList.add(battle)
+        updateStorage()
+        nextBattleId++
+    }
+
+    fun deleteBattle(battle: Battle) {
+        deleteBattle(battle.id)
+    }
+
+    fun deleteBattle(id: Int) {
+        val index = id - CUSTOM_PREFIX
+        battleList.removeAt(index)
+        updateStorage()
+        nextBattleId--
+    }
+
+    fun updateStorage() {
         sharedPreferences.edit().putString(KEY, moshi.toJson(battleList)).apply()
     }
 
-    private fun initCustomScenarios(): MutableList<Battle> {
+
+    private fun initCustomBattles(): MutableList<Battle> {
         val listJson = sharedPreferences.getString(KEY, "")
         if (listJson !is String) return mutableListOf()
         if (listJson.isBlank()) return mutableListOf()

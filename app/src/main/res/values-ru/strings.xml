@@ -13,7 +13,7 @@
     <string name="choose_mission">Выберите миссию</string>
     <string name="scenario_title">Название сценария</string>
     <string name="scenario_intro">Интро к сценарию</string>
-    <string name="enemies">Противники</string>
+    <string name="nations">Страны</string>
     <string name="infantry">Пехота</string>
     <string name="armored">Танки</string>
     <string name="artillery">Артиллерия</string>
@@ -45,6 +45,16 @@
     <string name="you_won">Вы победили! ЮХУУУУУ!!!</string>
     <string name="you_lose">Вы проиграли! (((((</string>
     <string name="set_password">Придумайте пароль</string>
+    <string name="dummy_button">думми буттон</string>
+    <string name="dummy_content">думми</string>
+    <string name="password">Пароль</string>
+    <string name="game_with_password">Хост запаролен</string>
+    <string name="web_game">Игра по сети</string>
+    <string name="local_game">Игра по локальной сети</string>
+    <string name="join_game">Присоединиться к игре</string>
+    <string name="create_game">Создать игру</string>
+    <string name="hello_blank_fragment">Привет пустой фрагмент</string>
+    <string name="save_and_done">Сохранить и готово</string>
 
 
 </resources>

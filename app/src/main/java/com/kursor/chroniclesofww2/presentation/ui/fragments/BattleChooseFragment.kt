@@ -5,26 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.viewModels
 import com.kursor.chroniclesofww2.Const.game.SCENARIO
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
 import com.kursor.chroniclesofww2.objects.Tools
-import com.kursor.chroniclesofww2.databinding.FragmentScenarioChooseBinding
-import com.kursor.chroniclesofww2.model.Scenario
+import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.CreateAbstractGameFragment.Companion.SCENARIO_REQUEST_CODE
+import com.kursor.chroniclesofww2.viewModels.BattleListViewModel
 import com.phelat.navigationresult.BundleFragment
 import com.phelat.navigationresult.navigateUp
 
-class ScenarioChooseFragment : BundleFragment() {
+class BattleChooseFragment : BundleFragment() {
 
-    lateinit var binding: FragmentScenarioChooseBinding
+    lateinit var binding: FragmentBattleChooseBinding
 
-//    var missionNames: Array<String?>
-//    var missionList: List<Mission>? = null
-//    var missionAdapter: ArrayAdapter<String?>? = null
-//    var missionListView: ListView? = null
-//    var button_defaultMission: Button? = null
-//    var button_customMission: Button? = null
-//    private var menuActivity: MenuActivity? = null
+
 
 
     override fun onCreateView(
@@ -32,18 +28,19 @@ class ScenarioChooseFragment : BundleFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentScenarioChooseBinding.inflate(inflater, container, false)
+        binding = FragmentBattleChooseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val scenarioNames = Scenario.getScenarioNames(requireContext())
 
-        val scenarioAdapter =
-            ArrayAdapter(requireContext(), R.layout.recyclerview_battles, scenarioNames)
-        binding.scenarioListView.adapter = scenarioAdapter
-        binding.scenarioListView.setOnItemClickListener { _, _, position, _ ->
+        val battleListViewModel by viewModels<BattleListViewModel>()
+
+        val battleAdapter =
+            BattleAdapter(requireActivity(), )
+        binding.battleRecyclerView.adapter = battleAdapter
+        binding.battleRecyclerView.setOnItemClickListener { _, _, position, _ ->
             navigateUpWithScenario(Scenario.getScenarioList(requireContext())[position])
         }
         binding.defaultMissionButton.setOnClickListener {
