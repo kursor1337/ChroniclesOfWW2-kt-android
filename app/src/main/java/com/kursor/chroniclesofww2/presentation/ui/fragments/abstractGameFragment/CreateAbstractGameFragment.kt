@@ -42,6 +42,8 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     lateinit var gameData: GameData
     lateinit var battle: Battle
 
+    abstract val actionToBattleChooseFragmentId: Int
+
     protected val receiveListener = object : Connection.ReceiveListener {
         override fun onReceive(string: String) {
             when (string) {
@@ -127,16 +129,15 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.chooseScenarioButton.setOnClickListener {
-            findNavController()
-//            menuActivity.changeFragment(
-//                JavaMissionFragment(),
-//                true,
-//                false
-//            )
+            navigate(
+                actionToBattleChooseFragmentId,
+                BATTLE_REQUEST_CODE
+            )
         }
         binding.readyButton.setOnClickListener { v ->
             initServer()
             v.isEnabled = false
+            buildMessageWaitingForConnections()
         }
     }
 
@@ -176,7 +177,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        server.stopListening()
+        if (this::server.isInitialized) server.stopListening()
     }
 
     companion object {

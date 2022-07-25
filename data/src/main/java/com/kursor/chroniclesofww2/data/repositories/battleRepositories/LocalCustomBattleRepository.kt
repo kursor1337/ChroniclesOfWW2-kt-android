@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.data.repositories
+package com.kursor.chroniclesofww2.data.repositories.battleRepositories
 
 import android.content.Context
 import com.kursor.chroniclesofww2.model.data.Battle

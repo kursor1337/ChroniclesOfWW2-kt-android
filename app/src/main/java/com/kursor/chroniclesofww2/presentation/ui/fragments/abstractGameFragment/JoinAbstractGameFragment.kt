@@ -42,6 +42,9 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
     lateinit var hostAdapter: HostAdapter
     lateinit var host: Host
 
+
+    abstract val actionToPasswordDialogFragmentId: Int
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -93,7 +96,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
                     ).show()
                     HOST_IS_WITH_PASSWORD -> {
                         navigate(
-                            R.id.action_joinLocalGameFragment_to_passwordDialogFragment,
+                            actionToPasswordDialogFragmentId,
                             PASSWORD_REQUEST_ID
                         )
                     }
@@ -127,7 +130,8 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
             val password = bundle.getString(PASSWORD)!!
             Tools.currentConnection!!.send("$PASSWORD$password")
         }
-        else -> {}
+        else -> {
+        }
     }
 
 
@@ -141,7 +145,9 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
         }
 
         override fun onConnectionEstablished(connection: Connection) {
-            Tools.currentConnection = connection
+            Tools.currentConnection = connection.apply {
+                this.receiveListener = receiveListener
+            }
             Tools.currentConnection!!.send(REQUEST_FOR_ACCEPT)
             Log.i("Client", REQUEST_FOR_ACCEPT)
         }

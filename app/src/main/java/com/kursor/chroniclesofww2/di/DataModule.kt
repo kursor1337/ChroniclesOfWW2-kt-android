@@ -1,7 +1,8 @@
 package com.kursor.chroniclesofww2.di
 
-import com.kursor.chroniclesofww2.data.repositories.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.settingsRepositories.SharedPrefSettingsRepository
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -10,5 +11,8 @@ val dataModule = module {
     }
     single {
         StandardBattleRepository(context = get())
+    }
+    single {
+        SharedPrefSettingsRepository(context = get())
     }
 }

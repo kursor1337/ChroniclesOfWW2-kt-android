@@ -21,7 +21,7 @@ class MotionMove(
     companion object {
 
         fun decodeFromStringToSimplified(string: String): Simplified {
-            val startCoordinate = string.substringAfter("-".substringBefore(":")).toInt()
+            val startCoordinate = string.substringAfter("-").substringBefore(":").toInt()
             val destinationCoordinate = string.substringAfter(":").toInt()
             return Simplified(startCoordinate, destinationCoordinate)
         }

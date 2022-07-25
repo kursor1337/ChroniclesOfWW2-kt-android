@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.data.repositories.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.RemoteCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battleRepositories.RemoteCustomBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardBattleRepository
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
@@ -26,7 +26,7 @@ class BattleChooseFragment : BundleFragment() {
 
     val standardBattleRepository by inject<StandardBattleRepository>()
     val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
-    val remoreCustomBattleRepository by inject<RemoteCustomBattleRepository>()
+    val remoteCustomBattleRepository by inject<RemoteCustomBattleRepository>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +41,7 @@ class BattleChooseFragment : BundleFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val battleListViewModel by viewModels<BattleListViewModel>()
+        battleListViewModel.changeDataSource(standardBattleRepository)
         battleListViewModel.getBattleLiveData().observe(viewLifecycleOwner) { newBattleList ->
             binding.battleRecyclerView.adapter =
                 BattleAdapter(requireActivity(), newBattleList).apply {
@@ -57,6 +58,16 @@ class BattleChooseFragment : BundleFragment() {
                 R.id.action_battleChooseFragment_to_createNewBattleFragment,
                 CUSTOM_MISSION_REQUEST_CODE
             )
+        }
+
+        binding.standardBattlesButton.setOnClickListener {
+            battleListViewModel.changeDataSource(standardBattleRepository)
+        }
+        binding.localCustomBattlesButton.setOnClickListener {
+            battleListViewModel.changeDataSource(localCustomBattleRepository)
+        }
+        binding.remoteCustomBattlesButton.setOnClickListener {
+            battleListViewModel.changeDataSource(remoteCustomBattleRepository)
         }
     }
 

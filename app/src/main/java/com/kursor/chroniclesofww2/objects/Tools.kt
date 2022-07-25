@@ -15,11 +15,6 @@ object Tools {
     private const val SCORE = "score"
 
     var currentConnection: Connection? = null
-    lateinit var username: String
-
-    fun init(context: Context) {
-
-    }
 
     fun getScreenWidth() = Resources.getSystem().displayMetrics.widthPixels
 
