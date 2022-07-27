@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.battleRepositories
 
 import android.content.Context
+import android.util.Log
 import com.kursor.chroniclesofww2.data.R
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.Nation
@@ -9,23 +10,6 @@ import com.kursor.chroniclesofww2.model.game.board.Division
 class StandardBattleRepository(context: Context) : BattleRepository {
 
     override val battleList: List<Battle> = initStandardScenarioList(context)
-
-    fun defaultScenarioData() =
-        Battle.Data(
-            Battle.DEFAULT,
-            Nation.DEFAULT,
-            mapOf(
-                Division.Type.INFANTRY to 9,
-                Division.Type.ARMORED to 3,
-                Division.Type.ARTILLERY to 3
-            ),
-            Nation.DEFAULT,
-            mapOf(
-                Division.Type.INFANTRY to 9,
-                Division.Type.ARMORED to 3,
-                Division.Type.ARTILLERY to 3
-            )
-        )
 
     override fun findBattleById(id: Int): Battle {
         return battleList[id]
@@ -47,7 +31,8 @@ class StandardBattleRepository(context: Context) : BattleRepository {
         val dataStringArray = context.resources.getStringArray(R.array.standard_battle_data)
         val dataList = mutableListOf<Battle.Data>()
         dataStringArray.forEachIndexed { index, dataString ->
-            val lines = dataString.trimIndent().lines()
+            Log.i("Repo", dataString)
+            val lines = dataString.lines()
             var nation1: Nation? = null
             var nation2: Nation? = null
             val nation1divisions = mutableMapOf<Division.Type, Int>()
@@ -57,7 +42,7 @@ class StandardBattleRepository(context: Context) : BattleRepository {
 
             for (line in lines) {
                 if (!line.contains(" to ")) {
-                    currentNation = Nation.valueOf(line)
+                    currentNation = Nation.valueOf(line.trim())
                     if (nation1 == null) {
                         nation1 = currentNation
                         currentNationDivisions = nation1divisions
@@ -67,7 +52,8 @@ class StandardBattleRepository(context: Context) : BattleRepository {
                     }
                     continue
                 }
-                val (typeString, quantityString) = line.split(" to ")
+                Log.i("Repo", line)
+                val (typeString, quantityString) = line.trim().split(" to ")
                 val type = Division.Type.valueOf(typeString)
                 val quantity = quantityString.toInt()
                 currentNationDivisions[type] = quantity

@@ -55,6 +55,9 @@
     <string name="create_game">Создать игру</string>
     <string name="hello_blank_fragment">Привет пустой фрагмент</string>
     <string name="save_and_done">Сохранить и готово</string>
+    <string name="save">Сохранить</string>
+    <string name="settings">Настройки</string>
+    <string name="ai_game">Игра с ИИ</string>
 
 
 </resources>

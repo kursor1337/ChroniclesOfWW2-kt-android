@@ -56,5 +56,8 @@
     <string name="join_game">Join game</string>
     <string name="create_game">Create game</string>
     <string name="save_and_done">Save and Done</string>
+    <string name="save">Save</string>
+    <string name="settings">Settings</string>
+    <string name="ai_game">ai game</string>
 
 </resources>

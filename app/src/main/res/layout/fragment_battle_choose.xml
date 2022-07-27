@@ -12,21 +12,21 @@
         <Button
             android:id="@+id/standard_battles_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Standard Battles" />
 
         <Button
             android:id="@+id/local_custom_battles_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Saved Battles" />
 
         <Button
             android:id="@+id/remote_custom_battles_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Other Users' Battles" />
 

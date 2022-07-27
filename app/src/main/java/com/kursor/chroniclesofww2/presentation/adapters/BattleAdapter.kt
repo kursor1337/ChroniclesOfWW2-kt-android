@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.databinding.RecyclerviewBattlesBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 
 class BattleAdapter(
@@ -22,34 +23,26 @@ class BattleAdapter(
         this.onItemClickListener = onItemClickListener
     }
 
-    class BattleHolder(private val activity: Activity, val view: View) :
-        RecyclerView.ViewHolder(view),
-        View.OnCreateContextMenuListener {
+    class BattleHolder(private val activity: Activity, val binding: RecyclerviewBattlesBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-        override fun onCreateContextMenu(
-            menu: ContextMenu?,
-            v: View?,
-            menuInfo: ContextMenu.ContextMenuInfo?
-        ) {
-            //activity.menuInflater.inflate(R.menu.menu_delete, menu)
-        }
-
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BattleHolder {
         return BattleHolder(
             activity,
-            LayoutInflater.from(activity)
-                .inflate(R.layout.recyclerview_battles, LinearLayout(activity), false)
+            RecyclerviewBattlesBinding.inflate(
+                LayoutInflater.from(activity),
+                LinearLayout(activity),
+                false
+            )
         )
     }
 
     override fun onBindViewHolder(holder: BattleHolder, position: Int) {
-        val textView = holder.view.findViewById<TextView>(android.R.id.text1)
-        textView.text = battleList[position].name
-        holder.view.setOnClickListener {
+        holder.binding.battleNameTextView.text = battleList[position].name
+        holder.binding.root.setOnClickListener {
             onItemClickListener?.onItemClick(
-                holder.view, position, battleList[position]
+                holder.binding.root, position, battleList[position]
             )
         }
     }

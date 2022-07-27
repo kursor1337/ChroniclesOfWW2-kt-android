@@ -29,8 +29,10 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.localGameButton.setOnClickListener(getOnClickListener(LOCAL))
-
         binding.webGameButton.setOnClickListener(getOnClickListener(WEB))
+        binding.settingsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
+        }
     }
 
     private fun getOnClickListener(multiplayerType: String) = View.OnClickListener {

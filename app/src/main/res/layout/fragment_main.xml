@@ -27,8 +27,13 @@
         android:id="@+id/ai_game_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="create host"
+        android:text="@string/ai_game"
         />
+
+    <Button android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/settings_button"
+        android:text="@string/settings" />
 
 
 </LinearLayout>

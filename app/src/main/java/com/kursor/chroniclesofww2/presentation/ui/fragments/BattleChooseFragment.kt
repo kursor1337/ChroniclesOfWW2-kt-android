@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.R
@@ -18,15 +19,16 @@ import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.BattleListViewModel
 import com.phelat.navigationresult.BundleFragment
 import com.phelat.navigationresult.navigateUp
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class BattleChooseFragment : BundleFragment() {
 
     lateinit var binding: FragmentBattleChooseBinding
 
-    val standardBattleRepository by inject<StandardBattleRepository>()
-    val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
-    val remoteCustomBattleRepository by inject<RemoteCustomBattleRepository>()
+    private val standardBattleRepository by inject<StandardBattleRepository>()
+    private val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
+    //private val remoteCustomBattleRepository by inject<RemoteCustomBattleRepository>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +42,9 @@ class BattleChooseFragment : BundleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.battleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         val battleListViewModel by viewModels<BattleListViewModel>()
-        battleListViewModel.changeDataSource(standardBattleRepository)
         battleListViewModel.getBattleLiveData().observe(viewLifecycleOwner) { newBattleList ->
             binding.battleRecyclerView.adapter =
                 BattleAdapter(requireActivity(), newBattleList).apply {
@@ -50,6 +53,8 @@ class BattleChooseFragment : BundleFragment() {
                     }
                 }
         }
+
+        battleListViewModel.changeDataSource(standardBattleRepository)
         binding.defaultMissionButton.setOnClickListener {
             navigateUpWithBattle(standardBattleRepository.defaultBattle())
         }
@@ -67,7 +72,7 @@ class BattleChooseFragment : BundleFragment() {
             battleListViewModel.changeDataSource(localCustomBattleRepository)
         }
         binding.remoteCustomBattlesButton.setOnClickListener {
-            battleListViewModel.changeDataSource(remoteCustomBattleRepository)
+            //battleListViewModel.changeDataSource(remoteCustomBattleRepository)
         }
     }
 

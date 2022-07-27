@@ -21,7 +21,6 @@ data class Battle(
         val nation1divisions: Map<Division.Type, Int>,
         val nation2: Nation,
         val nation2divisions: Map<Division.Type, Int>
-    ) {
+    )
 
-    }
 }

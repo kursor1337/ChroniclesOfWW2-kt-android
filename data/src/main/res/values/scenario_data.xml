@@ -3,63 +3,63 @@
 
     <string-array name="standard_battle_data">
         <item>      <!--0-->
-            BRITAIN
-            INFANTRY to 6
-            ARMORED to 3
-            ARTILLERY to 2
-            GERMANY
-            INFANTRY to 6
-            ARMORED to 3
+            BRITAIN\n
+            INFANTRY to 6\n
+            ARMORED to 3\n
+            ARTILLERY to 2\n
+            GERMANY\n
+            INFANTRY to 6\n
+            ARMORED to 3\n
             ARTILLERY to 2
         </item>
         <item>      <!--1-->
-            GERMANY
-            INFANTRY to 6
-            ARMORED to 4
-            ARTILLERY to 2
-            FRANCE
-            INFANTRY to 8
-            ARMORED to 2
+            GERMANY\n
+            INFANTRY to 6\n
+            ARMORED to 4\n
+            ARTILLERY to 2\n
+            FRANCE\n
+            INFANTRY to 8\n
+            ARMORED to 2\n
             ARTILLERY to 4
         </item>
         <item>      <!--2-->
-            GERMANY
-            INFANTRY to 6
-            ARMORED to 4
-            ARTILLERY to 4
-            USSR
-            INFANTRY to 8
-            ARMORED to 2
+            GERMANY\n
+            INFANTRY to 6\n
+            ARMORED to 4\n
+            ARTILLERY to 4\n
+            USSR\n
+            INFANTRY to 8\n
+            ARMORED to 2\n
             ARTILLERY to 4
         </item>
         <item>      <!--3-->
-            JAPAN
-            INFANTRY to 10
-            ARMORED to 0
-            ARTILLERY to 0
-            USA
-            INFANTRY to 6
-            ARMORED to 0
+            JAPAN\n
+            INFANTRY to 10\n
+            ARMORED to 0\n
+            ARTILLERY to 0\n
+            USA\n
+            INFANTRY to 6\n
+            ARMORED to 0\n
             ARTILLERY to 4
         </item>
         <item>      <!--4-->
-            ITALY
-            INFANTRY to 6
-            ARMORED to 4
-            ARTILLERY to 4
-            BRITAIN
-            INFANTRY to 8
-            ARMORED to 2
+            ITALY\n
+            INFANTRY to 6\n
+            ARMORED to 4\n
+            ARTILLERY to 4\n
+            BRITAIN\n
+            INFANTRY to 8\n
+            ARMORED to 2\n
             ARTILLERY to 4
         </item>
         <item>      <!--5-->
-            GERMANY
-            INFANTRY to 6
-            ARMORED to 4
-            ARTILLERY to 4
-            USA
-            INFANTRY to 8
-            ARMORED to 2
+            GERMANY\n
+            INFANTRY to 6\n
+            ARMORED to 4\n
+            ARTILLERY to 4\n
+            USA\n
+            INFANTRY to 8\n
+            ARMORED to 2\n
             ARTILLERY to 4
         </item>
     </string-array>
