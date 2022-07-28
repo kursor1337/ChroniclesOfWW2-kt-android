@@ -1,5 +1,8 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.local.LocalServer
 import com.kursor.chroniclesofww2.Settings
@@ -23,6 +26,15 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
         )
         server.startListening()
         isHostReady = true
+    }
+
+    override fun checkConditionsForServerInit(): Boolean {
+        val connectivityManager =
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val activeNetwork =
+            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+        return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
 
 

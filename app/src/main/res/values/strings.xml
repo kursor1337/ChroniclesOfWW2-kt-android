@@ -59,5 +59,9 @@
     <string name="save">Save</string>
     <string name="settings">Settings</string>
     <string name="ai_game">ai game</string>
+    <string name="find_game_by_id">Find game by ID</string>
+    <string name="search">Search</string>
+    <string name="retry">Retry</string>
+    <string name="client_init_error_message_local">U need 2b connected to wi fi</string>
 
 </resources>

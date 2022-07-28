@@ -9,4 +9,8 @@ class CreateWebGameFragment : CreateAbstractGameFragment() {
     override fun initServer() {
         TODO("Not yet implemented")
     }
+
+    override fun checkConditionsForServerInit(): Boolean {
+        TODO("Not yet implemented")
+    }
 }

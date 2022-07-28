@@ -15,7 +15,7 @@ import com.kursor.chroniclesofww2.model.game.board.Tile
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
-import com.kursor.chroniclesofww2.presentation.ui.fragments.SimpleDialogFragment
+import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 

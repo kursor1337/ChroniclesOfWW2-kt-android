@@ -50,7 +50,7 @@
     </fragment>
     <dialog
         android:id="@+id/passwordDialogFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.PasswordDialogFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.PasswordDialogFragment"
         android:label="PasswordDialogFragment"
         tools:layout="@layout/dialog_password"/>
     <fragment

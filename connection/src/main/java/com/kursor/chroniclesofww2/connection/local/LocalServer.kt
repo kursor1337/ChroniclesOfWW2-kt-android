@@ -25,7 +25,7 @@ class LocalServer(
     private val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
             handler.post {
-                listener.onRegistered(Host(serviceInfo))
+                listener.onStartedListening(Host(serviceInfo))
             }
         }
 

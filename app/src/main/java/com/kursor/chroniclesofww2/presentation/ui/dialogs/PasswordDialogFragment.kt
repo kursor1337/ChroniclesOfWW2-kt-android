@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments
+package com.kursor.chroniclesofww2.presentation.ui.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater

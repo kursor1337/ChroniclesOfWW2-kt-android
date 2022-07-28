@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.objects.Const.connection.HOST_IS_WITH_PASSWORD
@@ -17,6 +16,7 @@ import com.kursor.chroniclesofww2.objects.Const.connection.PASSWORD
 import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_FOR_ACCEPT
 import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
@@ -24,7 +24,7 @@ import com.kursor.chroniclesofww2.databinding.FragmentCreateGameBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.data.GameData
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
-import com.kursor.chroniclesofww2.presentation.ui.fragments.SimpleDialogFragment
+import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -95,7 +95,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             Tools.currentConnection = connection
         }
 
-        override fun onRegistered(host: com.kursor.chroniclesofww2.connection.Host) {
+        override fun onStartedListening(host: Host) {
             buildMessageWaitingForConnections()
         }
 
@@ -135,13 +135,22 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             )
         }
         binding.readyButton.setOnClickListener { v ->
+            if (!checkConditionsForServerInit()) {
+                Toast.makeText(
+                    requireContext(),
+                    "U need to connect to wi fi network",
+                    Toast.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
             initServer()
             v.isEnabled = false
-            buildMessageWaitingForConnections()
         }
     }
 
     abstract fun initServer()
+
+    abstract fun checkConditionsForServerInit(): Boolean
 
     private fun buildMessageWaitingForConnections(): SimpleDialogFragment {
         val dialog: SimpleDialogFragment =

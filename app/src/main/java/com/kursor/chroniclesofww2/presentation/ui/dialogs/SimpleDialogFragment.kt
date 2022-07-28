@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments
+package com.kursor.chroniclesofww2.presentation.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog

@@ -26,7 +26,7 @@ import com.kursor.chroniclesofww2.connection.interfaces.Client
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
-import com.kursor.chroniclesofww2.presentation.ui.fragments.SimpleDialogFragment
+import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment
 
 abstract class JoinAbstractGameFragment : BundleFragment() {
@@ -44,6 +44,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
 
     abstract val actionToPasswordDialogFragmentId: Int
+    abstract val clientInitErrorMessageResId: Int
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,11 +58,9 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!this::client.isInitialized) {
-            initClient()
-            client.discoveryListeners.add(clientDiscoveryListener)
-            client.startDiscovery()
-        }
+        tryToInitClient()
+
+        binding.retryTextView.setOnClickListener { tryToInitClient() }
 
         hostAdapter = HostAdapter(requireActivity(), hostList).apply {
             setOnItemClickListener { view, position, host ->
@@ -73,9 +72,40 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
     abstract fun initClient()
 
+    abstract fun checkConditionsForClientInit(): Boolean
+
+    fun tryToInitClient() {
+        if (this::client.isInitialized) {
+            Toast.makeText(requireContext(), "Client already initialized", Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+        if (!checkConditionsForClientInit()) {
+            Toast.makeText(requireContext(), clientInitErrorMessageResId, Toast.LENGTH_LONG)
+                .show()
+            showError()
+            return
+        }
+        initClient()
+        client.discoveryListeners.add(clientDiscoveryListener)
+        client.startDiscovery()
+        showList()
+    }
+
+    fun showError() {
+        binding.notConnectedLayout.visibility = View.VISIBLE
+        binding.hostsRecyclerView.visibility = View.GONE
+    }
+
+    fun showList() {
+        binding.notConnectedLayout.visibility = View.GONE
+        binding.hostsRecyclerView.visibility = View.VISIBLE
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        client.stopDiscovery()
+        if (this::client.isInitialized) client.stopDiscovery()
     }
 
     protected val receiveListener: Connection.ReceiveListener =
@@ -146,7 +176,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
         override fun onConnectionEstablished(connection: Connection) {
             Tools.currentConnection = connection.apply {
-                this.receiveListener = receiveListener
+                this.receiveListener = this@JoinAbstractGameFragment.receiveListener
             }
             Tools.currentConnection!!.send(REQUEST_FOR_ACCEPT)
             Log.i("Client", REQUEST_FOR_ACCEPT)
