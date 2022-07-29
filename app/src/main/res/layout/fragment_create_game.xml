@@ -26,16 +26,6 @@
         android:lines="1">
     </EditText>
 
-    <TextView
-        android:textColor="@color/colorWhite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:text="@string/choose_mission"
-        android:textAlignment="center">
-
-    </TextView>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

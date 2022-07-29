@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.ChroniclesOfWW2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -12,10 +12,33 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="android:buttonStyle">@style/buttonStyle</item>
+        <item name="buttonStyle">@style/buttonStyle</item>
+        <item name="editTextStyle">@style/editTextStyle</item>
+        <item name="android:editTextStyle">@style/editTextStyle</item>
+        <item name="android:textViewStyle">@style/textViewStyle</item>
+
+
     </style>
 
     <style name="ThemeOverlay.ChroniclesOfWW2.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+
+    <style name="buttonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/drawable_button</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="editTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/drawable_default</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="textViewStyle">
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 </resources>

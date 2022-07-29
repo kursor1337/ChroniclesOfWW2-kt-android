@@ -58,6 +58,10 @@
     <string name="save">Сохранить</string>
     <string name="settings">Настройки</string>
     <string name="ai_game">Игра с ИИ</string>
+    <string name="find_game_by_id">Найти игру по ID</string>
+    <string name="search">Поиск</string>
+    <string name="retry">Повторить</string>
+    <string name="client_init_error_message_local">Вы должны быть подключены к Wi-Fi</string>
 
 
 </resources>

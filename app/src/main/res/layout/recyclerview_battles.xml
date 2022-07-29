@@ -7,12 +7,13 @@
     >
 
     <TextView
+        android:background="@drawable/drawable_default"
         android:id="@+id/battle_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:gravity="center_vertical"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/black"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:textSize="22sp" />
 

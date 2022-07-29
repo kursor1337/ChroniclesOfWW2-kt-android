@@ -65,7 +65,7 @@
     <dialog
         tools:layout="@layout/fragment_create_battle"
         android:id="@+id/createNewBattleFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.CreateNewBattleFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment"
         android:label="CreateNewBattleFragment" />
     <fragment
         tools:layout="@layout/fragment_settings"

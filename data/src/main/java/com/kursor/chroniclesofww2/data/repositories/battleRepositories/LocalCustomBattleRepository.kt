@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.battleRepositories
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -15,8 +16,10 @@ class LocalCustomBattleRepository(
             Types.newParameterizedType(MutableList::class.java, Battle::class.java)
         )
 
-    val sharedPreferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
-    override val battleList: MutableList<Battle> = initCustomBattles()
+    private val sharedPreferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+    private val _battleList: MutableList<Battle> = initCustomBattles()
+    override val battleList: List<Battle>
+        get() = _battleList
     var nextBattleId = CUSTOM_PREFIX + battleList.size
         private set
 
@@ -31,7 +34,7 @@ class LocalCustomBattleRepository(
     }
 
     override fun saveBattle(battle: Battle) {
-        battleList.add(battle)
+        _battleList.add(battle)
         updateStorage()
         nextBattleId++
     }
@@ -42,13 +45,13 @@ class LocalCustomBattleRepository(
 
     fun deleteBattle(id: Int) {
         val index = id - CUSTOM_PREFIX
-        battleList.removeAt(index)
+        _battleList.removeAt(index)
         updateStorage()
         nextBattleId--
     }
 
     fun updateStorage() {
-        sharedPreferences.edit().putString(KEY, moshi.toJson(battleList)).apply()
+        sharedPreferences.edit().putString(KEY, moshi.toJson(_battleList)).apply()
     }
 
 

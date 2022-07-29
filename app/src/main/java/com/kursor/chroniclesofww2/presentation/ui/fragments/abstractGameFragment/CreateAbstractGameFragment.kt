@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.objects.Const.connection.HOST_IS_WITH_PASSWORD
@@ -23,11 +24,11 @@ import com.kursor.chroniclesofww2.connection.interfaces.Server
 import com.kursor.chroniclesofww2.databinding.FragmentCreateGameBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.data.GameData
+import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
+import com.kursor.chroniclesofww2.viewModels.BattleViewModel
 import com.phelat.navigationresult.BundleFragment
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 abstract class CreateAbstractGameFragment : BundleFragment() {
 
@@ -43,6 +44,8 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     lateinit var battle: Battle
 
     abstract val actionToBattleChooseFragmentId: Int
+
+    val battleViewModel by activityViewModels<BattleViewModel>()
 
     protected val receiveListener = object : Connection.ReceiveListener {
         override fun onReceive(string: String) {
@@ -92,7 +95,9 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     protected val serverListener = object : Server.Listener {
         override fun onConnectionEstablished(connection: Connection) {
-            Tools.currentConnection = connection
+            Tools.currentConnection = connection.apply {
+                this.receiveListener = this@CreateAbstractGameFragment.receiveListener
+            }
         }
 
         override fun onStartedListening(host: Host) {
@@ -101,18 +106,6 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
         override fun onListeningStartError(e: Exception) {
             Toast.makeText(activity, "Listening start error", Toast.LENGTH_LONG).show()
-        }
-    }
-
-
-    override fun onFragmentResult(requestCode: Int, bundle: Bundle) {
-        super.onFragmentResult(requestCode, bundle)
-        if (requestCode == BATTLE_REQUEST_CODE) {
-            chosenScenarioJson = bundle.getString(Const.game.BATTLE)!!
-            battle = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                .adapter(Battle::class.java)
-                .fromJson(chosenScenarioJson) ?: return
-            binding.chosenScenarioTextView.text = battle.name
         }
     }
 
@@ -127,6 +120,13 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        battleViewModel.battleLiveData.observe(viewLifecycleOwner) { battle ->
+            chosenScenarioJson = Moshi.BATTLE_ADAPTER.toJson(battle)
+            this.battle = battle
+            binding.chosenScenarioTextView.text = battle.name
+            Log.i("CreateAbstractGameFragment", "set name battle")
+        }
 
         binding.chooseScenarioButton.setOnClickListener {
             navigate(
@@ -168,7 +168,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         return dialog
     }
 
-    private fun buildMessageConnectionRequest(host: com.kursor.chroniclesofww2.connection.Host) {
+    private fun buildMessageConnectionRequest(host: Host) {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
             .setMessage(host.name + " wants to connect to this  device. Do you agree?")
             .setCancelable(false)

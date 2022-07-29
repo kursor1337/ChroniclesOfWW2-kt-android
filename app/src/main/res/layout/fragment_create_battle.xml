@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="@string/nations"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/black_overlay"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +42,8 @@
             <Spinner
                 android:id="@+id/nation1_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_overlay"/>
 
             <EditText
                 android:id="@+id/infantry1_edit_text"

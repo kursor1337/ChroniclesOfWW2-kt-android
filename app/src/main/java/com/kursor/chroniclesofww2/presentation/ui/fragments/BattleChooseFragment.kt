@@ -1,25 +1,26 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.battleRepositories.RemoteCustomBattleRepository
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardBattleRepository
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.CreateAbstractGameFragment.Companion.BATTLE_REQUEST_CODE
 import com.kursor.chroniclesofww2.viewModels.BattleListViewModel
+import com.kursor.chroniclesofww2.viewModels.BattleViewModel
 import com.phelat.navigationresult.BundleFragment
 import com.phelat.navigationresult.navigateUp
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class BattleChooseFragment : BundleFragment() {
@@ -29,6 +30,8 @@ class BattleChooseFragment : BundleFragment() {
     private val standardBattleRepository by inject<StandardBattleRepository>()
     private val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
     //private val remoteCustomBattleRepository by inject<RemoteCustomBattleRepository>()
+
+    val battleViewModel by activityViewModels<BattleViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,7 +64,7 @@ class BattleChooseFragment : BundleFragment() {
         binding.customMissionButton.setOnClickListener {
             navigate(
                 R.id.action_battleChooseFragment_to_createNewBattleFragment,
-                CUSTOM_MISSION_REQUEST_CODE
+                BATTLE_REQUEST_CODE
             )
         }
 
@@ -77,14 +80,17 @@ class BattleChooseFragment : BundleFragment() {
     }
 
     override fun onFragmentResult(requestCode: Int, bundle: Bundle) {
-        if (requestCode != CUSTOM_MISSION_REQUEST_CODE) return
-        navigateUp(BATTLE_REQUEST_CODE, bundle)
+        Log.i("BattleChooseFragment", "onFragmentResult")
+        if (requestCode != BATTLE_REQUEST_CODE) return
+        val battle = Moshi.BATTLE_ADAPTER.fromJson(bundle.getString(BATTLE)!!)!!
+        Log.i("BattleChooseFragment", "navigate up")
+        navigateUpWithBattle(battle)
+        Log.i("BattleChooseFragment", "navigated up")
     }
 
     private fun navigateUpWithBattle(battle: Battle) {
-        navigateUp(BATTLE_REQUEST_CODE, Bundle().apply {
-            putString(BATTLE, Moshi.BATTLE_ADAPTER.toJson(battle))
-        })
+        battleViewModel.battleLiveData.value = battle
+        requireActivity().onBackPressed()
     }
 
     companion object {
