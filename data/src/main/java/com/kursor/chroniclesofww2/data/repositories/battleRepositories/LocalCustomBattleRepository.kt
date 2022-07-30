@@ -34,13 +34,15 @@ class LocalCustomBattleRepository(
     }
 
     override fun saveBattle(battle: Battle) {
-        _battleList.add(battle)
+        _battleList.add(Battle(nextBattleId(), battle.name, battle.description, battle.data))
         updateStorage()
         nextBattleId++
     }
 
     fun deleteBattle(battle: Battle) {
-        deleteBattle(battle.id)
+        _battleList.remove(battle)
+        updateStorage()
+        nextBattleId--
     }
 
     fun deleteBattle(id: Int) {

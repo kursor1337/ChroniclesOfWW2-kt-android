@@ -62,6 +62,10 @@
     <string name="search">Поиск</string>
     <string name="retry">Повторить</string>
     <string name="client_init_error_message_local">Вы должны быть подключены к Wi-Fi</string>
+    <string name="delete">Удалить</string>
+    <string name="standard_battles">Стандартные битвы</string>
+    <string name="saved_battles">Сохраненные битвы</string>
+    <string name="other_users_battles">Битвы от других пользователей</string>
 
 
 </resources>

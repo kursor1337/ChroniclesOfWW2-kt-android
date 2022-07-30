@@ -14,21 +14,21 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Standard Battles" />
+            android:text="@string/standard_battles" />
 
         <Button
             android:id="@+id/local_custom_battles_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Saved Battles" />
+            android:text="@string/saved_battles" />
 
         <Button
             android:id="@+id/remote_custom_battles_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Other Users' Battles" />
+            android:text="@string/other_users_battles" />
 
     </LinearLayout>
 

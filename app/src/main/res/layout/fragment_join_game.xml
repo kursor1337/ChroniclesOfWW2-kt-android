@@ -9,8 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         >
         <EditText
+            android:paddingVertical="6sp"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -20,7 +22,7 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/search"
             android:id="@+id/search_game_button"
             />
@@ -52,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/client_init_error_text_view"
                 android:textAlignment="center"
+                android:textSize="22sp"
                 />
 
             <TextView

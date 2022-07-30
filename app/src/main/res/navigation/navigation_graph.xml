@@ -71,5 +71,14 @@
         tools:layout="@layout/fragment_settings"
         android:id="@+id/settingsFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_savedBattlesManagementFragment"
+            app:destination="@id/savedBattlesManagementFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_saved_battles_management"
+        android:id="@+id/savedBattlesManagementFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.SavedBattlesManagementFragment"
+        android:label="SavedBattlesManagementFragment" />
 </navigation>

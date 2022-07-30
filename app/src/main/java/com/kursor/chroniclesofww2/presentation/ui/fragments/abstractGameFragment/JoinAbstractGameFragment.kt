@@ -58,6 +58,8 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.clientInitErrorTextView.setText(clientInitErrorMessageResId)
+
         tryToInitClient()
 
         binding.retryTextView.setOnClickListener { tryToInitClient() }

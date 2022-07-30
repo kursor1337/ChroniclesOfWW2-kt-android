@@ -8,6 +8,7 @@ import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
 import java.io.*
+import java.lang.NullPointerException
 import java.lang.Thread.sleep
 import java.net.ServerSocket
 import java.net.Socket
@@ -25,7 +26,12 @@ class LocalServer(
     private val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
             handler.post {
-                listener.onStartedListening(Host(serviceInfo))
+                try {
+                    listener.onStartedListening(Host(serviceInfo))
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    listener.onStartedListening()
+                }
             }
         }
 

@@ -19,6 +19,7 @@ interface Server {
     interface Listener {
         fun onConnectionEstablished(connection: Connection)
         fun onStartedListening(host: Host)
+        fun onStartedListening()
         fun onListeningStartError(e: Exception)
         fun onFail() {}
     }

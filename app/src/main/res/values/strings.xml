@@ -63,5 +63,9 @@
     <string name="search">Search</string>
     <string name="retry">Retry</string>
     <string name="client_init_error_message_local">U need 2b connected to wi fi</string>
+    <string name="delete">Delete</string>
+    <string name="standard_battles">Standard Battles</string>
+    <string name="saved_battles">Saved Battles</string>
+    <string name="other_users_battles">Other Users\' Battles</string>
 
 </resources>

@@ -104,6 +104,10 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             buildMessageWaitingForConnections()
         }
 
+        override fun onStartedListening() {
+            buildMessageWaitingForConnections()
+        }
+
         override fun onListeningStartError(e: Exception) {
             Toast.makeText(activity, "Listening start error", Toast.LENGTH_LONG).show()
         }

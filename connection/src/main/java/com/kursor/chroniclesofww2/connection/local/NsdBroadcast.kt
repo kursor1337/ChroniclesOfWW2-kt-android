@@ -23,7 +23,7 @@ class NsdBroadcast(
         fun onRegistrationFailed(arg0: NsdServiceInfo, arg1: Int)
     }
 
-    private var serviceName = SERVICE_NAME
+    private var nsdServiceName = SERVICE_NAME
 
     private val mNsdRegistrationListener = object : NsdManager.RegistrationListener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
@@ -31,7 +31,7 @@ class NsdBroadcast(
                 TAG, "onServiceRegistered: ${serviceInfo.port}; " +
                         "${serviceInfo.serviceName}; ${serviceInfo.serviceType} "
             )
-            serviceName = serviceInfo.serviceName
+            nsdServiceName = serviceInfo.serviceName
             broadcastListener.onServiceRegistered(serviceInfo)
         }
 
@@ -47,7 +47,7 @@ class NsdBroadcast(
     fun registerService(name: String, localPort: Int) {
         val serviceInfo = NsdServiceInfo().apply {
             port = localPort
-            serviceName = "$serviceName.$name"
+            serviceName = "${nsdServiceName}.$name"
             serviceType = SERVICE_TYPE
             Log.i(TAG, "Service registered: $port; $serviceName; $serviceType ")
         }
@@ -60,7 +60,7 @@ class NsdBroadcast(
 
     fun unregisterService() {
         Log.i(TAG, "Service unregistered")
-        serviceName = SERVICE_NAME
+        nsdServiceName = SERVICE_NAME
         try {
             nsdManager.unregisterService(mNsdRegistrationListener)
         } catch (e: Exception) {
