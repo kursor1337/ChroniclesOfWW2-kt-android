@@ -66,6 +66,7 @@
     <string name="standard_battles">Стандартные битвы</string>
     <string name="saved_battles">Сохраненные битвы</string>
     <string name="other_users_battles">Битвы от других пользователей</string>
+    <string name="non_network_game">Игра без сети</string>
 
 
 </resources>

@@ -67,5 +67,6 @@
     <string name="standard_battles">Standard Battles</string>
     <string name="saved_battles">Saved Battles</string>
     <string name="other_users_battles">Other Users\' Battles</string>
+    <string name="non_network_game">Non-network game</string>
 
 </resources>

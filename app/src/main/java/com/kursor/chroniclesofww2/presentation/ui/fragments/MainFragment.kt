@@ -28,6 +28,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.singlePlayerGameButton.setOnClickListener {
+            
+        }
         binding.localGameButton.setOnClickListener(getOnClickListener(LOCAL))
         binding.webGameButton.setOnClickListener(getOnClickListener(WEB))
         binding.settingsButton.setOnClickListener {

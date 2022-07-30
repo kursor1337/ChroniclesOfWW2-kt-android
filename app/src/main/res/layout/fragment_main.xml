@@ -24,10 +24,10 @@
 
 
     <Button
-        android:id="@+id/ai_game_button"
+        android:id="@+id/single_player_game_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ai_game"
+        android:text="@string/non_network_game"
         />
 
     <Button android:layout_height="wrap_content"

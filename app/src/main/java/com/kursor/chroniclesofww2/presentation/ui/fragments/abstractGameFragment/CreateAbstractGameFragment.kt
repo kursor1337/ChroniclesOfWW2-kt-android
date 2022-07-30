@@ -30,6 +30,11 @@ import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
 import com.phelat.navigationresult.BundleFragment
 
+/**
+ *
+ * THIS ABSTRACT CLASS IS FOR MULTIPLAYER!!!!!!!!!!!!
+ * FOR SINGLEPLAYER THERE IS ANOTHER CLASS CreateSinglePlayerGameFragment.kt
+ */
 abstract class CreateAbstractGameFragment : BundleFragment() {
 
     lateinit var binding: FragmentCreateGameBinding
