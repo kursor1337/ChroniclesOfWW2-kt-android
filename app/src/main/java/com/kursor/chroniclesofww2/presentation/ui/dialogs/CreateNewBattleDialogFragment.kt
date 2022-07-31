@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
@@ -16,6 +17,7 @@ import com.kursor.chroniclesofww2.databinding.FragmentCreateBattleBinding
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
+import com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment
 import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.CreateAbstractGameFragment.Companion.BATTLE_REQUEST_CODE
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
 import com.phelat.navigationresult.navigateUp
@@ -29,8 +31,16 @@ class CreateNewBattleDialogFragment : DialogFragment() {
     private var nation1: Nation? = null
     private var nation2: Nation? = null
 
-    val battleViewModel by activityViewModels<BattleViewModel>()
+    var navigationGraphId: Int? = null
+
+    val battleViewModel by navGraphViewModels<BattleViewModel>(R.id.navigation_local_game)
     val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        navigationGraphId = requireArguments().getInt(BattleChooseFragment.NAVIGATION_GRAPH_ID)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

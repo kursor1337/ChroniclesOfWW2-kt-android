@@ -48,7 +48,7 @@
             android:text="@string/choose_mission"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/choose_scenario_button"
+            android:id="@+id/choose_battle_button"
             android:background="@drawable/drawable_button">
         </Button>
 

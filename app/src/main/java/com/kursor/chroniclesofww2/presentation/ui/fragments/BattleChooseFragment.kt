@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.objects.Moshi
@@ -31,7 +32,14 @@ class BattleChooseFragment : BundleFragment() {
     private val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
     //private val remoteCustomBattleRepository by inject<RemoteCustomBattleRepository>()
 
-    val battleViewModel by activityViewModels<BattleViewModel>()
+    var navigationGraphId: Int? = null
+
+    val battleViewModel by navGraphViewModels<BattleViewModel>(navigationGraphId!!)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        navigationGraphId = requireArguments().getInt(NAVIGATION_GRAPH_ID)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,6 +105,8 @@ class BattleChooseFragment : BundleFragment() {
         const val MISSION_FRAGMENT = "MISSION_FRAGMENT"
 
         const val CUSTOM_MISSION_REQUEST_CODE = 505
+
+        const val NAVIGATION_GRAPH_ID = "navigation graph id"
     }
 
 }

@@ -27,4 +27,9 @@
         android:id="@+id/createNewBattleDialogFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment"
         android:label="CreateNewBattleDialogFragment" />
+    <fragment
+        tools:layout="@layout/fragment_game_data"
+        android:id="@+id/gameDataFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.GameDataFragment"
+        android:label="GameDataFragment" />
 </navigation>

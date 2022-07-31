@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.connection.Host
@@ -29,6 +31,7 @@ import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
+import com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
 import com.phelat.navigationresult.BundleFragment
@@ -54,8 +57,8 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     abstract val actionToBattleChooseFragmentId: Int
 
-    val battleViewModel by activityViewModels<BattleViewModel>()
-    val gameDataViewModel by activityViewModels<GameDataViewModel>()
+    abstract val battleViewModel: BattleViewModel
+    abstract val gameDataViewModel: GameDataViewModel
     val settings by inject<Settings>()
 
     protected val receiveListener = object : Connection.ReceiveListener {
@@ -151,10 +154,10 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             binding.gameDataFragment.visibility = View.VISIBLE
         }
 
-        binding.chooseScenarioButton.setOnClickListener {
-            navigate(
+        binding.chooseBattleButton.setOnClickListener {
+            findNavController().navigate(
                 actionToBattleChooseFragmentId,
-                BATTLE_REQUEST_CODE
+                bundleOf(BattleChooseFragment.NAVIGATION_GRAPH_ID to R.id.navigation_local_game)
             )
         }
         binding.readyButton.setOnClickListener { v ->

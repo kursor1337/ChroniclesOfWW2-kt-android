@@ -6,6 +6,8 @@
     app:startDestination="@id/mainFragment">
 
 
+    <include app:graph="@navigation/navigation_local_game" />
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.MainFragment"
