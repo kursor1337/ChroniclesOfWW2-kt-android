@@ -7,10 +7,9 @@ class BattleManager(val repositories: List<BattleRepository>, ) {
 
     fun findBattleById(id: Int): Battle? {
         for (repo in repositories) {
-            if (id / repo.PREFIX != 1) continue
+            if ((id - repo.PREFIX) / 1_000_000_000 != 0) continue
             return repo.findBattleById(id)
         }
         return null
     }
-
 }

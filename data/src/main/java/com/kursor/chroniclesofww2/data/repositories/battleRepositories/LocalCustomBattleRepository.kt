@@ -37,7 +37,15 @@ class LocalCustomBattleRepository(
     }
 
     override fun saveBattle(battle: Battle) {
-        _battleList.add(Battle(nextBattleId(), battle.name, battle.description, battle.data))
+//        val battleData = Battle.Data(
+//            nextBattleId(),
+//            battle.data.nation1,
+//            battle.data.nation1divisions,
+//            battle.data.nation2,
+//            battle.data.nation2divisions
+//        )
+//        Battle(nextBattleId(), battle.name, battle.description, battle.data)
+        _battleList.add(battle)
         updateStorage()
         nextBattleId++
     }

@@ -30,6 +30,7 @@ class CreateNewBattleDialogFragment : DialogFragment() {
     private var nation2: Nation? = null
 
     val battleViewModel by activityViewModels<BattleViewModel>()
+    val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,7 +86,7 @@ class CreateNewBattleDialogFragment : DialogFragment() {
         binding.readyAndSaveButton.setOnClickListener {
             val battle = getBattleFromViews() ?: return@setOnClickListener
             battleViewModel.battleLiveData.value = battle
-            val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
+
             localCustomBattleRepository.saveBattle(battle)
             findNavController().popBackStack(R.id.battleChooseFragment, inclusive = true)
         }
@@ -120,9 +121,9 @@ class CreateNewBattleDialogFragment : DialogFragment() {
         }
 
         val battle = Battle(
-            -1, newMissionName, newMissionIntro,
+            localCustomBattleRepository.nextBattleId(), newMissionName, newMissionIntro,
             Battle.Data(
-                -1, nation1!!, mapOf(
+                localCustomBattleRepository.nextBattleId(), nation1!!, mapOf(
                     Division.Type.INFANTRY to player1infantry,
                     Division.Type.ARMORED to player1armored,
                     Division.Type.ARTILLERY to player1artillery
