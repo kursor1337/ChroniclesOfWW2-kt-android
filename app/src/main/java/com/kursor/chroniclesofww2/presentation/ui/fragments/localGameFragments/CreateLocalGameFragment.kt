@@ -11,13 +11,12 @@ import org.koin.android.ext.android.inject
 
 class CreateLocalGameFragment : CreateAbstractGameFragment() {
 
-    val settings by inject<Settings>()
 
     override val actionToBattleChooseFragmentId =
         R.id.action_createLocalGameFragment_to_battleChooseFragment
 
     override fun initServer() {
-        if (chosenScenarioJson.isBlank()) return
+        if (gameDataJson.isBlank()) return
         server = LocalServer(
             requireActivity(),
             settings.username,

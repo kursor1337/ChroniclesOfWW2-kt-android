@@ -11,6 +11,9 @@ class LocalCustomBattleRepository(
     context: Context
 ) : MutableBattleRepository {
 
+
+    override val PREFIX = 1_000_000_000
+
     private val moshi =
         Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter<MutableList<Battle>>(
             Types.newParameterizedType(MutableList::class.java, Battle::class.java)
@@ -20,12 +23,12 @@ class LocalCustomBattleRepository(
     private val _battleList: MutableList<Battle> = initCustomBattles()
     override val battleList: List<Battle>
         get() = _battleList
-    var nextBattleId = CUSTOM_PREFIX + battleList.size
+    var nextBattleId = PREFIX + battleList.size
         private set
 
 
     override fun findBattleById(id: Int): Battle {
-        val index = id - CUSTOM_PREFIX
+        val index = id - PREFIX
         return battleList[index]
     }
 
@@ -46,7 +49,7 @@ class LocalCustomBattleRepository(
     }
 
     fun deleteBattle(id: Int) {
-        val index = id - CUSTOM_PREFIX
+        val index = id - PREFIX
         _battleList.removeAt(index)
         updateStorage()
         nextBattleId--
@@ -65,7 +68,6 @@ class LocalCustomBattleRepository(
     }
 
     companion object {
-        private const val CUSTOM_PREFIX = 1_000_000_000
         private const val PREF = "pref"
         private const val KEY = "CustomBattleRepository_key"
     }

@@ -17,6 +17,7 @@ import com.kursor.chroniclesofww2.objects.Const.connection.PASSWORD
 import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_FOR_ACCEPT
 import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
@@ -28,7 +29,9 @@ import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
+import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
 import com.phelat.navigationresult.BundleFragment
+import org.koin.android.ext.android.inject
 
 /**
  *
@@ -41,7 +44,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     var currentDialog: DialogFragment? = null
 
-    var chosenScenarioJson = ""
+    var gameDataJson = ""
     protected lateinit var server: Server
     lateinit var connection: Connection
     protected var isHostReady = false
@@ -51,6 +54,8 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     abstract val actionToBattleChooseFragmentId: Int
 
     val battleViewModel by activityViewModels<BattleViewModel>()
+    val gameDataViewModel by activityViewModels<GameDataViewModel>()
+    val settings by inject<Settings>()
 
     protected val receiveListener = object : Connection.ReceiveListener {
         override fun onReceive(string: String) {
@@ -65,11 +70,11 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                 }
                 REQUEST_GAME_DATA -> {
                     Log.i("Server", "Client sent $REQUEST_GAME_DATA")
-                    connection.send(chosenScenarioJson)
+                    connection.send(gameDataJson)
                     val intent = Intent(activity, GameActivity::class.java)
                     intent.putExtra(Const.connection.CONNECTED_DEVICE, connection.host)
                         .putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
-                        .putExtra(Const.game.BATTLE, chosenScenarioJson)
+                        .putExtra(Const.game.BATTLE, gameDataJson)
                     Tools.currentConnection = connection
                     server.stopListening()
                     startActivity(intent)
@@ -103,6 +108,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             Tools.currentConnection = connection.apply {
                 this.receiveListener = this@CreateAbstractGameFragment.receiveListener
             }
+            gameDataViewModel.enemyName = connection.host.name
         }
 
         override fun onStartedListening(host: Host) {
@@ -130,11 +136,18 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.gameDataFragment.visibility = View.GONE
+        gameDataViewModel.apply {
+            myName = settings.username
+            meInitiator = true
+        }
+
         battleViewModel.battleLiveData.observe(viewLifecycleOwner) { battle ->
-            chosenScenarioJson = Moshi.BATTLE_ADAPTER.toJson(battle)
             this.battle = battle
+            gameDataViewModel.battleData = battle.data
             binding.chosenScenarioTextView.text = battle.name
             Log.i("CreateAbstractGameFragment", "set name battle")
+            binding.gameDataFragment.visibility = View.VISIBLE
         }
 
         binding.chooseScenarioButton.setOnClickListener {

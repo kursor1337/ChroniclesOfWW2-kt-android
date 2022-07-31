@@ -19,6 +19,7 @@ import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.objects.Const.game.MULTIPLAYER_GAME_MODE
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter
@@ -28,6 +29,7 @@ import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment
+import org.koin.android.ext.android.inject
 
 abstract class JoinAbstractGameFragment : BundleFragment() {
 
@@ -45,6 +47,9 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
     abstract val actionToPasswordDialogFragmentId: Int
     abstract val clientInitErrorMessageResId: Int
+
+
+    val settings by inject<Settings>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

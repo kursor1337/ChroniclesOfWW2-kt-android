@@ -11,9 +11,6 @@ import java.util.*
 
 object Tools {
 
-    private const val USERNAME = "username"
-    private const val SCORE = "score"
-
     var currentConnection: Connection? = null
 
     fun getScreenWidth() = Resources.getSystem().displayMetrics.widthPixels

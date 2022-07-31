@@ -6,6 +6,8 @@ import com.kursor.chroniclesofww2.model.game.board.Division
 
 interface BattleRepository {
 
+    val PREFIX: Int
+
     val battleList: List<Battle>
 
     fun findBattleById(id: Int): Battle

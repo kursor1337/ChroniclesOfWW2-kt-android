@@ -12,8 +12,6 @@ import org.koin.android.ext.android.inject
 
 class JoinLocalGameFragment : JoinAbstractGameFragment() {
 
-    val settings by inject<Settings>()
-
     override val actionToPasswordDialogFragmentId: Int =
         R.id.action_joinLocalGameFragment_to_passwordDialogFragment
     override val clientInitErrorMessageResId: Int =

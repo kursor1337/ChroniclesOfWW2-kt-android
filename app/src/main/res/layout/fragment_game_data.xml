@@ -223,5 +223,44 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/lower_vertical_layout">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Board size"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/board_height_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="Height"
+                android:paddingHorizontal="12sp" />
+
+            <EditText
+                android:id="@+id/board_width_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="Width"
+                android:paddingHorizontal="12sp" />
+
+            <Button
+                android:id="@+id/default_board_size_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

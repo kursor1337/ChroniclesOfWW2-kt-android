@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -52,6 +53,21 @@
         </Button>
 
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/game_data_fragment"
+        >
+
+        <fragment
+            tools:layout="@layout/fragment_game_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.GameDataFragment"
+            />
+
+    </FrameLayout>
 
     <Button
         android:background="@drawable/drawable_button"

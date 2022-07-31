@@ -9,6 +9,8 @@ import com.kursor.chroniclesofww2.model.game.board.Division
 
 class StandardBattleRepository(context: Context) : BattleRepository {
 
+    override val PREFIX: Int = 0
+
     override val battleList: List<Battle> = initStandardScenarioList(context)
 
     override fun findBattleById(id: Int): Battle {
