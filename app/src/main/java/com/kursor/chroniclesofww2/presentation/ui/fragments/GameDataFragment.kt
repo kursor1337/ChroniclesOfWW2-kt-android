@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.kursor.chroniclesofww2.data.repositories.BattleManager
 import com.kursor.chroniclesofww2.databinding.FragmentGameDataBinding
+import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.board.Division
+import com.kursor.chroniclesofww2.model.game.board.Division.Type.*
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
 import org.koin.android.ext.android.inject
@@ -25,7 +27,7 @@ class GameDataFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentGameDataBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,27 +41,33 @@ class GameDataFragment : Fragment() {
                 binding.boardHeightEditText.setText(Board.DEFAULT_SIZE.toString())
             }
         }
-        binding.battleNameTextView.text =
-            battleManager.findBattleById(gameDataViewModel.battleData.id)?.name
+        gameDataViewModel.apply {
+            battleDataLiveData.observe(viewLifecycleOwner) { battleData ->
+                binding.battleNameTextView.text =
+                    battleManager.findBattleById(battleData.id)?.name
+                setTextsToViews(battleData)
+            }
+            myNameLiveData.observe(viewLifecycleOwner) { myName ->
+                binding.myNameTextView.text = myName
+            }
+            enemyNameLiveData.observe(viewLifecycleOwner) { enemyName ->
+                binding.enemyNameTextView.text = enemyName
+            }
+        }
+
     }
 
 
-    fun setTextsToViews() {
-        binding.nation1TextView.text = gameDataViewModel.battleData.nation1.toString()
-        binding.nation2TextView.text = gameDataViewModel.battleData.nation2.toString()
+    fun setTextsToViews(battleData: Battle.Data) {
+        binding.nation1TextView.text = battleData.nation1.toString()
+        binding.nation2TextView.text = battleData.nation2.toString()
 
-        binding.infantry1TextView.text =
-            gameDataViewModel.battleData.nation1divisions[Division.Type.INFANTRY].toString()
-        binding.infantry2TextView.text =
-            gameDataViewModel.battleData.nation2divisions[Division.Type.INFANTRY].toString()
-        binding.armored1TextView.text =
-            gameDataViewModel.battleData.nation1divisions[Division.Type.ARMORED].toString()
-        binding.armored2TextView.text =
-            gameDataViewModel.battleData.nation2divisions[Division.Type.ARMORED].toString()
-        binding.artillery1TextView.text =
-            gameDataViewModel.battleData.nation1divisions[Division.Type.ARTILLERY].toString()
-        binding.artillery2TextView.text =
-            gameDataViewModel.battleData.nation2divisions[Division.Type.ARTILLERY].toString()
+        binding.infantry1TextView.text = battleData.nation1divisions[INFANTRY].toString()
+        binding.infantry2TextView.text = battleData.nation2divisions[INFANTRY].toString()
+        binding.armored1TextView.text = battleData.nation1divisions[ARMORED].toString()
+        binding.armored2TextView.text = battleData.nation2divisions[ARMORED].toString()
+        binding.artillery1TextView.text = battleData.nation1divisions[ARTILLERY].toString()
+        binding.artillery2TextView.text = battleData.nation2divisions[ARTILLERY].toString()
     }
 
     fun invertNations() {

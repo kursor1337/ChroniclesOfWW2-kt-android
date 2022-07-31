@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:textSize="22sp"
-                android:text="Player 1"
+                android:id="@+id/my_name_text_view"
                 />
 
             <TextView
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:textSize="22sp"
-                android:text="Player 2"
+                android:id="@+id/enemy_name_text_view"
                 />
 
             <TextView
@@ -226,8 +226,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/lower_vertical_layout">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"

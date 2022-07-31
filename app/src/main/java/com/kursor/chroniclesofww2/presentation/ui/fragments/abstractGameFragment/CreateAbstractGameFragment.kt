@@ -40,11 +40,11 @@ import org.koin.android.ext.android.inject
  */
 abstract class CreateAbstractGameFragment : BundleFragment() {
 
+    var gameDataJson: String = ""
     lateinit var binding: FragmentCreateGameBinding
 
     var currentDialog: DialogFragment? = null
 
-    var gameDataJson = ""
     protected lateinit var server: Server
     lateinit var connection: Connection
     protected var isHostReady = false
@@ -108,7 +108,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             Tools.currentConnection = connection.apply {
                 this.receiveListener = this@CreateAbstractGameFragment.receiveListener
             }
-            gameDataViewModel.enemyName = connection.host.name
+            gameDataViewModel.enemyNameLiveData.value = connection.host.name
         }
 
         override fun onStartedListening(host: Host) {
@@ -138,13 +138,13 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
         binding.gameDataFragment.visibility = View.GONE
         gameDataViewModel.apply {
-            myName = settings.username
+            myNameLiveData.value = settings.username
             meInitiator = true
         }
 
         battleViewModel.battleLiveData.observe(viewLifecycleOwner) { battle ->
             this.battle = battle
-            gameDataViewModel.battleData = battle.data
+            gameDataViewModel.battleDataLiveData.value = battle.data
             binding.chosenScenarioTextView.text = battle.name
             Log.i("CreateAbstractGameFragment", "set name battle")
             binding.gameDataFragment.visibility = View.VISIBLE
@@ -165,6 +165,10 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                 ).show()
                 return@setOnClickListener
             }
+            if (!this::battle.isInitialized) return@setOnClickListener
+            gameDataJson =
+                Moshi.GAMEDATA_ADAPTER.toJson(gameDataViewModel.createGameData())
+
             initServer()
             v.isEnabled = false
         }
