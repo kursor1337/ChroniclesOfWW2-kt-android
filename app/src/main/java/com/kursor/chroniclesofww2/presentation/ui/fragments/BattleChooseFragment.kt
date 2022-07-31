@@ -63,7 +63,7 @@ class BattleChooseFragment : BundleFragment() {
         }
         binding.customMissionButton.setOnClickListener {
             navigate(
-                R.id.action_battleChooseFragment_to_createNewBattleFragment,
+                R.id.action_battleChooseFragment_to_createNewBattleDialogFragment,
                 BATTLE_REQUEST_CODE
             )
         }

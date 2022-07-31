@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.kursor.chroniclesofww2.databinding.FragmentCreateSinglePlayerGameBinding
-
-class CreateSinglePlayerGameFragment : Fragment() {
+import com.kursor.chroniclesofww2.databinding.FragmentCreateNonNetworkGameBinding
 
 
-    lateinit var binding: FragmentCreateSinglePlayerGameBinding
+class CreateNonNetworkGameFragment : Fragment() {
+
+
+    lateinit var binding: FragmentCreateNonNetworkGameBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentCreateSinglePlayerGameBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentCreateNonNetworkGameBinding.inflate(inflater, container, false)
         return binding.root
     }
 

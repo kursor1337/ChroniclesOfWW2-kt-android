@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_local_game"
+    app:startDestination="@id/createLocalGameFragment">
+    <fragment
+        tools:layout="@layout/fragment_create_network_game"
+        android:id="@+id/createLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments.CreateLocalGameFragment"
+        android:label="CreateLocalGameFragment" >
+        <action
+            android:id="@+id/action_createLocalGameFragment_to_battleChooseFragment"
+            app:destination="@id/battleChooseFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_battle_choose"
+        android:id="@+id/battleChooseFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment"
+        android:label="BattleChooseFragment" >
+        <action
+            android:id="@+id/action_battleChooseFragment_to_createNewBattleDialogFragment"
+            app:destination="@id/createNewBattleDialogFragment" />
+    </fragment>
+    <dialog
+        tools:layout="@layout/fragment_create_battle"
+        android:id="@+id/createNewBattleDialogFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment"
+        android:label="CreateNewBattleDialogFragment" />
+</navigation>

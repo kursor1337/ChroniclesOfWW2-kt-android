@@ -27,8 +27,8 @@
             android:id="@+id/action_chooseMultiplayerGameFragment_to_joinLocalGameFragment"
             app:destination="@id/joinLocalGameFragment" />
         <action
-            android:id="@+id/action_chooseMultiplayerGameFragment_to_createLocalGameFragment"
-            app:destination="@id/createLocalGameFragment" />
+            android:id="@+id/action_chooseMultiplayerGameFragment_to_navigation_local_game"
+            app:destination="@id/navigation_local_game" />
     </fragment>
     <fragment
         android:id="@+id/joinLocalGameFragment"
@@ -39,34 +39,11 @@
             android:id="@+id/action_joinLocalGameFragment_to_passwordDialogFragment"
             app:destination="@id/passwordDialogFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/createLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments.CreateLocalGameFragment"
-        android:label="CreateLocalGameFragment"
-        tools:layout="@layout/fragment_create_game">
-        <action
-            android:id="@+id/action_createLocalGameFragment_to_battleChooseFragment"
-            app:destination="@id/battleChooseFragment" />
-    </fragment>
     <dialog
         android:id="@+id/passwordDialogFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.PasswordDialogFragment"
         android:label="PasswordDialogFragment"
         tools:layout="@layout/dialog_password"/>
-    <fragment
-        android:id="@+id/battleChooseFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment"
-        android:label="BattleChooseFragment"
-        tools:layout="@layout/fragment_battle_choose">
-        <action
-            android:id="@+id/action_battleChooseFragment_to_createNewBattleFragment"
-            app:destination="@id/createNewBattleFragment" />
-    </fragment>
-    <dialog
-        tools:layout="@layout/fragment_create_battle"
-        android:id="@+id/createNewBattleFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment"
-        android:label="CreateNewBattleFragment" />
     <fragment
         tools:layout="@layout/fragment_settings"
         android:id="@+id/settingsFragment"
@@ -81,4 +58,5 @@
         android:id="@+id/savedBattlesManagementFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.SavedBattlesManagementFragment"
         android:label="SavedBattlesManagementFragment" />
+    <include app:graph="@navigation/navigation_local_game" />
 </navigation>

@@ -6,9 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.Settings
+import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.connection.interfaces.Connection
+import com.kursor.chroniclesofww2.connection.interfaces.Server
+import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
+import com.kursor.chroniclesofww2.model.data.Battle
+import com.kursor.chroniclesofww2.model.data.GameData
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.objects.Const.connection.HOST_IS_WITH_PASSWORD
@@ -16,16 +25,8 @@ import com.kursor.chroniclesofww2.objects.Const.connection.INVALID_JSON
 import com.kursor.chroniclesofww2.objects.Const.connection.PASSWORD
 import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_FOR_ACCEPT
 import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
-import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Settings
-import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.objects.Tools
-import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.connection.interfaces.Server
-import com.kursor.chroniclesofww2.databinding.FragmentCreateGameBinding
-import com.kursor.chroniclesofww2.model.data.Battle
-import com.kursor.chroniclesofww2.model.data.GameData
 import com.kursor.chroniclesofww2.objects.Moshi
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
@@ -41,7 +42,7 @@ import org.koin.android.ext.android.inject
 abstract class CreateAbstractGameFragment : BundleFragment() {
 
     var gameDataJson: String = ""
-    lateinit var binding: FragmentCreateGameBinding
+    lateinit var binding: FragmentCreateNetworkGameBinding
 
     var currentDialog: DialogFragment? = null
 
@@ -129,7 +130,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCreateGameBinding.inflate(inflater, container, false)
+        binding = FragmentCreateNetworkGameBinding.inflate(inflater, container, false)
         return binding.root
     }
 
