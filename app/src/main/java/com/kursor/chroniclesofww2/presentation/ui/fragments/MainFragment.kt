@@ -29,7 +29,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.singlePlayerGameButton.setOnClickListener {
-            
+            findNavController().navigate(R.id.action_mainFragment_to_navigation_non_network_game)
         }
         binding.localGameButton.setOnClickListener(getOnClickListener(LOCAL))
         binding.webGameButton.setOnClickListener(getOnClickListener(WEB))

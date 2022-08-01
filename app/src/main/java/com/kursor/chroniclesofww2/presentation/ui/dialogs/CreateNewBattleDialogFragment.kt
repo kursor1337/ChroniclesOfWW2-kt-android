@@ -33,7 +33,6 @@ class CreateNewBattleDialogFragment : DialogFragment() {
 
     var navigationGraphId: Int? = null
 
-    val battleViewModel by navGraphViewModels<BattleViewModel>(R.id.navigation_local_game)
     val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
 
 
@@ -53,6 +52,9 @@ class CreateNewBattleDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val battleViewModel by navGraphViewModels<BattleViewModel>(navigationGraphId!!)
+
         val adapter: ArrayAdapter<Nation> =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, nations)
         binding.nation1Spinner.adapter = adapter

@@ -6,7 +6,6 @@
     app:startDestination="@id/mainFragment">
 
 
-    <include app:graph="@navigation/navigation_local_game" />
 
     <fragment
         android:id="@+id/mainFragment"
@@ -19,6 +18,9 @@
         <action
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_navigation_non_network_game"
+            app:destination="@id/navigation_non_network_game" />
     </fragment>
     <fragment
         android:id="@+id/chooseMultiplayerGameFragment"
@@ -61,4 +63,5 @@
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.SavedBattlesManagementFragment"
         android:label="SavedBattlesManagementFragment" />
     <include app:graph="@navigation/navigation_local_game" />
+    <include app:graph="@navigation/navigation_non_network_game" />
 </navigation>

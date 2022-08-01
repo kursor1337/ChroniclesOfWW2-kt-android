@@ -34,8 +34,6 @@ class BattleChooseFragment : BundleFragment() {
 
     var navigationGraphId: Int? = null
 
-    val battleViewModel by navGraphViewModels<BattleViewModel>(navigationGraphId!!)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navigationGraphId = requireArguments().getInt(NAVIGATION_GRAPH_ID)
@@ -53,6 +51,8 @@ class BattleChooseFragment : BundleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val battleViewModel by navGraphViewModels<BattleViewModel>(navigationGraphId!!)
+
         binding.battleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val battleListViewModel by viewModels<BattleListViewModel>()
@@ -60,18 +60,18 @@ class BattleChooseFragment : BundleFragment() {
             binding.battleRecyclerView.adapter =
                 BattleAdapter(requireActivity(), newBattleList).apply {
                     setOnItemClickListener { view, position, battle ->
-                        navigateUpWithBattle(battle)
+                        navigateUpWithBattle(battle, battleViewModel)
                     }
                 }
         }
 
         battleListViewModel.changeDataSource(standardBattleRepository)
         binding.defaultMissionButton.setOnClickListener {
-            navigateUpWithBattle(standardBattleRepository.defaultBattle())
+            navigateUpWithBattle(standardBattleRepository.defaultBattle(), battleViewModel)
         }
         binding.customMissionButton.setOnClickListener {
             navigate(
-                R.id.action_battleChooseFragment_to_createNewBattleDialogFragment,
+                R.id.action_battleChooseFragment2_to_createNewBattleDialogFragment2,
                 BATTLE_REQUEST_CODE
             )
         }
@@ -87,16 +87,7 @@ class BattleChooseFragment : BundleFragment() {
         }
     }
 
-    override fun onFragmentResult(requestCode: Int, bundle: Bundle) {
-        Log.i("BattleChooseFragment", "onFragmentResult")
-        if (requestCode != BATTLE_REQUEST_CODE) return
-        val battle = Moshi.BATTLE_ADAPTER.fromJson(bundle.getString(BATTLE)!!)!!
-        Log.i("BattleChooseFragment", "navigate up")
-        navigateUpWithBattle(battle)
-        Log.i("BattleChooseFragment", "navigated up")
-    }
-
-    private fun navigateUpWithBattle(battle: Battle) {
+    private fun navigateUpWithBattle(battle: Battle, battleViewModel: BattleViewModel) {
         battleViewModel.battleLiveData.value = battle
         requireActivity().onBackPressed()
     }
