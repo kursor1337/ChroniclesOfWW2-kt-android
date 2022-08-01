@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChroniclesOfWW2">
         <activity
-            android:name=".presentation.ui.activities.GameActivity"
+            android:name=".presentation.ui.activities.SinglePlayerGameActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ui.activities.MainActivity"

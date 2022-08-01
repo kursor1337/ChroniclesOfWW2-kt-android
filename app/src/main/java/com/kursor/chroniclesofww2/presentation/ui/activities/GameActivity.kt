@@ -10,7 +10,9 @@ import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.ActivityGameBinding
 import com.kursor.chroniclesofww2.model.controllers.Controller
 import com.kursor.chroniclesofww2.model.data.GameData
+import com.kursor.chroniclesofww2.model.game.DivisionResources
 import com.kursor.chroniclesofww2.model.game.Reserve
+import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.board.Tile
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
@@ -25,7 +27,10 @@ abstract class GameActivity : AppCompatActivity() {
 
     protected lateinit var controller: Controller
 
-    abstract fun initController(gameData: GameData, listener: Controller.Listener)
+    abstract fun initController(
+        gameData: GameData,
+        listener: Controller.Listener
+    ): Triple<Board, Pair<DivisionResources, DivisionResources>, Controller>
 
     protected val controllerListener = object : Controller.Listener {
 
@@ -80,8 +85,11 @@ abstract class GameActivity : AppCompatActivity() {
             Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(GameData::class.java)
                 .fromJson(intent.getStringExtra(Const.game.GAME_DATA)!!)!!
 
-        initController(gameData, controllerListener)
-
+        val (board, divisionResources, control) = initController(gameData, controllerListener)
+        controller = control
+        binding.boardView.board = board
+        binding.divisionResourcesMe.divisionResources = divisionResources.first
+        binding.divisionResourcesEnemy.divisionResources = divisionResources.second
         if (supportActionBar != null) supportActionBar!!.hide()
 
         binding.boardView.setOnTileViewClickListener { i, j, tileView ->

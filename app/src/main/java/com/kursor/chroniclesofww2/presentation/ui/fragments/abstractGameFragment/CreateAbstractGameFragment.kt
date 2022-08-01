@@ -30,6 +30,7 @@ import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
+import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
@@ -75,10 +76,10 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                 REQUEST_GAME_DATA -> {
                     Log.i("Server", "Client sent $REQUEST_GAME_DATA")
                     connection.send(gameDataJson)
-                    val intent = Intent(activity, GameActivity::class.java)
+                    val intent = Intent(activity, MultiplayerGameActivity::class.java)
                     intent.putExtra(Const.connection.CONNECTED_DEVICE, connection.host)
                         .putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
-                        .putExtra(Const.game.BATTLE, gameDataJson)
+                        .putExtra(Const.game.GAME_DATA, gameDataJson)
                     Tools.currentConnection = connection
                     server.stopListening()
                     startActivity(intent)

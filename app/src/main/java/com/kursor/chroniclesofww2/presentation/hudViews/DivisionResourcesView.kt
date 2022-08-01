@@ -43,7 +43,7 @@ class DivisionResourcesView(
     private fun init(divisionResources: DivisionResources) {
 
         val tempReserveViews = mutableListOf<ReserveView>()
-        val width = Tools.getScreenWidth() / reserveViews.size
+        val width = Tools.getScreenWidth() / divisionResources.reserves.size
 
         divisionResources.reserves.forEach { (_, reserve) ->
             val reserveView = ReserveView(context).apply { this.reserve = reserve }

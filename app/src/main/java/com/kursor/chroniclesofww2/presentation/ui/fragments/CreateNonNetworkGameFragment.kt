@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -18,7 +17,7 @@ import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNonNetworkGameBinding
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
-import com.kursor.chroniclesofww2.presentation.ui.activities.SingleplayerGameActivity
+import com.kursor.chroniclesofww2.presentation.ui.activities.SinglePlayerGameActivity
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
 import org.koin.android.ext.android.inject
@@ -71,8 +70,8 @@ class CreateNonNetworkGameFragment : Fragment() {
                     .show()
                 return@setOnClickListener
             }
-            startActivity(Intent(activity, SingleplayerGameActivity::class.java).apply {
-                putExtra(Const.game.BATTLE, Moshi.GAMEDATA_ADAPTER.toJson(gameData))
+            startActivity(Intent(activity, SinglePlayerGameActivity::class.java).apply {
+                putExtra(Const.game.GAME_DATA, Moshi.GAMEDATA_ADAPTER.toJson(gameData))
             })
         }
     }

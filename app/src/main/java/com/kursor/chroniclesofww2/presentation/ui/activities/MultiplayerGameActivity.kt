@@ -10,7 +10,9 @@ import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.model.controllers.Controller
 import com.kursor.chroniclesofww2.model.controllers.TwoHostsController
 import com.kursor.chroniclesofww2.model.data.GameData
+import com.kursor.chroniclesofww2.model.game.DivisionResources
 import com.kursor.chroniclesofww2.model.game.Model
+import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.moves.Move
 
 class MultiplayerGameActivity : GameActivity() {
@@ -18,8 +20,16 @@ class MultiplayerGameActivity : GameActivity() {
 
     private val connection = Tools.currentConnection!!
 
-    override fun initController(gameData: GameData, listener: Controller.Listener) {
-        controller = TwoHostsController(Model(gameData), listener)
+    override fun initController(
+        gameData: GameData,
+        listener: Controller.Listener
+    ): Triple<Board, Pair<DivisionResources, DivisionResources>, Controller> {
+        val model = Model(gameData)
+        return Triple(
+            model.board,
+            model.me.divisionResources to model.enemy.divisionResources,
+            TwoHostsController(model, listener)
+        )
     }
 
     override fun notifyEnemy(move: Move) {
@@ -31,17 +41,17 @@ class MultiplayerGameActivity : GameActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_game)
         connection.receiveListener = receiveListener
+//
+//        binding.boardView.setOnTileViewClickListener { i, j, tileView ->
+//            controller.processTileClick(i, j)
+//        }
 
-        binding.boardView.setOnTileViewClickListener { i, j, tileView ->
-            controller.processTileClick(i, j)
-        }
-
-        binding.divisionResourcesMe.setOnReserveClickListener {
-            controller.processReserveClick(
-                it.reserve!!.type,
-                binding.divisionResourcesMe.divisionResources!!.playerName
-            )
-        }
+//        binding.divisionResourcesMe.setOnReserveClickListener {
+//            controller.processReserveClick(
+//                it.reserve!!.type,
+//                binding.divisionResourcesMe.divisionResources!!.playerName
+//            )
+//        }
     }
 
     private val receiveListener: Connection.ReceiveListener = object : Connection.ReceiveListener {

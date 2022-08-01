@@ -9,14 +9,16 @@
     <com.kursor.chroniclesofww2.presentation.hudViews.DivisionResourcesView
         android:id="@+id/division_resources_enemy"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         />
 
     <com.kursor.chroniclesofww2.presentation.hudViews.BoardView
         android:id="@+id/board_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        />
 
     <com.kursor.chroniclesofww2.presentation.hudViews.DivisionResourcesView
         android:id="@+id/division_resources_me"

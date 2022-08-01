@@ -26,6 +26,7 @@ class TileView(
 
     var state: State = State.NORMAL
         set(value) {
+            if (field == value) return
             onStateChanged(field, value)
             field = value
         }
