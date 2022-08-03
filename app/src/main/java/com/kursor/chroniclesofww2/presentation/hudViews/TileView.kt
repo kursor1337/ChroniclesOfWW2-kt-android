@@ -145,4 +145,9 @@ class TileView(
     fun interface OnTileViewClickListener {
         fun onClick(i: Int, j: Int, tileView: TileView)
     }
+
+    companion object {
+        const val TAG = "TileView"
+    }
+
 }

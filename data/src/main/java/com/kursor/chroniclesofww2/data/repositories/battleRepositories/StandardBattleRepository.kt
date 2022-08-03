@@ -33,7 +33,6 @@ class StandardBattleRepository(context: Context) : BattleRepository {
         val dataStringArray = context.resources.getStringArray(R.array.standard_battle_data)
         val dataList = mutableListOf<Battle.Data>()
         dataStringArray.forEachIndexed { index, dataString ->
-            Log.i("Repo", dataString)
             val lines = dataString.lines()
             var nation1: Nation? = null
             var nation2: Nation? = null
@@ -54,7 +53,6 @@ class StandardBattleRepository(context: Context) : BattleRepository {
                     }
                     continue
                 }
-                Log.i("Repo", line)
                 val (typeString, quantityString) = line.trim().split(" to ")
                 val type = Division.Type.valueOf(typeString)
                 val quantity = quantityString.toInt()

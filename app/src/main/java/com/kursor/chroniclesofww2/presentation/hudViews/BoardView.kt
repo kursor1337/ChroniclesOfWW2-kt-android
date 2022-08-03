@@ -2,6 +2,8 @@ package com.kursor.chroniclesofww2.presentation.hudViews
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
+import android.view.View
 import android.widget.TableLayout
 import android.widget.TableRow
 import com.kursor.chroniclesofww2.objects.Tools
@@ -21,9 +23,10 @@ class BoardView(
         }
 
 
-    private lateinit var tileViews: List<List<TileView>>
+    lateinit var tileViews: List<List<TileView>>
 
     private fun init(board: Board) {
+        Log.i(TAG, "init: Start")
         tileViews = List(board.height) { i ->
             List(board.width) { j ->
                 TileView(context).apply {
@@ -41,17 +44,21 @@ class BoardView(
             Tools.getScreenWidth() / board.width,
             Tools.getScreenHeight() / board.height
         )
-        val tableRowLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, tileWidth)
+        Log.i(TAG, "init: tileWidth = $tileWidth")
+        val tableRowLayoutParams = TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, tileWidth)
         val tileViewLayoutParams = TableRow.LayoutParams(tileWidth, tileWidth)
         for (i in 0 until board.height) {
             val currentTableRow = TableRow(context).apply { layoutParams = tableRowLayoutParams }
-            addView(currentTableRow)
+            Log.i(TAG, "init: New TileRow, index = $i")
+            this.addView(currentTableRow)
             for (j in 0 until board.width) {
                 currentTableRow.addView(tileViews[i][j].apply {
                     layoutParams = tileViewLayoutParams
                 })
+
             }
         }
+        invalidate()
     }
 
     fun showPossibleMotionMoves(motionMoveList: List<MotionMove>) {
@@ -85,5 +92,10 @@ class BoardView(
             }
         }
     }
+
+    companion object {
+        const val TAG = "BoardView"
+    }
+
 
 }

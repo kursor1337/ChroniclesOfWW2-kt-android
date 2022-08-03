@@ -29,10 +29,10 @@ class SinglePlayerGameActivity : GameActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.divisionResourcesEnemy.setOnReserveClickListener {
+        divisionResourcesEnemy.setOnReserveClickListener {
             controller.processReserveClick(
                 it.reserve!!.type,
-                binding.divisionResourcesEnemy.divisionResources?.playerName
+                divisionResourcesEnemy.divisionResources?.playerName
                     ?: return@setOnReserveClickListener
             )
         }
