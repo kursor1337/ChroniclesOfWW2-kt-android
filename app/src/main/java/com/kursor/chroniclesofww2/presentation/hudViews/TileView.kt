@@ -37,15 +37,17 @@ class TileView(
 
     var tile: Tile? = null
         set(value) {
+            if (field != null) return
             if (value != null) init(value)
             field = value
         }
 
     private fun init(tile: Tile) {
         state = State.NORMAL
-        tile.listener = object : Tile.Listener {
+        Log.i(TAG, "init: Setting tile listener to the tile with coordinate ${tile.coordinate}")
+        val listener = object : Tile.Listener {
             override fun onDivisionSet(division: Division) {
-                Log.i("TileView", "Callback from Tile")
+                Log.i(TAG, "onDivisionSet: ")
                 Log.i(
                     "TileView",
                     "drawable resource = " + division.getDivisionResId()
@@ -54,11 +56,13 @@ class TileView(
             }
 
             override fun onTileCleared() {
-                Log.i("TileView", "Callback from Tile")
+                Log.i(TAG, "onTileCleared: ")
                 clear()
             }
 
         }
+        Log.i(TAG, "init: listener = $listener")
+        tile.listener = listener
         id = tile.coordinate
         scaleType = ScaleType.CENTER_INSIDE
         setImage(R.drawable.empty)
@@ -137,7 +141,7 @@ class TileView(
     private fun removeLayer(@DrawableRes id: Int) {
         val d = layerMap.remove(id) ?: return
         d.alpha = 0
-        Log.i("TileView", d.toString() + "")
+        Log.i("TileView", "removed layer: $d")
         val ds = layerMap.values.toTypedArray()
         layerDrawable = LayerDrawable(ds)
     }

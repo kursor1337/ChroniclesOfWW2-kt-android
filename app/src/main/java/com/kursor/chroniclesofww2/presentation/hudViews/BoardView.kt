@@ -45,7 +45,7 @@ class BoardView(
             Tools.getScreenHeight() / board.height
         )
         Log.i(TAG, "init: tileWidth = $tileWidth")
-        val tableRowLayoutParams = TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, tileWidth)
+        val tableRowLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, tileWidth)
         val tileViewLayoutParams = TableRow.LayoutParams(tileWidth, tileWidth)
         for (i in 0 until board.height) {
             val currentTableRow = TableRow(context).apply { layoutParams = tableRowLayoutParams }

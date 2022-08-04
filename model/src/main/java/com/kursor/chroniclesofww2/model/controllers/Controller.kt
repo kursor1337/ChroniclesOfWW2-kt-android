@@ -38,6 +38,7 @@ abstract class Controller(
         }
 
     open fun processTileClick(i: Int, j: Int) {
+        println("Controller: processTileClick: i = $i j = $j")
         val tile = model.board[i, j]
         if (tile == clickedTile) {
             clickedTile = null
@@ -56,10 +57,26 @@ abstract class Controller(
                 if (!ruleManager.checkAddMoveForValidity(move)) return
                 sendAddMoveToModel(move)
                 clickedReserve = null
+
             }
             else -> {
                 // if both clickedTile and clickedReserve == null we need to set clickedTile
-                if (tile.isEmpty || tile.division!!.playerName == model.enemy.name) return
+                println("Controller: new move")
+                if (tile.isEmpty ||
+                    tile.division!!.playerName == model.enemy.name && ruleManager.isMyTurn() ||
+                    tile.division!!.playerName == model.me.name && ruleManager.isEnemyTurn()
+                ) {
+                    println(
+                        """
+                        Controller: not valid move {
+                        tile.isEmpty = ${tile.isEmpty}
+                        playerName = ${tile.division?.playerName}
+                        isMyTurn = ${ruleManager.isMyTurn()}
+                    """.trimIndent()
+                    )
+                    return
+                }
+
                 clickedTile = tile
             }
         }
@@ -72,6 +89,7 @@ abstract class Controller(
             listener.onAddMoveCanceled()
             return
         }
+        clickedReserve = reserve
 
     }
 

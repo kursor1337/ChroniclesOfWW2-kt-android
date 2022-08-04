@@ -23,13 +23,9 @@ class MultiplayerGameActivity : GameActivity() {
     override fun initController(
         gameData: GameData,
         listener: Controller.Listener
-    ): Triple<Board, Pair<DivisionResources, DivisionResources>, Controller> {
+    ): Pair<Model, Controller> {
         val model = Model(gameData)
-        return Triple(
-            model.board,
-            model.me.divisionResources to model.enemy.divisionResources,
-            TwoHostsController(model, listener)
-        )
+        return model to TwoHostsController(model, listener)
     }
 
     override fun notifyEnemy(move: Move) {

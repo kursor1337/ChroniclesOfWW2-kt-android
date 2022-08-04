@@ -14,6 +14,7 @@ import com.kursor.chroniclesofww2.databinding.ActivityGameBinding
 import com.kursor.chroniclesofww2.model.controllers.Controller
 import com.kursor.chroniclesofww2.model.data.GameData
 import com.kursor.chroniclesofww2.model.game.DivisionResources
+import com.kursor.chroniclesofww2.model.game.Model
 import com.kursor.chroniclesofww2.model.game.Reserve
 import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.board.Tile
@@ -35,42 +36,51 @@ abstract class GameActivity : AppCompatActivity() {
     abstract fun initController(
         gameData: GameData,
         listener: Controller.Listener
-    ): Triple<Board, Pair<DivisionResources, DivisionResources>, Controller>
+    ): Pair<Model, Controller>
 
     protected val controllerListener = object : Controller.Listener {
 
         override fun onMotionMoveComplete(motionMove: MotionMove) {
+            Log.i(TAG, "onMotionMoveComplete: start")
             boardView.hideLegalMoves()
             notifyEnemy(motionMove)
         }
 
         override fun onAddMoveComplete(addMove: AddMove) {
+            Log.i(TAG, "onAddMoveComplete: ")
             boardView.hideLegalMoves()
             notifyEnemy(addMove)
         }
 
         override fun onEnemyMoveComplete(move: Move) {
+            Log.i(TAG, "onEnemyMoveComplete: ")
             Log.i("EventListener", "onEnemyMoveComplete")
             boardView.hideLegalMoves()
         }
 
         override fun onMotionMoveCanceled(i: Int, j: Int) {
+            Log.i(TAG, "onMotionMoveCanceled: ")
             boardView.hideLegalMoves()
         }
 
         override fun onAddMoveCanceled() {
+            Log.i(TAG, "onAddMoveCanceled: ")
             boardView.hideLegalMoves()
         }
 
         override fun onReserveClicked(reserve: Reserve, possibleMoves: List<AddMove>) {
+            Log.i(TAG, "onReserveClicked: ")
+            Log.i(TAG, "onReserveClicked: number of possible moves = ${possibleMoves.size}")
             boardView.showPossibleAddMoves(possibleMoves)
         }
 
         override fun onTileClicked(tile: Tile, possibleMoves: List<MotionMove>) {
+            Log.i(TAG, "onTileClicked: ")
             boardView.showPossibleMotionMoves(possibleMoves)
         }
 
         override fun onGameEnd(meWon: Boolean) {
+            Log.i(TAG, "onGameEnd: ")
             buildAlertMessageEndOfTheGame(meWon)
         }
 
@@ -99,11 +109,11 @@ abstract class GameActivity : AppCompatActivity() {
             Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(GameData::class.java)
                 .fromJson(intent.getStringExtra(Const.game.GAME_DATA)!!)!!
 
-        val (board, divisionResources, control) = initController(gameData, controllerListener)
+        val (model, control) = initController(gameData, controllerListener)
         controller = control
-        boardView.board = board
-        divisionResourcesMe.divisionResources = divisionResources.first
-        divisionResourcesEnemy.divisionResources = divisionResources.second
+        boardView.board = model.board
+        divisionResourcesMe.setup(model.me)
+        divisionResourcesEnemy.setup(model.enemy)
         if (supportActionBar != null) supportActionBar!!.hide()
 
         boardView.setOnTileViewClickListener { i, j, tileView ->
@@ -113,7 +123,7 @@ abstract class GameActivity : AppCompatActivity() {
         divisionResourcesMe.setOnReserveClickListener {
             controller.processReserveClick(
                 it.reserve!!.type,
-                divisionResourcesMe.divisionResources?.playerName
+                divisionResourcesMe.divisionResources!!.playerName
                     ?: return@setOnReserveClickListener
             )
         }

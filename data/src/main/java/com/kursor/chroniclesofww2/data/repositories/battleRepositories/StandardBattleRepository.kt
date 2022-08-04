@@ -14,6 +14,7 @@ class StandardBattleRepository(context: Context) : BattleRepository {
     override val battleList: List<Battle> = initStandardScenarioList(context)
 
     override fun findBattleById(id: Int): Battle {
+        if (id == -1) return defaultBattle()
         return battleList[id]
     }
 

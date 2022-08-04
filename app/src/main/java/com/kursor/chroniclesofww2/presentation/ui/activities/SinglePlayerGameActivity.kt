@@ -11,16 +11,13 @@ import com.kursor.chroniclesofww2.model.game.moves.Move
 import com.kursor.chroniclesofww2.presentation.hudViews.ReserveView
 
 class SinglePlayerGameActivity : GameActivity() {
+
     override fun initController(
         gameData: GameData,
         listener: Controller.Listener
-    ): Triple<Board, Pair<DivisionResources, DivisionResources>, Controller> {
+    ): Pair<Model, Controller> {
         val model = Model(gameData)
-        return Triple(
-            model.board,
-            model.me.divisionResources to model.enemy.divisionResources,
-            OneHostController(Model(gameData), listener)
-        )
+        return model to OneHostController(model, listener)
     }
 
     override fun notifyEnemy(move: Move) {

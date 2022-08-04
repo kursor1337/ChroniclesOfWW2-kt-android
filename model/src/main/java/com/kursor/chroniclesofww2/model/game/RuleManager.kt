@@ -19,7 +19,7 @@ class RuleManager(
 
 
     init {
-        if (model.me.isInitiator) {
+        if (!model.me.isInitiator) {
             myRow = 0
             enemyRow = model.board.height - 1
         } else {
@@ -30,7 +30,7 @@ class RuleManager(
 
 
     fun meLost(): Boolean {
-        if (model.board.isLineSafe(myRow, model.enemy.name)) return true
+        if (!model.board.isLineSafe(myRow, model.enemy.name)) return true
         if (model.me.divisionResources.divisionCount +
             model.board.getListOfDivisions(model.me).size == 0
         ) return true
@@ -38,7 +38,7 @@ class RuleManager(
     }
 
     fun enemyLost(): Boolean {
-        if (model.board.isLineSafe(enemyRow, model.me.name)) return true
+        if (!model.board.isLineSafe(enemyRow, model.me.name)) return true
         if (model.enemy.divisionResources.divisionCount +
             model.board.getListOfDivisions(model.enemy).size == 0
         ) return true
@@ -59,15 +59,19 @@ class RuleManager(
     }
 
     fun checkMotionMoveForValidity(motionMove: MotionMove): Boolean {
-        if (motionMove.start.division == null) return false
+        if (motionMove.start.division == null) {
+            println("RuleManager: move not valid, start = null")
+            return false
+        }
         if (motionMove.start.division!!.playerName == model.me.name && isEnemyTurn()) return false
-        else if (isMyTurn()) return false
+        else if (motionMove.start.division!!.playerName == model.enemy.name && isMyTurn()) return false
+        println("RuleManager: delegating check for validity")
         return motionMove.start.division!!.isValidMove(motionMove)
     }
 
     fun checkAddMoveForValidity(addMove: AddMove): Boolean {
         if (addMove.divisionReserve.playerName == model.me.name && isEnemyTurn()) return false
-        else if (isMyTurn()) return false
+        else if (addMove.divisionReserve.playerName == model.enemy.name && isMyTurn()) return false
         return if (addMove.divisionReserve.playerName == model.me.name) addMove.destination.row == myRow
         else addMove.destination.row == enemyRow
     }
