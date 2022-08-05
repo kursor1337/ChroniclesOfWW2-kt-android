@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
@@ -70,10 +71,11 @@ class BattleChooseFragment : BundleFragment() {
             navigateUpWithBattle(standardBattleRepository.defaultBattle(), battleViewModel)
         }
         binding.customMissionButton.setOnClickListener {
-            navigate(
+            findNavController().navigate(
                 R.id.action_battleChooseFragment2_to_createNewBattleDialogFragment2,
-                BATTLE_REQUEST_CODE
-            )
+                Bundle().apply {
+                    putInt(NAVIGATION_GRAPH_ID, navigationGraphId ?: return@setOnClickListener)
+                })
         }
 
         binding.standardBattlesButton.setOnClickListener {

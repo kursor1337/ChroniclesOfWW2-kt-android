@@ -92,7 +92,8 @@ class CreateNewBattleDialogFragment : DialogFragment() {
         binding.readyButton.setOnClickListener {
             val battle = getBattleFromViews() ?: return@setOnClickListener
             battleViewModel.battleLiveData.value = battle
-            findNavController().popBackStack(R.id.battleChooseFragment, inclusive = true)
+            requireActivity().onBackPressed()
+            requireActivity().onBackPressed()
         }
 
         binding.readyAndSaveButton.setOnClickListener {
@@ -101,6 +102,8 @@ class CreateNewBattleDialogFragment : DialogFragment() {
 
             localCustomBattleRepository.saveBattle(battle)
             findNavController().popBackStack(R.id.battleChooseFragment, inclusive = true)
+            requireActivity().onBackPressed()
+            requireActivity().onBackPressed()
         }
     }
 
