@@ -12,7 +12,9 @@ import com.kursor.chroniclesofww2.model.game.moves.Move
 class RuleManager(
     val model: Model
 ) {
-    private var turn = 0
+    private var _turn = 0
+    val turn: Int
+        get() = _turn
 
     private val myRow: Int
     private val enemyRow: Int
@@ -46,7 +48,7 @@ class RuleManager(
     }
 
     fun nextTurn() {
-        turn++
+        _turn++
     }
 
     fun isMyTurn() = model.me.isInitiator == (turn % 2 == 0)

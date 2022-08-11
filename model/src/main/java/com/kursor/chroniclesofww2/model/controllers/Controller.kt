@@ -95,7 +95,7 @@ abstract class Controller(
 
     fun sendMotionMoveToModel(motionMove: MotionMove) {
         model.handleMotionMove(motionMove)
-        listener.onMotionMoveComplete(motionMove)
+        listener.onMotionMoveComplete(motionMove, ruleManager.turn)
         ruleManager.nextTurn()
         if (ruleManager.meLost()) listener.onGameEnd(meWon = false)
         if (ruleManager.enemyLost()) listener.onGameEnd(meWon = true)
@@ -103,7 +103,7 @@ abstract class Controller(
 
     fun sendAddMoveToModel(addMove: AddMove) {
         model.handleAddMove(addMove)
-        listener.onAddMoveComplete(addMove)
+        listener.onAddMoveComplete(addMove, ruleManager.turn)
         ruleManager.nextTurn()
         if (ruleManager.meLost()) listener.onGameEnd(meWon = false)
         if (ruleManager.enemyLost()) listener.onGameEnd(meWon = true)
@@ -116,9 +116,9 @@ abstract class Controller(
 
     interface Listener {
         //on completed moves
-        fun onMotionMoveComplete(motionMove: MotionMove)
-        fun onAddMoveComplete(addMove: AddMove)
-        fun onEnemyMoveComplete(move: Move)
+        fun onMotionMoveComplete(motionMove: MotionMove, turn: Int)
+        fun onAddMoveComplete(addMove: AddMove, turn: Int)
+        fun onEnemyMoveComplete(move: Move, turn: Int)
 
         //on moves canceled
         fun onMotionMoveCanceled(i: Int, j: Int)

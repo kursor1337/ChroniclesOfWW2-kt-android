@@ -25,12 +25,11 @@ class TwoHostsController(
         super.processReserveClick(type, playerName)
     }
 
-
     fun processEnemyMove(move: Move) {
         if (move.type == Move.Type.ADD) model.handleAddMove(move as AddMove)
         else model.handleMotionMove(move as MotionMove)
         ruleManager.nextTurn()
-        listener.onEnemyMoveComplete(move)
+        listener.onEnemyMoveComplete(move, ruleManager.turn)
         if (ruleManager.meLost()) listener.onGameEnd(meWon = false)
         if (ruleManager.enemyLost()) listener.onGameEnd(meWon = true)
     }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "965537378823",
+    "project_id": "chronicles-of-ww2",
+    "storage_bucket": "chronicles-of-ww2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965537378823:android:be0afc4ad0f45cbf2030a2",
+        "android_client_info": {
+          "package_name": "com.kursor.chroniclesofww2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965537378823-ov0nvbrlbo7t1n2fi40k2cidpu27g1pe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzogj4Gr5RBxxg_glUqLnjykOrM8-L4Qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965537378823-ov0nvbrlbo7t1n2fi40k2cidpu27g1pe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

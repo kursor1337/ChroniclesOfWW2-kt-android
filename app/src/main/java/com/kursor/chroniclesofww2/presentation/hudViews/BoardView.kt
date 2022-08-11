@@ -58,6 +58,7 @@ class BoardView(
 
             }
         }
+        requestLayout()
         invalidate()
     }
 
