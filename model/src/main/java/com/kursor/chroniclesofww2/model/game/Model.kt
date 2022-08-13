@@ -1,11 +1,10 @@
 package com.kursor.chroniclesofww2.model.game
 
 import com.kursor.chroniclesofww2.model.data.GameData
-import com.kursor.chroniclesofww2.model.data.Player
+import com.kursor.chroniclesofww2.model.data.GamePlayer
 import com.kursor.chroniclesofww2.model.game.board.*
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
-import com.kursor.chroniclesofww2.model.game.moves.Move
 import java.lang.IllegalArgumentException
 
 
@@ -23,7 +22,7 @@ class Model(gameData: GameData) {
         move.start.division!!.moveOrAttack(move)
     }
 
-    fun getPlayerByName(playerName: String): Player = when (playerName) {
+    fun getPlayerByName(playerName: String): GamePlayer = when (playerName) {
         me.name -> me
         enemy.name -> enemy
         else -> throw IllegalArgumentException("There is no player with such name")

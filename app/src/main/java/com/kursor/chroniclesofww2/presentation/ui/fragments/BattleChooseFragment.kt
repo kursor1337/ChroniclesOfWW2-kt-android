@@ -1,28 +1,22 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
-import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardBattleRepository
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
-import com.kursor.chroniclesofww2.model.data.Battle
+import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
-import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.CreateAbstractGameFragment.Companion.BATTLE_REQUEST_CODE
 import com.kursor.chroniclesofww2.viewModels.BattleListViewModel
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
 import com.phelat.navigationresult.BundleFragment
-import com.phelat.navigationresult.navigateUp
 import org.koin.android.ext.android.inject
 
 class BattleChooseFragment : BundleFragment() {
@@ -60,7 +54,7 @@ class BattleChooseFragment : BundleFragment() {
         battleListViewModel.getBattleLiveData().observe(viewLifecycleOwner) { newBattleList ->
             binding.battleRecyclerView.adapter =
                 BattleAdapter(requireActivity(), newBattleList).apply {
-                    setOnItemClickListener { view, position, battle ->
+                    setOnItemClickListener { view, position, battle: Battle ->
                         navigateUpWithBattle(battle, battleViewModel)
                     }
                 }

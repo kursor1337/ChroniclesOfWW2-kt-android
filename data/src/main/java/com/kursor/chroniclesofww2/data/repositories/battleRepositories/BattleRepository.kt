@@ -1,8 +1,8 @@
 package com.kursor.chroniclesofww2.data.repositories.battleRepositories
 
-import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
+import com.kursor.chroniclesofww2.model.serializable.Battle
 
 interface BattleRepository {
 

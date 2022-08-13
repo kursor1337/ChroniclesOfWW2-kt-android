@@ -4,23 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
-import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.databinding.FragmentCreateBattleBinding
-import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
+import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment
-import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.CreateAbstractGameFragment.Companion.BATTLE_REQUEST_CODE
 import com.kursor.chroniclesofww2.viewModels.BattleViewModel
-import com.phelat.navigationresult.navigateUp
 import org.koin.android.ext.android.inject
 
 class CreateNewBattleDialogFragment : DialogFragment() {

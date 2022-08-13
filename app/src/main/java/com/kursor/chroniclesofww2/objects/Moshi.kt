@@ -1,7 +1,7 @@
 package com.kursor.chroniclesofww2.objects
 
-import com.kursor.chroniclesofww2.model.data.Battle
-import com.kursor.chroniclesofww2.model.data.GameData
+import com.kursor.chroniclesofww2.model.serializable.Battle
+import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 

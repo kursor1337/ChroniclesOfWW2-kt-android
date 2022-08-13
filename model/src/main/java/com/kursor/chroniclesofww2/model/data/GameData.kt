@@ -12,24 +12,24 @@ data class GameData(
     val meInitiator: Boolean = true
 ) {
 
-    val me = if (invertNations) Player(
+    val me = if (invertNations) GamePlayer(
         myName,
         DivisionResources(battleData.nation2divisions, myName),
         battleData.nation2,
         isInitiator = meInitiator
-    ) else Player(
+    ) else GamePlayer(
         myName,
         DivisionResources(battleData.nation1divisions, myName),
         battleData.nation1,
         isInitiator = meInitiator
     )
 
-    val enemy = if (invertNations) Player(
+    val enemy = if (invertNations) GamePlayer(
         enemyName,
         DivisionResources(battleData.nation1divisions, enemyName),
         battleData.nation1,
         isInitiator = !meInitiator
-    ) else Player(
+    ) else GamePlayer(
         enemyName,
         DivisionResources(battleData.nation2divisions, enemyName),
         battleData.nation2,

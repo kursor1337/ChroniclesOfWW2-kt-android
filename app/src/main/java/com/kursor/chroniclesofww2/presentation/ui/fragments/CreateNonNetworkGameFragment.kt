@@ -59,7 +59,7 @@ class CreateNonNetworkGameFragment : Fragment() {
             )
         }
         battleViewModel.battleLiveData.observe(viewLifecycleOwner) { battle ->
-            gameDataViewModel.battleDataLiveData.value = battle.data
+            gameDataViewModel.battleLiveData.value = battle
             Log.i("CreateAbstractGameFragment", "set name battle")
             binding.gameDataFragment.visibility = View.VISIBLE
         }

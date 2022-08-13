@@ -38,7 +38,9 @@ android {
 
 dependencies {
 
-    implementation project(path: ':model')
+
+    implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:0.2")
+
     implementation 'com.google.firebase:firebase-auth:21.0.7'
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.12'
     implementation 'com.google.firebase:firebase-analytics-ktx:21.1.0'

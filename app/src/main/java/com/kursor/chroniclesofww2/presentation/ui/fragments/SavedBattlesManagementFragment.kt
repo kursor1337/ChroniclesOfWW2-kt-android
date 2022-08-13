@@ -24,7 +24,7 @@ class SavedBattlesManagementFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSavedBattlesManagementBinding.inflate(inflater, container, false)
         return binding.root
     }

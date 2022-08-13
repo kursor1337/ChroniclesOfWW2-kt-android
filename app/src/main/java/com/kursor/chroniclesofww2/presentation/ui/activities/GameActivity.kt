@@ -1,26 +1,20 @@
 package com.kursor.chroniclesofww2.presentation.ui.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
-import android.widget.Button
-import android.widget.LinearLayout
-import androidx.appcompat.widget.AppCompatButton
-import com.kursor.chroniclesofww2.objects.Const
+import androidx.appcompat.app.AppCompatActivity
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.databinding.ActivityGameBinding
 import com.kursor.chroniclesofww2.model.controllers.Controller
-import com.kursor.chroniclesofww2.model.data.GameData
-import com.kursor.chroniclesofww2.model.game.DivisionResources
 import com.kursor.chroniclesofww2.model.game.Model
 import com.kursor.chroniclesofww2.model.game.Reserve
-import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.board.Tile
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
+import com.kursor.chroniclesofww2.model.serializable.GameData
+import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.hudViews.BoardView
 import com.kursor.chroniclesofww2.presentation.hudViews.DivisionResourcesView
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
@@ -40,19 +34,19 @@ abstract class GameActivity : AppCompatActivity() {
 
     protected val controllerListener = object : Controller.Listener {
 
-        override fun onMotionMoveComplete(motionMove: MotionMove) {
+        override fun onMotionMoveComplete(motionMove: MotionMove, turn: Int) {
             Log.i(TAG, "onMotionMoveComplete: start")
             boardView.hideLegalMoves()
             notifyEnemy(motionMove)
         }
 
-        override fun onAddMoveComplete(addMove: AddMove) {
+        override fun onAddMoveComplete(addMove: AddMove, turn: Int) {
             Log.i(TAG, "onAddMoveComplete: ")
             boardView.hideLegalMoves()
             notifyEnemy(addMove)
         }
 
-        override fun onEnemyMoveComplete(move: Move) {
+        override fun onEnemyMoveComplete(move: Move, turn: Int) {
             Log.i(TAG, "onEnemyMoveComplete: ")
             Log.i("EventListener", "onEnemyMoveComplete")
             boardView.hideLegalMoves()
@@ -123,7 +117,7 @@ abstract class GameActivity : AppCompatActivity() {
         divisionResourcesMe.setOnReserveClickListener {
             controller.processReserveClick(
                 it.reserve!!.type,
-                divisionResourcesMe.divisionResources!!.playerName
+                divisionResourcesMe.divisionResources?.playerName
                     ?: return@setOnReserveClickListener
             )
         }

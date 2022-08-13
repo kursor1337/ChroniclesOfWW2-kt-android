@@ -1,8 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.battleRepositories
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.kursor.chroniclesofww2.model.data.Battle
+import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

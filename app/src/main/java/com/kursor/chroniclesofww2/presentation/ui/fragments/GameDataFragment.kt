@@ -8,10 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kursor.chroniclesofww2.data.repositories.BattleManager
 import com.kursor.chroniclesofww2.databinding.FragmentGameDataBinding
-import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.board.Division.Type.*
-import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
 import org.koin.android.ext.android.inject
 
@@ -42,10 +41,10 @@ class GameDataFragment : Fragment() {
         }
 
         gameDataViewModel.apply {
-            battleDataLiveData.observe(viewLifecycleOwner) { battleData ->
+            battleLiveData.observe(viewLifecycleOwner) { battleData ->
                 binding.battleNameTextView.text =
                     battleManager.findBattleById(battleData.id)?.name
-                setTextsToViews(battleData)
+                setTextsToViews(battleData.data)
             }
             myNameLiveData.observe(viewLifecycleOwner) { myName ->
                 binding.myNameTextView.text = myName

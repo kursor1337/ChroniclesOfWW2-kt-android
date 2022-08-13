@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.BattleRepository
-import com.kursor.chroniclesofww2.model.data.Battle
+import com.kursor.chroniclesofww2.model.serializable.Battle
 
 class BattleListViewModel : ViewModel() {
 

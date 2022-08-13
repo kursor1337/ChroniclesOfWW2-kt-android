@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.RecyclerviewBattlesBinding
-import com.kursor.chroniclesofww2.model.data.Battle
+import com.kursor.chroniclesofww2.model.serializable.Battle
 
 class BattleAdapter(
     private val activity: Activity,

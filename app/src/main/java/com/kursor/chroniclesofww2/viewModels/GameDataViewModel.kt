@@ -2,14 +2,14 @@ package com.kursor.chroniclesofww2.viewModels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kursor.chroniclesofww2.model.data.Battle
-import com.kursor.chroniclesofww2.model.data.GameData
+import com.kursor.chroniclesofww2.model.serializable.Battle
+import com.kursor.chroniclesofww2.model.serializable.GameData
 
 class GameDataViewModel : ViewModel() {
 
     val myNameLiveData = MutableLiveData<String>()
     val enemyNameLiveData = MutableLiveData<String>()
-    val battleDataLiveData = MutableLiveData<Battle.Data>()
+    val battleLiveData = MutableLiveData<Battle>()
     var boardHeight: Int = 0
     var boardWidth: Int = 0
     var invertNations: Boolean = false
@@ -20,7 +20,7 @@ class GameDataViewModel : ViewModel() {
             GameData(
                 myNameLiveData.value!!,
                 enemyNameLiveData.value!!,
-                battleDataLiveData.value!!,
+                battleLiveData.value!!,
                 boardHeight,
                 boardWidth,
                 invertNations,

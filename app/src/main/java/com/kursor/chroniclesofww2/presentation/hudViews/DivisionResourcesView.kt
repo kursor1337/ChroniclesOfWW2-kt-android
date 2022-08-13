@@ -8,8 +8,8 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
 import com.kursor.chroniclesofww2.getFlagResId
 import com.kursor.chroniclesofww2.objects.Tools
-import com.kursor.chroniclesofww2.model.data.Player
 import com.kursor.chroniclesofww2.model.game.DivisionResources
+import com.kursor.chroniclesofww2.model.game.GamePlayer
 import com.kursor.chroniclesofww2.model.game.Reserve
 
 class DivisionResourcesView(
@@ -21,7 +21,7 @@ class DivisionResourcesView(
         orientation = HORIZONTAL
     }
 
-    fun setup(player: Player) {
+    fun setup(player: GamePlayer) {
         divisionResources = player.divisionResources
         setBackgroundResource(player.nation.getFlagResId())
     }

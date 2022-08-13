@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.model.game.board
 
-import com.kursor.chroniclesofww2.model.data.Player
+import com.kursor.chroniclesofww2.model.data.GamePlayer
 
 
 class Board(val height: Int, val width: Int) {
@@ -20,7 +20,7 @@ class Board(val height: Int, val width: Int) {
         tiles[i][j].division = division
     }
 
-    fun getListOfDivisions(player: Player) = getListOfDivisions(player.name)
+    fun getListOfDivisions(player: GamePlayer) = getListOfDivisions(player.name)
 
     fun getListOfDivisions(playerName: String): List<Division> {
         return mutableListOf<Division>().also {
