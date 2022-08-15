@@ -3,17 +3,15 @@ package com.kursor.chroniclesofww2.presentation.ui.activities
 import android.os.Bundle
 import android.view.Window
 import android.widget.Toast
-import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.model.controllers.Controller
 import com.kursor.chroniclesofww2.model.controllers.TwoHostsController
-import com.kursor.chroniclesofww2.model.data.GameData
-import com.kursor.chroniclesofww2.model.game.DivisionResources
 import com.kursor.chroniclesofww2.model.game.Model
-import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.moves.Move
+import com.kursor.chroniclesofww2.model.serializable.GameData
+import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
+import com.kursor.chroniclesofww2.objects.Tools
 
 class MultiplayerGameActivity : GameActivity() {
 

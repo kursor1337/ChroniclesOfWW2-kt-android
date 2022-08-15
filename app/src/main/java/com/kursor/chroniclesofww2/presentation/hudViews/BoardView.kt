@@ -3,13 +3,13 @@ package com.kursor.chroniclesofww2.presentation.hudViews
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-import android.view.View
+import android.view.Gravity
 import android.widget.TableLayout
 import android.widget.TableRow
-import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
+import com.kursor.chroniclesofww2.objects.Tools
 
 class BoardView(
     context: Context,
@@ -42,13 +42,20 @@ class BoardView(
 
         val tileWidth = minOf(
             Tools.getScreenWidth() / board.width,
-            Tools.getScreenHeight() / board.height
+            Tools.getScreenHeight() * 2 / board.height / 3
         )
+
+        gravity = if (tileWidth * board.width < Tools.getScreenWidth()) Gravity.CENTER_HORIZONTAL
+        else Gravity.CENTER_VERTICAL
         Log.i(TAG, "init: tileWidth = $tileWidth")
         val tableRowLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, tileWidth)
         val tileViewLayoutParams = TableRow.LayoutParams(tileWidth, tileWidth)
+
         for (i in 0 until board.height) {
-            val currentTableRow = TableRow(context).apply { layoutParams = tableRowLayoutParams }
+            val currentTableRow = TableRow(context).apply {
+                layoutParams = tableRowLayoutParams
+                gravity = Gravity.CENTER_HORIZONTAL
+            }
             Log.i(TAG, "init: New TileRow, index = $i")
             this.addView(currentTableRow)
             for (j in 0 until board.width) {
