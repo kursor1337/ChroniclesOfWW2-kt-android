@@ -34,6 +34,9 @@ class SettingsFragment : Fragment() {
         binding.savedBattlesButton.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_savedBattlesManagementFragment)
         }
+
+
+
     }
 
 }

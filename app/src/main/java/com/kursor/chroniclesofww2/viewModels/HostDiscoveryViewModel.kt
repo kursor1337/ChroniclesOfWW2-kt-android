@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Client
 
-class HostListViewModel(val client: Client) : ViewModel() {
+class HostDiscoveryViewModel(val client: Client) : ViewModel() {
 
 
     private val hostList = mutableListOf<Host>()

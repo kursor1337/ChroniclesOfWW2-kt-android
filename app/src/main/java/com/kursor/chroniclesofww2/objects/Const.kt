@@ -42,6 +42,11 @@ object Const {
         const val HOST_IS_WITH_PASSWORD = "host is with password"
         const val PASSWORD = "password"
         const val USERNAME = "username"
+
+
+
+        const val URL = "0.0.0.0"
+        const val PORT = 8080
     }
 
 }

@@ -11,7 +11,7 @@ import com.kursor.chroniclesofww2.databinding.FragmentGameDataBinding
 import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.board.Division.Type.*
 import com.kursor.chroniclesofww2.model.serializable.Battle
-import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.android.ext.android.inject
 
 class GameDataFragment : Fragment() {

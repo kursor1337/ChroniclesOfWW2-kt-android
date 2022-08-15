@@ -7,6 +7,9 @@ import android.util.Log
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.*
 import java.lang.NullPointerException
 import java.lang.Thread.sleep
@@ -47,8 +50,8 @@ class LocalServer(
     private var waiting = false
 
     override fun startListening() {
-        waiting = true
-        Thread {
+        CoroutineScope(Dispatchers.IO).launch {
+            waiting = true
             Log.i("Server", "Thread Started")
             val socket: Socket
             try {
@@ -59,12 +62,7 @@ class LocalServer(
                 val output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
                 val input = BufferedReader(InputStreamReader(socket.getInputStream()))
                 while (waiting) {
-                    sleep(50)
                     val name = input.readLine()
-                    if (name == null) {
-                        Log.i("Server", "Client info not yet obtained")
-                        continue
-                    }
                     val connection = LocalConnection(
                         input,
                         output,
@@ -90,7 +88,8 @@ class LocalServer(
                 handler.post { listener.onListeningStartError(e) }
 
             }
-        }.start()
+        }
+
     }
 
     override fun stopListening() {

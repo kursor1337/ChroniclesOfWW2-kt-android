@@ -5,4 +5,7 @@ interface SettingsRepository {
 
     var username: String
 
+    var login: String?
+    var password: String?
+
 }

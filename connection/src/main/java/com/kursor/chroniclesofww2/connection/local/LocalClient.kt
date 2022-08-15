@@ -8,6 +8,10 @@ import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Client
 import com.kursor.chroniclesofww2.connection.interfaces.Client.Listener
 import com.kursor.chroniclesofww2.connection.interfaces.println
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.*
 import java.net.Socket
 import java.net.UnknownHostException
@@ -26,30 +30,21 @@ class LocalClient(
 
     private val nsdDiscovery = NsdDiscovery(activity, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
-            handler.post {
-                availableHosts.add(host)
-                discoveryListeners.forEach { it.onHostDiscovered(host) }
-            }
+            availableHosts.add(host)
+            discoveryListeners.forEach { it.onHostDiscovered(host) }
         }
 
         override fun onHostLost(host: Host) {
-            handler.post {
-                availableHosts.remove(host)
-                discoveryListeners.forEach { it.onHostLost(host) }
-            }
-
+            availableHosts.remove(host)
+            discoveryListeners.forEach { it.onHostLost(host) }
         }
 
         override fun onDiscoveryFailed(errorCode: Int) {
-            handler.post {
-                listener.onFail(errorCode)
-            }
+            listener.onFail(errorCode)
         }
 
         override fun onResolveFailed(errorCode: Int) {
-            handler.post {
-                listener.onFail(errorCode)
-            }
+            listener.onFail(errorCode)
         }
     })
 
@@ -62,10 +57,10 @@ class LocalClient(
     }
 
     override fun connectTo(host: Host, password: String?) {
-        val inetAddress = host.inetAddress
-        val port = host.port
-        val name = host.name
-        Thread {
+        CoroutineScope(Dispatchers.IO).launch {
+            val inetAddress = host.inetAddress
+            val port = host.port
+            val name = host.name
             var socket: Socket? = null
             try {
                 Log.i("Client", "Before Connection")
@@ -73,7 +68,7 @@ class LocalClient(
                 Log.i("Client", "After Connection")
                 val input = BufferedReader(InputStreamReader(socket.getInputStream()))
                 val output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
-                output.println(this.name)
+                output.println(this@LocalClient.name)
                 output.flush()
                 Log.i("Client", "Sent Client Info")
                 val connection =
@@ -99,8 +94,6 @@ class LocalClient(
                 Log.e("Client", e::class.java.name)
                 Log.e("Client", "Client Error")
             }
-
-
-        }.start()
+        }
     }
 }

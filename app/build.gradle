@@ -20,7 +20,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -45,9 +45,17 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.12'
     implementation 'com.google.firebase:firebase-analytics-ktx:21.1.0'
     def koin_version = "3.2.0"
+    def ktor_version = "2.1.0"
 
     implementation project(":connection")
     implementation project(":data")
+
+    //ktor client
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    implementation "io.ktor:ktor-client-websockets:$ktor_version"
+    implementation "io.ktor:ktor-client-logging:$ktor_version"
 
     //Koin di
     // Koin Core features

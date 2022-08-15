@@ -14,8 +14,8 @@ import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardB
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
-import com.kursor.chroniclesofww2.viewModels.BattleListViewModel
-import com.kursor.chroniclesofww2.viewModels.BattleViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.phelat.navigationresult.BundleFragment
 import org.koin.android.ext.android.inject
 

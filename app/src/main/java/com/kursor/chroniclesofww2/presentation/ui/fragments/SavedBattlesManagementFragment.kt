@@ -3,14 +3,12 @@ package com.kursor.chroniclesofww2.presentation.ui.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.databinding.FragmentSavedBattlesManagementBinding
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.setTitleColor
-import com.kursor.chroniclesofww2.viewModels.BattleListViewModel
 import org.koin.android.ext.android.inject
 
 class SavedBattlesManagementFragment : Fragment() {

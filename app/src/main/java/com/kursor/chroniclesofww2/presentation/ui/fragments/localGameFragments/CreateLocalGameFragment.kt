@@ -3,16 +3,13 @@ package com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.local.LocalServer
-import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.CreateAbstractGameFragment
-import com.kursor.chroniclesofww2.viewModels.BattleViewModel
-import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
-import org.koin.android.ext.android.inject
+import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 
 class CreateLocalGameFragment : CreateAbstractGameFragment() {
 

@@ -17,7 +17,7 @@ import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment
-import com.kursor.chroniclesofww2.viewModels.BattleViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import org.koin.android.ext.android.inject
 
 class CreateNewBattleDialogFragment : DialogFragment() {

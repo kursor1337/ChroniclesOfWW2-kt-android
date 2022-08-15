@@ -18,8 +18,8 @@ import com.kursor.chroniclesofww2.databinding.FragmentCreateNonNetworkGameBindin
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.activities.SinglePlayerGameActivity
-import com.kursor.chroniclesofww2.viewModels.BattleViewModel
-import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.android.ext.android.inject
 
 

@@ -1,8 +1,8 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments.webGameFragments
 
 import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.CreateAbstractGameFragment
-import com.kursor.chroniclesofww2.viewModels.BattleViewModel
-import com.kursor.chroniclesofww2.viewModels.GameDataViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
+import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 
 class CreateWebGameFragment : CreateAbstractGameFragment() {
     override val actionToBattleChooseFragmentId: Int
