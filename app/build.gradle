@@ -40,8 +40,8 @@ dependencies {
 
 
     //mu
-    implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:0.2")
-    implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:0.1")
+    implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:master-SNAPSHOT")
+    implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:master-SNAPSHOT")
 
     implementation 'com.google.firebase:firebase-auth:21.0.7'
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.12'
@@ -80,7 +80,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:"
     implementation 'androidx.appcompat:appcompat:1.6.0-alpha05'
 
-    implementation "com.phelat:navigationresult:1.0.0"
+    implementation "com.phelat:navigationresult:1.0.1"
 
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.1"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.1"

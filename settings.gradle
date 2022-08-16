@@ -1,16 +1,14 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
         google()
         mavenCentral()
         jcenter()
-        maven { url "https://jitpack.io" }
+        maven { url "https://www.jitpack.io" }
          // Warning: this repository is going to shut down soon
     }
 }
 rootProject.name = "Chronicles Of WW2"
-include ':app'
-include ':model'
-include ':connection'
-include ':data'
-include ':domain'
+include("app", "data", "connection", "domain")
