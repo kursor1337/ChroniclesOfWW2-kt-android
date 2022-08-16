@@ -9,5 +9,8 @@ java {
 }
 
 dependencies {
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:master-SNAPSHOT")
+    implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:master-SNAPSHOT")
 }
