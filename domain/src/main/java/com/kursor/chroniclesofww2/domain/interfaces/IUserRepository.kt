@@ -5,7 +5,7 @@ import com.kursor.chroniclesofww2.model.serializable.Battle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-interface IUserService {
+interface IUserRepository {
 
 
     suspend fun login(loginReceiveDTO: LoginReceiveDTO): LoginResponseDTO

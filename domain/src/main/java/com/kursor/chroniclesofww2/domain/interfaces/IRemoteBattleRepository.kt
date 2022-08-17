@@ -3,7 +3,7 @@ package com.kursor.chroniclesofww2.domain.interfaces
 import com.kursor.chroniclesofww2.features.*
 import com.kursor.chroniclesofww2.model.serializable.Battle
 
-interface IBattleService {
+interface IRemoteBattleRepository {
 
     suspend fun getAllBattles(token: String): List<Battle>
 

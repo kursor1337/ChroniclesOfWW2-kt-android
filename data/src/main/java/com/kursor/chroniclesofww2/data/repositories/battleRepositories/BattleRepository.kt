@@ -10,7 +10,7 @@ interface BattleRepository {
 
     val battleList: List<Battle>
 
-    fun findBattleById(id: Int): Battle
+    fun findBattleById(id: Int): Battle?
 
     fun defaultBattle(): Battle {
         return Battle(

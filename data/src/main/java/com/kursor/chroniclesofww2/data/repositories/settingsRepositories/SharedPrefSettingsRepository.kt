@@ -1,8 +1,9 @@
 package com.kursor.chroniclesofww2.data.repositories.settingsRepositories
 
 import android.content.Context
+import com.kursor.chroniclesofww2.domain.interfaces.ISettingsRepository
 
-class SharedPrefSettingsRepository(val context: Context) : SettingsRepository {
+class SharedPrefSettingsRepository(val context: Context) : ISettingsRepository {
 
     val sharedPreferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE)
 

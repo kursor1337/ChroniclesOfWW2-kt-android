@@ -11,7 +11,7 @@ class LocalCustomBattleRepository(
 ) : MutableBattleRepository {
 
 
-    override val PREFIX = 1_000_000_000
+    override val PREFIX = -1_000_000_000
 
     private val moshi =
         Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter<MutableList<Battle>>(
@@ -26,7 +26,7 @@ class LocalCustomBattleRepository(
         private set
 
 
-    override fun findBattleById(id: Int): Battle {
+    override fun findBattleById(id: Int): Battle? {
         val index = id - PREFIX
         return battleList[index]
     }
