@@ -2,7 +2,7 @@ package com.kursor.chroniclesofww2.data
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepository
 import com.kursor.chroniclesofww2.model.data.Battle
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division

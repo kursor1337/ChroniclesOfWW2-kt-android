@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.domain.interfaces
 
-interface ISettingsRepository {
+interface SettingsRepository {
 
     var username: String
 

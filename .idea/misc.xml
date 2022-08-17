@@ -3,6 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/activity_game.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/activity_main.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/dialog_password.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_battle_choose.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_choose_multiplayer_game.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_create_battle.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_create_network_game.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_create_non_network_game.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_game_data.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_login.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_main.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_register.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_saved_battles_management.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_settings.xml" value="0.1716485507246377" />
         <entry key="..\:/KotlinProjects/ChroniclesOfWW2-kt/app/src/main/res/drawable/attacked.xml" value="0.2275" />
         <entry key="..\:/KotlinProjects/ChroniclesOfWW2-kt/app/src/main/res/drawable/drawable_button.xml" value="0.2305" />
         <entry key="..\:/KotlinProjects/ChroniclesOfWW2-kt/app/src/main/res/drawable/drawable_main.xml" value="0.2305" />

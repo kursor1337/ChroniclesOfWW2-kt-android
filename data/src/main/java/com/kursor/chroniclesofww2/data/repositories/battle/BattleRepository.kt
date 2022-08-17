@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.data.repositories.battleRepositories
+package com.kursor.chroniclesofww2.data.repositories.battle
 
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division

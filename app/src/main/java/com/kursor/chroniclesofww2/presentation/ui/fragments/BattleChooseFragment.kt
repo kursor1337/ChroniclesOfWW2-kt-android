@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepository
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter

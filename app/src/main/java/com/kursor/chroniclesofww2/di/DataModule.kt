@@ -1,10 +1,14 @@
 package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.data.repositories.BattleManager
-import com.kursor.chroniclesofww2.data.repositories.battleRepositories.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.battleRepositories.StandardBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.settingsRepositories.SharedPrefSettingsRepository
-import com.kursor.chroniclesofww2.domain.interfaces.ISettingsRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.settings.SharedPrefSettingsRepository
+import com.kursor.chroniclesofww2.data.repositories.user.UserRepositoryImpl
+import com.kursor.chroniclesofww2.domain.interfaces.SettingsRepository
+import com.kursor.chroniclesofww2.domain.interfaces.UserRepository
+import com.kursor.chroniclesofww2.objects.Const
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -16,7 +20,14 @@ val dataModule = module {
         StandardBattleRepository(context = get())
     }
 
-    single<ISettingsRepository> {
+    single {
+        RemoteCustomBattleRepository(
+            serverUrl = Const.connection.FULL_SERVER_URL,
+            httpClient = get()
+        )
+    }
+
+    single<SettingsRepository> {
         SharedPrefSettingsRepository(context = get())
     }
 
@@ -26,6 +37,13 @@ val dataModule = module {
                 get<StandardBattleRepository>(),
                 get<LocalCustomBattleRepository>()
             )
+        )
+    }
+
+    single<UserRepository> {
+        UserRepositoryImpl(
+            serverUrl = Const.connection.FULL_SERVER_URL,
+            httpClient = get()
         )
     }
 

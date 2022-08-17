@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/signed_in_layout"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -71,7 +72,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/not_signed_in_layout"
-            android:visibility="gone"
             >
 
             <Button

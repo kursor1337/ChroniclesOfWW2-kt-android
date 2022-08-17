@@ -1,11 +1,5 @@
 package com.kursor.chroniclesofww2.objects
 
-import android.util.Log
-import java.net.InetAddress
-import java.net.NetworkInterface
-import java.net.SocketException
-import java.util.*
-
 object Const {
 
     object game {
@@ -45,8 +39,9 @@ object Const {
 
 
 
-        const val URL = "0.0.0.0"
+        const val SERVER_URL = "0.0.0.0"
         const val PORT = 8080
+        const val FULL_SERVER_URL = "$SERVER_URL:$PORT"
     }
 
 }
