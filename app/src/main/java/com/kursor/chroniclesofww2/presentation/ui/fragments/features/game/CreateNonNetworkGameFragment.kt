@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,6 +18,7 @@ import com.kursor.chroniclesofww2.databinding.FragmentCreateNonNetworkGameBindin
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.activities.SinglePlayerGameActivity
+import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.android.ext.android.inject

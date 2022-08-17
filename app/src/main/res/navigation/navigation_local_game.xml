@@ -7,7 +7,7 @@
     <fragment
         tools:layout="@layout/fragment_create_network_game"
         android:id="@+id/createLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments.CreateLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments.CreateLocalGameFragment"
         android:label="CreateLocalGameFragment" >
         <action
             android:id="@+id/action_createLocalGameFragment_to_battleChooseFragment"
@@ -16,7 +16,7 @@
     <fragment
         tools:layout="@layout/fragment_battle_choose"
         android:id="@+id/battleChooseFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment"
         android:label="BattleChooseFragment" >
         <action
             android:id="@+id/action_battleChooseFragment_to_createNewBattleDialogFragment"
@@ -30,6 +30,6 @@
     <fragment
         tools:layout="@layout/fragment_game_data"
         android:id="@+id/gameDataFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.GameDataFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.GameDataFragment"
         android:label="GameDataFragment" />
 </navigation>

@@ -1,6 +1,6 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.webGameFragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.game.webGameFragments
 
-import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.JoinAbstractGameFragment
+import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment
 
 class JoinWebGameFragment : JoinAbstractGameFragment() {
     override val actionToPasswordDialogFragmentId: Int

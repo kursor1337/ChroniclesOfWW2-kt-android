@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseMultiplayerGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.ChooseMultiplayerGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.ChooseMultiplayerGameFragment"
         android:label="ChooseMultiplayerGameFragment"
         tools:layout="@layout/fragment_choose_multiplayer_game">
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/joinLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments.JoinLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments.JoinLocalGameFragment"
         android:label="JoinLocalGameFragment"
         tools:layout="@layout/fragment_join_game">
         <action
@@ -60,7 +60,7 @@
     <fragment
         tools:layout="@layout/fragment_saved_battles_management"
         android:id="@+id/savedBattlesManagementFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.SavedBattlesManagementFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.SavedBattlesManagementFragment"
         android:label="SavedBattlesManagementFragment" />
     <include app:graph="@navigation/navigation_local_game" />
     <include app:graph="@navigation/navigation_non_network_game" />

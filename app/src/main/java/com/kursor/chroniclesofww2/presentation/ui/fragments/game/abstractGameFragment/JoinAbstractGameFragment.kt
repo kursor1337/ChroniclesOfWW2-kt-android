@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment
+package com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment
 
 import android.content.Intent
 import android.os.Bundle

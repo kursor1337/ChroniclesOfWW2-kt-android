@@ -64,7 +64,7 @@
             tools:layout="@layout/fragment_game_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.GameDataFragment"
+            android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.GameDataFragment"
             />
 
     </FrameLayout>

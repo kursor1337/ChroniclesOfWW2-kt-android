@@ -1,13 +1,11 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.localGameFragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.local.LocalClient
-import com.kursor.chroniclesofww2.Settings
-import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.JoinAbstractGameFragment
-import org.koin.android.ext.android.inject
+import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment
 
 
 class JoinLocalGameFragment : JoinAbstractGameFragment() {

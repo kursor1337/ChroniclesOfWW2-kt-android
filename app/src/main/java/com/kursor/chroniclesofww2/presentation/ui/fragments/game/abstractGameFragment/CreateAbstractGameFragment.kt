@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment
+package com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -29,7 +29,7 @@ import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
-import com.kursor.chroniclesofww2.presentation.ui.fragments.BattleChooseFragment
+import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import com.phelat.navigationresult.BundleFragment

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.kursor.chroniclesofww2.objects.Const.connection.PASSWORD
 import com.kursor.chroniclesofww2.databinding.DialogPasswordBinding
-import com.kursor.chroniclesofww2.presentation.ui.fragments.abstractGameFragment.JoinAbstractGameFragment.Companion.PASSWORD_REQUEST_ID
+import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment.Companion.PASSWORD_REQUEST_ID
 import com.phelat.navigationresult.navigateUp
 
 class PasswordDialogFragment : DialogFragment() {
