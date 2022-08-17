@@ -35,15 +35,12 @@ class LoginFragment : Fragment() {
         binding.passwordEditText.setText(loginViewModel.password)
 
         loginViewModel.loginResponseLiveData.observe(viewLifecycleOwner) { loginResponseDTO ->
-            if (loginResponseDTO == null) return@observe
             if (loginResponseDTO.token == null) Toast.makeText(
                 requireContext(),
                 loginResponseDTO.message,
                 Toast.LENGTH_SHORT
             ).show()
-            else settings.token = loginResponseDTO.token
         }
-
 
         binding.loginEditText.doOnTextChanged { text, start, before, count ->
             loginViewModel.login = text.toString()

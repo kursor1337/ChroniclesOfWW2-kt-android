@@ -1,9 +1,12 @@
 package com.kursor.chroniclesofww2
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.kursor.chroniclesofww2.domain.interfaces.SettingsRepository
 import com.kursor.chroniclesofww2.domain.interfaces.TokenHandler
 import com.kursor.chroniclesofww2.features.ChangePasswordReceiveDTO
 import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.patterns.Observable
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -30,6 +33,14 @@ class Settings(private val settingsRepository: SettingsRepository) : TokenHandle
         get() = settingsRepository.password
 
     override var token: String? = null
+        set(value) {
+            field = value
+            _tokenLiveData.value = value
+        }
+
+
+    private val _tokenLiveData = MutableLiveData<String?>()
+    val tokenLiveData: LiveData<String?> get() = _tokenLiveData
 
     private fun changePassword(password: String, httpClient: HttpClient) {
         if (token == null) return

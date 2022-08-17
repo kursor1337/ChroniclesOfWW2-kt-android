@@ -1,16 +1,19 @@
 package com.kursor.chroniclesofww2.domain.useCases.user
 
+import com.kursor.chroniclesofww2.domain.interfaces.TokenHandler
 import com.kursor.chroniclesofww2.domain.interfaces.UserRepository
 import com.kursor.chroniclesofww2.features.RegisterReceiveDTO
 import com.kursor.chroniclesofww2.features.RegisterResponseDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RegisterUseCase(val userRepository: UserRepository) {
+class RegisterUseCase(val tokenHandler: TokenHandler, val userRepository: UserRepository) {
 
     suspend operator fun invoke(registerReceiveDTO: RegisterReceiveDTO): RegisterResponseDTO {
         return withContext(Dispatchers.IO) {
-            userRepository.register(registerReceiveDTO)
+            val registerResponseDTO = userRepository.register(registerReceiveDTO)
+            if (registerResponseDTO.token != null) tokenHandler.token = registerResponseDTO.token
+            registerResponseDTO
         }
     }
 }
