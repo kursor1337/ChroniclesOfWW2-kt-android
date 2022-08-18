@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNonNetworkGameBinding
+import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.activities.SinglePlayerGameActivity
@@ -29,7 +30,7 @@ class CreateNonNetworkGameFragment : Fragment() {
     lateinit var binding: FragmentCreateNonNetworkGameBinding
     val battleViewModel by navGraphViewModels<BattleViewModel>(R.id.navigation_non_network_game)
     val gameDataViewModel by viewModels<GameDataViewModel>()
-    val settings by inject<Settings>()
+    val accountRepository by inject<AccountRepository>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +47,7 @@ class CreateNonNetworkGameFragment : Fragment() {
 
         binding.gameDataFragment.visibility = View.GONE
         gameDataViewModel.apply {
-            myNameLiveData.value = settings.username
+            myNameLiveData.value = accountRepository.username
             enemyNameLiveData.value = "player"
             meInitiator = true
         }

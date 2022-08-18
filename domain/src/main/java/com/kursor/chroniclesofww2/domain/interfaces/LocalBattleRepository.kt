@@ -1,8 +1,8 @@
-package com.kursor.chroniclesofww2.data.repositories.battle
+package com.kursor.chroniclesofww2.domain.interfaces
 
 import com.kursor.chroniclesofww2.model.serializable.Battle
 
-interface MutableBattleRepository : BattleRepository {
+interface LocalBattleRepository : BattleRepository {
 
     fun nextBattleId(): Int
 

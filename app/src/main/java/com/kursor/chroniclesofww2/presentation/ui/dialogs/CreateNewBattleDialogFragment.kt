@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepositoryImpl
 import com.kursor.chroniclesofww2.databinding.FragmentCreateBattleBinding
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
@@ -30,7 +30,7 @@ class CreateNewBattleDialogFragment : DialogFragment() {
 
     var navigationGraphId: Int? = null
 
-    val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
+    val localCustomBattleRepository by inject<LocalCustomBattleRepositoryImpl>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

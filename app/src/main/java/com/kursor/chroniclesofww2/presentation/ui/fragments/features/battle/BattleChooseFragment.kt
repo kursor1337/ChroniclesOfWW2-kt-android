@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepositoryImpl
+import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
@@ -23,8 +23,8 @@ class BattleChooseFragment : BundleFragment() {
 
     lateinit var binding: FragmentBattleChooseBinding
 
-    private val standardBattleRepository by inject<StandardBattleRepository>()
-    private val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
+    private val standardBattleRepository by inject<StandardBattleRepositoryImpl>()
+    private val localCustomBattleRepository by inject<LocalCustomBattleRepositoryImpl>()
     //private val remoteCustomBattleRepository by inject<RemoteCustomBattleRepository>()
 
     var navigationGraphId: Int? = null

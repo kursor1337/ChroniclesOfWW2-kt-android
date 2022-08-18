@@ -2,10 +2,10 @@ package com.kursor.chroniclesofww2.data
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepository
-import com.kursor.chroniclesofww2.model.data.Battle
+import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
+import com.kursor.chroniclesofww2.model.serializable.Battle
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,8 +18,8 @@ class StandardBattleRepositoryTest {
 
     @Test
     fun getStandardScenarioDataList() {
-        val repo = StandardBattleRepository(context)
-        val expected = listOf<Battle.Data>(
+        val repo = StandardBattleRepositoryImpl(context)
+        val expected = listOf(
             Battle.Data(
                 0, Nation.BRITAIN, mapOf(
                     Division.Type.INFANTRY to 6,

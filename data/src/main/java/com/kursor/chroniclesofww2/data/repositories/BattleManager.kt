@@ -1,9 +1,9 @@
 package com.kursor.chroniclesofww2.data.repositories
 
-import com.kursor.chroniclesofww2.data.repositories.battle.BattleRepository
+import com.kursor.chroniclesofww2.domain.interfaces.BattleRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 
-class BattleManager(val repositories: List<BattleRepository>, ) {
+class BattleManager(val repositories: List<BattleRepository>) {
 
     fun findBattleById(id: Int): Battle? {
         for (repo in repositories) {

@@ -25,6 +25,7 @@ import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter
 import com.kursor.chroniclesofww2.connection.interfaces.Client
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
+import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment
@@ -48,7 +49,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
     abstract val clientInitErrorMessageResId: Int
 
 
-    val settings by inject<Settings>()
+    val settings by inject<AccountRepository>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

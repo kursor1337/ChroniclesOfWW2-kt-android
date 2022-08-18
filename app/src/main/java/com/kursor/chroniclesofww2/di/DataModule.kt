@@ -1,9 +1,9 @@
 package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.data.repositories.BattleManager
-import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepository
+import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepositoryImpl
+import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRepositoryImpl
+import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.settings.AccountRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.user.UserRepositoryImpl
 import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
@@ -13,37 +13,40 @@ import org.koin.dsl.module
 
 val dataModule = module {
     single {
-        LocalCustomBattleRepository(context = get())
+        LocalCustomBattleRepositoryImpl(context = get())
     }
 
     single {
-        StandardBattleRepository(context = get())
+        StandardBattleRepositoryImpl(context = get())
     }
 
     single {
-        RemoteCustomBattleRepository(
+        RemoteCustomBattleRepositoryImpl(
             serverUrl = Const.connection.FULL_SERVER_URL,
             httpClient = get(),
-            protocol = Const.connection.PROTOCOL
+            accountRepository = get()
         )
     }
 
     single<AccountRepository> {
-        AccountRepositoryImpl(context = get())
+        AccountRepositoryImpl(
+            context = get(),
+            httpClient = get(),
+            serverUrl = Const.connection.FULL_SERVER_URL
+        )
     }
 
     single {
         BattleManager(
             listOf(
-                get<StandardBattleRepository>(),
-                get<LocalCustomBattleRepository>()
+                get<StandardBattleRepositoryImpl>(),
+                get<LocalCustomBattleRepositoryImpl>()
             )
         )
     }
 
     single<UserRepository> {
         UserRepositoryImpl(
-            protocol = Const.connection.PROTOCOL,
             serverUrl = Const.connection.FULL_SERVER_URL,
             httpClient = get()
         )

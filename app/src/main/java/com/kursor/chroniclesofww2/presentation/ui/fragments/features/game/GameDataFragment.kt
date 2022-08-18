@@ -13,12 +13,13 @@ import com.kursor.chroniclesofww2.model.game.board.Division.Type.*
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GameDataFragment : Fragment() {
 
     lateinit var binding: FragmentGameDataBinding
 
-    val gameDataViewModel by viewModels<GameDataViewModel>({ requireParentFragment() })
+    val gameDataViewModel by viewModel<GameDataViewModel>(owner = { requireParentFragment() })
     val battleManager by inject<BattleManager>()
 
     override fun onCreateView(

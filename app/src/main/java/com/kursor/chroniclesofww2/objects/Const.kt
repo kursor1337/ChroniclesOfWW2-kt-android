@@ -40,9 +40,8 @@ object Const {
 
         const val SERVER_URL = "10.0.2.2"
         const val PORT = 8080
-        const val FULL_SERVER_URL = "$SERVER_URL:$PORT"
-
         const val PROTOCOL = "http"
+        const val FULL_SERVER_URL = "$PROTOCOL://$SERVER_URL:$PORT"
     }
 
 }

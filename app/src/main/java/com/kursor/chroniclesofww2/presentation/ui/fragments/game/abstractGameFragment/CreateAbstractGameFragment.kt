@@ -15,6 +15,7 @@ import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.interfaces.Server
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
+import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
@@ -56,7 +57,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     abstract val battleViewModel: BattleViewModel
     abstract val gameDataViewModel: GameDataViewModel
-    val settings by inject<Settings>()
+    val settings by inject<AccountRepository>()
 
     protected val receiveListener = object : Connection.ReceiveListener {
         override fun onReceive(string: String) {

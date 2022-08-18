@@ -7,35 +7,32 @@ val domainModule = module {
 
     factory {
         LoginUseCase(
-            accountRepository = get<Settings>(),
+            accountRepository = get(),
             userRepository = get()
         )
     }
 
     factory {
         RegisterUseCase(
-            accountRepository = get<Settings>(),
+            accountRepository = get(),
             userRepository = get()
         )
     }
 
     factory {
         ChangeUsernameUseCase(
-            userRepository = get(),
-            accountRepository1 = get<Settings>(),
             accountRepository = get()
         )
     }
 
     factory {
         ChangePasswordUseCase(
-            userRepository = get(),
             accountRepository = get()
         )
     }
 
     factory {
-        LogoutUseCase(accountRepository = get<Settings>())
+        LogoutUseCase(accountRepository = get())
     }
 
     factory {

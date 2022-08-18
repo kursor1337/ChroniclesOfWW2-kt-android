@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentSettingsBinding
+import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 import com.kursor.chroniclesofww2.domain.useCases.user.LogoutUseCase
 import com.kursor.chroniclesofww2.features.LoginReceiveDTO
 import com.kursor.chroniclesofww2.features.LoginResponseDTO
@@ -24,7 +25,7 @@ import org.koin.android.ext.android.inject
 class SettingsFragment : Fragment() {
 
     lateinit var binding: FragmentSettingsBinding
-    val settings by inject<Settings>()
+    val accountRepository by inject<AccountRepository>()
     val httpClient by inject<HttpClient>()
 
     val logoutUseCase by inject<LogoutUseCase>()
@@ -39,10 +40,10 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.usernameEditText.setText(settings.username)
+        binding.usernameEditText.setText(accountRepository.username)
         binding.saveButton.setOnClickListener {
-            if (settings.username == binding.usernameEditText.text.toString()) return@setOnClickListener
-            settings.username = binding.usernameEditText.text.toString()
+            if (accountRepository.username == binding.usernameEditText.text.toString()) return@setOnClickListener
+            accountRepository.username = binding.usernameEditText.text.toString()
         }
 
         binding.savedBattlesButton.setOnClickListener {
@@ -61,18 +62,18 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_registerFragment)
         }
 
-        settings.tokenLiveData.observe(viewLifecycleOwner) { token ->
-            viewLifecycleOwner.lifecycleScope.launch {
-                if (isSignedIn()) {
-                    binding.notSignedInLayout.visibility = View.GONE
-                    binding.signedInLayout.visibility = View.VISIBLE
-                    binding.loginTextView.text = settings.login
-                } else {
-                    binding.notSignedInLayout.visibility = View.VISIBLE
-                    binding.signedInLayout.visibility = View.GONE
-                }
-            }
-        }
+//        accountRepository.tokenLiveData.observe(viewLifecycleOwner) { token ->
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                if (isSignedIn()) {
+//                    binding.notSignedInLayout.visibility = View.GONE
+//                    binding.signedInLayout.visibility = View.VISIBLE
+//                    binding.loginTextView.text = accountRepository.login
+//                } else {
+//                    binding.notSignedInLayout.visibility = View.VISIBLE
+//                    binding.signedInLayout.visibility = View.GONE
+//                }
+//            }
+//        }
 
     }
 
@@ -81,38 +82,32 @@ class SettingsFragment : Fragment() {
     }
 
     suspend fun tokenValid(): Boolean {
-        if (settings.token == null) return false
+        if (accountRepository.token == null) return false
         val response =
             httpClient.post(
-                Routes.Users.AUTH.absolutePath(
-                    Const.connection.PROTOCOL,
-                    Const.connection.FULL_SERVER_URL
-                )
+                Routes.Account.AUTH.absolutePath(Const.connection.FULL_SERVER_URL)
             ) {
-                bearerAuth(settings.token ?: return false)
+                bearerAuth(accountRepository.token ?: return false)
             }
         return response.status == HttpStatusCode.OK
     }
 
     suspend fun credentialsValid(): Boolean {
-        if (settings.login == null || settings.password == null) return false
+        if (accountRepository.login == null || accountRepository.password == null) return false
         val response =
             httpClient.post(
-                Routes.Users.LOGIN.absolutePath(
-                    Const.connection.PROTOCOL,
-                    Const.connection.FULL_SERVER_URL
-                )
+                Routes.Users.LOGIN.absolutePath(Const.connection.FULL_SERVER_URL)
             ) {
                 setBody(
                     LoginReceiveDTO(
-                        login = settings.login ?: return false,
-                        password = settings.password ?: return false
+                        login = accountRepository.login ?: return false,
+                        password = accountRepository.password ?: return false
                     )
                 )
             }
         val loginResponseDTO = response.body<LoginResponseDTO>()
         if (loginResponseDTO.token != null) {
-            settings.token = loginResponseDTO.token
+            accountRepository.token = loginResponseDTO.token
             return true
         }
         return false
