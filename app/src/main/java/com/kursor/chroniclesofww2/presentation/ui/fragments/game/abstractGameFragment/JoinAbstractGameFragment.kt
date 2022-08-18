@@ -22,7 +22,7 @@ import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter
-import com.kursor.chroniclesofww2.connection.interfaces.Client
+import com.kursor.chroniclesofww2.connection.interfaces.LocalClient
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
@@ -38,7 +38,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
     var isAccepted = false
 
-    protected lateinit var client: Client
+    protected lateinit var localClient: LocalClient
 
     val hostList = mutableListOf<Host>()
     lateinit var hostAdapter: HostAdapter
@@ -71,7 +71,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
         hostAdapter = HostAdapter(requireActivity(), hostList).apply {
             setOnItemClickListener { view, position, host ->
-                client.connectTo(host)
+                localClient.connectTo(host)
             }
         }
         binding.hostsRecyclerView.adapter = hostAdapter
@@ -82,7 +82,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
     abstract fun checkConditionsForClientInit(): Boolean
 
     fun tryToInitClient() {
-        if (this::client.isInitialized) {
+        if (this::localClient.isInitialized) {
             Toast.makeText(requireContext(), "Client already initialized", Toast.LENGTH_SHORT)
                 .show()
             return
@@ -94,8 +94,8 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
             return
         }
         initClient()
-        client.discoveryListeners.add(clientDiscoveryListener)
-        client.startDiscovery()
+        localClient.discoveryListeners.add(clientDiscoveryListener)
+        localClient.startDiscovery()
         showList()
     }
 
@@ -112,7 +112,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (this::client.isInitialized) client.stopDiscovery()
+        if (this::localClient.isInitialized) localClient.stopDiscovery()
     }
 
     protected val receiveListener: Connection.ReceiveListener =
@@ -149,7 +149,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
                             intent.putExtra(CONNECTED_DEVICE, host)
                                 .putExtra(MULTIPLAYER_GAME_MODE, CLIENT)
                                 .putExtra(BATTLE, string)
-                            client.stopDiscovery()
+                            localClient.stopDiscovery()
                             startActivity(intent)
                         }
                     }
@@ -172,7 +172,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
     }
 
 
-    protected val clientListener: Client.Listener = object : Client.Listener {
+    protected val localClientListener: LocalClient.Listener = object : LocalClient.Listener {
         override fun onException(e: Exception) {
             Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
         }
@@ -190,7 +190,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
         }
     }
 
-    private val clientDiscoveryListener = object : Client.DiscoveryListener {
+    private val clientDiscoveryListener = object : LocalClient.DiscoveryListener {
         override fun onHostDiscovered(host: Host) {
             hostList.add(host)
             hostAdapter.notifyItemInserted(hostList.lastIndex)

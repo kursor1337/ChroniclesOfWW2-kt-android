@@ -5,8 +5,8 @@ import android.os.Handler
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.interfaces.Client
-import com.kursor.chroniclesofww2.connection.interfaces.Client.Listener
+import com.kursor.chroniclesofww2.connection.interfaces.LocalClient
+import com.kursor.chroniclesofww2.connection.interfaces.LocalClient.Listener
 import com.kursor.chroniclesofww2.connection.interfaces.println
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,17 +16,15 @@ import java.io.*
 import java.net.Socket
 import java.net.UnknownHostException
 
-class LocalClient(
+class NsdLocalClient(
     activity: Activity,
     private val name: String,
     override val listener: Listener
-) : Client {
+) : LocalClient {
 
-    override val discoveryListeners = mutableListOf<Client.DiscoveryListener>()
+    override val discoveryListeners = mutableListOf<LocalClient.DiscoveryListener>()
 
     override val availableHosts = mutableListOf<Host>()
-
-    override val handler = Handler(activity.mainLooper)
 
     private val nsdDiscovery = NsdDiscovery(activity, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
@@ -68,7 +66,7 @@ class LocalClient(
                 Log.i("Client", "After Connection")
                 val input = BufferedReader(InputStreamReader(socket.getInputStream()))
                 val output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
-                output.println(this@LocalClient.name)
+                output.println(this@NsdLocalClient.name)
                 output.flush()
                 Log.i("Client", "Sent Client Info")
                 val connection =
@@ -77,13 +75,12 @@ class LocalClient(
                         output,
                         host,
                         sendListener = null,
-                        receiveListener = null,
-                        handler.looper
+                        Dispatchers.IO
                     ).apply {
                         shutdownListeners.add(Connection.ShutdownListener { socket.close() })
                     }
                 Log.i("Client", "Connection established")
-                handler.post {
+                withContext(Dispatchers.Main) {
                     listener.onConnectionEstablished(connection)
                 }
                 Log.i("Client", "Client shutdown")

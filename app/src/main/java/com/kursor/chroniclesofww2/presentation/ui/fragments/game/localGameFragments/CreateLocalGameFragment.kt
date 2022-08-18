@@ -6,7 +6,7 @@ import android.net.NetworkCapabilities
 import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.local.LocalServer
+import com.kursor.chroniclesofww2.connection.local.NsdLocalServer
 import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.CreateAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
@@ -21,13 +21,13 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
 
     override fun initServer() {
         if (gameDataJson.isBlank()) return
-        server = LocalServer(
+        localServer = NsdLocalServer(
             requireActivity(),
             settings.username,
             binding.hostPasswordEditText.text.toString(),
             serverListener
         )
-        server.startListening()
+        localServer.startListening()
         isHostReady = true
     }
 

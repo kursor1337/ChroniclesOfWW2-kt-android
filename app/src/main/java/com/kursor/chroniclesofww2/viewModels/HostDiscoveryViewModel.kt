@@ -1,19 +1,17 @@
 package com.kursor.chroniclesofww2.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.interfaces.Client
+import com.kursor.chroniclesofww2.connection.interfaces.LocalClient
 
-class HostDiscoveryViewModel(val client: Client) : ViewModel() {
+class HostDiscoveryViewModel(val localClient: LocalClient) : ViewModel() {
 
 
     private val hostList = mutableListOf<Host>()
 
     var observer: RecyclerViewViewModelObserver? = null
 
-    private val clientDiscoveryListener = object : Client.DiscoveryListener {
+    private val clientDiscoveryListener = object : LocalClient.DiscoveryListener {
         override fun onHostDiscovered(host: Host) {
             hostList.add(host)
             observer?.itemInserted(hostList.lastIndex)
@@ -27,7 +25,7 @@ class HostDiscoveryViewModel(val client: Client) : ViewModel() {
     }
 
     init {
-        client.discoveryListeners.add(clientDiscoveryListener)
+        localClient.discoveryListeners.add(clientDiscoveryListener)
     }
 
     fun getHostList(): List<Host> = hostList

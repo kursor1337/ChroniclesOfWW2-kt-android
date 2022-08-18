@@ -1,14 +1,14 @@
 package com.kursor.chroniclesofww2.connection.web
 
 import android.os.Handler
-import com.kursor.chroniclesofww2.connection.interfaces.Server
+import com.kursor.chroniclesofww2.connection.interfaces.LocalServer
 
-class WebServer() : Server {
+class WebKtorServer() : LocalServer {
     override val name: String
         get() = TODO("Not yet implemented")
     override val password: String?
         get() = TODO("Not yet implemented")
-    override val listener: Server.Listener
+    override val listener: LocalServer.Listener
         get() = TODO("Not yet implemented")
     override val handler: Handler
         get() = TODO("Not yet implemented")

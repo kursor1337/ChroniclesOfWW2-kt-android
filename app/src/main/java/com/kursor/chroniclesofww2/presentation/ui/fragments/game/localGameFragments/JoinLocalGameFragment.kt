@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.local.LocalClient
+import com.kursor.chroniclesofww2.connection.local.NsdLocalClient
 import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment
 
 
@@ -16,10 +16,10 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
         R.string.client_init_error_message_local
 
     override fun initClient() {
-        client = LocalClient(
+        localClient = NsdLocalClient(
             requireActivity(),
             settings.username,
-            clientListener
+            localClientListener
         )
 
         //(Tools.username, activity, sendListener, receiveListener, clientListener)

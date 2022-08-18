@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.connection.interfaces.Server
+import com.kursor.chroniclesofww2.connection.interfaces.LocalServer
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
 import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
@@ -47,7 +47,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     var currentDialog: DialogFragment? = null
 
-    protected lateinit var server: Server
+    protected lateinit var localServer: LocalServer
     lateinit var connection: Connection
     protected var isHostReady = false
     lateinit var gameData: GameData
@@ -63,7 +63,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         override fun onReceive(string: String) {
             when (string) {
                 REQUEST_FOR_ACCEPT -> if (isHostReady) {
-                    if (server.password != null) {
+                    if (localServer.password != null) {
                         connection.send(HOST_IS_WITH_PASSWORD)
                     } else {
                         currentDialog?.dismiss()
@@ -78,7 +78,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                         .putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
                         .putExtra(Const.game.GAME_DATA, gameDataJson)
                     Tools.currentConnection = connection
-                    server.stopListening()
+                    localServer.stopListening()
                     startActivity(intent)
                 }
                 CANCEL_CONNECTION -> {
@@ -88,9 +88,9 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                 }
                 INVALID_JSON -> Log.i("Server", "Sent invalid json")
                 else -> {
-                    if (string.contains(PASSWORD)) {
+                    if (string.startsWith(PASSWORD)) {
                         val password = string.removePrefix(PASSWORD)
-                        if (password == server.password) {
+                        if (password == localServer.password) {
                             currentDialog?.dismiss()
                             buildMessageConnectionRequest(connection.host)
                         }
@@ -102,10 +102,9 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         override fun onDisconnected() {
             TODO("Not yet implemented")
         }
-
     }
 
-    protected val serverListener = object : Server.Listener {
+    protected val serverListener = object : LocalServer.Listener {
         override fun onConnectionEstablished(connection: Connection) {
             Tools.currentConnection = connection.apply {
                 this.receiveListener = this@CreateAbstractGameFragment.receiveListener
@@ -184,11 +183,11 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         val dialog: SimpleDialogFragment =
             SimpleDialogFragment.Builder(activity).setCancelable(false)
                 .setNegativeButton("Cancel") { dialog, which ->
-                    server.stopListening()
+                    localServer.stopListening()
                     binding.readyButton.isEnabled = true
                 }.setMessage("Waiting for Connections...")
                 .setOnCancelListener {
-                    server.stopListening()
+                    localServer.stopListening()
                     binding.readyButton.isEnabled = true
                 }
                 .build()
@@ -214,7 +213,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (this::server.isInitialized) server.stopListening()
+        if (this::localServer.isInitialized) localServer.stopListening()
     }
 
     companion object {

@@ -1,12 +1,10 @@
 package com.kursor.chroniclesofww2.connection.interfaces
 
-import android.os.Handler
 import com.kursor.chroniclesofww2.connection.Host
 
-interface Client {
+interface LocalClient {
 
     val availableHosts: MutableList<Host>
-    val handler: Handler
     val listener: Listener
     val discoveryListeners: MutableList<DiscoveryListener>
 

@@ -6,25 +6,24 @@ import android.os.Handler
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.connection.interfaces.Server
+import com.kursor.chroniclesofww2.connection.interfaces.LocalServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.*
 import java.lang.NullPointerException
-import java.lang.Thread.sleep
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketException
 
-class LocalServer(
+class NsdLocalServer(
     activity: Activity,
     override val name: String,
     override val password: String? = null,
-    override val listener: Server.Listener
-) : Server {
+    override val listener: LocalServer.Listener
+) : LocalServer {
 
-    override val handler = Handler(activity.mainLooper)
+    val handler = Handler(activity.mainLooper)
 
     private val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
@@ -68,8 +67,7 @@ class LocalServer(
                         output,
                         Host(name, socket.inetAddress, socket.port),
                         sendListener = null,
-                        receiveListener = null,
-                        handler.looper
+                        Dispatchers.IO
                     ).apply {
                         shutdownListeners.add(Connection.ShutdownListener { socket.close() })
                     }

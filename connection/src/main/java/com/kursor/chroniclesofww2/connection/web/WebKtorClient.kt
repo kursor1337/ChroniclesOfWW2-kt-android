@@ -3,19 +3,19 @@ package com.kursor.chroniclesofww2.connection.web
 import android.app.Activity
 import android.os.Handler
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.interfaces.Client
+import com.kursor.chroniclesofww2.connection.interfaces.LocalClient
 
-class WebClient(
+class WebKtorClient(
     activity: Activity,
 
-    ) : Client {
+    ) : LocalClient {
     override val availableHosts: MutableList<Host>
         get() = TODO("Not yet implemented")
     override val handler: Handler
         get() = TODO("Not yet implemented")
-    override val listener: Client.Listener
+    override val listener: LocalClient.Listener
         get() = TODO("Not yet implemented")
-    override val discoveryListeners: MutableList<Client.DiscoveryListener>
+    override val discoveryListeners: MutableList<LocalClient.DiscoveryListener>
         get() = TODO("Not yet implemented")
 
     override fun startDiscovery() {

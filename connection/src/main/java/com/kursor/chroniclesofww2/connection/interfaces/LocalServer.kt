@@ -4,12 +4,11 @@ import android.os.Handler
 import com.kursor.chroniclesofww2.connection.Host
 import java.lang.Exception
 
-interface Server {
+interface LocalServer {
 
     val name: String
     val password: String?
     val listener: Listener
-    val handler: Handler
 
 
     fun startListening()
