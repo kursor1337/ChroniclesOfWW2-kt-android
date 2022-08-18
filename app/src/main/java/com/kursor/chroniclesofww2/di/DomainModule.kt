@@ -2,6 +2,7 @@ package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.domain.useCases.user.*
+import com.kursor.chroniclesofww2.features.LoginResponseDTO
 import org.koin.dsl.module
 
 val domainModule = module {

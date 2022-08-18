@@ -8,7 +8,11 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 
-class RemoteCustomBattleRepository(val serverUrl: String, val httpClient: HttpClient) :
+class RemoteCustomBattleRepository(
+    val protocol: String,
+    val serverUrl: String,
+    val httpClient: HttpClient
+) :
     BattleRepository, RemoteBattleRepository {
 
     override val PREFIX = 1_000_000_000
@@ -27,7 +31,7 @@ class RemoteCustomBattleRepository(val serverUrl: String, val httpClient: HttpCl
     }
 
     override suspend fun getAllBattles(token: String): List<Battle> {
-        val response = httpClient.get(Routes.Battles.GET_ALL.absolutePath(serverUrl)) {
+        val response = httpClient.get(Routes.Battles.GET_ALL.absolutePath(protocol, serverUrl)) {
             bearerAuth(token)
         }
         return when (response.status) {
@@ -37,9 +41,10 @@ class RemoteCustomBattleRepository(val serverUrl: String, val httpClient: HttpCl
     }
 
     override suspend fun getBattleById(token: String, id: Int): Battle? {
-        val response = httpClient.get(Routes.Battles.GET_BY_ID(id).absolutePath(serverUrl)) {
-            bearerAuth(token)
-        }
+        val response =
+            httpClient.get(Routes.Battles.GET_BY_ID(id).absolutePath(protocol, serverUrl)) {
+                bearerAuth(token)
+            }
         return when (response.status) {
             HttpStatusCode.Unauthorized -> null
             HttpStatusCode.NotFound -> null
@@ -48,7 +53,7 @@ class RemoteCustomBattleRepository(val serverUrl: String, val httpClient: HttpCl
     }
 
     override suspend fun getMyBattles(token: String): List<Battle> {
-        val response = httpClient.get(Routes.Battles.MY.absolutePath(serverUrl)) {
+        val response = httpClient.get(Routes.Battles.MY.absolutePath(protocol, serverUrl)) {
             bearerAuth(token)
         }
         return when (response.status) {
@@ -61,7 +66,7 @@ class RemoteCustomBattleRepository(val serverUrl: String, val httpClient: HttpCl
         token: String,
         saveBattleReceiveDTO: SaveBattleReceiveDTO
     ): SaveBattleResponseDTO {
-        val response = httpClient.post(Routes.Battles.SAVE.absolutePath(serverUrl)) {
+        val response = httpClient.post(Routes.Battles.SAVE.absolutePath(protocol, serverUrl)) {
             bearerAuth(token)
             setBody(saveBattleReceiveDTO)
         }
@@ -72,7 +77,7 @@ class RemoteCustomBattleRepository(val serverUrl: String, val httpClient: HttpCl
         token: String,
         editBattleReceiveDTO: EditBattleReceiveDTO
     ): EditBattleResponseDTO {
-        val response = httpClient.put(Routes.Battles.UPDATE.absolutePath(serverUrl)) {
+        val response = httpClient.put(Routes.Battles.UPDATE.absolutePath(protocol, serverUrl)) {
             bearerAuth(token)
             setBody(editBattleReceiveDTO)
         }
@@ -83,7 +88,7 @@ class RemoteCustomBattleRepository(val serverUrl: String, val httpClient: HttpCl
         token: String,
         deleteBattleReceiveDTO: DeleteBattleReceiveDTO
     ): DeleteBattleResponseDTO {
-        val response = httpClient.delete(Routes.Battles.DELETE.absolutePath(serverUrl)) {
+        val response = httpClient.delete(Routes.Battles.DELETE.absolutePath(protocol, serverUrl)) {
             bearerAuth(token)
             setBody(deleteBattleReceiveDTO)
         }

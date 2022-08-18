@@ -23,7 +23,8 @@ val dataModule = module {
     single {
         RemoteCustomBattleRepository(
             serverUrl = Const.connection.FULL_SERVER_URL,
-            httpClient = get()
+            httpClient = get(),
+            protocol = Const.connection.PROTOCOL
         )
     }
 
@@ -42,6 +43,7 @@ val dataModule = module {
 
     single<UserRepository> {
         UserRepositoryImpl(
+            protocol = Const.connection.PROTOCOL,
             serverUrl = Const.connection.FULL_SERVER_URL,
             httpClient = get()
         )

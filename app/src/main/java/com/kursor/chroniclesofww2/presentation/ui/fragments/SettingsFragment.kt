@@ -48,15 +48,30 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_savedBattlesManagementFragment)
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            if (isSignedIn()) {
-                binding.notSignedInLayout.visibility = View.GONE
-                binding.signedInLayout.visibility = View.VISIBLE
-            } else {
-                binding.notSignedInLayout.visibility = View.VISIBLE
-                binding.signedInLayout.visibility = View.GONE
+        binding.logOutButton.setOnClickListener {
+            settings.token = null
+        }
+
+        binding.loginButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
+        }
+
+        binding.registerButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_registerFragment)
+        }
+
+        settings.tokenLiveData.observe(viewLifecycleOwner) { token ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                if (isSignedIn()) {
+                    binding.notSignedInLayout.visibility = View.GONE
+                    binding.signedInLayout.visibility = View.VISIBLE
+                } else {
+                    binding.notSignedInLayout.visibility = View.VISIBLE
+                    binding.signedInLayout.visibility = View.GONE
+                }
             }
         }
+
     }
 
     suspend fun isSignedIn(): Boolean {
@@ -66,7 +81,12 @@ class SettingsFragment : Fragment() {
     suspend fun tokenValid(): Boolean {
         if (settings.token == null) return false
         val response =
-            httpClient.post(Routes.Users.AUTH.absolutePath(Const.connection.FULL_SERVER_URL)) {
+            httpClient.post(
+                Routes.Users.AUTH.absolutePath(
+                    Const.connection.PROTOCOL,
+                    Const.connection.FULL_SERVER_URL
+                )
+            ) {
                 bearerAuth(settings.token ?: return false)
             }
         return response.status == HttpStatusCode.OK
@@ -75,7 +95,12 @@ class SettingsFragment : Fragment() {
     suspend fun credentialsValid(): Boolean {
         if (settings.login == null || settings.password == null) return false
         val response =
-            httpClient.post(Routes.Users.LOGIN.absolutePath(Const.connection.FULL_SERVER_URL)) {
+            httpClient.post(
+                Routes.Users.LOGIN.absolutePath(
+                    Const.connection.PROTOCOL,
+                    Const.connection.FULL_SERVER_URL
+                )
+            ) {
                 setBody(
                     LoginReceiveDTO(
                         login = settings.login ?: return false,
