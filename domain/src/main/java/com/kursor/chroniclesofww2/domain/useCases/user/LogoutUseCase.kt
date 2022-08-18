@@ -1,11 +1,13 @@
 package com.kursor.chroniclesofww2.domain.useCases.user
 
-import com.kursor.chroniclesofww2.domain.interfaces.TokenHandler
+import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 
-class LogoutUseCase(val tokenHandler: TokenHandler) {
+class LogoutUseCase(val accountRepository: AccountRepository) {
 
     operator fun invoke() {
-        tokenHandler.token = null
+        accountRepository.token = null
+        accountRepository.login = null
+        accountRepository.password = null
     }
 
 }

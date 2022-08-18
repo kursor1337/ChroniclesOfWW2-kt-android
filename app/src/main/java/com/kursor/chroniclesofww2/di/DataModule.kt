@@ -4,9 +4,9 @@ import com.kursor.chroniclesofww2.data.repositories.BattleManager
 import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRepository
 import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepository
-import com.kursor.chroniclesofww2.data.repositories.settings.SharedPrefSettingsRepository
+import com.kursor.chroniclesofww2.data.repositories.settings.AccountRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.user.UserRepositoryImpl
-import com.kursor.chroniclesofww2.domain.interfaces.SettingsRepository
+import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 import com.kursor.chroniclesofww2.domain.interfaces.UserRepository
 import com.kursor.chroniclesofww2.objects.Const
 import org.koin.dsl.module
@@ -28,8 +28,8 @@ val dataModule = module {
         )
     }
 
-    single<SettingsRepository> {
-        SharedPrefSettingsRepository(context = get())
+    single<AccountRepository> {
+        AccountRepositoryImpl(context = get())
     }
 
     single {

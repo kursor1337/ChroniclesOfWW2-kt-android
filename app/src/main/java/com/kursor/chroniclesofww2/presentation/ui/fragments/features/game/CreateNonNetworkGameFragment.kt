@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNonNetworkGameBinding
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi

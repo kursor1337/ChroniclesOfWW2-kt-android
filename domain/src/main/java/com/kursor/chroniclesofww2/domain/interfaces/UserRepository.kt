@@ -12,17 +12,6 @@ interface UserRepository {
 
     suspend fun register(registerReceiveDTO: RegisterReceiveDTO): RegisterResponseDTO
 
-    suspend fun changePassword(
-        token: String,
-        changePasswordReceiveDTO: ChangePasswordReceiveDTO
-    ): ChangePasswordResponseDTO
-
-    suspend fun updateUserInfo(
-        token: String,
-        updateUserInfoReceiveDTO: UpdateUserInfoReceiveDTO
-    ): UpdateUserInfoResponseDTO
-
-
     suspend fun getUserInfoList(): List<UserInfo>
 
     suspend fun getUserInfoByLogin(login: String): UserInfo?

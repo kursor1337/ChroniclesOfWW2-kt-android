@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.databinding.FragmentSettingsBinding
+import com.kursor.chroniclesofww2.domain.useCases.user.LogoutUseCase
 import com.kursor.chroniclesofww2.features.LoginReceiveDTO
 import com.kursor.chroniclesofww2.features.LoginResponseDTO
 import com.kursor.chroniclesofww2.features.Routes
@@ -18,7 +18,6 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -27,6 +26,8 @@ class SettingsFragment : Fragment() {
     lateinit var binding: FragmentSettingsBinding
     val settings by inject<Settings>()
     val httpClient by inject<HttpClient>()
+
+    val logoutUseCase by inject<LogoutUseCase>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +50,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.logOutButton.setOnClickListener {
-            settings.token = null
+            logoutUseCase()
         }
 
         binding.loginButton.setOnClickListener {
@@ -65,6 +66,7 @@ class SettingsFragment : Fragment() {
                 if (isSignedIn()) {
                     binding.notSignedInLayout.visibility = View.GONE
                     binding.signedInLayout.visibility = View.VISIBLE
+                    binding.loginTextView.text = settings.login
                 } else {
                     binding.notSignedInLayout.visibility = View.VISIBLE
                     binding.signedInLayout.visibility = View.GONE

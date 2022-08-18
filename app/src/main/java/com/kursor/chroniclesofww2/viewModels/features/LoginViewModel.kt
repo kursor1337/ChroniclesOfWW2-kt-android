@@ -15,8 +15,8 @@ class LoginViewModel(val loginUseCase: LoginUseCase) : ViewModel() {
 
     var password = ""
 
-    private val _loginResponseDTOLiveData = MutableLiveData<LoginResponseDTO>()
-    val loginResponseLiveData: LiveData<LoginResponseDTO> get() = _loginResponseDTOLiveData
+    private val _loginResponseLiveData = MutableLiveData<LoginResponseDTO>()
+    val loginResponseLiveData: LiveData<LoginResponseDTO> get() = _loginResponseLiveData
 
     fun login() {
         viewModelScope.launch {
@@ -26,7 +26,7 @@ class LoginViewModel(val loginUseCase: LoginUseCase) : ViewModel() {
                     password = password
                 )
             )
-            _loginResponseDTOLiveData.value = loginResponseDTO
+            _loginResponseLiveData.value = loginResponseDTO
         }
     }
 

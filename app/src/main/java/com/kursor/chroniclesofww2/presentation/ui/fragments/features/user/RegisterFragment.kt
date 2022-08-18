@@ -64,6 +64,7 @@ class RegisterFragment : Fragment() {
                 "Something went wrong while registering",
                 Toast.LENGTH_LONG
             ).show()
+            else requireActivity().onBackPressed()
         }
     }
 }

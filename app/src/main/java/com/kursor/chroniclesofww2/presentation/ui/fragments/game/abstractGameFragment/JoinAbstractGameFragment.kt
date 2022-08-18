@@ -19,7 +19,6 @@ import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
 import com.kursor.chroniclesofww2.objects.Const.game.MULTIPLAYER_GAME_MODE
 import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter

@@ -38,7 +38,7 @@ object Const {
         const val USERNAME = "username"
 
 
-        const val SERVER_URL = "0.0.0.0"
+        const val SERVER_URL = "10.0.2.2"
         const val PORT = 8080
         const val FULL_SERVER_URL = "$SERVER_URL:$PORT"
 

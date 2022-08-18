@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import com.kursor.chroniclesofww2.Settings
 import com.kursor.chroniclesofww2.databinding.FragmentLoginBinding
 import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
 import org.koin.android.ext.android.inject
@@ -40,6 +39,7 @@ class LoginFragment : Fragment() {
                 loginResponseDTO.message,
                 Toast.LENGTH_SHORT
             ).show()
+            else requireActivity().onBackPressed()
         }
 
         binding.loginEditText.doOnTextChanged { text, start, before, count ->
