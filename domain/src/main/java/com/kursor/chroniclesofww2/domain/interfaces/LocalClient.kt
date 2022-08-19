@@ -1,10 +1,9 @@
-package com.kursor.chroniclesofww2.connection.interfaces
+package com.kursor.chroniclesofww2.domain.interfaces
 
-import com.kursor.chroniclesofww2.connection.Host
 
 interface LocalClient {
 
-    val availableHosts: MutableList<Host>
+    val availableHosts: MutableList<IHost>
     val listener: Listener
     val discoveryListeners: MutableList<DiscoveryListener>
 
@@ -12,7 +11,7 @@ interface LocalClient {
 
     fun stopDiscovery()
 
-    fun connectTo(host: Host, password: String? = null)
+    fun connectTo(host: IHost, password: String? = null)
 
     interface Listener {
         fun onConnectionEstablished(connection: Connection)
@@ -21,8 +20,8 @@ interface LocalClient {
     }
 
     interface DiscoveryListener {
-        fun onHostDiscovered(host: Host)
-        fun onHostLost(host: Host)
+        fun onHostDiscovered(host: IHost)
+        fun onHostLost(host: IHost)
     }
 
 }

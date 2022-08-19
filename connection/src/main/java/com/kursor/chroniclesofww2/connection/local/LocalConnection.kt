@@ -1,23 +1,20 @@
 package com.kursor.chroniclesofww2.connection.local
 
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import com.kursor.chroniclesofww2.connection.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.interfaces.Connection.Companion.DISCONNECT
-import com.kursor.chroniclesofww2.connection.interfaces.println
+import com.kursor.chroniclesofww2.domain.interfaces.Connection.Companion.DISCONNECT
+import com.kursor.chroniclesofww2.domain.interfaces.IHost
+import com.kursor.chroniclesofww2.domain.interfaces.println
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.*
-import java.util.concurrent.ArrayBlockingQueue
-import java.util.concurrent.BlockingQueue
 
 class LocalConnection(
     val input: BufferedReader,
     val output: BufferedWriter,
-    val host: Host,
+    val host: IHost,
     val ioDispatcher: CoroutineDispatcher,
     override var sendListener: Connection.SendListener?
 ) : Connection {

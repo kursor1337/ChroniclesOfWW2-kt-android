@@ -3,10 +3,15 @@ package com.kursor.chroniclesofww2.connection
 import android.net.nsd.NsdServiceInfo
 import android.os.Parcel
 import android.os.Parcelable
+import com.kursor.chroniclesofww2.domain.interfaces.IHost
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-data class Host(val name: String, val inetAddress: InetAddress, val port: Int) : Parcelable {
+data class Host(
+    override val name: String,
+    override val inetAddress: InetAddress,
+    override val port: Int
+) : Parcelable, IHost {
 
     constructor(nsdServiceInfo: NsdServiceInfo) : this(
         formatName(nsdServiceInfo.serviceName),

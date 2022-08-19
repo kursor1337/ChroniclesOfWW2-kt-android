@@ -1,7 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.account
 
 import android.content.Context
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.features.*
 import io.ktor.client.*
 import io.ktor.client.call.*

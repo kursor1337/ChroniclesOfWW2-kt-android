@@ -6,8 +6,8 @@ import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRep
 import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.account.AccountRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.user.UserRepositoryImpl
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
-import com.kursor.chroniclesofww2.domain.interfaces.UserRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
+import com.kursor.chroniclesofww2.domain.repositories.UserRepository
 import com.kursor.chroniclesofww2.objects.Const
 import org.koin.dsl.module
 

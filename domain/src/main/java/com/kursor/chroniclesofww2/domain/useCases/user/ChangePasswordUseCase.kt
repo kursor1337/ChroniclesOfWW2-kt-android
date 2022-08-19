@@ -1,7 +1,6 @@
 package com.kursor.chroniclesofww2.domain.useCases.user
 
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
-import com.kursor.chroniclesofww2.domain.interfaces.UserRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.features.ChangePasswordReceiveDTO
 import com.kursor.chroniclesofww2.features.ChangePasswordResponseDTO
 import kotlinx.coroutines.Dispatchers

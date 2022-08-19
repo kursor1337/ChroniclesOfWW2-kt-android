@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.features.GameFeaturesMessages
+import com.kursor.chroniclesofww2.domain.interfaces.Connection
 import com.kursor.chroniclesofww2.features.GameSessionDTO
 import com.kursor.chroniclesofww2.features.GameSessionMessageType
 import com.kursor.chroniclesofww2.model.controllers.Controller
@@ -19,7 +18,6 @@ import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
 import com.kursor.chroniclesofww2.model.serializable.GameData
-import com.kursor.chroniclesofww2.model.serializable.Player
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import kotlinx.coroutines.launch

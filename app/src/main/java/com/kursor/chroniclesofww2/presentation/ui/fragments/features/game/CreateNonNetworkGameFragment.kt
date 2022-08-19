@@ -11,10 +11,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNonNetworkGameBinding
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.activities.SinglePlayerGameActivity
@@ -22,13 +21,14 @@ import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.Batt
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.android.ext.android.inject
+import org.koin.androidx.navigation.koinNavGraphViewModel
 
 
 class CreateNonNetworkGameFragment : Fragment() {
 
 
     lateinit var binding: FragmentCreateNonNetworkGameBinding
-    val battleViewModel by navGraphViewModels<BattleViewModel>(R.id.navigation_non_network_game)
+    val battleViewModel by koinNavGraphViewModel<BattleViewModel>(R.id.navigation_non_network_game)
     val gameDataViewModel by viewModels<GameDataViewModel>()
     val accountRepository by inject<AccountRepository>()
 

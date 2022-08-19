@@ -1,13 +1,13 @@
 package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
-import android.os.Handler
 import android.util.Log
-import com.kursor.chroniclesofww2.connection.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.interfaces.LocalClient
-import com.kursor.chroniclesofww2.connection.interfaces.LocalClient.Listener
-import com.kursor.chroniclesofww2.connection.interfaces.println
+import com.kursor.chroniclesofww2.domain.interfaces.IHost
+import com.kursor.chroniclesofww2.domain.interfaces.LocalClient
+import com.kursor.chroniclesofww2.domain.interfaces.LocalClient.Listener
+import com.kursor.chroniclesofww2.domain.interfaces.println
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class NsdLocalClient(
 
     override val discoveryListeners = mutableListOf<LocalClient.DiscoveryListener>()
 
-    override val availableHosts = mutableListOf<Host>()
+    override val availableHosts = mutableListOf<IHost>()
 
     private val nsdDiscovery = NsdDiscovery(activity, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
@@ -54,7 +54,7 @@ class NsdLocalClient(
         nsdDiscovery.stopDiscovery()
     }
 
-    override fun connectTo(host: Host, password: String?) {
+    override fun connectTo(host: IHost, password: String?) {
         CoroutineScope(Dispatchers.IO).launch {
             val inetAddress = host.inetAddress
             val port = host.port

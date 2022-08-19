@@ -1,7 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.game
 
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
-import com.kursor.chroniclesofww2.domain.interfaces.RemoteGameRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
+import com.kursor.chroniclesofww2.domain.repositories.RemoteGameRepository
 import com.kursor.chroniclesofww2.features.CreateGameReceiveDTO
 import com.kursor.chroniclesofww2.features.CreateGameResponseDTO
 import com.kursor.chroniclesofww2.features.JoinGameReceiveDTO

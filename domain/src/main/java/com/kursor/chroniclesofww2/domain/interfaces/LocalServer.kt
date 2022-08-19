@@ -1,7 +1,5 @@
-package com.kursor.chroniclesofww2.connection.interfaces
+package com.kursor.chroniclesofww2.domain.interfaces
 
-import android.os.Handler
-import com.kursor.chroniclesofww2.connection.Host
 import java.lang.Exception
 
 interface LocalServer {
@@ -17,7 +15,6 @@ interface LocalServer {
 
     interface Listener {
         fun onConnectionEstablished(connection: Connection) {}
-        fun onStartedListening(host: Host) {}
         fun onStartedListening() {}
         fun onListeningStartError(e: Exception) {}
         fun onFail() {}

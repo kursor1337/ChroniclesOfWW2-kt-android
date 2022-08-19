@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.data.repositories
 
-import com.kursor.chroniclesofww2.domain.interfaces.BattleRepository
+import com.kursor.chroniclesofww2.domain.repositories.BattleRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 
 class BattleManager(val repositories: List<BattleRepository>) {

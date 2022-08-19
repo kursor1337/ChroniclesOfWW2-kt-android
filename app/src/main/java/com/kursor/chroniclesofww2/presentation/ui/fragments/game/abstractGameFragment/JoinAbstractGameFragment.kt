@@ -22,10 +22,10 @@ import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter
-import com.kursor.chroniclesofww2.connection.interfaces.LocalClient
-import com.kursor.chroniclesofww2.connection.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.interfaces.LocalClient
+import com.kursor.chroniclesofww2.domain.interfaces.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment

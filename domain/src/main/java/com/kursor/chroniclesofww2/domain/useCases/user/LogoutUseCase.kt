@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.domain.useCases.user
 
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 
 class LogoutUseCase(val accountRepository: AccountRepository) {
 

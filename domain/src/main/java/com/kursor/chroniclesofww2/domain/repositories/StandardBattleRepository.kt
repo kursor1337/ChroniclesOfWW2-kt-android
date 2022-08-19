@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.domain.interfaces
+package com.kursor.chroniclesofww2.domain.repositories
 
 interface StandardBattleRepository : BattleRepository {
 

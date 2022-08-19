@@ -5,8 +5,8 @@ import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
 import android.util.Log
-import com.kursor.chroniclesofww2.connection.interfaces.SERVICE_NAME
-import com.kursor.chroniclesofww2.connection.interfaces.SERVICE_TYPE
+import com.kursor.chroniclesofww2.domain.interfaces.SERVICE_NAME
+import com.kursor.chroniclesofww2.domain.interfaces.SERVICE_TYPE
 
 class NsdBroadcast(
     val nsdManager: NsdManager,

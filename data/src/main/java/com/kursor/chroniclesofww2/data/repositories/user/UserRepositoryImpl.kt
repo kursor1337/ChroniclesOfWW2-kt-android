@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.data.repositories.user
 
-import com.kursor.chroniclesofww2.domain.interfaces.UserRepository
+import com.kursor.chroniclesofww2.domain.repositories.UserRepository
 import com.kursor.chroniclesofww2.features.*
 import io.ktor.client.*
 import io.ktor.client.call.*

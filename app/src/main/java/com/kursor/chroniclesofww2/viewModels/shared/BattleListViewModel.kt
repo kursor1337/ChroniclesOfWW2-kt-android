@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kursor.chroniclesofww2.domain.interfaces.BattleRepository
-import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRepositoryImpl
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadLocalCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadRemoteCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadStandardBattleListUseCase

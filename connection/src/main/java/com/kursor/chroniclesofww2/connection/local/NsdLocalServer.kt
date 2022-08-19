@@ -5,11 +5,12 @@ import android.net.nsd.NsdServiceInfo
 import android.os.Handler
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.interfaces.Connection
-import com.kursor.chroniclesofww2.connection.interfaces.LocalServer
+import com.kursor.chroniclesofww2.domain.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.interfaces.LocalServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.*
 import java.lang.NullPointerException
 import java.net.ServerSocket
@@ -23,24 +24,14 @@ class NsdLocalServer(
     override val listener: LocalServer.Listener
 ) : LocalServer {
 
-    val handler = Handler(activity.mainLooper)
 
     private val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
-            handler.post {
-                try {
-                    listener.onStartedListening(Host(serviceInfo))
-                } catch (e: NullPointerException) {
-                    e.printStackTrace()
-                    listener.onStartedListening()
-                }
-            }
+            listener.onStartedListening()
         }
 
         override fun onRegistrationFailed(arg0: NsdServiceInfo, arg1: Int) {
-            handler.post {
-                listener.onFail()
-            }
+            listener.onFail()
         }
     })
 
@@ -71,7 +62,7 @@ class NsdLocalServer(
                     ).apply {
                         shutdownListeners.add(Connection.ShutdownListener { socket.close() })
                     }
-                    handler.post {
+                    withContext(Dispatchers.Main) {
                         listener.onConnectionEstablished(connection)
                     }
                     Log.i("Server", "Server Shutdown")
@@ -83,7 +74,7 @@ class NsdLocalServer(
                 e.printStackTrace()
             } catch (e: Exception) {
                 e.printStackTrace()
-                handler.post { listener.onListeningStartError(e) }
+                withContext(Dispatchers.Main) { listener.onListeningStartError(e) }
 
             }
         }

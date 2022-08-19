@@ -2,8 +2,7 @@ package com.kursor.chroniclesofww2.data.repositories.battle
 
 import android.content.Context
 import com.kursor.chroniclesofww2.data.R
-import com.kursor.chroniclesofww2.domain.interfaces.BattleRepository
-import com.kursor.chroniclesofww2.domain.interfaces.StandardBattleRepository
+import com.kursor.chroniclesofww2.domain.repositories.StandardBattleRepository
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
 import com.kursor.chroniclesofww2.model.serializable.Battle

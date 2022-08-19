@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.domain.interfaces
+package com.kursor.chroniclesofww2.domain.repositories
 
 import com.kursor.chroniclesofww2.features.ChangePasswordReceiveDTO
 import com.kursor.chroniclesofww2.features.ChangePasswordResponseDTO

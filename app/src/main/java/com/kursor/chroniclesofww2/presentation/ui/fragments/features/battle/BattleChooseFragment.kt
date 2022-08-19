@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepositoryImpl
-import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
-import com.kursor.chroniclesofww2.domain.interfaces.StandardBattleRepository
+import com.kursor.chroniclesofww2.domain.repositories.StandardBattleRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
@@ -20,6 +16,7 @@ import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.phelat.navigationresult.BundleFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.navigation.koinNavGraphViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BattleChooseFragment : BundleFragment() {
 
@@ -50,7 +47,7 @@ class BattleChooseFragment : BundleFragment() {
 
         binding.battleRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val battleListViewModel by viewModels<BattleListViewModel>()
+        val battleListViewModel by viewModel<BattleListViewModel>()
         battleListViewModel.getBattleLiveData().observe(viewLifecycleOwner) { newBattleList ->
             binding.battleRecyclerView.adapter =
                 BattleAdapter(requireActivity(), newBattleList).apply {

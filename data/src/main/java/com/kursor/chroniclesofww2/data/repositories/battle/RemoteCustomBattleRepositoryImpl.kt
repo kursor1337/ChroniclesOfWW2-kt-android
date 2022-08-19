@@ -1,7 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.battle
 
-import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
-import com.kursor.chroniclesofww2.domain.interfaces.RemoteCustomBattleRepository
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
+import com.kursor.chroniclesofww2.domain.repositories.RemoteCustomBattleRepository
 import com.kursor.chroniclesofww2.features.*
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import io.ktor.client.*

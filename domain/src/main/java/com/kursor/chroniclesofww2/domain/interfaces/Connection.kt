@@ -1,7 +1,5 @@
-package com.kursor.chroniclesofww2.connection.interfaces
+package com.kursor.chroniclesofww2.domain.interfaces
 
-import android.os.Handler
-import com.kursor.chroniclesofww2.connection.Host
 import kotlinx.coroutines.flow.Flow
 import java.io.BufferedWriter
 
