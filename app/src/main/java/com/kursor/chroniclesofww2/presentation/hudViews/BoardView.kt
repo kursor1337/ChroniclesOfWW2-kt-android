@@ -9,6 +9,7 @@ import android.widget.TableRow
 import com.kursor.chroniclesofww2.model.game.board.Board
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
+import com.kursor.chroniclesofww2.model.game.moves.Move
 import com.kursor.chroniclesofww2.objects.Tools
 
 class BoardView(
@@ -99,6 +100,10 @@ class BoardView(
                 tile.onTileViewClickListener = onTileViewClickListener
             }
         }
+    }
+
+    fun showLastMove(move: Move) {
+        TODO()
     }
 
     companion object {

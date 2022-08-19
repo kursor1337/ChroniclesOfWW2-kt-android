@@ -12,8 +12,6 @@ import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.hudViews.BoardView
 import com.kursor.chroniclesofww2.presentation.hudViews.DivisionResourcesView
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
-import com.kursor.chroniclesofww2.viewModels.GameSessionViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class GameActivity : AppCompatActivity() {
 
