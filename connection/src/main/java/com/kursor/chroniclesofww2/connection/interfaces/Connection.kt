@@ -12,7 +12,16 @@ interface Connection {
 
     suspend fun send(string: String)
 
-    fun shutdown()
+    fun shutdown() {
+        shutdownListeners.forEach {
+            it.onConnectionDisposed()
+        }
+    }
+
+    suspend fun disconnect() {
+        send(DISCONNECT)
+        shutdown()
+    }
 
     fun observeIncoming(): Flow<String>
 
@@ -42,6 +51,9 @@ interface Connection {
                 if (value == null) field?.shutdown()
                 field = value
             }
+
+
+        const val DISCONNECT = "Disconnect"
 
     }
 }

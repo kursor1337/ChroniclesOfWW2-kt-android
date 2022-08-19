@@ -1,10 +1,13 @@
 package com.kursor.chroniclesofww2.di
 
+import com.kursor.chroniclesofww2.connection.interfaces.Connection
+import com.kursor.chroniclesofww2.viewModels.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.RegisterViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
+import io.ktor.http.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -32,6 +35,10 @@ val appModule = module {
             loadLocalCustomBattleListUseCase = get(),
             loadRemoteCustomBattleListUseCase = get()
         )
+    }
+
+    viewModel { parameters ->
+        GameSessionViewModel(Connection.CURRENT!!, parameters.get())
     }
 
 }

@@ -5,6 +5,7 @@ import android.os.Looper
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.interfaces.Connection
 import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.connection.interfaces.Connection.Companion.DISCONNECT
 import com.kursor.chroniclesofww2.connection.interfaces.println
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +22,6 @@ class LocalConnection(
     override var sendListener: Connection.SendListener?
 ) : Connection {
 
-    val coroutineScope = CoroutineScope(ioDispatcher)
     var receiving = true
 
     override val shutdownListeners = mutableListOf<Connection.ShutdownListener>()
@@ -31,6 +31,7 @@ class LocalConnection(
     }
 
     override fun shutdown() {
+        super.shutdown()
         receiving = false
         try {
             input.close()
@@ -43,6 +44,9 @@ class LocalConnection(
     override fun observeIncoming(): Flow<String> = flow {
         while (receiving) {
             val string = input.readLine()
+            if (string == DISCONNECT) {
+                shutdown()
+            }
             Log.d("Receiver", "RECEIVED ==> $string")
             emit(string)
         }

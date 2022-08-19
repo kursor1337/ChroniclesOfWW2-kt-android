@@ -9,7 +9,7 @@ import com.kursor.chroniclesofww2.model.serializable.GameData
 
 class SinglePlayerGameActivity : GameActivity() {
 
-    override fun initController(
+    override fun setControllerToViewModel(
         gameData: GameData,
         listener: Controller.Listener
     ): Pair<Model, Controller> {
