@@ -17,7 +17,7 @@ class LocalConnection(
     val input: BufferedReader,
     val output: BufferedWriter,
     val host: Host,
-    ioDispatcher: CoroutineDispatcher,
+    val ioDispatcher: CoroutineDispatcher,
     override var sendListener: Connection.SendListener?
 ) : Connection {
 
@@ -48,8 +48,8 @@ class LocalConnection(
         }
     }
 
-    override fun send(string: String) {
-        coroutineScope.launch {
+    override suspend fun send(string: String) {
+        withContext(ioDispatcher) {
             try {
                 Log.d("Sender", "Connected, Sending: $string")
                 output.println(string)
@@ -67,6 +67,5 @@ class LocalConnection(
                 e.printStackTrace()
             }
         }
-
     }
 }

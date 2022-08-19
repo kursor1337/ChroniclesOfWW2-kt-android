@@ -10,7 +10,7 @@ interface Connection {
     var sendListener: SendListener?
     val shutdownListeners: MutableList<ShutdownListener>
 
-    fun send(string: String)
+    suspend fun send(string: String)
 
     fun shutdown()
 

@@ -11,13 +11,14 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class RemoteConnection(
     baseUrl: String,
     path: String,
     val httpClient: HttpClient,
-    dispatcher: CoroutineDispatcher
+    val dispatcher: CoroutineDispatcher
 ) : Connection {
 
     val fullUrl = "ws://$baseUrl/$path"
@@ -28,14 +29,12 @@ class RemoteConnection(
     val coroutineScope = CoroutineScope(dispatcher)
     private lateinit var webSocketSession: WebSocketSession
 
-    fun init() {
-        coroutineScope.launch {
-            webSocketSession = httpClient.webSocketSession(fullUrl)
-        }
+    suspend fun init() {
+        webSocketSession = httpClient.webSocketSession(fullUrl)
     }
 
-    override fun send(string: String) {
-        coroutineScope.launch {
+    override suspend fun send(string: String) {
+        withContext(dispatcher) {
             webSocketSession.send(string)
         }
     }
