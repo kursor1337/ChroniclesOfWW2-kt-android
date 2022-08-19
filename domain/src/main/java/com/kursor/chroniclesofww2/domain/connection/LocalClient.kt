@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.domain.interfaces
+package com.kursor.chroniclesofww2.domain.connection
 
 
 interface LocalClient {
@@ -7,11 +7,11 @@ interface LocalClient {
     val listener: Listener
     val discoveryListeners: MutableList<DiscoveryListener>
 
-    fun startDiscovery()
+    suspend fun startDiscovery()
 
-    fun stopDiscovery()
+    suspend fun stopDiscovery()
 
-    fun connectTo(host: IHost, password: String? = null)
+    suspend fun connectTo(host: IHost)
 
     interface Listener {
         fun onConnectionEstablished(connection: Connection)

@@ -2,7 +2,7 @@ package com.kursor.chroniclesofww2.viewModels
 
 import androidx.lifecycle.ViewModel
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.interfaces.LocalClient
+import com.kursor.chroniclesofww2.domain.connection.LocalClient
 
 class HostDiscoveryViewModel(val localClient: LocalClient) : ViewModel() {
 

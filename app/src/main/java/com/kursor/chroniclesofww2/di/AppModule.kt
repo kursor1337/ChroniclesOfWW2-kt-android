@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.di
 
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.viewModels.game.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.RegisterViewModel

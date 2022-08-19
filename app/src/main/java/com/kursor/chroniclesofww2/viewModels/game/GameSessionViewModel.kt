@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.features.GameSessionDTO
 import com.kursor.chroniclesofww2.features.GameSessionMessageType
 import com.kursor.chroniclesofww2.model.controllers.Controller

@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,8 +12,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
-import com.kursor.chroniclesofww2.domain.interfaces.LocalServer
+import com.kursor.chroniclesofww2.domain.connection.Connection
+import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
@@ -104,33 +105,48 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     abstract fun checkConditionsForServerInit(): Boolean
 
-    private fun buildMessageWaitingForConnections(): SimpleDialogFragment {
+    private fun buildMessageWaitingForConnections(
+        onPositiveClickListener: DialogInterface.OnClickListener,
+        onNegativeClickListener: DialogInterface.OnClickListener,
+        onCancelListener: DialogInterface.OnCancelListener
+    ): SimpleDialogFragment {
         val dialog: SimpleDialogFragment =
             SimpleDialogFragment.Builder(activity).setCancelable(false)
-                .setNegativeButton("Cancel") { dialog, which ->
-                    localServer.stopListening()
-                    binding.readyButton.isEnabled = true
-                }.setMessage("Waiting for Connections...")
-                .setOnCancelListener {
-                    localServer.stopListening()
-                    binding.readyButton.isEnabled = true
-                }
+                .setNegativeButton("Cancel", onNegativeClickListener)
+//                { dialog, which ->
+//                    localServer.stopListening()
+//                    binding.readyButton.isEnabled = true
+//                }
+                .setMessage("Waiting for Connections...")
+                .setOnCancelListener(onCancelListener)
+//        {
+//                    localServer.stopListening()
+//                    binding.readyButton.isEnabled = true
+//                }
                 .build()
         dialog.show(parentFragmentManager, "Waiting for connections")
         return dialog
     }
 
-    private fun buildMessageConnectionRequest(host: Host) {
+    private fun buildMessageConnectionRequest(
+        host: Host,
+        onPositiveClickListener: DialogInterface.OnClickListener,
+        onNegativeClickListener: DialogInterface.OnClickListener,
+        onCancelListener: DialogInterface.OnCancelListener
+    ) {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
             .setMessage(host.name + " wants to connect to this  device. Do you agree?")
             .setCancelable(false)
-            .setNegativeButton("Refuse") { dialog, which ->
-                connection.send(Const.connection.REJECTED)
-            }
-            .setPositiveButton("Allow") { dialog, which ->
-                connection.send(Const.connection.ACCEPTED)
-            }
-            .setOnCancelListener { connection.send(Const.connection.REJECTED) }
+            .setNegativeButton("Refuse", onNegativeClickListener)
+//            { dialog, which ->
+//                connection.send(Const.connection.REJECTED)
+//            }
+            .setPositiveButton("Allow", onPositiveClickListener)
+//            { dialog, which ->
+//                connection.send(Const.connection.ACCEPTED)
+//            }
+            .setOnCancelListener(onCancelListener)
+        //{ connection.send(Const.connection.REJECTED) }
             .build()
         dialog.show(parentFragmentManager, "Waiting for Connected")
         Toast.makeText(activity, R.string.waiting_for_connected, Toast.LENGTH_SHORT).show()
@@ -138,7 +154,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (this::localServer.isInitialized) localServer.stopListening()
+        //if (this::localServer.isInitialized) localServer.stopListening()
     }
 
     companion object {

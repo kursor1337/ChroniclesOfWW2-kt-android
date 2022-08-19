@@ -2,25 +2,21 @@ package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
 import android.net.nsd.NsdServiceInfo
-import android.os.Handler
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
-import com.kursor.chroniclesofww2.domain.interfaces.LocalServer
+import com.kursor.chroniclesofww2.domain.connection.Connection
+import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
-import java.lang.NullPointerException
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketException
 
 class NsdLocalServer(
     activity: Activity,
-    override val name: String,
-    override val password: String? = null,
     override val listener: LocalServer.Listener
 ) : LocalServer {
 
@@ -39,8 +35,8 @@ class NsdLocalServer(
 
     private var waiting = false
 
-    override fun startListening() {
-        CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun startListening(name: String) {
+        withContext(Dispatchers.IO) {
             waiting = true
             Log.i("Server", "Thread Started")
             val socket: Socket
@@ -52,11 +48,11 @@ class NsdLocalServer(
                 val output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
                 val input = BufferedReader(InputStreamReader(socket.getInputStream()))
                 while (waiting) {
-                    val name = input.readLine()
+                    val connectedName = input.readLine()
                     val connection = LocalConnection(
                         input,
                         output,
-                        Host(name, socket.inetAddress, socket.port),
+                        Host(connectedName, socket.inetAddress, socket.port),
                         sendListener = null,
                         ioDispatcher = Dispatchers.IO
                     ).apply {
@@ -81,7 +77,7 @@ class NsdLocalServer(
 
     }
 
-    override fun stopListening() {
+    override suspend fun stopListening() {
         Log.i("Server", "Stop Listening")
         waiting = false
         nsdBroadcast.unregisterService()

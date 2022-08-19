@@ -3,7 +3,7 @@ package com.kursor.chroniclesofww2.connection
 import android.net.nsd.NsdServiceInfo
 import android.os.Parcel
 import android.os.Parcelable
-import com.kursor.chroniclesofww2.domain.interfaces.IHost
+import com.kursor.chroniclesofww2.domain.connection.IHost
 import java.net.InetAddress
 import java.net.UnknownHostException
 

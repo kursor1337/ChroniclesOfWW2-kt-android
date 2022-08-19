@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.connection.remote
 
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.connection.Connection
 import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.websocket.*

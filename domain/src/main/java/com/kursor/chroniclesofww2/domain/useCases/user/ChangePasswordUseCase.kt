@@ -11,12 +11,11 @@ class ChangePasswordUseCase(
 ) {
 
     suspend operator fun invoke(
-        token: String,
-        newPassword: String
+        changePasswordReceiveDTO: ChangePasswordReceiveDTO
     ): ChangePasswordResponseDTO {
-        accountRepository.password = newPassword
+        accountRepository.password = changePasswordReceiveDTO.newPassword
         return withContext(Dispatchers.IO) {
-            accountRepository.changePassword(ChangePasswordReceiveDTO(newPassword))
+            accountRepository.changePassword(changePasswordReceiveDTO)
         }
     }
 

@@ -1,17 +1,16 @@
-package com.kursor.chroniclesofww2.domain.interfaces
+package com.kursor.chroniclesofww2.domain.connection
 
 import java.lang.Exception
 
 interface LocalServer {
 
-    val name: String
-    val password: String?
+
     val listener: Listener
 
 
-    fun startListening()
+    suspend fun startListening(name: String)
 
-    fun stopListening()
+    suspend fun stopListening()
 
     interface Listener {
         fun onConnectionEstablished(connection: Connection) {}

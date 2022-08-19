@@ -1,11 +1,10 @@
 package com.kursor.chroniclesofww2.connection.local
 
 import android.util.Log
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
-import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.interfaces.Connection.Companion.DISCONNECT
-import com.kursor.chroniclesofww2.domain.interfaces.IHost
-import com.kursor.chroniclesofww2.domain.interfaces.println
+import com.kursor.chroniclesofww2.domain.connection.Connection
+import com.kursor.chroniclesofww2.domain.connection.Connection.Companion.DISCONNECT
+import com.kursor.chroniclesofww2.domain.connection.IHost
+import com.kursor.chroniclesofww2.domain.connection.println
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

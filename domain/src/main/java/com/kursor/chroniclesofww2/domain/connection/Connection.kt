@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.domain.interfaces
+package com.kursor.chroniclesofww2.domain.connection
 
 import kotlinx.coroutines.flow.Flow
 import java.io.BufferedWriter

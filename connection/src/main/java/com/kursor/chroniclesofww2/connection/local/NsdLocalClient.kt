@@ -2,12 +2,12 @@ package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
 import android.util.Log
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.interfaces.IHost
-import com.kursor.chroniclesofww2.domain.interfaces.LocalClient
-import com.kursor.chroniclesofww2.domain.interfaces.LocalClient.Listener
-import com.kursor.chroniclesofww2.domain.interfaces.println
+import com.kursor.chroniclesofww2.domain.connection.IHost
+import com.kursor.chroniclesofww2.domain.connection.LocalClient
+import com.kursor.chroniclesofww2.domain.connection.LocalClient.Listener
+import com.kursor.chroniclesofww2.domain.connection.println
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,16 +46,16 @@ class NsdLocalClient(
         }
     })
 
-    override fun startDiscovery() {
+    override suspend fun startDiscovery() {
         nsdDiscovery.startDiscovery()
     }
 
-    override fun stopDiscovery() {
+    override suspend fun stopDiscovery() {
         nsdDiscovery.stopDiscovery()
     }
 
-    override fun connectTo(host: IHost, password: String?) {
-        CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun connectTo(host: IHost) {
+        withContext(Dispatchers.IO) {
             val inetAddress = host.inetAddress
             val port = host.port
             val name = host.name

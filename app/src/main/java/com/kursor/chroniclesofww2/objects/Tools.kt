@@ -2,7 +2,7 @@ package com.kursor.chroniclesofww2.objects
 
 import android.content.res.Resources
 import android.util.Log
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
+import com.kursor.chroniclesofww2.domain.connection.Connection
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.net.SocketException

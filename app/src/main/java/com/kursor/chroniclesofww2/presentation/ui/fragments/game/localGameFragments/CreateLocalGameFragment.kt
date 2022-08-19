@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.interfaces.Connection
-import com.kursor.chroniclesofww2.domain.interfaces.LocalServer
+import com.kursor.chroniclesofww2.domain.connection.Connection
+import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.connection.local.NsdLocalServer
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Tools
