@@ -4,7 +4,7 @@ import com.kursor.chroniclesofww2.data.repositories.BattleManager
 import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
-import com.kursor.chroniclesofww2.data.repositories.settings.AccountRepositoryImpl
+import com.kursor.chroniclesofww2.data.repositories.account.AccountRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.user.UserRepositoryImpl
 import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository
 import com.kursor.chroniclesofww2.domain.interfaces.UserRepository

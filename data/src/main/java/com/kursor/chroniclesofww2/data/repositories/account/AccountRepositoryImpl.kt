@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.data.repositories.settings
+package com.kursor.chroniclesofww2.data.repositories.account
 
 import android.content.Context
 import com.kursor.chroniclesofww2.domain.interfaces.AccountRepository

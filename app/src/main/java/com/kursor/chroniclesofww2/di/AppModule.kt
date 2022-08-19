@@ -27,7 +27,11 @@ val appModule = module {
     }
 
     viewModel {
-        BattleListViewModel()
+        BattleListViewModel(
+            loadStandardBattleListUseCase = get(),
+            loadLocalCustomBattleListUseCase = get(),
+            loadRemoteCustomBattleListUseCase = get()
+        )
     }
 
 }

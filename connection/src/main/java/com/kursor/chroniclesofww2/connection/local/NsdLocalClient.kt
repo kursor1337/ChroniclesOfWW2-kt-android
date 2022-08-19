@@ -75,7 +75,7 @@ class NsdLocalClient(
                         output,
                         host,
                         sendListener = null,
-                        Dispatchers.IO
+                        ioDispatcher = Dispatchers.IO
                     ).apply {
                         shutdownListeners.add(Connection.ShutdownListener { socket.close() })
                     }

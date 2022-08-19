@@ -2,25 +2,19 @@ package com.kursor.chroniclesofww2.connection.interfaces
 
 import android.os.Handler
 import com.kursor.chroniclesofww2.connection.Host
+import kotlinx.coroutines.flow.Flow
 import java.io.BufferedWriter
 
 interface Connection {
 
     var sendListener: SendListener?
-    var receiveListeners: MutableList<ReceiveListener>
     val shutdownListeners: MutableList<ShutdownListener>
 
     fun send(string: String)
 
     fun shutdown()
 
-    fun observeIncoming(receiveListener: ReceiveListener) {
-        receiveListeners.add(receiveListener)
-    }
-
-    fun stopObservingIncoming(receiveListener: ReceiveListener) {
-        receiveListeners.remove(receiveListener)
-    }
+    fun observeIncoming(): Flow<String>
 
     /**
      * Listeners for sending and receiving info
