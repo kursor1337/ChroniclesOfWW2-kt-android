@@ -21,7 +21,6 @@ import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
-import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
@@ -36,20 +35,11 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
     private lateinit var binding: FragmentJoinGameBinding
 
-    var isAccepted = false
-
-    protected lateinit var localClient: LocalClient
-
-    val hostList = mutableListOf<Host>()
-    lateinit var hostAdapter: HostAdapter
-    lateinit var host: Host
-
-
     abstract val actionToPasswordDialogFragmentId: Int
     abstract val clientInitErrorMessageResId: Int
 
 
-    val settings by inject<AccountRepository>()
+    val accountRepository by inject<AccountRepository>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,141 +58,24 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
         tryToInitClient()
 
         binding.retryTextView.setOnClickListener { tryToInitClient() }
-
-        hostAdapter = HostAdapter(requireActivity(), hostList).apply {
-            setOnItemClickListener { view, position, host ->
-                localClient.connectTo(host)
-            }
-        }
-        binding.hostsRecyclerView.adapter = hostAdapter
     }
 
     abstract fun initClient()
 
     abstract fun checkConditionsForClientInit(): Boolean
 
-    fun tryToInitClient() {
-        if (this::localClient.isInitialized) {
-            Toast.makeText(requireContext(), "Client already initialized", Toast.LENGTH_SHORT)
-                .show()
-            return
-        }
-        if (!checkConditionsForClientInit()) {
-            Toast.makeText(requireContext(), clientInitErrorMessageResId, Toast.LENGTH_LONG)
-                .show()
-            showError()
-            return
-        }
-        initClient()
-        localClient.discoveryListeners.add(clientDiscoveryListener)
-        localClient.startDiscovery()
-        showList()
-    }
+    abstract fun tryToInitClient()
 
     fun showError() {
         binding.notConnectedLayout.visibility = View.VISIBLE
-        binding.hostsRecyclerView.visibility = View.GONE
+        binding.gamesRecyclerView.visibility = View.GONE
     }
 
     fun showList() {
         binding.notConnectedLayout.visibility = View.GONE
-        binding.hostsRecyclerView.visibility = View.VISIBLE
+        binding.gamesRecyclerView.visibility = View.VISIBLE
 
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (this::localClient.isInitialized) localClient.stopDiscovery()
-    }
-
-    protected val receiveListener: Connection.ReceiveListener =
-        object : Connection.ReceiveListener {
-            override fun onReceive(string: String) {
-                when (string) {
-                    ACCEPTED -> {
-                        Log.i("Client", ACCEPTED)
-                        isAccepted = true
-                        Tools.currentConnection!!.send(REQUEST_GAME_DATA)
-                        Log.i("Client", REQUEST_GAME_DATA)
-                        buildMessageWaitingForAccepted()
-                    }
-                    REJECTED -> Toast.makeText(
-                        activity,
-                        R.string.connection_refused,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    HOST_IS_WITH_PASSWORD -> {
-                        navigate(
-                            actionToPasswordDialogFragmentId,
-                            PASSWORD_REQUEST_ID
-                        )
-                    }
-                    else -> {
-                        Log.i("Client", "Default branch")
-                        if (isAccepted) {
-//                            if (Scenario.fromJson(string) == null) {
-//                                Log.i("Client", "Invalid Json")
-//                                Tools.currentConnection!!.send(INVALID_JSON)
-//                                return
-//                            }
-                            val intent = Intent(activity, GameActivity::class.java)
-                            intent.putExtra(CONNECTED_DEVICE, host)
-                                .putExtra(MULTIPLAYER_GAME_MODE, CLIENT)
-                                .putExtra(BATTLE, string)
-                            localClient.stopDiscovery()
-                            startActivity(intent)
-                        }
-                    }
-                }
-            }
-
-            override fun onDisconnected() {
-                TODO("Not yet implemented")
-            }
-        }
-
-
-    override fun onFragmentResult(requestCode: Int, bundle: Bundle) = when (requestCode) {
-        PASSWORD_REQUEST_ID -> {
-            val password = bundle.getString(PASSWORD)!!
-            Tools.currentConnection!!.send("$PASSWORD$password")
-        }
-        else -> {
-        }
-    }
-
-
-    protected val localClientListener: LocalClient.Listener = object : LocalClient.Listener {
-        override fun onException(e: Exception) {
-            Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onFail(errorCode: Int) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onConnectionEstablished(connection: Connection) {
-            Tools.currentConnection = connection.apply {
-                this.receiveListener = this@JoinAbstractGameFragment.receiveListener
-            }
-            Tools.currentConnection!!.send(REQUEST_FOR_ACCEPT)
-            Log.i("Client", REQUEST_FOR_ACCEPT)
-        }
-    }
-
-    private val clientDiscoveryListener = object : LocalClient.DiscoveryListener {
-        override fun onHostDiscovered(host: Host) {
-            hostList.add(host)
-            hostAdapter.notifyItemInserted(hostList.lastIndex)
-        }
-
-        override fun onHostLost(host: Host) {
-            val index = hostList.indexOf(host)
-            hostList.removeAt(index)
-            hostAdapter.notifyItemRemoved(index)
-        }
-    }
-
 
     private fun buildMessageWaitingForAccepted() {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)

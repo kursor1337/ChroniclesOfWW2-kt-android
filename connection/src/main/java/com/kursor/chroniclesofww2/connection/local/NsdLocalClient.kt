@@ -19,13 +19,14 @@ import java.net.UnknownHostException
 
 class NsdLocalClient(
     context: Context,
-    private val name: String,
     override var listener: Listener? = null
 ) : LocalClient {
 
     override val discoveryListeners = mutableListOf<LocalClient.DiscoveryListener>()
 
     override val availableHosts = mutableListOf<IHost>()
+
+    var name = ""
 
     private val nsdDiscovery = NsdDiscovery(context, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
@@ -48,6 +49,7 @@ class NsdLocalClient(
     })
 
     override suspend fun startDiscovery() {
+        this.name = name
         nsdDiscovery.startDiscovery()
     }
 

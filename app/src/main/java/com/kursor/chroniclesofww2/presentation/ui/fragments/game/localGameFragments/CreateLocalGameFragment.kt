@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.connection.local.LocalConnection
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
@@ -55,7 +56,7 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
                 }
                 CreateLocalGameViewModel.Status.CONNECTION_REQUEST -> {
                     buildMessageConnectionRequest(
-                        host = (Tools.currentConnection as LocalConnection).host,
+                        host = arg as Host,
                         onPositiveClickListener = { dialog, which ->
                             createLocalGameViewModel.verdict(ACCEPTED)
                         },

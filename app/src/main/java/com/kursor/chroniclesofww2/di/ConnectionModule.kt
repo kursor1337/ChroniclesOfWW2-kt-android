@@ -4,6 +4,7 @@ import com.kursor.chroniclesofww2.connection.local.NsdLocalClient
 import com.kursor.chroniclesofww2.connection.local.NsdLocalServer
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
+import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -24,11 +25,11 @@ val connectionModule = module {
         }
     }
 
-    factory<LocalClient> { parameters ->
-        NsdLocalClient(context = get(), parameters.get())
+    single<LocalClient> {
+        NsdLocalClient(context = get())
     }
 
-    factory<LocalServer> {
+    single<LocalServer> {
         NsdLocalServer(context = get())
     }
 

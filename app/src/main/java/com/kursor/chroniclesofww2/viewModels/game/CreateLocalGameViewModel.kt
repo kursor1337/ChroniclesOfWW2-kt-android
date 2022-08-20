@@ -52,30 +52,12 @@ class CreateLocalGameViewModel(
                     Const.connection.REQUEST_FOR_ACCEPT -> {
                         _stateLiveData.value = Status.CONNECTION_REQUEST to connection.host
                     }
-//                        if (isHostReady) {
-//                        if (localServer.password != null) {
-//                            connection.send(Const.connection.HOST_IS_WITH_PASSWORD)
-//                        } else {
-//                            currentDialog?.dismiss()
-//                            buildMessageConnectionRequest(
-//                                ,
-//
-//                            )
-//                        }
-//                    }
                     Const.connection.REQUEST_GAME_DATA -> {
                         if (!hostAccepted) return@collect
                         Log.i("Server", "Client sent ${Const.connection.REQUEST_GAME_DATA}")
                         val gameDataJson = Moshi.GAMEDATA_ADAPTER.toJson(gameData)
                         connection.send(gameDataJson)
                         _stateLiveData.value = Status.GAME_DATA_REQUEST to null
-//                        val intent = Intent(activity, MultiplayerGameActivity::class.java)
-//                        intent.putExtra(Const.connection.CONNECTED_DEVICE, connection.host)
-//                            .putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
-//                            .putExtra(Const.game.GAME_DATA, gameDataJson)
-//                        Tools.currentConnection = connection
-//                        localServer.stopListening()
-//                        startActivity(intent)
                     }
                     Const.connection.CANCEL_CONNECTION -> {
                         Log.i("Server", Const.connection.CANCEL_CONNECTION)
