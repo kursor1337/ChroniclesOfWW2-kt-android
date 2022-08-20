@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.viewModels.game
+package com.kursor.chroniclesofww2.viewModels.game.create
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -30,14 +30,16 @@ class CreateLocalGameViewModel(
 
     fun createGame(gameData: GameData) {
         this.gameData = gameData
-        viewModelScope.launch {
+        val job = viewModelScope.launch {
             createLocalGameUseCase()
+            _stateLiveData.value = Status.CREATED to null
         }
     }
 
     fun uncreateGame() {
         viewModelScope.launch {
             localServer.stopListening()
+            _stateLiveData.value = Status.UNCREATED to null
         }
     }
 
@@ -84,8 +86,15 @@ class CreateLocalGameViewModel(
         }
     }
 
+    override fun onCleared() {
+        viewModelScope.launch {
+            if (::connection.isInitialized) connection.disconnect()
+            localServer.stopListening()
+        }
+    }
+
     enum class Status {
-        CREATED, CONNECTION_REQUEST, GAME_DATA_REQUEST, CANCEL_CONNECTION
+        CREATED, UNCREATED, CONNECTION_REQUEST, GAME_DATA_REQUEST, CANCEL_CONNECTION
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kursor.chroniclesofww2.data.repositories.BattleManager
@@ -58,9 +59,11 @@ class GameDataFragment : Fragment() {
             invertNations()
             invertNationsViews()
         }
-        binding.commitButton.setOnClickListener {
-            gameDataViewModel.boardHeight = binding.boardHeightEditText.text.toString().toInt()
-            gameDataViewModel.boardWidth = binding.boardWidthEditText.text.toString().toInt()
+        binding.boardHeightEditText.doOnTextChanged { text, start, before, count ->
+            gameDataViewModel.boardHeight = text.toString().toInt()
+        }
+        binding.boardWidthEditText.doOnTextChanged { text, start, before, count ->
+            gameDataViewModel.boardWidth = text.toString().toInt()
         }
 
     }

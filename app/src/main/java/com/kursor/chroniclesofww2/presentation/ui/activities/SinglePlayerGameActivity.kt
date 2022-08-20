@@ -4,8 +4,7 @@ import android.os.Bundle
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
-import com.kursor.chroniclesofww2.viewModels.game.GameSessionViewModel
-import com.kursor.chroniclesofww2.viewModels.game.SingleHostGameViewModel
+import com.kursor.chroniclesofww2.viewModels.game.session.SingleHostGameViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

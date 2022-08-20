@@ -8,9 +8,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.connection.local.LocalConnection
 import com.kursor.chroniclesofww2.domain.connection.Connection
+import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
@@ -18,7 +17,7 @@ import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.CreateAbstractGameFragment
-import com.kursor.chroniclesofww2.viewModels.game.CreateLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.game.create.CreateLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.androidx.navigation.koinNavGraphViewModel
@@ -74,7 +73,7 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
                         .putExtra(Const.game.GAME_DATA, gameDataJson)
                     startActivity(intent)
                 }
-                CreateLocalGameViewModel.Status.CANCEL_CONNECTION -> {}
+                else -> {}
             }
         }
 

@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.objects.Const
@@ -18,7 +16,8 @@ import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
-import com.kursor.chroniclesofww2.viewModels.game.JoinLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.RecyclerViewViewModelObserver
+import com.kursor.chroniclesofww2.viewModels.game.join.JoinLocalGameViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -29,10 +28,6 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
     override val clientInitErrorMessageResId: Int =
         R.string.client_init_error_message_local
 
-    private lateinit var binding: FragmentJoinGameBinding
-
-
-    val hostList = mutableListOf<Host>()
     lateinit var hostAdapter: HostAdapter
     val joinLocalGameViewModel by viewModel<JoinLocalGameViewModel>()
     val hostDiscoveryViewModel by viewModel<HostDiscoveryViewModel>()
@@ -41,13 +36,23 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.clientInitErrorTextView.setText(clientInitErrorMessageResId)
 
-        hostAdapter = HostAdapter(requireActivity(), hostList).apply {
+        hostAdapter = HostAdapter(requireActivity(), hostDiscoveryViewModel.hostList).apply {
             setOnItemClickListener { view, position, host ->
                 joinLocalGameViewModel.connectTo(host)
             }
         }
 
         binding.gamesRecyclerView.adapter = hostAdapter
+
+        hostDiscoveryViewModel.observer = object : RecyclerViewViewModelObserver {
+            override fun itemInserted(index: Int) {
+                hostAdapter.notifyItemInserted(index)
+            }
+
+            override fun itemRemoved(index: Int) {
+                hostAdapter.notifyItemRemoved(index)
+            }
+        }
 
         joinLocalGameViewModel.localClient.listener = localClientListener
 
@@ -81,9 +86,11 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
                 }
             }
         }
+
+        obtainGamesList()
     }
 
-    protected val localClientListener: LocalClient.Listener = object : LocalClient.Listener {
+    private val localClientListener: LocalClient.Listener = object : LocalClient.Listener {
         override fun onException(e: Exception) {
             Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
         }
@@ -117,6 +124,4 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
         hostDiscoveryViewModel.startDiscovery()
         showList()
     }
-
-
 }

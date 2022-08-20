@@ -18,7 +18,7 @@ import org.koin.android.ext.android.inject
 abstract class JoinAbstractGameFragment : BundleFragment() {
 
 
-    private lateinit var binding: FragmentJoinGameBinding
+    protected lateinit var binding: FragmentJoinGameBinding
 
     abstract val actionToPasswordDialogFragmentId: Int
     abstract val clientInitErrorMessageResId: Int

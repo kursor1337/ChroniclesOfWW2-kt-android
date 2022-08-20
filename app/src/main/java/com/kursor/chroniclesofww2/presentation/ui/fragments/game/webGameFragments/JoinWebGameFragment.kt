@@ -8,11 +8,11 @@ class JoinWebGameFragment : JoinAbstractGameFragment() {
     override val clientInitErrorMessageResId: Int
         get() = TODO("Not yet implemented")
 
-    override fun initClient() {
+    override fun checkConditionsForGame(): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun checkConditionsForGame(): Boolean {
+    override fun obtainGamesList() {
         TODO("Not yet implemented")
     }
 }

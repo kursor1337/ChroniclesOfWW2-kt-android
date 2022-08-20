@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.viewModels.game
+package com.kursor.chroniclesofww2.viewModels.game.join
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.connection.local.LocalConnection
-import com.kursor.chroniclesofww2.domain.connection.IHost
+import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
@@ -24,7 +24,7 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
     lateinit var connection: LocalConnection
     var isAccepted = false
 
-    fun connectTo(host: IHost) {
+    fun connectTo(host: Host) {
         viewModelScope.launch {
             localClient.connectTo(host = host)
         }
@@ -32,6 +32,7 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
 
     fun cancelConnection() {
         viewModelScope.launch {
+            if (!::connection.isInitialized) return@launch
             connection.send(CANCEL_CONNECTION)
             connection.disconnect()
         }
@@ -62,6 +63,12 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onCleared() {
+        viewModelScope.launch {
+            cancelConnection()
         }
     }
 

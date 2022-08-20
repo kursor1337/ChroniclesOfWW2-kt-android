@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.domain.connection.Host
 
 class HostAdapter(
     private val activity: ComponentActivity,

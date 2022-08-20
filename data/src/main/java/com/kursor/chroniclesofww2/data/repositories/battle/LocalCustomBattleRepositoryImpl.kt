@@ -1,7 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.battle
 
 import android.content.Context
-import com.kursor.chroniclesofww2.domain.repositories.LocalBattleRepository
+import com.kursor.chroniclesofww2.domain.repositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -9,7 +9,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 class LocalCustomBattleRepositoryImpl(
     context: Context
-) : LocalBattleRepository {
+) : LocalCustomBattleRepository {
 
 
     override val PREFIX = -1_000_000_000

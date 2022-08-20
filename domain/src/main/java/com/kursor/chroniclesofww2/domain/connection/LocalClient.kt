@@ -3,7 +3,7 @@ package com.kursor.chroniclesofww2.domain.connection
 
 interface LocalClient {
 
-    val availableHosts: MutableList<IHost>
+    val availableHosts: MutableList<Host>
     var listener: Listener?
     val discoveryListeners: MutableList<DiscoveryListener>
 
@@ -11,7 +11,7 @@ interface LocalClient {
 
     suspend fun stopDiscovery()
 
-    suspend fun connectTo(host: IHost)
+    suspend fun connectTo(host: Host)
 
     interface Listener {
         fun onConnectionEstablished(connection: Connection)
@@ -20,8 +20,8 @@ interface LocalClient {
     }
 
     interface DiscoveryListener {
-        fun onHostDiscovered(host: IHost)
-        fun onHostLost(host: IHost)
+        fun onHostDiscovered(host: Host)
+        fun onHostLost(host: Host)
     }
 
 }

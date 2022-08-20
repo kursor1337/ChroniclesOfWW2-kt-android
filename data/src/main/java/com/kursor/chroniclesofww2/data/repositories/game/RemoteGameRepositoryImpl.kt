@@ -2,10 +2,7 @@ package com.kursor.chroniclesofww2.data.repositories.game
 
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.domain.repositories.RemoteGameRepository
-import com.kursor.chroniclesofww2.features.CreateGameReceiveDTO
-import com.kursor.chroniclesofww2.features.CreateGameResponseDTO
-import com.kursor.chroniclesofww2.features.JoinGameReceiveDTO
-import com.kursor.chroniclesofww2.features.JoinGameResponseDTO
+import com.kursor.chroniclesofww2.features.*
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -43,6 +40,18 @@ class RemoteGameRepositoryImpl(
         if (response.status == HttpStatusCode.Unauthorized) {
             accountRepository.auth()
             return joinGame(joinGameReceiveDTO)
+        }
+        return response.body()
+    }
+
+    override suspend fun getWaitingGamesList(): List<WaitingGameInfoDTO> {
+        val response = httpClient.get(Routes.Game.absolutePath(serverUrl)) {
+            contentType(ContentType.Application.Json)
+            bearerAuth(accountRepository.token ?: "")
+        }
+        if (response.status == HttpStatusCode.Unauthorized) {
+            accountRepository.auth()
+            return getWaitingGamesList()
         }
         return response.body()
     }

@@ -2,12 +2,12 @@ package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
-import com.kursor.chroniclesofww2.viewModels.game.GameSessionViewModel
+import com.kursor.chroniclesofww2.viewModels.game.session.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.RegisterViewModel
-import com.kursor.chroniclesofww2.viewModels.game.CreateLocalGameViewModel
-import com.kursor.chroniclesofww2.viewModels.game.JoinLocalGameViewModel
-import com.kursor.chroniclesofww2.viewModels.game.SingleHostGameViewModel
+import com.kursor.chroniclesofww2.viewModels.game.create.CreateLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.game.join.JoinLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.game.session.SingleHostGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel

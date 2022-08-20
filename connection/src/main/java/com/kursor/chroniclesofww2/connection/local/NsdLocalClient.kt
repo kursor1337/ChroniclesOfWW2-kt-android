@@ -1,17 +1,14 @@
 package com.kursor.chroniclesofww2.connection.local
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.kursor.chroniclesofww2.domain.connection.Connection
-import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.connection.IHost
+import com.kursor.chroniclesofww2.connection.HostImpl
+import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.domain.connection.LocalClient.Listener
 import com.kursor.chroniclesofww2.domain.connection.println
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
 import java.net.Socket
@@ -24,7 +21,7 @@ class NsdLocalClient(
 
     override val discoveryListeners = mutableListOf<LocalClient.DiscoveryListener>()
 
-    override val availableHosts = mutableListOf<IHost>()
+    override val availableHosts = mutableListOf<Host>()
 
     var name = ""
 
@@ -49,7 +46,6 @@ class NsdLocalClient(
     })
 
     override suspend fun startDiscovery() {
-        this.name = name
         nsdDiscovery.startDiscovery()
     }
 
@@ -57,7 +53,7 @@ class NsdLocalClient(
         nsdDiscovery.stopDiscovery()
     }
 
-    override suspend fun connectTo(host: IHost) {
+    override suspend fun connectTo(host: Host) {
         withContext(Dispatchers.IO) {
             val inetAddress = host.inetAddress
             val port = host.port

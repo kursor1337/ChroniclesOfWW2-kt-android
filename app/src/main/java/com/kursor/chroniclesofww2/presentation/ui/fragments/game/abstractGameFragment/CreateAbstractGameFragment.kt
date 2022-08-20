@@ -10,10 +10,8 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.Host
-import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
-import com.kursor.chroniclesofww2.domain.connection.IHost
+import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.model.serializable.GameData
@@ -115,7 +113,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     }
 
     protected fun buildMessageConnectionRequest(
-        host: IHost,
+        host: Host,
         onPositiveClickListener: DialogInterface.OnClickListener?,
         onNegativeClickListener: DialogInterface.OnClickListener?,
         onCancelListener: DialogInterface.OnCancelListener?

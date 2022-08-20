@@ -1,15 +1,12 @@
 package com.kursor.chroniclesofww2.connection.local
 
-import android.app.Activity
 import android.content.Context
 import android.net.nsd.NsdServiceInfo
 import android.util.Log
-import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.connection.HostImpl
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
 import java.net.ServerSocket
@@ -53,7 +50,7 @@ class NsdLocalServer(
                     val connection = LocalConnection(
                         input,
                         output,
-                        Host(connectedName, socket.inetAddress, socket.port),
+                        HostImpl(connectedName, socket.inetAddress, socket.port),
                         sendListener = null,
                         ioDispatcher = Dispatchers.IO
                     ).apply {
