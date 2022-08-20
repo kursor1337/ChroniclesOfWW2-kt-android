@@ -4,7 +4,7 @@ package com.kursor.chroniclesofww2.domain.connection
 interface LocalClient {
 
     val availableHosts: MutableList<IHost>
-    val listener: Listener
+    var listener: Listener?
     val discoveryListeners: MutableList<DiscoveryListener>
 
     suspend fun startDiscovery()

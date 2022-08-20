@@ -12,7 +12,7 @@ class CreateWebGameFragment : CreateAbstractGameFragment() {
     override val gameDataViewModel: GameDataViewModel
         get() = TODO("Not yet implemented")
 
-    override fun initServer() {
+    override fun createGame() {
         TODO("Not yet implemented")
     }
 

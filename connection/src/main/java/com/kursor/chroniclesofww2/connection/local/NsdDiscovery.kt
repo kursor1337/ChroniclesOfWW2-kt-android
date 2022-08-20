@@ -14,8 +14,8 @@ class NsdDiscovery(
     val discoveryListener: Listener,
 ) {
 
-    constructor(activity: Activity, discoveryListener: Listener) : this(
-        activity.getSystemService(Context.NSD_SERVICE) as NsdManager,
+    constructor(context: Context, discoveryListener: Listener) : this(
+        context.getSystemService(Context.NSD_SERVICE) as NsdManager,
         discoveryListener
     )
 

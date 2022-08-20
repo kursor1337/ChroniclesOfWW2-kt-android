@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
+import android.content.Context
 import android.net.nsd.NsdServiceInfo
 import android.util.Log
 import com.kursor.chroniclesofww2.connection.Host
@@ -16,18 +17,18 @@ import java.net.Socket
 import java.net.SocketException
 
 class NsdLocalServer(
-    activity: Activity,
-    override val listener: LocalServer.Listener
+    context: Context,
+    override var listener: LocalServer.Listener? = null
 ) : LocalServer {
 
 
-    private val nsdBroadcast = NsdBroadcast(activity, object : NsdBroadcast.Listener {
+    private val nsdBroadcast = NsdBroadcast(context, object : NsdBroadcast.Listener {
         override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
-            listener.onStartedListening()
+            listener?.onStartedListening()
         }
 
         override fun onRegistrationFailed(arg0: NsdServiceInfo, arg1: Int) {
-            listener.onFail()
+            listener?.onFail()
         }
     })
 
@@ -59,7 +60,7 @@ class NsdLocalServer(
                         shutdownListeners.add(Connection.ShutdownListener { socket.close() })
                     }
                     withContext(Dispatchers.Main) {
-                        listener.onConnectionEstablished(connection)
+                        listener?.onConnectionEstablished(connection)
                     }
                     Log.i("Server", "Server Shutdown")
                     waiting = false
@@ -70,7 +71,7 @@ class NsdLocalServer(
                 e.printStackTrace()
             } catch (e: Exception) {
                 e.printStackTrace()
-                withContext(Dispatchers.Main) { listener.onListeningStartError(e) }
+                withContext(Dispatchers.Main) { listener?.onListeningStartError(e) }
 
             }
         }

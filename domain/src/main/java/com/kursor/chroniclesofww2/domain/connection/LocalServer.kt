@@ -5,7 +5,7 @@ import java.lang.Exception
 interface LocalServer {
 
 
-    val listener: Listener
+    var listener: Listener?
 
 
     suspend fun startListening(name: String)

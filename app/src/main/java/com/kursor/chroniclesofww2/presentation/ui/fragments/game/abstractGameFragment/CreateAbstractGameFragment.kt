@@ -8,17 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.Connection
-import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
-import com.kursor.chroniclesofww2.model.serializable.GameData
-import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment
@@ -30,26 +26,21 @@ import org.koin.android.ext.android.inject
 /**
  *
  * THIS ABSTRACT CLASS IS FOR MULTIPLAYER!!!!!!!!!!!!
- * FOR SINGLEPLAYER THERE IS ANOTHER CLASS CreateSinglePlayerGameFragment.kt
+ * FOR SINGLEPLAYER THERE IS ANOTHER CLASS CreateNonNetworkGameFragment.kt
  */
 abstract class CreateAbstractGameFragment : BundleFragment() {
 
     var gameDataJson: String = ""
     lateinit var binding: FragmentCreateNetworkGameBinding
 
-    var currentDialog: DialogFragment? = null
-
-    protected lateinit var localServer: LocalServer
-    lateinit var connection: Connection
     protected var isHostReady = false
-    lateinit var gameData: GameData
     lateinit var battle: Battle
 
     abstract val actionToBattleChooseFragmentId: Int
 
     abstract val battleViewModel: BattleViewModel
     abstract val gameDataViewModel: GameDataViewModel
-    val settings by inject<AccountRepository>()
+    val accountRepository by inject<AccountRepository>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +56,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
         binding.gameDataFragment.visibility = View.GONE
         gameDataViewModel.apply {
-            myNameLiveData.value = settings.username
+            myNameLiveData.value = accountRepository.username
             meInitiator = true
         }
 
@@ -96,16 +87,16 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             gameDataJson =
                 Moshi.GAMEDATA_ADAPTER.toJson(gameDataViewModel.createGameData())
 
-            initServer()
+            createGame()
             v.isEnabled = false
         }
     }
 
-    abstract fun initServer()
+    abstract fun createGame()
 
     abstract fun checkConditionsForServerInit(): Boolean
 
-    private fun buildMessageWaitingForConnections(
+    protected fun buildMessageWaitingForConnections(
         onPositiveClickListener: DialogInterface.OnClickListener,
         onNegativeClickListener: DialogInterface.OnClickListener,
         onCancelListener: DialogInterface.OnCancelListener

@@ -13,8 +13,8 @@ class NsdBroadcast(
     val broadcastListener: Listener,
 ) {
 
-    constructor(activity: Activity, broadcastListener: Listener) : this(
-        activity.getSystemService(Context.NSD_SERVICE) as NsdManager,
+    constructor(context: Context, broadcastListener: Listener) : this(
+        context.getSystemService(Context.NSD_SERVICE) as NsdManager,
         broadcastListener
     )
 

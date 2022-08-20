@@ -1,5 +1,9 @@
 package com.kursor.chroniclesofww2.di
 
+import com.kursor.chroniclesofww2.connection.local.NsdLocalClient
+import com.kursor.chroniclesofww2.connection.local.NsdLocalServer
+import com.kursor.chroniclesofww2.domain.connection.LocalClient
+import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -18,6 +22,14 @@ val connectionModule = module {
                 json()
             }
         }
+    }
+
+    factory<LocalClient> { parameters ->
+        NsdLocalClient(context = get(), parameters.get())
+    }
+
+    factory<LocalServer> {
+        NsdLocalServer(context = get())
     }
 
 }

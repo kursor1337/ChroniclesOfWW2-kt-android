@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.connection.local
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.connection.Host
@@ -17,16 +18,16 @@ import java.net.Socket
 import java.net.UnknownHostException
 
 class NsdLocalClient(
-    activity: Activity,
+    context: Context,
     private val name: String,
-    override val listener: Listener
+    override var listener: Listener? = null
 ) : LocalClient {
 
     override val discoveryListeners = mutableListOf<LocalClient.DiscoveryListener>()
 
     override val availableHosts = mutableListOf<IHost>()
 
-    private val nsdDiscovery = NsdDiscovery(activity, object : NsdDiscovery.Listener {
+    private val nsdDiscovery = NsdDiscovery(context, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
             availableHosts.add(host)
             discoveryListeners.forEach { it.onHostDiscovered(host) }
@@ -38,11 +39,11 @@ class NsdLocalClient(
         }
 
         override fun onDiscoveryFailed(errorCode: Int) {
-            listener.onFail(errorCode)
+            listener?.onFail(errorCode)
         }
 
         override fun onResolveFailed(errorCode: Int) {
-            listener.onFail(errorCode)
+            listener?.onFail(errorCode)
         }
     })
 
@@ -81,7 +82,7 @@ class NsdLocalClient(
                     }
                 Log.i("Client", "Connection established")
                 withContext(Dispatchers.Main) {
-                    listener.onConnectionEstablished(connection)
+                    listener?.onConnectionEstablished(connection)
                 }
                 Log.i("Client", "Client shutdown")
             } catch (e: UnknownHostException) {
