@@ -4,6 +4,7 @@ import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.viewModels.game.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.RegisterViewModel
+import com.kursor.chroniclesofww2.viewModels.game.CreateLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.game.SingleHostGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
@@ -43,6 +44,13 @@ val appModule = module {
 
     viewModel { parameters ->
         SingleHostGameViewModel(parameters.get())
+    }
+
+    viewModel {
+        CreateLocalGameViewModel(
+            localServer = get(),
+            accountRepository = get()
+        )
     }
 
 }

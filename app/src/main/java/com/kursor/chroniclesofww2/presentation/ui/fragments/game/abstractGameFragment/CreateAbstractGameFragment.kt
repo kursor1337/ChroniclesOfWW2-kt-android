@@ -13,8 +13,10 @@ import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
+import com.kursor.chroniclesofww2.domain.connection.IHost
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
+import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment
@@ -31,6 +33,7 @@ import org.koin.android.ext.android.inject
 abstract class CreateAbstractGameFragment : BundleFragment() {
 
     var gameDataJson: String = ""
+    lateinit var gameData: GameData
     lateinit var binding: FragmentCreateNetworkGameBinding
 
     protected var isHostReady = false
@@ -97,33 +100,25 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     abstract fun checkConditionsForServerInit(): Boolean
 
     protected fun buildMessageWaitingForConnections(
-        onPositiveClickListener: DialogInterface.OnClickListener,
-        onNegativeClickListener: DialogInterface.OnClickListener,
-        onCancelListener: DialogInterface.OnCancelListener
+        onPositiveClickListener: DialogInterface.OnClickListener?,
+        onNegativeClickListener: DialogInterface.OnClickListener?,
+        onCancelListener: DialogInterface.OnCancelListener?
     ): SimpleDialogFragment {
         val dialog: SimpleDialogFragment =
             SimpleDialogFragment.Builder(activity).setCancelable(false)
                 .setNegativeButton("Cancel", onNegativeClickListener)
-//                { dialog, which ->
-//                    localServer.stopListening()
-//                    binding.readyButton.isEnabled = true
-//                }
                 .setMessage("Waiting for Connections...")
                 .setOnCancelListener(onCancelListener)
-//        {
-//                    localServer.stopListening()
-//                    binding.readyButton.isEnabled = true
-//                }
                 .build()
         dialog.show(parentFragmentManager, "Waiting for connections")
         return dialog
     }
 
-    private fun buildMessageConnectionRequest(
-        host: Host,
-        onPositiveClickListener: DialogInterface.OnClickListener,
-        onNegativeClickListener: DialogInterface.OnClickListener,
-        onCancelListener: DialogInterface.OnCancelListener
+    protected fun buildMessageConnectionRequest(
+        host: IHost,
+        onPositiveClickListener: DialogInterface.OnClickListener?,
+        onNegativeClickListener: DialogInterface.OnClickListener?,
+        onCancelListener: DialogInterface.OnCancelListener?
     ) {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
             .setMessage(host.name + " wants to connect to this  device. Do you agree?")

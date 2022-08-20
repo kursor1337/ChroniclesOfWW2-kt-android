@@ -5,19 +5,15 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
-import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.Host
+import com.kursor.chroniclesofww2.connection.local.LocalConnection
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
-import com.kursor.chroniclesofww2.connection.local.NsdLocalServer
 import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
+import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.CreateAbstractGameFragment
@@ -42,15 +38,55 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
         isHostReady = true
         createLocalGameViewModel.localServer.listener = serverListener
 
+        createLocalGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
+            when (status) {
+                CreateLocalGameViewModel.Status.CREATED -> {
+                    buildMessageWaitingForConnections(
+                        onPositiveClickListener = null,
+                        onNegativeClickListener = { dialog, which ->
+                            createLocalGameViewModel.uncreateGame()
+                            binding.readyButton.isEnabled = true
+                        },
+                        onCancelListener = {
+                            createLocalGameViewModel.uncreateGame()
+                            binding.readyButton.isEnabled = true
+                        }
+                    )
+                }
+                CreateLocalGameViewModel.Status.CONNECTION_REQUEST -> {
+                    buildMessageConnectionRequest(
+                        host = (Tools.currentConnection as LocalConnection).host,
+                        onPositiveClickListener = { dialog, which ->
+                            createLocalGameViewModel.verdict(ACCEPTED)
+                        },
+                        onNegativeClickListener = { dialog, which ->
+                            createLocalGameViewModel.verdict(REJECTED)
+                        },
+                        onCancelListener = {
+                            createLocalGameViewModel.verdict(REJECTED)
+                        }
+                    )
+                }
+                CreateLocalGameViewModel.Status.GAME_DATA_REQUEST -> {
+                    val intent = Intent(activity, MultiplayerGameActivity::class.java)
+                    intent.putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
+                        .putExtra(Const.game.GAME_DATA, gameDataJson)
+                    startActivity(intent)
+                }
+                CreateLocalGameViewModel.Status.CANCEL_CONNECTION -> {}
+            }
+        }
+
     }
 
     override fun createGame() {
-
+        createLocalGameViewModel.createGame(gameDataViewModel.createGameData() ?: return)
     }
 
     private val serverListener = object : LocalServer.Listener {
         override fun onConnectionEstablished(connection: Connection) {
             Tools.currentConnection = connection
+            createLocalGameViewModel.onConnectionInit()
         }
 
         override fun onListeningStartError(e: Exception) {
