@@ -12,7 +12,7 @@ class JoinWebGameFragment : JoinAbstractGameFragment() {
         TODO("Not yet implemented")
     }
 
-    override fun checkConditionsForClientInit(): Boolean {
+    override fun checkConditionsForGame(): Boolean {
         TODO("Not yet implemented")
     }
 }

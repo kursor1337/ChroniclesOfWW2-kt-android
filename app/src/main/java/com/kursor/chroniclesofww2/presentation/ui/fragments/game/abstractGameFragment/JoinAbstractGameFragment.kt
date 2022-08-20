@@ -1,31 +1,16 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment
 
-import android.content.Intent
+import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
-import com.kursor.chroniclesofww2.objects.Const.connection.CLIENT
-import com.kursor.chroniclesofww2.objects.Const.connection.CONNECTED_DEVICE
-import com.kursor.chroniclesofww2.objects.Const.connection.HOST_IS_WITH_PASSWORD
-import com.kursor.chroniclesofww2.objects.Const.connection.PASSWORD
-import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
-import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_FOR_ACCEPT
-import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_GAME_DATA
-import com.kursor.chroniclesofww2.objects.Const.game.MULTIPLAYER_GAME_MODE
-import com.kursor.chroniclesofww2.objects.Const.game.BATTLE
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.connection.Host
 import com.kursor.chroniclesofww2.objects.Tools
-import com.kursor.chroniclesofww2.domain.connection.LocalClient
-import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
-import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.phelat.navigationresult.BundleFragment
 import org.koin.android.ext.android.inject
@@ -55,16 +40,14 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
         binding.clientInitErrorTextView.setText(clientInitErrorMessageResId)
 
-        tryToInitClient()
+        obtainGamesList()
 
-        binding.retryTextView.setOnClickListener { tryToInitClient() }
+        binding.retryTextView.setOnClickListener { obtainGamesList() }
     }
 
-    abstract fun initClient()
+    abstract fun checkConditionsForGame(): Boolean
 
-    abstract fun checkConditionsForClientInit(): Boolean
-
-    abstract fun tryToInitClient()
+    abstract fun obtainGamesList()
 
     fun showError() {
         binding.notConnectedLayout.visibility = View.VISIBLE
@@ -77,15 +60,22 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
 
     }
 
-    private fun buildMessageWaitingForAccepted() {
+    protected fun buildMessageWaitingForAccepted(
+        onPositiveButtonClickListener: DialogInterface.OnClickListener?,
+        onNegativeButtonClickListener: DialogInterface.OnClickListener?,
+        onCancelListener: DialogInterface.OnCancelListener?
+    ) {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
             .setMessage(R.string.waiting_for_accepted)
             .setNegativeButton(
-                R.string.cancel_request_for_accepted
-            ) { dialog, which ->
-                Tools.currentConnection!!.send(CANCEL_CONNECTION)
-                dialog.dismiss()
-            }.build()
+                R.string.cancel_request_for_accepted,
+                onNegativeButtonClickListener
+            )
+//            { dialog, which ->
+//                Tools.currentConnection!!.send(CANCEL_CONNECTION)
+//                dialog.dismiss()
+//            }
+            .build()
         dialog.show(parentFragmentManager, "WaitingForAccepted")
     }
 
