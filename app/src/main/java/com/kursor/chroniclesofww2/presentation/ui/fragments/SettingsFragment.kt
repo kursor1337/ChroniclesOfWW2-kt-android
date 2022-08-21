@@ -83,7 +83,7 @@ class SettingsFragment : Fragment() {
         if (accountRepository.token == null) return false
         val response =
             httpClient.post(
-                Routes.Account.AUTH.absolutePath(Const.connection.FULL_SERVER_URL)
+                Routes.Account.AUTH.absolutePath(Const.connection.HTTP_SERVER_URL)
             ) {
                 bearerAuth(accountRepository.token ?: return false)
             }
@@ -94,7 +94,7 @@ class SettingsFragment : Fragment() {
         if (accountRepository.login == null || accountRepository.password == null) return false
         val response =
             httpClient.post(
-                Routes.Users.LOGIN.absolutePath(Const.connection.FULL_SERVER_URL)
+                Routes.Users.LOGIN.absolutePath(Const.connection.HTTP_SERVER_URL)
             ) {
                 setBody(
                     LoginReceiveDTO(

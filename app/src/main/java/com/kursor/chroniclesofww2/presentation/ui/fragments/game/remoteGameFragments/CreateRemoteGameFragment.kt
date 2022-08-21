@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments.game.remoteGameFragments
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.view.View
 import android.widget.Toast
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.features.GameFeaturesMessages
+import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.CreateAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
@@ -25,7 +28,7 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        super.onViewCreated(view, savedInstanceState)
         createRemoteGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
                 CreateRemoteGameViewModel.Status.CREATED -> {
@@ -48,6 +51,14 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
                         arg as String,
                         onPositiveClickListener = { dialog, which ->
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.ACCEPTED)
+                            val gameDataJson = arg
+                            val intent = Intent(activity, MultiplayerGameActivity::class.java)
+                            intent.putExtra(
+                                Const.game.MULTIPLAYER_GAME_MODE,
+                                Const.connection.CLIENT
+                            )
+                                .putExtra(Const.game.BATTLE, gameDataJson)
+                            startActivity(intent)
                         },
                         onNegativeClickListener = { dialog, which ->
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.REJECTED)

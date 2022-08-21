@@ -11,6 +11,7 @@ import com.kursor.chroniclesofww2.objects.Const
 import org.koin.dsl.module
 
 val dataModule = module {
+
     single<LocalCustomBattleRepository> {
         LocalCustomBattleRepositoryImpl(context = get())
     }
@@ -21,7 +22,7 @@ val dataModule = module {
 
     single<RemoteCustomBattleRepository> {
         RemoteCustomBattleRepositoryImpl(
-            serverUrl = Const.connection.FULL_SERVER_URL,
+            serverUrl = Const.connection.HTTP_SERVER_URL,
             httpClient = get(),
             accountRepository = get()
         )
@@ -31,7 +32,7 @@ val dataModule = module {
         AccountRepositoryImpl(
             context = get(),
             httpClient = get(),
-            serverUrl = Const.connection.FULL_SERVER_URL
+            serverUrl = Const.connection.HTTP_SERVER_URL
         )
     }
 
@@ -47,7 +48,7 @@ val dataModule = module {
 
     single<UserRepository> {
         UserRepositoryImpl(
-            serverUrl = Const.connection.FULL_SERVER_URL,
+            serverUrl = Const.connection.HTTP_SERVER_URL,
             httpClient = get()
         )
     }

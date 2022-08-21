@@ -5,10 +5,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepositoryImpl
 import com.kursor.chroniclesofww2.databinding.FragmentSavedBattlesManagementBinding
 import com.kursor.chroniclesofww2.domain.repositories.LocalCustomBattleRepository
-import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
+import com.kursor.chroniclesofww2.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.setTitleColor
 import org.koin.android.ext.android.inject
 

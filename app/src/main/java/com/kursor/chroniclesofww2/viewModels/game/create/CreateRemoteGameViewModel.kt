@@ -39,7 +39,7 @@ class CreateRemoteGameViewModel(
     fun createGame(gameDataViewModel: GameDataViewModel) {
         viewModelScope.launch {
             connection = RemoteConnection(
-                baseUrl = Const.connection.FULL_SERVER_URL,
+                baseUrl = Const.connection.HTTP_SERVER_URL,
                 path = Routes.Game.CREATE.node,
                 httpClient = httpClient,
                 dispatcher = Dispatchers.IO,

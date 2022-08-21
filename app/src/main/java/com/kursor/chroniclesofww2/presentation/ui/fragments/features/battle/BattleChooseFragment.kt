@@ -10,7 +10,7 @@ import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentBattleChooseBinding
 import com.kursor.chroniclesofww2.domain.repositories.StandardBattleRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
-import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
+import com.kursor.chroniclesofww2.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.phelat.navigationresult.BundleFragment

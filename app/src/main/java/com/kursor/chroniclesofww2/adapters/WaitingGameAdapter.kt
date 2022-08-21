@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.adapters
+package com.kursor.chroniclesofww2.adapters
 
 import android.app.Activity
 import android.view.ContextMenu
@@ -10,16 +10,16 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.domain.connection.Host
+import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
 
-class HostAdapter(
+class WaitingGameAdapter(
     private val activity: ComponentActivity,
-    private val hostList: List<Host>
-) : RecyclerView.Adapter<HostAdapter.HostHolder>() {
+    private val gameList: List<WaitingGameInfoDTO>
+) : RecyclerView.Adapter<WaitingGameAdapter.Holder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
-    class HostHolder(private val activity: Activity, val view: View) :
+    class Holder(private val activity: Activity, val view: View) :
         RecyclerView.ViewHolder(view),
         View.OnCreateContextMenuListener {
 
@@ -33,32 +33,32 @@ class HostAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HostHolder {
-        return HostHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        return Holder(
             activity,
             LayoutInflater.from(activity)
                 .inflate(R.layout.recyclerview_hosts, LinearLayout(activity), false)
         )
     }
 
-    override fun onBindViewHolder(holder: HostHolder, position: Int) {
+    override fun onBindViewHolder(holder: Holder, position: Int) {
         val textView = holder.view.findViewById<TextView>(android.R.id.text1)
-        val host = hostList[position]
-        textView.text = host.name
+        val game = gameList[position]
+        textView.text = game.initiatorLogin
         holder.view.setOnClickListener {
             onItemClickListener?.onItemClick(
-                holder.view, position, host
+                holder.view, position, game
             )
         }
     }
 
-    override fun getItemCount(): Int = hostList.size
+    override fun getItemCount(): Int = gameList.size
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         this.onItemClickListener = onItemClickListener
     }
 
     fun interface OnItemClickListener {
-        fun onItemClick(view: View, position: Int, host: Host)
+        fun onItemClick(view: View, position: Int, waitingGameInfoDTO: WaitingGameInfoDTO)
     }
 }

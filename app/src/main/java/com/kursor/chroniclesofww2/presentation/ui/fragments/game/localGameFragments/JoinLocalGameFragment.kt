@@ -12,7 +12,7 @@ import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Tools
-import com.kursor.chroniclesofww2.presentation.adapters.HostAdapter
+import com.kursor.chroniclesofww2.adapters.HostAdapter
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
@@ -34,7 +34,6 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.clientInitErrorTextView.setText(clientInitErrorMessageResId)
 
         hostAdapter = HostAdapter(requireActivity(), hostDiscoveryViewModel.hostList).apply {
             setOnItemClickListener { view, position, host ->

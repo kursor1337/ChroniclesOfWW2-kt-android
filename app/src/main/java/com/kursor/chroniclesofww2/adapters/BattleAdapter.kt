@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.adapters
+package com.kursor.chroniclesofww2.adapters
 
 import android.app.Activity
 import android.view.ContextMenu
