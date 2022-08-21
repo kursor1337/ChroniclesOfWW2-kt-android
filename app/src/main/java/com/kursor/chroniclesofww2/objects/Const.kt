@@ -1,5 +1,7 @@
 package com.kursor.chroniclesofww2.objects
 
+import com.kursor.chroniclesofww2.features.GameFeaturesMessages
+
 object Const {
 
     object game {
@@ -13,6 +15,15 @@ object Const {
     object connection {
 
         const val DEFAULT_PORT = 8080
+
+        /** Constants for socket communication */
+        const val REQUEST_FOR_ACCEPT = GameFeaturesMessages.REQUEST_FOR_ACCEPT
+        const val REQUEST_GAME_DATA = GameFeaturesMessages.REQUEST_GAME_DATA
+        const val REJECTED = GameFeaturesMessages.REJECTED
+        const val ACCEPTED = GameFeaturesMessages.ACCEPTED
+        const val CANCEL_CONNECTION = GameFeaturesMessages.CANCEL_CONNECTION
+        const val NOT_RECEIVED = GameFeaturesMessages.NOT_RECEIVED
+        const val INVALID_JSON = GameFeaturesMessages.INVALID_JSON
 
         /** Constants for Activity */
         const val CONNECTED_DEVICE = "connected_device"

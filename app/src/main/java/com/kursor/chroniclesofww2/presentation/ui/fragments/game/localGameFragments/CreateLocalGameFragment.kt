@@ -54,7 +54,7 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
                 }
                 CreateLocalGameViewModel.Status.CONNECTION_REQUEST -> {
                     buildMessageConnectionRequest(
-                        host = arg as Host,
+                        name = (arg as Host).name,
                         onPositiveClickListener = { dialog, which ->
                             createLocalGameViewModel.verdict(ACCEPTED)
                         },

@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.connection.local.LocalConnection
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
-import com.kursor.chroniclesofww2.domain.useCases.game.CreateLocalGameUseCase
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
@@ -22,7 +21,6 @@ class CreateLocalGameViewModel(
     val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    val createLocalGameUseCase = CreateLocalGameUseCase(localServer, accountRepository)
 
     lateinit var connection: LocalConnection
     lateinit var gameData: GameData
@@ -31,7 +29,7 @@ class CreateLocalGameViewModel(
     fun createGame(gameData: GameData) {
         this.gameData = gameData
         val job = viewModelScope.launch {
-            createLocalGameUseCase()
+            localServer.startListening(accountRepository.username)
             _stateLiveData.value = Status.CREATED to null
         }
     }

@@ -50,7 +50,7 @@ class CreateRemoteGameViewModel(
                     CreateGameReceiveDTO(
                         initiatorLogin = accountRepository.login ?: return@launch,
                         password = password,
-                        battle = gameDataViewModel.battleLiveData.value!!,
+                        battle = gameDataViewModel.battleLiveData.value ?: return@launch,
                         boardWidth = gameDataViewModel.boardWidth,
                         boardHeight = gameDataViewModel.boardHeight,
                         invertNations = gameDataViewModel.invertNations
@@ -90,6 +90,13 @@ class CreateRemoteGameViewModel(
     fun verdict(string: String) {
         viewModelScope.launch {
             connection.send(string)
+        }
+    }
+
+    fun cancelConnection() {
+        viewModelScope.launch {
+            connection.send(GameFeaturesMessages.CANCEL_CONNECTION)
+            connection.disconnect()
         }
     }
 
