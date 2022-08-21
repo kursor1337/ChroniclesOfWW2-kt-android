@@ -38,6 +38,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     lateinit var battle: Battle
 
     abstract val actionToBattleChooseFragmentId: Int
+    abstract val navigationGraphId: Int
 
     abstract val battleViewModel: BattleViewModel
     abstract val gameDataViewModel: GameDataViewModel
@@ -72,7 +73,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         binding.chooseBattleButton.setOnClickListener {
             findNavController().navigate(
                 actionToBattleChooseFragmentId,
-                bundleOf(BattleChooseFragment.NAVIGATION_GRAPH_ID to R.id.navigation_local_game)
+                bundleOf(BattleChooseFragment.NAVIGATION_GRAPH_ID to navigationGraphId)
             )
         }
         binding.readyButton.setOnClickListener { v ->

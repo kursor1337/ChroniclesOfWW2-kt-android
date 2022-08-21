@@ -21,6 +21,8 @@ interface AccountRepository {
         updateUserInfoReceiveDTO: UpdateUserInfoReceiveDTO
     ): UpdateUserInfoResponseDTO
 
+    fun refresh()
+
     fun auth()
 
 }

@@ -43,23 +43,24 @@ class CreateRemoteGameViewModel(
                 path = Routes.Game.CREATE.node,
                 httpClient = httpClient,
                 dispatcher = Dispatchers.IO,
-                token = accountRepository.token ?: return@launch
+                token = accountRepository.token!!
             )
             connection.init()
             connection.send(
                 Json.encodeToString(
                     CreateGameReceiveDTO(
-                        initiatorLogin = accountRepository.login ?: return@launch,
+                        initiatorLogin = accountRepository.login!!,
                         password = password,
-                        battle = gameDataViewModel.battleLiveData.value ?: return@launch,
+                        battle = gameDataViewModel.battleLiveData.value!!,
                         boardWidth = gameDataViewModel.boardWidth,
                         boardHeight = gameDataViewModel.boardHeight,
                         invertNations = gameDataViewModel.invertNations
                     )
                 )
             )
+            onConnectionInit()
         }
-        onConnectionInit()
+
     }
 
 

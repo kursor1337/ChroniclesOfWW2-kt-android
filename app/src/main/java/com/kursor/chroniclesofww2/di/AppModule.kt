@@ -6,7 +6,9 @@ import com.kursor.chroniclesofww2.viewModels.game.session.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.RegisterViewModel
 import com.kursor.chroniclesofww2.viewModels.game.create.CreateLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.game.join.JoinLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.game.join.JoinRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.game.session.SingleHostGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
@@ -61,6 +63,21 @@ val appModule = module {
 
     viewModel {
         JoinLocalGameViewModel(localClient = get())
+    }
+
+    viewModel {
+        CreateRemoteGameViewModel(
+            accountRepository = get(),
+            httpClient = get()
+        )
+    }
+
+    viewModel {
+        JoinRemoteGameViewModel(
+            accountRepository = get(),
+            httpClient = get(),
+            loadRemoteGameListUseCase = get()
+        )
     }
 
 }

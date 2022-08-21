@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.connection.remote
 
+import android.util.Log
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
@@ -32,6 +33,7 @@ class RemoteConnection(
     private lateinit var webSocketSession: WebSocketSession
 
     suspend fun init() {
+        Log.d(TAG, "init: initiating connection to the path $fullUrl")
         webSocketSession = httpClient.webSocketSession(fullUrl) {
             bearerAuth(token = token)
         }
@@ -53,5 +55,9 @@ class RemoteConnection(
         .receiveAsFlow()
         .filter { it is Frame.Text }
         .map { (it as Frame.Text).readText() }
+
+    companion object {
+        const val TAG = "RemoteConnection"
+    }
 
 }

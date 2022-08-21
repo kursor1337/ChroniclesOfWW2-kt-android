@@ -7,6 +7,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.utils.io.concurrent.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +26,11 @@ class AccountRepositoryImpl(
             sharedPreferences.edit().putString(USERNAME, value).apply()
         }
 
-    override var token: String? = null
+    override var token: String? = sharedPreferences.getString(TOKEN, null)
+        set(value) {
+            field = value
+            sharedPreferences.edit().putString(TOKEN, value).apply()
+        }
 
     override var login: String? = sharedPreferences.getString(LOGIN, null)
         set(value) {
@@ -63,6 +68,20 @@ class AccountRepositoryImpl(
         return response.body()
     }
 
+    override fun refresh() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (token == null) {
+                if (password == null || login == null) return@launch
+                auth()
+            }
+            val response = httpClient.post(Routes.Account.AUTH.absolutePath(serverUrl)) {
+                bearerAuth(token!!)
+            }
+            if (response.status != HttpStatusCode.OK) auth()
+        }
+    }
+
+
     override fun auth() {
         CoroutineScope(Dispatchers.IO).launch {
             val response = httpClient.post(Routes.Users.LOGIN.absolutePath(serverUrl)) {
@@ -84,5 +103,6 @@ class AccountRepositoryImpl(
         const val USERNAME = "username"
         const val LOGIN = "Login"
         const val PASSWORD = "Password"
+        const val TOKEN = "Token"
     }
 }

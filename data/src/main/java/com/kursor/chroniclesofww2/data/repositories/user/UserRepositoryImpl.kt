@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.data.repositories.user
 
+import android.util.Log
 import com.kursor.chroniclesofww2.domain.repositories.UserRepository
 import com.kursor.chroniclesofww2.features.*
 import io.ktor.client.*
@@ -9,6 +10,11 @@ import io.ktor.http.*
 
 class UserRepositoryImpl(val serverUrl: String, val httpClient: HttpClient) :
     UserRepository {
+
+    init {
+        Log.i("UserRepository", "init: serverUrl = $serverUrl")
+    }
+
     override suspend fun login(loginReceiveDTO: LoginReceiveDTO): LoginResponseDTO {
         val response = httpClient.post(Routes.Users.LOGIN.absolutePath(serverUrl)) {
             contentType(ContentType.Application.Json)

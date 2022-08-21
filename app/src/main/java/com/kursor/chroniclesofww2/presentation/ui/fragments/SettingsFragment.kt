@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentSettingsBinding
@@ -18,6 +19,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class SettingsFragment : Fragment() {
@@ -59,19 +61,21 @@ class SettingsFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_registerFragment)
         }
+    }
 
-//        accountRepository.tokenLiveData.observe(viewLifecycleOwner) { token ->
-//            viewLifecycleOwner.lifecycleScope.launch {
-//                if (isSignedIn()) {
-//                    binding.notSignedInLayout.visibility = View.GONE
-//                    binding.signedInLayout.visibility = View.VISIBLE
-//                    binding.loginTextView.text = accountRepository.login
-//                } else {
-//                    binding.notSignedInLayout.visibility = View.VISIBLE
-//                    binding.signedInLayout.visibility = View.GONE
-//                }
-//            }
-//        }
+    override fun onResume() {
+        super.onResume()
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (isSignedIn()) {
+                binding.notSignedInLayout.visibility = View.GONE
+                binding.signedInLayout.visibility = View.VISIBLE
+                binding.loginTextView.text = accountRepository.login
+            } else {
+                binding.notSignedInLayout.visibility = View.VISIBLE
+                binding.signedInLayout.visibility = View.GONE
+            }
+
+        }
 
     }
 
@@ -85,6 +89,7 @@ class SettingsFragment : Fragment() {
             httpClient.post(
                 Routes.Account.AUTH.absolutePath(Const.connection.HTTP_SERVER_URL)
             ) {
+                contentType(ContentType.Application.Json)
                 bearerAuth(accountRepository.token ?: return false)
             }
         return response.status == HttpStatusCode.OK
@@ -96,6 +101,7 @@ class SettingsFragment : Fragment() {
             httpClient.post(
                 Routes.Users.LOGIN.absolutePath(Const.connection.HTTP_SERVER_URL)
             ) {
+                contentType(ContentType.Application.Json)
                 setBody(
                     LoginReceiveDTO(
                         login = accountRepository.login ?: return false,

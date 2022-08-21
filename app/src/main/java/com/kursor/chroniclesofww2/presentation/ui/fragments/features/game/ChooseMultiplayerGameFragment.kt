@@ -50,10 +50,10 @@ class ChooseMultiplayerGameFragment : Fragment() {
 
     private fun getJoinGameActionId(multiplayerType: String) = if (multiplayerType == LOCAL) {
         R.id.action_chooseMultiplayerGameFragment_to_joinLocalGameFragment
-    } else 0 //TODO(Web join game fragment action id)
+    } else R.id.action_chooseMultiplayerGameFragment_to_joinRemoteGameFragment
 
     private fun getCreateGameActionId(multiplayerType: String) = if (multiplayerType == LOCAL) {
         R.id.action_chooseMultiplayerGameFragment_to_navigation_local_game
-    } else 0 //TODO(Web create game fragment action id)
+    } else R.id.action_chooseMultiplayerGameFragment_to_navigation_remote_game
 
 }

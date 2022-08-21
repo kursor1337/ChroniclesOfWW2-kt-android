@@ -24,6 +24,8 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
 
     override val battleViewModel by koinNavGraphViewModel<BattleViewModel>(R.id.navigation_remote_game)
     override val gameDataViewModel by viewModel<GameDataViewModel>()
+    override val navigationGraphId = R.id.navigation_remote_game
+
     val createRemoteGameViewModel by viewModel<CreateRemoteGameViewModel>()
 
 

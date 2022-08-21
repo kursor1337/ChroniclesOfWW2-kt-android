@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_chooseMultiplayerGameFragment_to_joinRemoteGameFragment"
             app:destination="@id/joinRemoteGameFragment" />
+        <action
+            android:id="@+id/action_chooseMultiplayerGameFragment_to_navigation_remote_game"
+            app:destination="@id/navigation_remote_game" />
     </fragment>
     <fragment
         android:id="@+id/joinLocalGameFragment"
@@ -92,4 +95,5 @@
             android:id="@+id/action_joinRemoteGameFragment_to_passwordDialogFragment"
             app:destination="@id/passwordDialogFragment" />
     </fragment>
+    <include app:graph="@navigation/navigation_remote_game" />
 </navigation>

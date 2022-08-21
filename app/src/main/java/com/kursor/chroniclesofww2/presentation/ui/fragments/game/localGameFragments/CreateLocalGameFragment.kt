@@ -30,6 +30,8 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
         R.id.action_createLocalGameFragment_to_battleChooseFragment
     override val battleViewModel by koinNavGraphViewModel<BattleViewModel>(R.id.navigation_local_game)
     override val gameDataViewModel by viewModel<GameDataViewModel>()
+    override val navigationGraphId = R.id.navigation_local_game
+
     val createLocalGameViewModel by viewModel<CreateLocalGameViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
