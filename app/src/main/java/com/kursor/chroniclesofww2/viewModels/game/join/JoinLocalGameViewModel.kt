@@ -73,7 +73,7 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
     }
 
     enum class Status {
-        ACCEPTED, REJECTED, GAME_DATA_OBTAINED,
+        ACCEPTED, REJECTED, GAME_DATA_OBTAINED
     }
 
 }

@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_chooseMultiplayerGameFragment_to_navigation_local_game"
             app:destination="@id/navigation_local_game" />
+        <action
+            android:id="@+id/action_chooseMultiplayerGameFragment_to_joinRemoteGameFragment"
+            app:destination="@id/joinRemoteGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/joinLocalGameFragment"
@@ -80,4 +83,13 @@
         android:id="@+id/registerFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.RegisterFragment"
         android:label="RegisterFragment" />
+    <fragment
+        tools:layout="@layout/fragment_join_game"
+        android:id="@+id/joinRemoteGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.remoteGameFragments.JoinRemoteGameFragment"
+        android:label="JoinRemoteGameFragment" >
+        <action
+            android:id="@+id/action_joinRemoteGameFragment_to_passwordDialogFragment"
+            app:destination="@id/passwordDialogFragment" />
+    </fragment>
 </navigation>

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepositoryImpl
 import com.kursor.chroniclesofww2.databinding.FragmentSavedBattlesManagementBinding
+import com.kursor.chroniclesofww2.domain.repositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.presentation.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.setTitleColor
 import org.koin.android.ext.android.inject
@@ -15,7 +16,7 @@ class SavedBattlesManagementFragment : Fragment() {
 
     lateinit var binding: FragmentSavedBattlesManagementBinding
 
-    val localCustomBattleRepository by inject<LocalCustomBattleRepositoryImpl>()
+    val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
     lateinit var battleAdapter: BattleAdapter
 
     override fun onCreateView(

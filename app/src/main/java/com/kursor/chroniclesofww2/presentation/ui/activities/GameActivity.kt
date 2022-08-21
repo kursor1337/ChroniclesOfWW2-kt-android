@@ -27,6 +27,7 @@ abstract class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.activity_game)
         //binding = ActivityGameBinding.inflate(layoutInflater)
         if (supportActionBar != null) supportActionBar!!.hide()
         boardView = findViewById(R.id.board_view)

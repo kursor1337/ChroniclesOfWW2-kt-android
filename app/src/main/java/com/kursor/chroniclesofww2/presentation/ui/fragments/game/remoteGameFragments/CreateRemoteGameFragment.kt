@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.game.webGameFragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.game.remoteGameFragments
 
 import android.content.Context
 import android.net.ConnectivityManager

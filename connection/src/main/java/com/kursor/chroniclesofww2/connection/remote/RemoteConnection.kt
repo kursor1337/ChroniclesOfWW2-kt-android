@@ -3,6 +3,7 @@ package com.kursor.chroniclesofww2.connection.remote
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
+import io.ktor.client.request.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +19,8 @@ class RemoteConnection(
     baseUrl: String,
     path: String,
     val httpClient: HttpClient,
-    val dispatcher: CoroutineDispatcher
+    val dispatcher: CoroutineDispatcher,
+    val token: String
 ) : Connection {
 
     val fullUrl = "ws://$baseUrl/$path"
@@ -30,7 +32,9 @@ class RemoteConnection(
     private lateinit var webSocketSession: WebSocketSession
 
     suspend fun init() {
-        webSocketSession = httpClient.webSocketSession(fullUrl)
+        webSocketSession = httpClient.webSocketSession(fullUrl) {
+            bearerAuth(token = token)
+        }
     }
 
     override suspend fun send(string: String) {

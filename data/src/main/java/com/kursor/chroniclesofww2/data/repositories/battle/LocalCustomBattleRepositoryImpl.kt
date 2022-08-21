@@ -50,13 +50,13 @@ class LocalCustomBattleRepositoryImpl(
         nextBattleId++
     }
 
-    fun deleteBattle(battle: Battle) {
+    override fun deleteBattle(battle: Battle) {
         _battleList.remove(battle)
         updateStorage()
         nextBattleId--
     }
 
-    fun deleteBattle(id: Int) {
+    override fun deleteBattle(id: Int) {
         val index = id - PREFIX
         _battleList.removeAt(index)
         updateStorage()

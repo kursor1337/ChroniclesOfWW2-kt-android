@@ -42,7 +42,8 @@ class CreateRemoteGameViewModel(
                 baseUrl = Const.connection.FULL_SERVER_URL,
                 path = Routes.Game.CREATE.node,
                 httpClient = httpClient,
-                dispatcher = Dispatchers.IO
+                dispatcher = Dispatchers.IO,
+                token = accountRepository.token ?: return@launch
             )
             connection.init()
             connection.send(

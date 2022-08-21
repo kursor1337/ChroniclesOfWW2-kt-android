@@ -8,4 +8,6 @@ interface LocalCustomBattleRepository : BattleRepository {
 
     fun saveBattle(battle: Battle)
 
+    fun deleteBattle(battle: Battle)
+    fun deleteBattle(id: Int)
 }

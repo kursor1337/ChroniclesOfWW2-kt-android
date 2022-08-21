@@ -103,7 +103,7 @@ class BoardView(
     }
 
     fun showLastMove(move: Move) {
-        TODO()
+        //TODO()
     }
 
     companion object {
