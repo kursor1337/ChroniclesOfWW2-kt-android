@@ -113,13 +113,13 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     }
 
     protected fun buildMessageConnectionRequest(
-        host: Host,
+        name: String,
         onPositiveClickListener: DialogInterface.OnClickListener?,
         onNegativeClickListener: DialogInterface.OnClickListener?,
         onCancelListener: DialogInterface.OnCancelListener?
     ) {
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
-            .setMessage(host.name + " wants to connect to this  device. Do you agree?")
+            .setMessage("$name wants to connect. Do you agree?")
             .setCancelable(false)
             .setNegativeButton("Refuse", onNegativeClickListener)
 //            { dialog, which ->
@@ -135,14 +135,4 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         dialog.show(parentFragmentManager, "Waiting for Connected")
         Toast.makeText(activity, R.string.waiting_for_connected, Toast.LENGTH_SHORT).show()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        //if (this::localServer.isInitialized) localServer.stopListening()
-    }
-
-    companion object {
-        const val BATTLE_REQUEST_CODE = 202
-    }
-
 }

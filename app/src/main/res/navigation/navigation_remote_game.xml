@@ -2,29 +2,30 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_local_game"
-    app:startDestination="@id/createLocalGameFragment">
+    android:id="@+id/navigation_remote_game"
+    app:startDestination="@id/createRemoteGameFragment">
+
     <fragment
         tools:layout="@layout/fragment_create_network_game"
-        android:id="@+id/createLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments.CreateLocalGameFragment"
-        android:label="CreateLocalGameFragment" >
+        android:id="@+id/createRemoteGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.webGameFragments.CreateRemoteGameFragment"
+        android:label="CreateRemoteGameFragment" >
         <action
-            android:id="@+id/action_createLocalGameFragment_to_battleChooseFragment"
-            app:destination="@id/battleChooseFragment" />
+            android:id="@+id/action_createRemoteGameFragment_to_battleChooseFragment3"
+            app:destination="@id/battleChooseFragment3" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_battle_choose"
-        android:id="@+id/battleChooseFragment"
+        android:id="@+id/battleChooseFragment3"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment"
         android:label="BattleChooseFragment" >
         <action
-            android:id="@+id/action_battleChooseFragment_to_createNewBattleDialogFragment"
-            app:destination="@id/createNewBattleDialogFragment" />
+            android:id="@+id/action_battleChooseFragment3_to_createNewBattleDialogFragment3"
+            app:destination="@id/createNewBattleDialogFragment3" />
     </fragment>
     <dialog
         tools:layout="@layout/fragment_create_battle"
-        android:id="@+id/createNewBattleDialogFragment"
+        android:id="@+id/createNewBattleDialogFragment3"
         android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment"
         android:label="CreateNewBattleDialogFragment" />
 </navigation>

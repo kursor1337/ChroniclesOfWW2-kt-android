@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
-import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment

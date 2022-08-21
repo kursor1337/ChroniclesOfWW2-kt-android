@@ -35,7 +35,6 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        isHostReady = true
         createLocalGameViewModel.localServer.listener = serverListener
 
         createLocalGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
