@@ -7,8 +7,8 @@ class LoadRemoteCustomBattleListUseCase(
     val remoteCustomBattleRepository: RemoteCustomBattleRepository
 ) {
 
-    suspend operator fun invoke(): List<Battle> {
-        return remoteCustomBattleRepository.getAllBattles()
+    suspend operator fun invoke(): Result<List<Battle>> = runCatching {
+        remoteCustomBattleRepository.getAllBattles()
     }
 
 }

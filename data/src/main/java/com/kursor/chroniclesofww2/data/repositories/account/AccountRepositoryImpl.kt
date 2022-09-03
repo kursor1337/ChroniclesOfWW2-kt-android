@@ -68,11 +68,12 @@ class AccountRepositoryImpl(
         return response.body()
     }
 
-    override fun refresh() {
+    override fun refreshToken() {
         CoroutineScope(Dispatchers.IO).launch {
             if (token == null) {
                 if (password == null || login == null) return@launch
                 auth()
+                if (token == null) return@launch
             }
             val response = httpClient.post(Routes.Account.AUTH.absolutePath(serverUrl)) {
                 bearerAuth(token!!)

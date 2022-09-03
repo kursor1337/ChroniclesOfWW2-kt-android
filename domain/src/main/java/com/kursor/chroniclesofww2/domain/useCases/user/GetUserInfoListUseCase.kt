@@ -7,8 +7,8 @@ import kotlinx.coroutines.withContext
 
 class GetUserInfoListUseCase(val userRepository: UserRepository) {
 
-    suspend operator fun invoke(): List<UserInfo> {
-        return withContext(Dispatchers.IO) {
+    suspend operator fun invoke(): Result<List<UserInfo>> = runCatching {
+        withContext(Dispatchers.IO) {
             userRepository.getUserInfoList()
         }
     }

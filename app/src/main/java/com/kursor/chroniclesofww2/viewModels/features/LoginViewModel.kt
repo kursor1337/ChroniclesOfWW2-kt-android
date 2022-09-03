@@ -20,13 +20,15 @@ class LoginViewModel(val loginUseCase: LoginUseCase) : ViewModel() {
 
     fun login() {
         viewModelScope.launch {
-            val loginResponseDTO = loginUseCase(
+            loginUseCase(
                 LoginReceiveDTO(
                     login = login,
                     password = password
                 )
-            )
-            _loginResponseLiveData.value = loginResponseDTO
+            ).onSuccess {
+                _loginResponseLiveData.value = it
+            }.onFailure { }
+
         }
     }
 

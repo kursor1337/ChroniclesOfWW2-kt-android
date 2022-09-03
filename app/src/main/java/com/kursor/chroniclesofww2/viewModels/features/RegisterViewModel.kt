@@ -25,11 +25,15 @@ class RegisterViewModel(val registerUseCase: RegisterUseCase) : ViewModel() {
     fun register(): Boolean {
         if (password != repeatPassword) return false
         viewModelScope.launch {
-            val registerResponseDTO = registerUseCase(
+            registerUseCase(
                 RegisterReceiveDTO(
                     login, username, password
                 )
-            )
+            ).onSuccess {
+                _registerResponseLiveData.value = it
+            }.onFailure {
+
+            }
         }
         return true
     }

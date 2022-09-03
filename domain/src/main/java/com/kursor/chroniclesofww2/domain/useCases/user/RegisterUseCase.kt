@@ -12,17 +12,18 @@ class RegisterUseCase(
     val userRepository: UserRepository
 ) {
 
-    suspend operator fun invoke(registerReceiveDTO: RegisterReceiveDTO): RegisterResponseDTO {
-        val registerResponseDTO = withContext(Dispatchers.IO) {
-            userRepository.register(registerReceiveDTO)
-        }
-        return withContext(Dispatchers.Main) {
-            if (registerResponseDTO.token != null) {
-                accountRepository.token = registerResponseDTO.token
-                accountRepository.login = registerReceiveDTO.login
-                accountRepository.password = registerReceiveDTO.password
+    suspend operator fun invoke(registerReceiveDTO: RegisterReceiveDTO): Result<RegisterResponseDTO> =
+        runCatching {
+            val registerResponseDTO = withContext(Dispatchers.IO) {
+                userRepository.register(registerReceiveDTO)
             }
-            registerResponseDTO
+            withContext(Dispatchers.Main) {
+                if (registerResponseDTO.token != null) {
+                    accountRepository.token = registerResponseDTO.token
+                    accountRepository.login = registerReceiveDTO.login
+                    accountRepository.password = registerReceiveDTO.password
+                }
+                registerResponseDTO
+            }
         }
-    }
 }

@@ -9,19 +9,20 @@ import kotlinx.coroutines.withContext
 
 class LoginUseCase(val accountRepository: AccountRepository, val userRepository: UserRepository) {
 
-    suspend operator fun invoke(loginReceiveDTO: LoginReceiveDTO): LoginResponseDTO {
-        val loginResponseDTO = withContext(Dispatchers.IO) {
-            userRepository.login(loginReceiveDTO)
-        }
-        return withContext(Dispatchers.Main) {
-            if (loginResponseDTO.token != null) {
-                accountRepository.token = loginResponseDTO.token
-                accountRepository.login = loginReceiveDTO.login
-                accountRepository.password = loginReceiveDTO.password
+    suspend operator fun invoke(loginReceiveDTO: LoginReceiveDTO): Result<LoginResponseDTO> =
+        runCatching {
+            val loginResponseDTO = withContext(Dispatchers.IO) {
+                userRepository.login(loginReceiveDTO)
             }
-            loginResponseDTO
+            withContext(Dispatchers.Main) {
+                if (loginResponseDTO.token != null) {
+                    accountRepository.token = loginResponseDTO.token
+                    accountRepository.login = loginReceiveDTO.login
+                    accountRepository.password = loginReceiveDTO.password
+                }
+                loginResponseDTO
+            }
         }
-    }
 
 
 }

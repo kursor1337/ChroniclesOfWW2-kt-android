@@ -12,9 +12,9 @@ class ChangeUsernameUseCase(
 ) {
 
 
-    operator fun invoke(newUsername: String) {
+    operator fun invoke(newUsername: String): Result<Unit> = runCatching {
         accountRepository.username = newUsername
-        if (accountRepository.token == null) return
+        if (accountRepository.token == null) return@runCatching
         CoroutineScope(Dispatchers.IO).launch {
             accountRepository.updateUserInfo(
                 UpdateUserInfoReceiveDTO(UserInfo(newUsername))

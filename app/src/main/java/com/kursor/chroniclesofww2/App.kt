@@ -19,7 +19,7 @@ class App : Application() {
             modules(dataModule, appModule, domainModule, connectionModule)
         }
         val accountRepository by inject<AccountRepository>()
-        accountRepository.refresh()
+        accountRepository.refreshToken()
     }
 
 

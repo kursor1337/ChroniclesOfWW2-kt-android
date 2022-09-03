@@ -27,7 +27,12 @@ class BattleListViewModel(
             LOCAL_CUSTOM -> battleLiveData.value = loadLocalCustomBattleListUseCase()
             REMOTE_CUSTOM -> {
                 viewModelScope.launch {
-                    battleLiveData.value = loadRemoteCustomBattleListUseCase()!!
+                    loadRemoteCustomBattleListUseCase()
+                        .onSuccess {
+                            battleLiveData.value = it
+                        }.onFailure {
+
+                        }
                 }
             }
         }

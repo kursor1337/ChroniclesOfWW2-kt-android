@@ -68,5 +68,8 @@
     <string name="saved_battles">Saved Battles</string>
     <string name="other_users_battles">Other Users\' Battles</string>
     <string name="non_network_game">Non-network game</string>
+    <string name="height">Height</string>
+    <string name="board_size">Board size</string>
+    <string name="width">Width</string>
 
 </resources>

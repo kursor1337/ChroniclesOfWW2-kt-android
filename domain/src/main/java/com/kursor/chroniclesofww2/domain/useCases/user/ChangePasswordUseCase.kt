@@ -12,9 +12,9 @@ class ChangePasswordUseCase(
 
     suspend operator fun invoke(
         changePasswordReceiveDTO: ChangePasswordReceiveDTO
-    ): ChangePasswordResponseDTO {
+    ): Result<ChangePasswordResponseDTO> = runCatching {
         accountRepository.password = changePasswordReceiveDTO.newPassword
-        return withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             accountRepository.changePassword(changePasswordReceiveDTO)
         }
     }

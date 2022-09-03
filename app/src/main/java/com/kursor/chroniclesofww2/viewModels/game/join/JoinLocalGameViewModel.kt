@@ -31,8 +31,8 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
     }
 
     fun cancelConnection() {
+        if (!::connection.isInitialized) return
         viewModelScope.launch {
-            if (!::connection.isInitialized) return@launch
             connection.send(CANCEL_CONNECTION)
             connection.disconnect()
         }

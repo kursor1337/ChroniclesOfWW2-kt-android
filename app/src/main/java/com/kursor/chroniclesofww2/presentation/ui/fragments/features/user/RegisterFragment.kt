@@ -61,7 +61,7 @@ class RegisterFragment : Fragment() {
         registerViewModel.registerResponseLiveData.observe(viewLifecycleOwner) { registerResponseDTO ->
             if (registerResponseDTO.token == null) Toast.makeText(
                 requireContext(),
-                "Something went wrong while registering",
+                "Something went wrong while registering: ${registerResponseDTO.message}",
                 Toast.LENGTH_LONG
             ).show()
             else requireActivity().onBackPressed()
