@@ -69,13 +69,33 @@
 
     </FrameLayout>
 
-    <Button
-        android:background="@drawable/drawable_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hostReady"
-        android:id="@+id/ready_button">
-    </Button>
+        android:orientation="vertical">
+
+        <Button
+            android:background="@drawable/drawable_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hostReady"
+            android:id="@+id/ready_button">
+        </Button>
+
+        <include
+            android:id="@+id/layout_connection_request"
+            layout="@layout/layout_connection_request"
+            android:visibility="gone"
+            />
+        <include
+            android:id="@+id/layout_waiting_for_connections"
+            layout="@layout/layout_waiting_for_connections"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

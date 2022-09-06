@@ -8,7 +8,7 @@
     <fragment
         tools:layout="@layout/fragment_create_network_game"
         android:id="@+id/createRemoteGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.remoteGameFragments.CreateRemoteGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.create.CreateRemoteGameFragment"
         android:label="CreateRemoteGameFragment" >
         <action
             android:id="@+id/action_createRemoteGameFragment_to_battleChooseFragment3"

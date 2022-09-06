@@ -7,7 +7,6 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -25,7 +24,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -48,10 +47,6 @@ dependencies {
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:$model_version")
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:$dtos_version")
 
-    implementation("com.google.firebase:firebase-auth:21.0.7")
-    implementation("com.google.firebase:firebase-crashlytics-ktx:18.2.12")
-    implementation("com.google.firebase:firebase-analytics-ktx:21.1.0")
-
     implementation(project(":connection"))
     implementation(project(":data"))
     implementation(project(":domain"))
@@ -59,6 +54,7 @@ dependencies {
     //ktor client
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-okhttp:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("io.ktor:ktor-client-websockets:$ktor_version")
     implementation("io.ktor:ktor-client-logging:$ktor_version")

@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.create
 
 import android.content.Context
 import android.content.Intent
@@ -11,12 +11,12 @@ import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
+import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
 import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
-import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.CreateAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.game.create.CreateLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
@@ -39,36 +39,27 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
 
         createLocalGameViewModel.localServer.listener = serverListener
 
-        createLocalGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
+        createLocalGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
-                CreateLocalGameViewModel.Status.CREATED -> {
-                    buildMessageWaitingForConnections(
-                        onPositiveClickListener = null,
-                        onNegativeClickListener = { dialog, which ->
+                CreateGameStatus.CREATED -> {
+                    showMessageWaitingForConnections(
+                        onCancel = {
                             createLocalGameViewModel.uncreateGame()
-                            binding.readyButton.isEnabled = true
-                        },
-                        onCancelListener = {
-                            createLocalGameViewModel.uncreateGame()
-                            binding.readyButton.isEnabled = true
                         }
                     )
                 }
-                CreateLocalGameViewModel.Status.CONNECTION_REQUEST -> {
-                    buildMessageConnectionRequest(
+                CreateGameStatus.REQUEST_FOR_ACCEPT -> {
+                    showMessageConnectionRequest(
                         name = (arg as Host).name,
-                        onPositiveClickListener = { dialog, which ->
+                        onAccept = {
                             createLocalGameViewModel.verdict(ACCEPTED)
                         },
-                        onNegativeClickListener = { dialog, which ->
-                            createLocalGameViewModel.verdict(REJECTED)
-                        },
-                        onCancelListener = {
+                        onRefuse = {
                             createLocalGameViewModel.verdict(REJECTED)
                         }
                     )
                 }
-                CreateLocalGameViewModel.Status.GAME_DATA_REQUEST -> {
+                CreateGameStatus.GAME_DATA_REQUEST -> {
                     val intent = Intent(activity, MultiplayerGameActivity::class.java)
                     intent.putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
                         .putExtra(Const.game.GAME_DATA, gameDataJson)

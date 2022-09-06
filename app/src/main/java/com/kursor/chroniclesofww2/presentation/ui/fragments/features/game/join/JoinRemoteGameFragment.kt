@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.game.remoteGameFragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.join
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,6 @@ import com.kursor.chroniclesofww2.adapters.WaitingGameAdapter
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
-import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.game.join.JoinRemoteGameViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

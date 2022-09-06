@@ -1,6 +1,5 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment
+package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.create
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,12 +10,10 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentCreateNetworkGameBinding
-import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Moshi
-import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
@@ -98,42 +95,46 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
 
     abstract fun checkConditionsForServerInit(): Boolean
 
-    protected fun buildMessageWaitingForConnections(
-        onPositiveClickListener: DialogInterface.OnClickListener?,
-        onNegativeClickListener: DialogInterface.OnClickListener?,
-        onCancelListener: DialogInterface.OnCancelListener?
-    ): SimpleDialogFragment {
-        val dialog: SimpleDialogFragment =
-            SimpleDialogFragment.Builder(activity).setCancelable(false)
-                .setNegativeButton("Cancel", onNegativeClickListener)
-                .setMessage("Waiting for Connections...")
-                .setOnCancelListener(onCancelListener)
-                .build()
-        dialog.show(parentFragmentManager, "Waiting for connections")
-        return dialog
+    protected fun showMessageWaitingForConnections(
+        onCancel: () -> Unit
+    ) {
+        onWaitingForConnectionsCancel = onCancel
+        binding.readyButton.visibility = View.GONE
+        binding.layoutConnectionRequest.layout.visibility = View.GONE
+
+        binding.layoutWaitingForConnections.serviceMessagesTextView.text =
+            getString(R.string.waiting_for_connected)
+        binding.layoutWaitingForConnections.cancelButton.setOnClickListener {
+            showReadyButton()
+            onCancel()
+        }
+        binding.layoutWaitingForConnections.layout.visibility = View.VISIBLE
     }
 
-    protected fun buildMessageConnectionRequest(
+    private var onWaitingForConnectionsCancel: () -> Unit = { }
+
+    protected fun showMessageConnectionRequest(
         name: String,
-        onPositiveClickListener: DialogInterface.OnClickListener?,
-        onNegativeClickListener: DialogInterface.OnClickListener?,
-        onCancelListener: DialogInterface.OnCancelListener?
+        onAccept: () -> Unit,
+        onRefuse: () -> Unit
     ) {
-        val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(activity)
-            .setMessage("$name wants to connect. Do you agree?")
-            .setCancelable(false)
-            .setNegativeButton("Refuse", onNegativeClickListener)
-//            { dialog, which ->
-//                connection.send(Const.connection.REJECTED)
-//            }
-            .setPositiveButton("Allow", onPositiveClickListener)
-//            { dialog, which ->
-//                connection.send(Const.connection.ACCEPTED)
-//            }
-            .setOnCancelListener(onCancelListener)
-        //{ connection.send(Const.connection.REJECTED) }
-            .build()
-        dialog.show(parentFragmentManager, "Waiting for Connected")
-        Toast.makeText(activity, R.string.waiting_for_connected, Toast.LENGTH_SHORT).show()
+        binding.layoutWaitingForConnections.layout.visibility = View.GONE
+        binding.readyButton.visibility = View.GONE
+        binding.layoutConnectionRequest.acceptButton.setOnClickListener {
+            onAccept()
+        }
+        binding.layoutConnectionRequest.refuseButton.setOnClickListener {
+            showMessageWaitingForConnections(onWaitingForConnectionsCancel)
+            onRefuse()
+        }
+        binding.layoutConnectionRequest.connectionRequestTextView.text =
+            getString(R.string.connection_request, name)
+        binding.layoutConnectionRequest.layout.visibility = View.VISIBLE
+    }
+
+    protected fun showReadyButton() {
+        binding.layoutConnectionRequest.layout.visibility = View.GONE
+        binding.layoutWaitingForConnections.layout.visibility = View.GONE
+        binding.readyButton.visibility = View.VISIBLE
     }
 }

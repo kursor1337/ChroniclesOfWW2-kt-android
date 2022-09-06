@@ -1,4 +1,5 @@
 val ktor_version: String by project
+val dtos_version: String by project
 
 plugins {
     id("com.android.library")
@@ -33,12 +34,14 @@ android {
 
 dependencies {
 
+    implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:$dtos_version")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     //ktor client
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-okhttp:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("io.ktor:ktor-client-websockets:$ktor_version")
     implementation("io.ktor:ktor-client-logging:$ktor_version")

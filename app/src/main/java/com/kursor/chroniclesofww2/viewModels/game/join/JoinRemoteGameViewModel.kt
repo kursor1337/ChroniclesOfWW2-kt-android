@@ -46,8 +46,7 @@ class JoinRemoteGameViewModel(
         gameId = id
         viewModelScope.launch {
             connection = RemoteConnection(
-                baseUrl = Const.connection.HTTP_SERVER_URL,
-                path = Routes.Game.JOIN.node,
+                fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.HTTP_SERVER_URL),
                 httpClient = httpClient,
                 dispatcher = Dispatchers.IO,
                 accountRepository.token ?: return@launch
@@ -85,8 +84,7 @@ class JoinRemoteGameViewModel(
                         _stateLiveData.value = Status.GAME_DATA_OBTAINED to string
                         connection.shutdown()
                         Tools.currentConnection = RemoteConnection(
-                            baseUrl = Const.connection.HTTP_SERVER_URL,
-                            path = Routes.Game.SESSION.node,
+                            fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                             httpClient = httpClient,
                             dispatcher = Dispatchers.IO,
                             token = accountRepository.token ?: return@collect

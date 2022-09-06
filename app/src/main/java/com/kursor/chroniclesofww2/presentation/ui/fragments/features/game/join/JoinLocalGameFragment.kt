@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.join
 
 import android.content.Context
 import android.content.Intent
@@ -14,7 +14,6 @@ import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.adapters.HostAdapter
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
-import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.JoinAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.RecyclerViewViewModelObserver
 import com.kursor.chroniclesofww2.viewModels.game.join.JoinLocalGameViewModel

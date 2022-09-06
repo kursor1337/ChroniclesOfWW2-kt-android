@@ -1,17 +1,18 @@
-package com.kursor.chroniclesofww2.presentation.ui.fragments.game.remoteGameFragments
+package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.create
 
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.features.GameFeaturesMessages
+import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
-import com.kursor.chroniclesofww2.presentation.ui.fragments.game.abstractGameFragment.CreateAbstractGameFragment
 import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
@@ -28,30 +29,26 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
 
     val createRemoteGameViewModel by viewModel<CreateRemoteGameViewModel>()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        createRemoteGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
+        createRemoteGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
-                CreateRemoteGameViewModel.Status.CREATED -> {
-                    buildMessageWaitingForConnections(
-                        onPositiveClickListener = null,
-                        onNegativeClickListener = { dialog, which ->
-                            createRemoteGameViewModel.cancelConnection()
-                        },
-                        onCancelListener = {
+                CreateGameStatus.CREATED -> {
+                    showMessageWaitingForConnections(
+                        onCancel = {
                             createRemoteGameViewModel.cancelConnection()
                         }
                     )
                 }
-                CreateRemoteGameViewModel.Status.CONNECTED -> {}
-                CreateRemoteGameViewModel.Status.TIMEOUT -> {
+                CreateGameStatus.TIMEOUT -> {
+                    Log.d("CreateRemoteGameFragment", "Timeout")
                     Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_LONG).show()
+                    showReadyButton()
                 }
-                CreateRemoteGameViewModel.Status.REQUEST_FOR_ACCEPT -> {
-                    buildMessageConnectionRequest(
+                CreateGameStatus.REQUEST_FOR_ACCEPT -> {
+                    showMessageConnectionRequest(
                         arg as String,
-                        onPositiveClickListener = { dialog, which ->
+                        onAccept = {
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.ACCEPTED)
                             val gameDataJson = arg
                             val intent = Intent(activity, MultiplayerGameActivity::class.java)
@@ -62,22 +59,23 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
                                 .putExtra(Const.game.BATTLE, gameDataJson)
                             startActivity(intent)
                         },
-                        onNegativeClickListener = { dialog, which ->
-                            createRemoteGameViewModel.verdict(GameFeaturesMessages.REJECTED)
-                        },
-                        onCancelListener = {
+                        onRefuse = {
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.REJECTED)
                         }
                     )
                 }
+                else -> {}
             }
         }
-
     }
-
 
     override fun createGame() {
         createRemoteGameViewModel.createGame(gameDataViewModel)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("CreateRemoteGameFragment", "onStop: ")
     }
 
     override fun checkConditionsForServerInit(): Boolean {

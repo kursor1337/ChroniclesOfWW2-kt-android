@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.connection.local.LocalConnection
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
+import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
@@ -28,21 +29,21 @@ class CreateLocalGameViewModel(
 
     fun createGame(gameData: GameData) {
         this.gameData = gameData
-        val job = viewModelScope.launch {
+        viewModelScope.launch {
             localServer.startListening(accountRepository.username)
-            _stateLiveData.value = Status.CREATED to null
+            _stateLiveData.value = CreateGameStatus.CREATED to null
         }
     }
 
     fun uncreateGame() {
         viewModelScope.launch {
             localServer.stopListening()
-            _stateLiveData.value = Status.UNCREATED to null
+            _stateLiveData.value = CreateGameStatus.UNCREATED to null
         }
     }
 
-    private val _stateLiveData = MutableLiveData<Pair<Status, Any?>>()
-    val stateLiveData: LiveData<Pair<Status, Any?>> get() = _stateLiveData
+    private val _stateLiveData = MutableLiveData<Pair<CreateGameStatus, Any?>>()
+    val statusLiveData: LiveData<Pair<CreateGameStatus, Any?>> get() = _stateLiveData
 
     fun onConnectionInit() {
         connection = Tools.currentConnection as LocalConnection
@@ -50,20 +51,21 @@ class CreateLocalGameViewModel(
             connection.observeIncoming().collect { string ->
                 when (string) {
                     Const.connection.REQUEST_FOR_ACCEPT -> {
-                        _stateLiveData.value = Status.CONNECTION_REQUEST to connection.host
+                        _stateLiveData.value =
+                            CreateGameStatus.REQUEST_FOR_ACCEPT to connection.host
                     }
                     Const.connection.REQUEST_GAME_DATA -> {
                         if (!hostAccepted) return@collect
                         Log.i("Server", "Client sent ${Const.connection.REQUEST_GAME_DATA}")
                         val gameDataJson = Moshi.GAMEDATA_ADAPTER.toJson(gameData)
                         connection.send(gameDataJson)
-                        _stateLiveData.value = Status.GAME_DATA_REQUEST to null
+                        _stateLiveData.value = CreateGameStatus.GAME_DATA_REQUEST to null
                     }
                     Const.connection.CANCEL_CONNECTION -> {
                         Log.i("Server", Const.connection.CANCEL_CONNECTION)
                         connection.shutdown()
                         Log.i("Server", "Sent invalid json")
-                        _stateLiveData.value = Status.CANCEL_CONNECTION to null
+                        _stateLiveData.value = CreateGameStatus.CANCEL_CONNECTION to null
                     }
                     Const.connection.INVALID_JSON -> Log.i("Server", "Sent invalid json")
                     else -> {
@@ -89,10 +91,6 @@ class CreateLocalGameViewModel(
             if (::connection.isInitialized) connection.disconnect()
             localServer.stopListening()
         }
-    }
-
-    enum class Status {
-        CREATED, UNCREATED, CONNECTION_REQUEST, GAME_DATA_REQUEST, CANCEL_CONNECTION
     }
 
 }

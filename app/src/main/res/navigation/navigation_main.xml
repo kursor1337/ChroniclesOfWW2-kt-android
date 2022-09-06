@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/joinLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments.JoinLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.join.JoinLocalGameFragment"
         android:label="JoinLocalGameFragment"
         tools:layout="@layout/fragment_join_game">
         <action
@@ -89,7 +89,7 @@
     <fragment
         tools:layout="@layout/fragment_join_game"
         android:id="@+id/joinRemoteGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.remoteGameFragments.JoinRemoteGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.join.JoinRemoteGameFragment"
         android:label="JoinRemoteGameFragment" >
         <action
             android:id="@+id/action_joinRemoteGameFragment_to_passwordDialogFragment"

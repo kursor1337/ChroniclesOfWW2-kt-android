@@ -10,6 +10,7 @@ import com.kursor.chroniclesofww2.features.CreateGameReceiveDTO
 import com.kursor.chroniclesofww2.features.CreateGameResponseDTO
 import com.kursor.chroniclesofww2.features.GameFeaturesMessages
 import com.kursor.chroniclesofww2.features.Routes
+import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
@@ -26,8 +27,8 @@ class CreateRemoteGameViewModel(
 ) : ViewModel() {
 
 
-    private val _stateLiveData = MutableLiveData<Pair<Status, Any?>>()
-    val stateLiveData: LiveData<Pair<Status, Any?>> get() = _stateLiveData
+    private val _stateLiveData = MutableLiveData<Pair<CreateGameStatus, Any?>>()
+    val statusLiveData: LiveData<Pair<CreateGameStatus, Any?>> get() = _stateLiveData
 
     var createdGameId = 0
 
@@ -39,8 +40,7 @@ class CreateRemoteGameViewModel(
     fun createGame(gameDataViewModel: GameDataViewModel) {
         viewModelScope.launch {
             connection = RemoteConnection(
-                baseUrl = Const.connection.HTTP_SERVER_URL,
-                path = Routes.Game.CREATE.node,
+                fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                 httpClient = httpClient,
                 dispatcher = Dispatchers.IO,
                 token = accountRepository.token!!
@@ -63,7 +63,6 @@ class CreateRemoteGameViewModel(
 
     }
 
-
     fun onConnectionInit() {
         Tools.currentConnection = connection
         viewModelScope.launch {
@@ -71,18 +70,22 @@ class CreateRemoteGameViewModel(
                 if (!responseReceived) {
                     val createGameResponseDTO = Json.decodeFromString<CreateGameResponseDTO>(string)
                     createdGameId = createGameResponseDTO.gameId
-                    _stateLiveData.value = Status.CREATED to createdGameId
+                    _stateLiveData.value = CreateGameStatus.CREATED to createdGameId
+                    responseReceived = true
                     return@collect
                 }
                 when {
                     string == GameFeaturesMessages.GAME_STARTED -> {
-                        _stateLiveData.value = Status.CONNECTED to null
+                        _stateLiveData.value = CreateGameStatus.GAME_START to null
                     }
                     string == GameFeaturesMessages.SESSION_TIMED_OUT -> {
-                        _stateLiveData.value = Status.TIMEOUT to null
+                        _stateLiveData.value = CreateGameStatus.TIMEOUT to null
                     }
                     string.startsWith(GameFeaturesMessages.REQUEST_FOR_ACCEPT) -> {
-                        _stateLiveData.value = Status.REQUEST_FOR_ACCEPT to string.removePrefix(GameFeaturesMessages.REQUEST_FOR_ACCEPT)
+                        _stateLiveData.value =
+                            CreateGameStatus.REQUEST_FOR_ACCEPT to string.removePrefix(
+                                GameFeaturesMessages.REQUEST_FOR_ACCEPT
+                            )
                     }
                 }
             }
@@ -97,13 +100,10 @@ class CreateRemoteGameViewModel(
 
     fun cancelConnection() {
         viewModelScope.launch {
+            Tools.currentConnection = null
             connection.send(GameFeaturesMessages.CANCEL_CONNECTION)
             connection.disconnect()
         }
-    }
-
-    enum class Status {
-        CREATED, CONNECTED, TIMEOUT, REQUEST_FOR_ACCEPT
     }
 
 }

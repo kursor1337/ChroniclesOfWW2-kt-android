@@ -71,5 +71,9 @@
     <string name="height">Height</string>
     <string name="board_size">Board size</string>
     <string name="width">Width</string>
+    <string name="cancel">Cancel</string>
+    <string name="connection_request">Connection request: %1$s</string>
+    <string name="accept">Accept</string>
+    <string name="refuse">Refuse</string>
 
 </resources>

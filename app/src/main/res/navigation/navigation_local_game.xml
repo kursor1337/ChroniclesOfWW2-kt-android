@@ -7,7 +7,7 @@
     <fragment
         tools:layout="@layout/fragment_create_network_game"
         android:id="@+id/createLocalGameFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.game.localGameFragments.CreateLocalGameFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.create.CreateLocalGameFragment"
         android:label="CreateLocalGameFragment" >
         <action
             android:id="@+id/action_createLocalGameFragment_to_battleChooseFragment"
