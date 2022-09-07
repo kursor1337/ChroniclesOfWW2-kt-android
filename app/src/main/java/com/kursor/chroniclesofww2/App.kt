@@ -2,6 +2,7 @@ package com.kursor.chroniclesofww2
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import com.kursor.chroniclesofww2.di.appModule
 import com.kursor.chroniclesofww2.di.connectionModule
 import com.kursor.chroniclesofww2.di.dataModule
@@ -21,7 +22,9 @@ class App : Application() {
             modules(dataModule, appModule, domainModule, connectionModule)
         }
         val accountRepository by inject<AccountRepository>()
-        accountRepository.refreshToken()
+        accountRepository.refreshToken().onFailure {
+            Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show()
+        }
 
     }
 

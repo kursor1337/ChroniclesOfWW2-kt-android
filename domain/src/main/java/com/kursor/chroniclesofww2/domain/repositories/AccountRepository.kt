@@ -4,6 +4,7 @@ import com.kursor.chroniclesofww2.features.ChangePasswordReceiveDTO
 import com.kursor.chroniclesofww2.features.ChangePasswordResponseDTO
 import com.kursor.chroniclesofww2.features.UpdateUserInfoReceiveDTO
 import com.kursor.chroniclesofww2.features.UpdateUserInfoResponseDTO
+import kotlinx.coroutines.Job
 
 interface AccountRepository {
 
@@ -21,8 +22,8 @@ interface AccountRepository {
         updateUserInfoReceiveDTO: UpdateUserInfoReceiveDTO
     ): UpdateUserInfoResponseDTO
 
-    fun refreshToken()
+    fun refreshToken(): Result<Job>
 
-    fun auth()
+    fun auth(): Result<Job>
 
 }

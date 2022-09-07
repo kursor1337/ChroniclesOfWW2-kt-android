@@ -8,14 +8,11 @@ import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.websocket.*
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class RemoteConnection(
@@ -31,7 +28,7 @@ class RemoteConnection(
     val coroutineScope = CoroutineScope(dispatcher)
     private lateinit var webSocketSession: WebSocketSession
 
-    suspend fun init() {
+    suspend fun init() = withContext(Dispatchers.IO) {
         Log.d(TAG, "init: initiating connection to the path $fullUrl")
         webSocketSession = httpClient.webSocketSession {
             url(fullUrl)
@@ -40,7 +37,7 @@ class RemoteConnection(
 
     }
 
-    override suspend fun send(string: String) {
+    override suspend fun send(string: String) = withContext(Dispatchers.IO) {
         withContext(dispatcher) {
             webSocketSession.send(string)
         }

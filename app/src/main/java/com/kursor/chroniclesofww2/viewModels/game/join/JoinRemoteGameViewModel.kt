@@ -10,6 +10,7 @@ import com.kursor.chroniclesofww2.domain.useCases.game.LoadRemoteGameListUseCase
 import com.kursor.chroniclesofww2.features.GameFeaturesMessages
 import com.kursor.chroniclesofww2.features.JoinGameReceiveDTO
 import com.kursor.chroniclesofww2.features.Routes
+import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
@@ -25,19 +26,28 @@ class JoinRemoteGameViewModel(
     val loadRemoteGameListUseCase: LoadRemoteGameListUseCase
 ) : ViewModel() {
 
-
     lateinit var connection: RemoteConnection
 
     private val _stateLiveData = MutableLiveData<Pair<Status, Any?>>()
     val stateLiveData: LiveData<Pair<Status, Any?>> get() = _stateLiveData
+
+    private val _waitingGamesListLiveData = MutableLiveData<List<WaitingGameInfoDTO>>()
+    val waitingGamesListLiveData: LiveData<List<WaitingGameInfoDTO>> get() = _waitingGamesListLiveData
 
     var password = ""
     var isAccepted = false
 
     fun obtainGameList() {
         viewModelScope.launch {
-            _stateLiveData.value = Status.GAME_LIST_OBTAINED to loadRemoteGameListUseCase()
+            val waitingGamesList = loadRemoteGameListUseCase()
+            _stateLiveData.value = Status.GAME_LIST_OBTAINED to waitingGamesList
+            _waitingGamesListLiveData.value = waitingGamesList
         }
+    }
+
+    fun search(id: String) {
+        _waitingGamesListLiveData.value =
+            _waitingGamesListLiveData.value?.filter { it.id.toString().startsWith(id) }
     }
 
     var gameId = 0
@@ -46,7 +56,7 @@ class JoinRemoteGameViewModel(
         gameId = id
         viewModelScope.launch {
             connection = RemoteConnection(
-                fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.HTTP_SERVER_URL),
+                fullUrl = Routes.Game.JOIN.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                 httpClient = httpClient,
                 dispatcher = Dispatchers.IO,
                 accountRepository.token ?: return@launch
@@ -60,6 +70,7 @@ class JoinRemoteGameViewModel(
                     )
                 )
             )
+            onConnectionInit()
         }
     }
 
@@ -81,7 +92,6 @@ class JoinRemoteGameViewModel(
                             connection.send(GameFeaturesMessages.INVALID_JSON)
                             return@collect
                         }
-                        _stateLiveData.value = Status.GAME_DATA_OBTAINED to string
                         connection.shutdown()
                         Tools.currentConnection = RemoteConnection(
                             fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
@@ -91,6 +101,7 @@ class JoinRemoteGameViewModel(
                         ).apply {
                             send(gameId.toString())
                         }
+                        _stateLiveData.value = Status.GAME_DATA_OBTAINED to string
                     }
                 }
             }

@@ -87,7 +87,6 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                 Moshi.GAMEDATA_ADAPTER.toJson(gameDataViewModel.createGameData())
 
             createGame()
-            v.isEnabled = false
         }
     }
 
@@ -96,6 +95,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
     abstract fun checkConditionsForServerInit(): Boolean
 
     protected fun showMessageWaitingForConnections(
+        argText: String = "",
         onCancel: () -> Unit
     ) {
         onWaitingForConnectionsCancel = onCancel
@@ -108,10 +108,14 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             showReadyButton()
             onCancel()
         }
+        if (argText.isNotBlank()) {
+            binding.layoutWaitingForConnections.argTextView.text = argText
+        }
         binding.layoutWaitingForConnections.layout.visibility = View.VISIBLE
     }
 
     private var onWaitingForConnectionsCancel: () -> Unit = { }
+    private var waitingForConnectionsArgText: String = ""
 
     protected fun showMessageConnectionRequest(
         name: String,
@@ -124,7 +128,10 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             onAccept()
         }
         binding.layoutConnectionRequest.refuseButton.setOnClickListener {
-            showMessageWaitingForConnections(onWaitingForConnectionsCancel)
+            showMessageWaitingForConnections(
+                waitingForConnectionsArgText,
+                onCancel = onWaitingForConnectionsCancel
+            )
             onRefuse()
         }
         binding.layoutConnectionRequest.connectionRequestTextView.text =

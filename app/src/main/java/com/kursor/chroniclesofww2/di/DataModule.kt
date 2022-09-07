@@ -5,6 +5,7 @@ import com.kursor.chroniclesofww2.data.repositories.battle.LocalCustomBattleRepo
 import com.kursor.chroniclesofww2.data.repositories.battle.RemoteCustomBattleRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.account.AccountRepositoryImpl
+import com.kursor.chroniclesofww2.data.repositories.game.RemoteGameRepositoryImpl
 import com.kursor.chroniclesofww2.data.repositories.user.UserRepositoryImpl
 import com.kursor.chroniclesofww2.domain.repositories.*
 import com.kursor.chroniclesofww2.objects.Const
@@ -50,6 +51,14 @@ val dataModule = module {
         UserRepositoryImpl(
             serverUrl = Const.connection.HTTP_SERVER_URL,
             httpClient = get()
+        )
+    }
+
+    single<RemoteGameRepository> {
+        RemoteGameRepositoryImpl(
+            httpClient = get(),
+            serverUrl = Const.connection.HTTP_SERVER_URL,
+            accountRepository = get()
         )
     }
 

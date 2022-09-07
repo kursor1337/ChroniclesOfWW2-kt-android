@@ -75,5 +75,6 @@
     <string name="connection_request">Connection request: %1$s</string>
     <string name="accept">Accept</string>
     <string name="refuse">Refuse</string>
+    <string name="client_init_error_message_remote">Something went wrong</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.adapters.WaitingGameAdapter
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
@@ -21,9 +22,9 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
         R.id.action_joinRemoteGameFragment_to_passwordDialogFragment
 
     override val clientInitErrorMessageResId: Int
-        get() = TODO("Not yet implemented")
+        get() = R.string.client_init_error_message_remote
 
-    val joinRemoteGameViewModel by viewModel<JoinRemoteGameViewModel>()
+    private val joinRemoteGameViewModel by viewModel<JoinRemoteGameViewModel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,15 +43,24 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
                         .putExtra(Const.game.BATTLE, gameDataJson)
                     startActivity(intent)
                 }
-                JoinRemoteGameViewModel.Status.GAME_LIST_OBTAINED -> {
-                    val list = arg as List<WaitingGameInfoDTO>
-                    binding.gamesRecyclerView.adapter = WaitingGameAdapter(requireActivity(), list)
-                }
+                JoinRemoteGameViewModel.Status.GAME_LIST_OBTAINED -> {}
             }
         }
 
-    }
+        joinRemoteGameViewModel.waitingGamesListLiveData.observe(viewLifecycleOwner) { waitingGamesList ->
+            binding.gamesRecyclerView.adapter =
+                WaitingGameAdapter(requireActivity(), waitingGamesList).apply {
+                    setOnItemClickListener { view, position, waitingGameInfoDTO ->
+                        joinRemoteGameViewModel.joinGame(waitingGameInfoDTO.id)
+                    }
+                }
+        }
 
+        binding.findGameByIdEditText.doOnTextChanged { text, start, before, count ->
+            joinRemoteGameViewModel.search(text.toString())
+        }
+
+    }
 
     override fun checkConditionsForGame(): Boolean {
         val connectivityManager =

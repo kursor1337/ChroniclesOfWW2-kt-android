@@ -14,9 +14,11 @@ import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
+import com.squareup.moshi.JsonEncodingException
 import io.ktor.client.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -67,18 +69,21 @@ class CreateRemoteGameViewModel(
         Tools.currentConnection = connection
         viewModelScope.launch {
             connection.observeIncoming().collect { string ->
-                if (!responseReceived) {
+                try {
                     val createGameResponseDTO = Json.decodeFromString<CreateGameResponseDTO>(string)
                     createdGameId = createGameResponseDTO.gameId
                     _stateLiveData.value = CreateGameStatus.CREATED to createdGameId
                     responseReceived = true
                     return@collect
+                } catch (e: SerializationException) {
+                    e.printStackTrace()
                 }
                 when {
                     string == GameFeaturesMessages.GAME_STARTED -> {
                         _stateLiveData.value = CreateGameStatus.GAME_START to null
                     }
                     string == GameFeaturesMessages.SESSION_TIMED_OUT -> {
+                        responseReceived = false
                         _stateLiveData.value = CreateGameStatus.TIMEOUT to null
                     }
                     string.startsWith(GameFeaturesMessages.REQUEST_FOR_ACCEPT) -> {
@@ -95,7 +100,18 @@ class CreateRemoteGameViewModel(
     fun verdict(string: String) {
         viewModelScope.launch {
             connection.send(string)
+            if (string == GameFeaturesMessages.ACCEPTED) initSession()
         }
+    }
+
+    fun initSession() {
+        connection.shutdown()
+        Tools.currentConnection = RemoteConnection(
+            fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
+            httpClient = httpClient,
+            dispatcher = Dispatchers.IO,
+            token = accountRepository.token!!
+        )
     }
 
     fun cancelConnection() {

@@ -34,7 +34,9 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
         createRemoteGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
                 CreateGameStatus.CREATED -> {
+                    val gameId = (arg as Int).toString()
                     showMessageWaitingForConnections(
+                        argText = "GameId: $gameId",
                         onCancel = {
                             createRemoteGameViewModel.cancelConnection()
                         }

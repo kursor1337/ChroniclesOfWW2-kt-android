@@ -4,10 +4,8 @@ import com.kursor.chroniclesofww2.domain.useCases.battle.LoadLocalCustomBattleLi
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadRemoteCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadStandardBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.game.JoinLocalGameUseCase
-import com.kursor.chroniclesofww2.domain.useCases.game.JoinRemoteGameUseCase
 import com.kursor.chroniclesofww2.domain.useCases.game.LoadRemoteGameListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.user.*
-import com.kursor.chroniclesofww2.objects.Const
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -60,10 +58,6 @@ val domainModule = module {
 
     factory {
         JoinLocalGameUseCase(localClient = get())
-    }
-
-    factory {
-        JoinRemoteGameUseCase(gameRepository = get())
     }
 
     factory {

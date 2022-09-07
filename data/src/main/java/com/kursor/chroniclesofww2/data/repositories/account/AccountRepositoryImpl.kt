@@ -10,6 +10,7 @@ import io.ktor.http.*
 import io.ktor.utils.io.concurrent.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class AccountRepositoryImpl(
@@ -68,7 +69,7 @@ class AccountRepositoryImpl(
         return response.body()
     }
 
-    override fun refreshToken() {
+    override fun refreshToken(): Result<Job> = runCatching {
         CoroutineScope(Dispatchers.IO).launch {
             if (token == null) {
                 if (password == null || login == null) return@launch
@@ -83,7 +84,7 @@ class AccountRepositoryImpl(
     }
 
 
-    override fun auth() {
+    override fun auth(): Result<Job> = runCatching {
         CoroutineScope(Dispatchers.IO).launch {
             val response = httpClient.post(Routes.Users.LOGIN.absolutePath(serverUrl)) {
                 contentType(ContentType.Application.Json)

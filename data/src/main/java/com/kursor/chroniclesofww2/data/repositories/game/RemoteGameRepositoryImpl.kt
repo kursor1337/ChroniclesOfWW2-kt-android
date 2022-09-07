@@ -14,36 +14,6 @@ class RemoteGameRepositoryImpl(
     val accountRepository: AccountRepository
 ) : RemoteGameRepository {
 
-
-    override suspend fun createGame(createGameReceiveDTO: CreateGameReceiveDTO): CreateGameResponseDTO {
-        if (accountRepository.token == null) accountRepository.auth()
-
-        val response = httpClient.post(serverUrl) {
-            contentType(ContentType.Application.Json)
-            bearerAuth(accountRepository.token ?: "")
-            setBody(createGameReceiveDTO)
-        }
-        if (response.status == HttpStatusCode.Unauthorized) {
-            accountRepository.auth()
-            return createGame(createGameReceiveDTO)
-        }
-        return response.body()
-    }
-
-
-    override suspend fun joinGame(joinGameReceiveDTO: JoinGameReceiveDTO): JoinGameResponseDTO {
-        val response = httpClient.post(serverUrl) {
-            contentType(ContentType.Application.Json)
-            bearerAuth(accountRepository.token ?: "")
-            setBody(joinGameReceiveDTO)
-        }
-        if (response.status == HttpStatusCode.Unauthorized) {
-            accountRepository.auth()
-            return joinGame(joinGameReceiveDTO)
-        }
-        return response.body()
-    }
-
     override suspend fun getWaitingGamesList(): List<WaitingGameInfoDTO> {
         val response = httpClient.get(Routes.Game.absolutePath(serverUrl)) {
             contentType(ContentType.Application.Json)
