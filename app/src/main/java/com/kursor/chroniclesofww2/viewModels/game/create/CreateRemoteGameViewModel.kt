@@ -45,7 +45,11 @@ class CreateRemoteGameViewModel(
                 fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                 httpClient = httpClient,
                 dispatcher = Dispatchers.IO,
-                token = accountRepository.token!!
+                token = if (accountRepository.token != null) accountRepository.token!!
+                else {
+                    _stateLiveData.value = CreateGameStatus.UNAUTHORIZED to null
+                    return@launch
+                }
             )
             connection.init()
             connection.send(

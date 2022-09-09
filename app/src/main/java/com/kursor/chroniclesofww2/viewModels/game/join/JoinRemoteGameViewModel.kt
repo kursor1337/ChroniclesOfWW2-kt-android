@@ -11,6 +11,7 @@ import com.kursor.chroniclesofww2.features.GameFeaturesMessages
 import com.kursor.chroniclesofww2.features.JoinGameReceiveDTO
 import com.kursor.chroniclesofww2.features.Routes
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
+import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
@@ -28,8 +29,8 @@ class JoinRemoteGameViewModel(
 
     lateinit var connection: RemoteConnection
 
-    private val _stateLiveData = MutableLiveData<Pair<Status, Any?>>()
-    val stateLiveData: LiveData<Pair<Status, Any?>> get() = _stateLiveData
+    private val _stateLiveData = MutableLiveData<Pair<JoinGameStatus, Any?>>()
+    val stateLiveData: LiveData<Pair<JoinGameStatus, Any?>> get() = _stateLiveData
 
     private val _waitingGamesListLiveData = MutableLiveData<List<WaitingGameInfoDTO>>()
     val waitingGamesListLiveData: LiveData<List<WaitingGameInfoDTO>> get() = _waitingGamesListLiveData
@@ -39,8 +40,15 @@ class JoinRemoteGameViewModel(
 
     fun obtainGameList() {
         viewModelScope.launch {
-            val waitingGamesList = loadRemoteGameListUseCase()
-            _stateLiveData.value = Status.GAME_LIST_OBTAINED to waitingGamesList
+            var waitingGamesList: List<WaitingGameInfoDTO> = emptyList()
+            loadRemoteGameListUseCase()
+                .onSuccess {
+                    waitingGamesList = it
+                }.onFailure {
+                    _stateLiveData.value = JoinGameStatus.UNAUTHORIZED to null
+                    return@launch
+                }
+            _stateLiveData.value = JoinGameStatus.GAME_LIST_OBTAINED to waitingGamesList
             _waitingGamesListLiveData.value = waitingGamesList
         }
     }
@@ -81,10 +89,10 @@ class JoinRemoteGameViewModel(
                 when (string) {
                     GameFeaturesMessages.ACCEPTED -> {
                         isAccepted = true
-                        _stateLiveData.value = Status.ACCEPTED to null
+                        _stateLiveData.value = JoinGameStatus.ACCEPTED to null
                     }
                     GameFeaturesMessages.REJECTED -> {
-                        _stateLiveData.value = Status.REJECTED to null
+                        _stateLiveData.value = JoinGameStatus.REJECTED to null
                     }
                     else -> {
                         if (!isAccepted) return@collect
@@ -101,16 +109,11 @@ class JoinRemoteGameViewModel(
                         ).apply {
                             send(gameId.toString())
                         }
-                        _stateLiveData.value = Status.GAME_DATA_OBTAINED to string
+                        _stateLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
                     }
                 }
             }
         }
-    }
-
-
-    enum class Status {
-        ACCEPTED, REJECTED, GAME_DATA_OBTAINED, GAME_LIST_OBTAINED
     }
 
 }

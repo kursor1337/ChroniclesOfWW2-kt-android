@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.connection.local.LocalConnection
 import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
+import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.objects.Const.connection.INVALID_JSON
@@ -18,8 +19,8 @@ import kotlinx.coroutines.launch
 class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
 
 
-    private val _stateLiveData = MutableLiveData<Pair<Status, Any?>>()
-    val stateLiveData: LiveData<Pair<Status, Any?>> get() = _stateLiveData
+    private val _stateLiveData = MutableLiveData<Pair<JoinGameStatus, Any?>>()
+    val stateLiveData: LiveData<Pair<JoinGameStatus, Any?>> get() = _stateLiveData
 
     lateinit var connection: LocalConnection
     var isAccepted = false
@@ -48,9 +49,9 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
                         isAccepted = true
                         connection.send(Const.connection.REQUEST_GAME_DATA)
                         Log.i("Client", Const.connection.REQUEST_GAME_DATA)
-                        _stateLiveData.value = Status.ACCEPTED to null
+                        _stateLiveData.value = JoinGameStatus.ACCEPTED to null
                     }
-                    Const.connection.REJECTED -> _stateLiveData.value = Status.REJECTED to null
+                    Const.connection.REJECTED -> _stateLiveData.value = JoinGameStatus.REJECTED to null
                     else -> {
 
                         Log.i("Client", "Default branch")
@@ -59,7 +60,7 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
                             connection.send(INVALID_JSON)
                             return@collect
                         }
-                        _stateLiveData.value = Status.GAME_DATA_OBTAINED to string
+                        _stateLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
                     }
                 }
             }
@@ -71,9 +72,4 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
             cancelConnection()
         }
     }
-
-    enum class Status {
-        ACCEPTED, REJECTED, GAME_DATA_OBTAINED
-    }
-
 }

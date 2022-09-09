@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentJoinGameBinding
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
@@ -40,6 +41,7 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
         obtainGamesList()
 
         binding.retryTextView.setOnClickListener { obtainGamesList() }
+        binding.gamesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     abstract fun checkConditionsForGame(): Boolean

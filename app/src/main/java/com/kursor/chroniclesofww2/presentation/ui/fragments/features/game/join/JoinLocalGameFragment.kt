@@ -13,6 +13,7 @@ import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.adapters.HostAdapter
+import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.RecyclerViewViewModelObserver
@@ -56,7 +57,7 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
 
         joinLocalGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
-                JoinLocalGameViewModel.Status.ACCEPTED -> {
+                JoinGameStatus.ACCEPTED -> {
                     buildMessageWaitingForAccepted(
                         onPositiveButtonClickListener = null,
                         onNegativeButtonClickListener = { dialog, which ->
@@ -67,14 +68,14 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
                         }
                     )
                 }
-                JoinLocalGameViewModel.Status.REJECTED -> {
+                JoinGameStatus.REJECTED -> {
                     Toast.makeText(
                         activity,
                         R.string.connection_refused,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                JoinLocalGameViewModel.Status.GAME_DATA_OBTAINED -> {
+                JoinGameStatus.GAME_DATA_OBTAINED -> {
                     val gameDataJson = arg as String
                     val intent = Intent(activity, MultiplayerGameActivity::class.java)
                     intent.putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.CLIENT)
@@ -82,6 +83,14 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
                     hostDiscoveryViewModel.stopDiscovery()
                     startActivity(intent)
                 }
+                JoinGameStatus.UNAUTHORIZED -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Login first (in Settings)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> {}
             }
         }
 

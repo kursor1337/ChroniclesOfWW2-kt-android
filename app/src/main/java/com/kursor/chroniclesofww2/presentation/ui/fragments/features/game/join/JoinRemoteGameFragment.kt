@@ -11,6 +11,7 @@ import androidx.core.widget.doOnTextChanged
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.adapters.WaitingGameAdapter
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
+import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.viewModels.game.join.JoinRemoteGameViewModel
@@ -32,18 +33,25 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
 
         joinRemoteGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
-                JoinRemoteGameViewModel.Status.ACCEPTED -> {}
-                JoinRemoteGameViewModel.Status.REJECTED -> {
+                JoinGameStatus.ACCEPTED -> {}
+                JoinGameStatus.REJECTED -> {
                     Toast.makeText(requireContext(), "Rejected", Toast.LENGTH_LONG).show()
                 }
-                JoinRemoteGameViewModel.Status.GAME_DATA_OBTAINED -> {
+                JoinGameStatus.GAME_DATA_OBTAINED -> {
                     val gameDataJson = arg as String
                     val intent = Intent(activity, MultiplayerGameActivity::class.java)
                     intent.putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.CLIENT)
                         .putExtra(Const.game.BATTLE, gameDataJson)
                     startActivity(intent)
                 }
-                JoinRemoteGameViewModel.Status.GAME_LIST_OBTAINED -> {}
+                JoinGameStatus.GAME_LIST_OBTAINED -> {}
+                JoinGameStatus.UNAUTHORIZED -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Login first (in Settings)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
 
@@ -74,6 +82,11 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
     }
 
     override fun obtainGamesList() {
-        joinRemoteGameViewModel.obtainGameList()
+        if (accountRepository.token != null) {
+            joinRemoteGameViewModel.obtainGameList()
+        } else {
+            Toast.makeText(requireContext(), "Login first (in Settings)", Toast.LENGTH_LONG).show()
+        }
+
     }
 }
