@@ -72,7 +72,7 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
     }
 
     override fun createGame() {
-        createLocalGameViewModel.createGame(gameDataViewModel.createGameData() ?: return)
+        createLocalGameViewModel.createGame(gameDataViewModel.dataContainer())
     }
 
     private val serverListener = object : LocalServer.Listener {

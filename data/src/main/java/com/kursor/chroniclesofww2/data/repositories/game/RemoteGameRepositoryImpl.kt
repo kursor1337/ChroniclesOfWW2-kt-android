@@ -21,12 +21,9 @@ class RemoteGameRepositoryImpl(
             bearerAuth(accountRepository.token ?: "")
         }
         if (response.status == HttpStatusCode.Unauthorized) {
-            accountRepository.auth().onSuccess {
-                return getWaitingGamesList()
-            }.onFailure {
-                throw Exception("Unauthorized")
-            }
+            accountRepository.auth()
+            if (accountRepository.token != null) return getWaitingGamesList()
         }
-        response.body()
+        return response.body()
     }
 }

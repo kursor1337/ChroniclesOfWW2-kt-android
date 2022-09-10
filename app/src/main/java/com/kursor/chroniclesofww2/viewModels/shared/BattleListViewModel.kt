@@ -11,9 +11,9 @@ import com.kursor.chroniclesofww2.model.serializable.Battle
 import kotlinx.coroutines.launch
 
 class BattleListViewModel(
-    val loadStandardBattleListUseCase: LoadStandardBattleListUseCase,
-    val loadLocalCustomBattleListUseCase: LoadLocalCustomBattleListUseCase,
-    val loadRemoteCustomBattleListUseCase: LoadRemoteCustomBattleListUseCase
+    private val loadStandardBattleListUseCase: LoadStandardBattleListUseCase,
+    private val loadLocalCustomBattleListUseCase: LoadLocalCustomBattleListUseCase,
+    private val loadRemoteCustomBattleListUseCase: LoadRemoteCustomBattleListUseCase
 ) : ViewModel() {
 
     private val battleLiveData = MutableLiveData<List<Battle>>()

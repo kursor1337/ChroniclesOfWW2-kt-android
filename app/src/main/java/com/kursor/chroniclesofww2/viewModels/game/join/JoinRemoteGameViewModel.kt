@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.viewModels.game.join
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,9 +23,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class JoinRemoteGameViewModel(
-    val accountRepository: AccountRepository,
-    val httpClient: HttpClient,
-    val loadRemoteGameListUseCase: LoadRemoteGameListUseCase
+    private val accountRepository: AccountRepository,
+    private val httpClient: HttpClient,
+    private val loadRemoteGameListUseCase: LoadRemoteGameListUseCase
 ) : ViewModel() {
 
     lateinit var connection: RemoteConnection
@@ -44,6 +45,7 @@ class JoinRemoteGameViewModel(
             loadRemoteGameListUseCase()
                 .onSuccess {
                     waitingGamesList = it
+                    Log.d("JoinRemoteGameViewModel", "obtainGameList: success ${waitingGamesList}")
                 }.onFailure {
                     _stateLiveData.value = JoinGameStatus.UNAUTHORIZED to null
                     return@launch

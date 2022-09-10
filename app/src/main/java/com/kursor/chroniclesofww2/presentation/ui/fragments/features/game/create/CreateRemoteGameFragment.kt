@@ -31,6 +31,7 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         createRemoteGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
                 CreateGameStatus.CREATED -> {
@@ -72,7 +73,7 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
     }
 
     override fun createGame() {
-        createRemoteGameViewModel.createGame(gameDataViewModel)
+        createRemoteGameViewModel.createGame(gameDataViewModel.dataContainer())
     }
 
     override fun onStop() {

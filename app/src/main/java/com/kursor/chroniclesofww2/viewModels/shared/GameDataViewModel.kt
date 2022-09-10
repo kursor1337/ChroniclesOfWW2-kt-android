@@ -31,4 +31,40 @@ class GameDataViewModel : ViewModel() {
             return null
         }
     }
+
+    fun dataContainer(): DataContainer = DataContainer(
+        myName = myNameLiveData.value,
+        enemyName = enemyNameLiveData.value,
+        battle = battleLiveData.value,
+        boardHeight = boardHeight,
+        boardWidth = boardWidth,
+        invertNations = invertNations,
+        meInitiator = meInitiator
+    )
+
+    data class DataContainer(
+        var myName: String?,
+        var enemyName: String?,
+        var battle: Battle?,
+        var boardHeight: Int,
+        var boardWidth: Int,
+        var invertNations: Boolean,
+        var meInitiator: Boolean
+    ) {
+        fun createGameData(): GameData? {
+            return try {
+                GameData(
+                    myName!!,
+                    enemyName!!,
+                    battle!!,
+                    boardHeight,
+                    boardWidth,
+                    invertNations,
+                    meInitiator
+                )
+            } catch (e: Exception) {
+                return null
+            }
+        }
+    }
 }

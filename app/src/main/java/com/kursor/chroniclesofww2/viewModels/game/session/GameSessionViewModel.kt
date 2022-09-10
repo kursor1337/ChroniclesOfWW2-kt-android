@@ -26,7 +26,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class GameSessionViewModel(
-    val connection: Connection,
+    private val connection: Connection,
     gameData: GameData
 ) : ViewModel() {
 

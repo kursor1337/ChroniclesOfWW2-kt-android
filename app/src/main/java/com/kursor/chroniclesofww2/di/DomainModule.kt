@@ -1,11 +1,14 @@
 package com.kursor.chroniclesofww2.di
 
+import com.kursor.chroniclesofww2.domain.useCases.auth.AuthUseCase
+import com.kursor.chroniclesofww2.domain.useCases.auth.RefreshTokenUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadLocalCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadRemoteCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadStandardBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.game.JoinLocalGameUseCase
 import com.kursor.chroniclesofww2.domain.useCases.game.LoadRemoteGameListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.user.*
+import io.ktor.http.auth.*
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -62,6 +65,14 @@ val domainModule = module {
 
     factory {
         LoadRemoteGameListUseCase(gameRepository = get())
+    }
+
+    factory {
+        RefreshTokenUseCase(accountRepository = get())
+    }
+
+    factory {
+        AuthUseCase(accountRepository = get())
     }
 
 

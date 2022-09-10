@@ -15,20 +15,23 @@ import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
 import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
+import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
+import io.ktor.util.debug.*
 import kotlinx.coroutines.launch
 
 class CreateLocalGameViewModel(
-    val localServer: LocalServer,
-    val accountRepository: AccountRepository
+    private val localServer: LocalServer,
+    private val accountRepository: AccountRepository
 ) : ViewModel() {
 
 
     lateinit var connection: LocalConnection
     lateinit var gameData: GameData
     var hostAccepted = false
+    var gameDataContainer: GameDataViewModel.DataContainer? = null
 
-    fun createGame(gameData: GameData) {
-        this.gameData = gameData
+    fun createGame(gameDataContainer: GameDataViewModel.DataContainer) {
+        this.gameDataContainer = gameDataContainer
         viewModelScope.launch {
             localServer.startListening(accountRepository.username)
             _stateLiveData.value = CreateGameStatus.CREATED to null
@@ -56,6 +59,21 @@ class CreateLocalGameViewModel(
                     }
                     Const.connection.REQUEST_GAME_DATA -> {
                         if (!hostAccepted) return@collect
+                        val nonNullGameDataContainer = gameDataContainer!!
+                        gameDataContainer = GameDataViewModel.DataContainer(
+                            myName = nonNullGameDataContainer.myName,
+                            enemyName = connection.host.name,
+                            battle = nonNullGameDataContainer.battle,
+                            boardHeight = nonNullGameDataContainer.boardHeight,
+                            boardWidth = nonNullGameDataContainer.boardWidth,
+                            invertNations = nonNullGameDataContainer.invertNations,
+                            meInitiator = nonNullGameDataContainer.meInitiator
+                        )
+
+                        gameData = gameDataContainer!!
+                            .createGameData()!!
+                            .getVersionForAnotherPlayer()
+
                         Log.i("Server", "Client sent ${Const.connection.REQUEST_GAME_DATA}")
                         val gameDataJson = Moshi.GAMEDATA_ADAPTER.toJson(gameData)
                         connection.send(gameDataJson)

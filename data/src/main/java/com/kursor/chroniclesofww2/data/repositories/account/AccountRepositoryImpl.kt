@@ -69,35 +69,69 @@ class AccountRepositoryImpl(
         return response.body()
     }
 
-    override fun refreshToken(): Result<Job> = runCatching {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (token == null) {
-                if (password == null || login == null) return@launch
-                auth()
-                if (token == null) return@launch
-            }
-            val response = httpClient.post(Routes.Account.AUTH.absolutePath(serverUrl)) {
-                bearerAuth(token!!)
-            }
-            if (response.status != HttpStatusCode.OK) auth()
+    override suspend fun refreshToken() {
+        if (token == null) {
+            if (password == null || login == null) return
+            auth()
+            if (token == null) return
         }
+        val response = httpClient.post(Routes.Account.AUTH.absolutePath(serverUrl)) {
+            bearerAuth(token!!)
+        }
+        if (response.status != HttpStatusCode.OK) auth()
     }
 
 
-    override fun auth(): Result<Job> = runCatching {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = httpClient.post(Routes.Users.LOGIN.absolutePath(serverUrl)) {
+    override suspend fun auth() {
+        val response = httpClient.post(Routes.Users.LOGIN.absolutePath(serverUrl)) {
+            contentType(ContentType.Application.Json)
+            setBody(
+                LoginReceiveDTO(
+                    login = login ?: return@post,
+                    password = password ?: return@post
+                )
+            )
+        }
+        val loginResponseDTO = response.body<LoginResponseDTO>()
+        if (loginResponseDTO.token != null) token = loginResponseDTO.token
+    }
+
+    override suspend fun checkCredentials(): Boolean {
+        if (login == null || password == null) return false
+        val response =
+            httpClient.post(
+                Routes.Users.LOGIN.absolutePath(serverUrl)
+            ) {
                 contentType(ContentType.Application.Json)
                 setBody(
                     LoginReceiveDTO(
-                        login = login ?: return@post,
-                        password = password ?: return@post
+                        login = login ?: return false,
+                        password = password ?: return false
                     )
                 )
             }
-            val loginResponseDTO = response.body<LoginResponseDTO>()
-            if (loginResponseDTO.token != null) token = loginResponseDTO.token
+        val loginResponseDTO = response.body<LoginResponseDTO>()
+        if (loginResponseDTO.token != null) {
+            token = loginResponseDTO.token
+            return true
         }
+        return false
+    }
+
+    override suspend fun checkToken(): Boolean {
+        if (token == null) return false
+        val response =
+            httpClient.post(
+                Routes.Account.AUTH.absolutePath(serverUrl)
+            ) {
+                contentType(ContentType.Application.Json)
+                bearerAuth(token ?: return false)
+            }
+        return response.status == HttpStatusCode.OK
+    }
+
+    override suspend fun signedIn(): Boolean {
+        return checkToken() || checkCredentials()
     }
 
     companion object {

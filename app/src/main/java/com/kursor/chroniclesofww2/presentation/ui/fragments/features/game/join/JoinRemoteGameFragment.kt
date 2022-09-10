@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
@@ -56,6 +57,7 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
         }
 
         joinRemoteGameViewModel.waitingGamesListLiveData.observe(viewLifecycleOwner) { waitingGamesList ->
+            Log.d("JoinRemoteGameFragment", "observe: updateRecyclerView")
             binding.gamesRecyclerView.adapter =
                 WaitingGameAdapter(requireActivity(), waitingGamesList).apply {
                     setOnItemClickListener { view, position, waitingGameInfoDTO ->

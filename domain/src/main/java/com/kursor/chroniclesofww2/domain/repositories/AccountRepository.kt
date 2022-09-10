@@ -22,8 +22,14 @@ interface AccountRepository {
         updateUserInfoReceiveDTO: UpdateUserInfoReceiveDTO
     ): UpdateUserInfoResponseDTO
 
-    fun refreshToken(): Result<Job>
+    suspend fun refreshToken()
 
-    fun auth(): Result<Job>
+    suspend fun auth()
+
+    suspend fun checkCredentials(): Boolean
+
+    suspend fun checkToken(): Boolean
+
+    suspend fun signedIn(): Boolean
 
 }

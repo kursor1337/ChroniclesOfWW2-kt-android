@@ -16,7 +16,9 @@ import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import kotlinx.coroutines.launch
 
-class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
+class JoinLocalGameViewModel(
+    private val localClient: LocalClient
+) : ViewModel() {
 
 
     private val _stateLiveData = MutableLiveData<Pair<JoinGameStatus, Any?>>()
@@ -51,7 +53,8 @@ class JoinLocalGameViewModel(val localClient: LocalClient) : ViewModel() {
                         Log.i("Client", Const.connection.REQUEST_GAME_DATA)
                         _stateLiveData.value = JoinGameStatus.ACCEPTED to null
                     }
-                    Const.connection.REJECTED -> _stateLiveData.value = JoinGameStatus.REJECTED to null
+                    Const.connection.REJECTED -> _stateLiveData.value =
+                        JoinGameStatus.REJECTED to null
                     else -> {
 
                         Log.i("Client", "Default branch")

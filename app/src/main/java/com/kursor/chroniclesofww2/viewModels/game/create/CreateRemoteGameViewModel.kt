@@ -24,8 +24,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class CreateRemoteGameViewModel(
-    val accountRepository: AccountRepository,
-    val httpClient: HttpClient
+    private val accountRepository: AccountRepository,
+    private val httpClient: HttpClient
 ) : ViewModel() {
 
 
@@ -39,7 +39,7 @@ class CreateRemoteGameViewModel(
 
     private lateinit var connection: RemoteConnection
 
-    fun createGame(gameDataViewModel: GameDataViewModel) {
+    fun createGame(gameDataContainer: GameDataViewModel.DataContainer) {
         viewModelScope.launch {
             connection = RemoteConnection(
                 fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
@@ -57,10 +57,10 @@ class CreateRemoteGameViewModel(
                     CreateGameReceiveDTO(
                         initiatorLogin = accountRepository.login!!,
                         password = password,
-                        battle = gameDataViewModel.battleLiveData.value!!,
-                        boardWidth = gameDataViewModel.boardWidth,
-                        boardHeight = gameDataViewModel.boardHeight,
-                        invertNations = gameDataViewModel.invertNations
+                        battle = gameDataContainer.battle!!,
+                        boardWidth = gameDataContainer.boardWidth,
+                        boardHeight = gameDataContainer.boardHeight,
+                        invertNations = gameDataContainer.invertNations
                     )
                 )
             )

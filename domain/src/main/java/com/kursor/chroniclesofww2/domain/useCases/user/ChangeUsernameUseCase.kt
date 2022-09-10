@@ -16,9 +16,12 @@ class ChangeUsernameUseCase(
         accountRepository.username = newUsername
         if (accountRepository.token == null) return@runCatching
         CoroutineScope(Dispatchers.IO).launch {
-            accountRepository.updateUserInfo(
-                UpdateUserInfoReceiveDTO(UserInfo(newUsername))
-            )
+            runCatching {
+                accountRepository.updateUserInfo(
+                    UpdateUserInfoReceiveDTO(UserInfo(newUsername))
+                )
+            }
+
         }
     }
 

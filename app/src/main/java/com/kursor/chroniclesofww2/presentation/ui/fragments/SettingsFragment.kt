@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,20 +16,20 @@ import com.kursor.chroniclesofww2.features.LoginReceiveDTO
 import com.kursor.chroniclesofww2.features.LoginResponseDTO
 import com.kursor.chroniclesofww2.features.Routes
 import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
 
     lateinit var binding: FragmentSettingsBinding
-    val accountRepository by inject<AccountRepository>()
-    val httpClient by inject<HttpClient>()
 
-    val logoutUseCase by inject<LogoutUseCase>()
+    val settingsViewModel by viewModel<SettingsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,10 +41,22 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.usernameEditText.setText(accountRepository.username)
+        settingsViewModel.isSignedInLiveData.observe(viewLifecycleOwner) { (isSignedIn, args) ->
+            if (isSignedIn) {
+                binding.notSignedInLayout.visibility = View.GONE
+                binding.signedInLayout.visibility = View.VISIBLE
+                binding.loginTextView.text = args[SettingsViewModel.LOGIN]
+            } else {
+                binding.notSignedInLayout.visibility = View.VISIBLE
+                binding.signedInLayout.visibility = View.GONE
+            }
+        }
+        binding.usernameEditText.setText(settingsViewModel.usernameLiveData.value ?: "")
+        binding.usernameEditText.doOnTextChanged { text, start, before, count ->
+            settingsViewModel.changeUserName(text.toString())
+        }
         binding.saveButton.setOnClickListener {
-            if (accountRepository.username == binding.usernameEditText.text.toString()) return@setOnClickListener
-            accountRepository.username = binding.usernameEditText.text.toString()
+            settingsViewModel.save()
         }
 
         binding.savedBattlesButton.setOnClickListener {
@@ -51,7 +64,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.logOutButton.setOnClickListener {
-            logoutUseCase()
+            settingsViewModel.logout()
         }
 
         binding.loginButton.setOnClickListener {
@@ -66,55 +79,7 @@ class SettingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewLifecycleOwner.lifecycleScope.launch {
-            if (isSignedIn()) {
-                binding.notSignedInLayout.visibility = View.GONE
-                binding.signedInLayout.visibility = View.VISIBLE
-                binding.loginTextView.text = accountRepository.login
-            } else {
-                binding.notSignedInLayout.visibility = View.VISIBLE
-                binding.signedInLayout.visibility = View.GONE
-            }
 
-        }
 
     }
-
-    suspend fun isSignedIn(): Boolean {
-        return tokenValid() || credentialsValid()
-    }
-
-    suspend fun tokenValid(): Boolean {
-        if (accountRepository.token == null) return false
-        val response =
-            httpClient.post(
-                Routes.Account.AUTH.absolutePath(Const.connection.HTTP_SERVER_URL)
-            ) {
-                contentType(ContentType.Application.Json)
-                bearerAuth(accountRepository.token ?: return false)
-            }
-        return response.status == HttpStatusCode.OK
-    }
-
-    suspend fun credentialsValid(): Boolean {
-        if (accountRepository.login == null || accountRepository.password == null) return false
-        val response =
-            httpClient.post(
-                Routes.Users.LOGIN.absolutePath(Const.connection.HTTP_SERVER_URL)
-            ) {
-                contentType(ContentType.Application.Json)
-                setBody(
-                    LoginReceiveDTO(
-                        login = accountRepository.login ?: return false,
-                        password = accountRepository.password ?: return false
-                    )
-                )
-            }
-        val loginResponseDTO = response.body<LoginResponseDTO>()
-        if (loginResponseDTO.token != null) {
-            accountRepository.token = loginResponseDTO.token
-            return true
-        }
-        return false
-    }
-
 }
