@@ -2,13 +2,12 @@ package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
+import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
 import com.kursor.chroniclesofww2.viewModels.game.session.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.RegisterViewModel
 import com.kursor.chroniclesofww2.viewModels.game.create.CreateLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
-import com.kursor.chroniclesofww2.viewModels.game.dialog.RequestForAcceptViewModel
-import com.kursor.chroniclesofww2.viewModels.game.dialog.WaitingForConnectionsViewModel
 import com.kursor.chroniclesofww2.viewModels.game.join.JoinLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.game.join.JoinRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.game.session.SingleHostGameViewModel
@@ -83,11 +82,11 @@ val appModule = module {
     }
 
     viewModel {
-        RequestForAcceptViewModel()
+        SettingsViewModel(
+            accountRepository = get(),
+            checkIsSignedInUseCase = get(),
+            changeUsernameUseCase = get(),
+            logoutUseCase = get()
+        )
     }
-
-    viewModel {
-        WaitingForConnectionsViewModel()
-    }
-
 }

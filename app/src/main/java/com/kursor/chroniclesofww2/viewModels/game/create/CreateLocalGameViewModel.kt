@@ -1,11 +1,13 @@
 package com.kursor.chroniclesofww2.viewModels.game.create
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.connection.local.LocalConnection
+import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.game.CreateGameStatus
@@ -17,24 +19,51 @@ import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import io.ktor.util.debug.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CreateLocalGameViewModel(
-    private val localServer: LocalServer,
+    val localServer: LocalServer,
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
 
     lateinit var connection: LocalConnection
     lateinit var gameData: GameData
-    var hostAccepted = false
-    var gameDataContainer: GameDataViewModel.DataContainer? = null
+    private var hostAccepted = false
+    private var gameDataContainer: GameDataViewModel.DataContainer? = null
+    private var timerStarted = false
+
+    private val serverListener = object : LocalServer.Listener {
+        override fun onConnectionEstablished(connection: Connection) {
+            Tools.currentConnection = connection
+            onConnectionInit()
+        }
+
+        override fun onListeningStartError(e: Exception) {
+            _stateLiveData.value = CreateGameStatus.ERROR to null
+        }
+
+        override fun onStartedListening() {
+            _stateLiveData.postValue(CreateGameStatus.CREATED to null)
+            startTimeoutTimer()
+        }
+
+        override fun onFail() {
+            _stateLiveData.value = CreateGameStatus.ERROR to null
+        }
+    }
+
+    init {
+        localServer.listener = serverListener
+    }
 
     fun createGame(gameDataContainer: GameDataViewModel.DataContainer) {
         this.gameDataContainer = gameDataContainer
         viewModelScope.launch {
             localServer.startListening(accountRepository.username)
-            _stateLiveData.value = CreateGameStatus.CREATED to null
         }
     }
 
@@ -42,6 +71,7 @@ class CreateLocalGameViewModel(
         viewModelScope.launch {
             localServer.stopListening()
             _stateLiveData.value = CreateGameStatus.UNCREATED to null
+            timerStarted = false
         }
     }
 
@@ -109,6 +139,23 @@ class CreateLocalGameViewModel(
             if (::connection.isInitialized) connection.disconnect()
             localServer.stopListening()
         }
+    }
+
+    fun startTimeoutTimer() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                timerStarted = true
+                delay(TIMEOUT)
+                if (timerStarted) localServer.stopListening()
+            }
+            if (timerStarted) withContext(Dispatchers.Main) {
+                _stateLiveData.value = CreateGameStatus.TIMEOUT to null
+            }
+        }
+    }
+
+    companion object {
+        const val TIMEOUT = 300000L
     }
 
 }

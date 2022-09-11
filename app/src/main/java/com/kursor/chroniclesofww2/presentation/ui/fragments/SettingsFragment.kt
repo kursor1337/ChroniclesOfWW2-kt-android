@@ -29,7 +29,7 @@ class SettingsFragment : Fragment() {
 
     lateinit var binding: FragmentSettingsBinding
 
-    val settingsViewModel by viewModel<SettingsViewModel>()
+    private val settingsViewModel by viewModel<SettingsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,10 +76,5 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewLifecycleOwner.lifecycleScope.launch {
 
-
-    }
 }

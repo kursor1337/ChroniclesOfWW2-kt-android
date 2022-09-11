@@ -20,10 +20,10 @@ class SettingsViewModel(
     private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
 
-    private val _usernameLiveData = MutableLiveData<String>()
+    private val _usernameLiveData = MutableLiveData(accountRepository.username)
     val usernameLiveData: LiveData<String> get() = _usernameLiveData
 
-    //Boolean = isSignedIn, List<String> - args
+    //Boolean - isSignedIn, List<String> - args
     private val _isSignedInLiveData = MutableLiveData<Pair<Boolean, List<String>>>()
     val isSignedInLiveData: LiveData<Pair<Boolean, List<String>>> get() = _isSignedInLiveData
 

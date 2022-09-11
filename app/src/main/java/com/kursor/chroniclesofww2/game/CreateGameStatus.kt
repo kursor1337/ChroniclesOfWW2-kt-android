@@ -9,7 +9,8 @@ enum class CreateGameStatus {
     CANCEL_CONNECTION,
     TIMEOUT,
     GAME_START,
-    UNAUTHORIZED
+    UNAUTHORIZED,
+    ERROR
 
 }
 

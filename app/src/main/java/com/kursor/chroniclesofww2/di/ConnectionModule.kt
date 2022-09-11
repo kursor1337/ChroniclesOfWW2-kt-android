@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.di
 
+import android.os.Looper
 import com.kursor.chroniclesofww2.BuildConfig
 import com.kursor.chroniclesofww2.connection.local.NsdLocalClient
 import com.kursor.chroniclesofww2.connection.local.NsdLocalServer
@@ -31,11 +32,17 @@ val connectionModule = module {
     }
 
     single<LocalClient> {
-        NsdLocalClient(context = get())
+        NsdLocalClient(
+            context = get(),
+            looper = Looper.getMainLooper()
+        )
     }
 
     single<LocalServer> {
-        NsdLocalServer(context = get())
+        NsdLocalServer(
+            context = get(),
+            looper = Looper.getMainLooper()
+        )
     }
 
 }

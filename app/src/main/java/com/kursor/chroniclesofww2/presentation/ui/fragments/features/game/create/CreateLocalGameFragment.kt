@@ -37,8 +37,6 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        createLocalGameViewModel.localServer.listener = serverListener
-
         createLocalGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
                 CreateGameStatus.CREATED -> {
@@ -65,25 +63,24 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
                         .putExtra(Const.game.GAME_DATA, gameDataJson)
                     startActivity(intent)
                 }
+                CreateGameStatus.TIMEOUT -> {
+                    showReadyButton()
+                    Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_LONG).show()
+                }
+                CreateGameStatus.ERROR -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Listening start error",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
                 else -> {}
             }
         }
-
     }
 
     override fun createGame() {
         createLocalGameViewModel.createGame(gameDataViewModel.dataContainer())
-    }
-
-    private val serverListener = object : LocalServer.Listener {
-        override fun onConnectionEstablished(connection: Connection) {
-            Tools.currentConnection = connection
-            createLocalGameViewModel.onConnectionInit()
-        }
-
-        override fun onListeningStartError(e: Exception) {
-            Toast.makeText(activity, "Listening start error", Toast.LENGTH_LONG).show()
-        }
     }
 
     override fun checkConditionsForServerInit(): Boolean {

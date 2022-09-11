@@ -1,7 +1,6 @@
 package com.kursor.chroniclesofww2.di
 
-import com.kursor.chroniclesofww2.domain.useCases.auth.AuthUseCase
-import com.kursor.chroniclesofww2.domain.useCases.auth.RefreshTokenUseCase
+import com.kursor.chroniclesofww2.domain.useCases.auth.*
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadLocalCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadRemoteCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.LoadStandardBattleListUseCase
@@ -73,6 +72,18 @@ val domainModule = module {
 
     factory {
         AuthUseCase(accountRepository = get())
+    }
+
+    factory {
+        CheckCredentialsUseCase(accountRepository = get())
+    }
+
+    factory {
+        CheckTokenUseCase(accountRepository = get())
+    }
+
+    factory {
+        CheckIsSignedInUseCase(accountRepository = get())
     }
 
 

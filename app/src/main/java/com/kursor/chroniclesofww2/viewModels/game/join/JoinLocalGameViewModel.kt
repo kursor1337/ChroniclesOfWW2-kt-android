@@ -17,7 +17,7 @@ import com.kursor.chroniclesofww2.objects.Tools
 import kotlinx.coroutines.launch
 
 class JoinLocalGameViewModel(
-    private val localClient: LocalClient
+    val localClient: LocalClient
 ) : ViewModel() {
 
 
