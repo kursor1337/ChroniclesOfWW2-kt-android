@@ -47,6 +47,7 @@ class JoinRemoteGameViewModel(
                     waitingGamesList = it
                     Log.d("JoinRemoteGameViewModel", "obtainGameList: success ${waitingGamesList}")
                 }.onFailure {
+                    throw it
                     _stateLiveData.value = JoinGameStatus.UNAUTHORIZED to null
                     return@launch
                 }

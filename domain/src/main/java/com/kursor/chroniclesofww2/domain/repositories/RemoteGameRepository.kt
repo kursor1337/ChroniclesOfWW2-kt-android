@@ -4,6 +4,6 @@ import com.kursor.chroniclesofww2.features.*
 
 interface RemoteGameRepository {
 
-    suspend fun getWaitingGamesList(): Result<List<WaitingGameInfoDTO>>
+    suspend fun getWaitingGamesList(): List<WaitingGameInfoDTO>
 
 }

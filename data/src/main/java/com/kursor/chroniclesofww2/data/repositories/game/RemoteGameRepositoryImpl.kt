@@ -15,7 +15,7 @@ class RemoteGameRepositoryImpl(
     val accountRepository: AccountRepository
 ) : RemoteGameRepository {
 
-    override suspend fun getWaitingGamesList(): Result<List<WaitingGameInfoDTO>> = runCatching {
+    override suspend fun getWaitingGamesList(): List<WaitingGameInfoDTO> {
         val response = httpClient.get(Routes.Game.absolutePath(serverUrl)) {
             contentType(ContentType.Application.Json)
             bearerAuth(accountRepository.token ?: "")

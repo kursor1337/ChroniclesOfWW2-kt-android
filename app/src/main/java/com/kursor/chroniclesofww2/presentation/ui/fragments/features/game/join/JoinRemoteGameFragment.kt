@@ -84,8 +84,16 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
     }
 
     override fun obtainGamesList() {
+        if (!checkConditionsForGame()) {
+            Toast.makeText(
+                requireContext(),
+                R.string.client_init_error_message_remote,
+                Toast.LENGTH_LONG
+            ).show()
+        }
         if (accountRepository.token != null) {
             joinRemoteGameViewModel.obtainGameList()
+            showList()
         } else {
             Toast.makeText(requireContext(), "Login first (in Settings)", Toast.LENGTH_LONG).show()
         }

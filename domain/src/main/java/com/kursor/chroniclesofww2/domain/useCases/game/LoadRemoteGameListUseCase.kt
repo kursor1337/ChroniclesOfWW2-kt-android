@@ -7,8 +7,8 @@ class LoadRemoteGameListUseCase(
     val gameRepository: RemoteGameRepository
 ) {
 
-    suspend operator fun invoke(): Result<List<WaitingGameInfoDTO>> {
-        return gameRepository.getWaitingGamesList()
+    suspend operator fun invoke(): Result<List<WaitingGameInfoDTO>> = kotlin.runCatching {
+        gameRepository.getWaitingGamesList()
     }
 
 }
