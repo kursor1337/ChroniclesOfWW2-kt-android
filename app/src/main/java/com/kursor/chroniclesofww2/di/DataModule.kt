@@ -24,8 +24,7 @@ val dataModule = module {
     single<RemoteCustomBattleRepository> {
         RemoteCustomBattleRepositoryImpl(
             serverUrl = Const.connection.HTTP_SERVER_URL,
-            httpClient = get(),
-            accountRepository = get()
+            httpClient = get()
         )
     }
 
@@ -57,8 +56,7 @@ val dataModule = module {
     single<RemoteGameRepository> {
         RemoteGameRepositoryImpl(
             httpClient = get(),
-            serverUrl = Const.connection.HTTP_SERVER_URL,
-            accountRepository = get()
+            serverUrl = Const.connection.HTTP_SERVER_URL
         )
     }
 

@@ -7,17 +7,15 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import io.ktor.utils.io.concurrent.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class AccountRepositoryImpl(
     val context: Context,
     val httpClient: HttpClient,
     val serverUrl: String
 ) : AccountRepository {
+
+    val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     val sharedPreferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE)
 
@@ -38,12 +36,30 @@ class AccountRepositoryImpl(
             field = value
             sharedPreferences.edit().putString(LOGIN, value).apply()
         }
+
     override var password: String? = sharedPreferences.getString(PASSWORD, null)
         set(value) {
             field = value
             sharedPreferences.edit().putString(PASSWORD, value).apply()
         }
 
+    private var tokenExpirationDate: Long = sharedPreferences.getLong(TOKEN_EXPIRATION_DATE, 0L)
+        set(value) {
+            field = value
+            sharedPreferences.edit().putLong(TOKEN_EXPIRATION_DATE, value).apply()
+        }
+
+    init {
+        coroutineScope.launch {
+            if (tokenExpirationDate < System.currentTimeMillis()) {
+                refreshToken()
+                startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
+            }
+            while (true) {
+                startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
+            }
+        }
+    }
 
     override suspend fun changePassword(
         changePasswordReceiveDTO: ChangePasswordReceiveDTO
@@ -93,7 +109,13 @@ class AccountRepositoryImpl(
             )
         }
         val loginResponseDTO = response.body<LoginResponseDTO>()
-        if (loginResponseDTO.token != null) token = loginResponseDTO.token
+        if (loginResponseDTO.token != null) {
+            token = loginResponseDTO.token
+            tokenExpirationDate = System.currentTimeMillis() + loginResponseDTO.expiresIn * 2 / 3
+        } else {
+            password = null
+            login = null
+        }
     }
 
     override suspend fun checkCredentials(): Boolean {
@@ -134,11 +156,18 @@ class AccountRepositoryImpl(
         return checkToken() || checkCredentials()
     }
 
+    override suspend fun startTokenExpireTimer(millis: Long) =
+        withContext(Dispatchers.IO) {
+            delay(millis)
+            refreshToken()
+        }
+
     companion object {
         const val SETTINGS = "settings"
         const val USERNAME = "username"
         const val LOGIN = "Login"
         const val PASSWORD = "Password"
         const val TOKEN = "Token"
+        const val TOKEN_EXPIRATION_DATE = "token expiration date"
     }
 }

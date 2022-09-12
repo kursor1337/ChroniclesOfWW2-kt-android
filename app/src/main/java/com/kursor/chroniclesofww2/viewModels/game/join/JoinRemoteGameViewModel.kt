@@ -47,7 +47,6 @@ class JoinRemoteGameViewModel(
                     waitingGamesList = it
                     Log.d("JoinRemoteGameViewModel", "obtainGameList: success ${waitingGamesList}")
                 }.onFailure {
-                    throw it
                     _stateLiveData.value = JoinGameStatus.UNAUTHORIZED to null
                     return@launch
                 }
@@ -65,23 +64,28 @@ class JoinRemoteGameViewModel(
 
     fun joinGame(id: Int) {
         gameId = id
+        val token = accountRepository.token ?: return
         viewModelScope.launch {
-            connection = RemoteConnection(
-                fullUrl = Routes.Game.JOIN.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
-                httpClient = httpClient,
-                dispatcher = Dispatchers.IO,
-                accountRepository.token ?: return@launch
-            )
-            connection.init()
-            connection.send(
-                Json.encodeToString(
-                    JoinGameReceiveDTO(
-                        accountRepository.login ?: return@launch,
-                        id, password
+            kotlin.runCatching {
+                connection = RemoteConnection(
+                    fullUrl = Routes.Game.JOIN.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
+                    httpClient = httpClient,
+                    dispatcher = Dispatchers.IO
+                )
+                connection.init(token)
+                connection.send(
+                    Json.encodeToString(
+                        JoinGameReceiveDTO(
+                            accountRepository.login ?: return@launch,
+                            id, password
+                        )
                     )
                 )
-            )
-            onConnectionInit()
+                onConnectionInit()
+            }.onFailure {
+                _stateLiveData.value = JoinGameStatus.UNAUTHORIZED to null
+            }
+
         }
     }
 
@@ -98,6 +102,7 @@ class JoinRemoteGameViewModel(
                         _stateLiveData.value = JoinGameStatus.REJECTED to null
                     }
                     else -> {
+                        val token = accountRepository.token ?: return@collect
                         if (!isAccepted) return@collect
                         if (Moshi.GAMEDATA_ADAPTER.fromJson(string) == null) {
                             connection.send(GameFeaturesMessages.INVALID_JSON)
@@ -107,9 +112,9 @@ class JoinRemoteGameViewModel(
                         Tools.currentConnection = RemoteConnection(
                             fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                             httpClient = httpClient,
-                            dispatcher = Dispatchers.IO,
-                            token = accountRepository.token ?: return@collect
+                            dispatcher = Dispatchers.IO
                         ).apply {
+                            init(token)
                             send(gameId.toString())
                         }
                         _stateLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string

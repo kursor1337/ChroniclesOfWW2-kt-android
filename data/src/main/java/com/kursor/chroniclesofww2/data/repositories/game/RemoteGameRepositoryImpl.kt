@@ -11,18 +11,13 @@ import java.lang.Exception
 
 class RemoteGameRepositoryImpl(
     val httpClient: HttpClient,
-    val serverUrl: String,
-    val accountRepository: AccountRepository
+    val serverUrl: String
 ) : RemoteGameRepository {
 
-    override suspend fun getWaitingGamesList(): List<WaitingGameInfoDTO> {
+    override suspend fun getWaitingGamesList(token: String): List<WaitingGameInfoDTO> {
         val response = httpClient.get(Routes.Game.absolutePath(serverUrl)) {
             contentType(ContentType.Application.Json)
-            bearerAuth(accountRepository.token ?: "")
-        }
-        if (response.status == HttpStatusCode.Unauthorized) {
-            accountRepository.auth()
-            if (accountRepository.token != null) return getWaitingGamesList()
+            bearerAuth(token)
         }
         return response.body()
     }

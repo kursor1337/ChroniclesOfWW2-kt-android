@@ -7,7 +7,10 @@ import com.kursor.chroniclesofww2.features.LoginResponseDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LoginUseCase(val accountRepository: AccountRepository, val userRepository: UserRepository) {
+class LoginUseCase(
+    val accountRepository: AccountRepository,
+    val userRepository: UserRepository
+) {
 
     suspend operator fun invoke(loginReceiveDTO: LoginReceiveDTO): Result<LoginResponseDTO> =
         runCatching {

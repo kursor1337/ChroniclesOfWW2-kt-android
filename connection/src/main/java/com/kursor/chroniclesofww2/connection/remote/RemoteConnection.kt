@@ -18,8 +18,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 class RemoteConnection(
     val fullUrl: String,
     val httpClient: HttpClient,
-    val dispatcher: CoroutineDispatcher,
-    val token: String
+    val dispatcher: CoroutineDispatcher
 ) : Connection {
 
     override var sendListener: Connection.SendListener? = null
@@ -28,7 +27,7 @@ class RemoteConnection(
     val coroutineScope = CoroutineScope(dispatcher)
     private lateinit var webSocketSession: WebSocketSession
 
-    suspend fun init() = withContext(Dispatchers.IO) {
+    suspend fun init(token: String) = withContext(Dispatchers.IO) {
         Log.d(TAG, "init: initiating connection to the path $fullUrl")
         webSocketSession = httpClient.webSocketSession {
             url(fullUrl)

@@ -11,8 +11,7 @@ import io.ktor.http.*
 
 class RemoteCustomBattleRepositoryImpl(
     val serverUrl: String,
-    val httpClient: HttpClient,
-    val accountRepository: AccountRepository
+    val httpClient: HttpClient
 ) : RemoteCustomBattleRepository {
 
     override val PREFIX = 1_000_000_000
@@ -26,90 +25,63 @@ class RemoteCustomBattleRepositoryImpl(
         return battleList.getOrNull(index)
     }
 
-    suspend fun fetch() {
-        previousRetrievedBattleList = getAllBattles()
+    suspend fun fetch(token: String) {
+        previousRetrievedBattleList = getAllBattles(token)
     }
 
-    override suspend fun getAllBattles(): List<Battle> {
-        if (accountRepository.token == null) accountRepository.auth()
-
+    override suspend fun getAllBattles(token: String): List<Battle> {
         val response = httpClient.get(Routes.Battles.GET_ALL.absolutePath(serverUrl)) {
-            bearerAuth(accountRepository.token ?: return emptyList())
+            bearerAuth(token)
         }
-        return when (response.status) {
-            HttpStatusCode.Unauthorized -> {
-                accountRepository.auth()
-                getAllBattles()
-            }
-            else -> response.body()
-        }
+        return response.body()
     }
 
-    override suspend fun getBattleById(id: Int): Battle? {
-        if (accountRepository.token == null) accountRepository.auth()
+    override suspend fun getBattleById(id: Int, token: String): Battle? {
         val response =
             httpClient.get(Routes.Battles.GET_BY_ID(id).absolutePath(serverUrl)) {
-                bearerAuth(accountRepository.token ?: return null)
+                bearerAuth(token)
             }
         return when (response.status) {
-            HttpStatusCode.Unauthorized -> {
-                accountRepository.auth()
-                getBattleById(id)
-            }
             HttpStatusCode.NotFound -> null
             else -> response.body()
         }
     }
 
-    override suspend fun getMyBattles(): List<Battle> {
-        if (accountRepository.token == null) accountRepository.auth()
-
+    override suspend fun getMyBattles(token: String): List<Battle> {
         val response = httpClient.get(Routes.Battles.MY.absolutePath(serverUrl)) {
-            bearerAuth(accountRepository.token ?: return emptyList())
+            bearerAuth(token)
         }
-        return when (response.status) {
-            HttpStatusCode.Unauthorized -> {
-                accountRepository.auth()
-                getMyBattles()
-            }
-            else -> response.body()
-        }
+        return response.body()
     }
 
     override suspend fun saveBattle(
+        token: String,
         saveBattleReceiveDTO: SaveBattleReceiveDTO
     ): SaveBattleResponseDTO {
-        if (accountRepository.token == null) accountRepository.auth()
-
         val response = httpClient.post(Routes.Battles.SAVE.absolutePath(serverUrl)) {
-            bearerAuth(accountRepository.token ?: "")
+            bearerAuth(token)
             setBody(saveBattleReceiveDTO)
         }
-        val saveBattleResponseDTO = response.body<SaveBattleResponseDTO>()
-        return if (saveBattleResponseDTO.id == null) {
-            accountRepository.auth()
-            saveBattle(saveBattleReceiveDTO)
-        } else saveBattleResponseDTO
+        return response.body<SaveBattleResponseDTO>()
     }
 
     override suspend fun editBattle(
+        token: String,
         editBattleReceiveDTO: EditBattleReceiveDTO
     ): EditBattleResponseDTO {
-        accountRepository.auth()
-
         val response = httpClient.put(Routes.Battles.UPDATE.absolutePath(serverUrl)) {
-            bearerAuth(accountRepository.token ?: "")
+            bearerAuth(token)
             setBody(editBattleReceiveDTO)
         }
         return response.body()
     }
 
     override suspend fun deleteBattle(
+        token: String,
         deleteBattleReceiveDTO: DeleteBattleReceiveDTO
     ): DeleteBattleResponseDTO {
-        accountRepository.auth()
         val response = httpClient.delete(Routes.Battles.DELETE.absolutePath(serverUrl)) {
-            bearerAuth(accountRepository.token ?: "")
+            bearerAuth(token)
             setBody(deleteBattleReceiveDTO)
         }
         return response.body()

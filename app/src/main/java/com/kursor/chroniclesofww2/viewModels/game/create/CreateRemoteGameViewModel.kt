@@ -40,31 +40,37 @@ class CreateRemoteGameViewModel(
     private lateinit var connection: RemoteConnection
 
     fun createGame(gameDataContainer: GameDataViewModel.DataContainer) {
+        val token = accountRepository.token
+        if (token == null) {
+            _stateLiveData.value = CreateGameStatus.UNAUTHORIZED to null
+            return
+        }
         viewModelScope.launch {
-            connection = RemoteConnection(
-                fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
-                httpClient = httpClient,
-                dispatcher = Dispatchers.IO,
-                token = if (accountRepository.token != null) accountRepository.token!!
-                else {
-                    _stateLiveData.value = CreateGameStatus.UNAUTHORIZED to null
-                    return@launch
-                }
-            )
-            connection.init()
-            connection.send(
-                Json.encodeToString(
-                    CreateGameReceiveDTO(
-                        initiatorLogin = accountRepository.login!!,
-                        password = password,
-                        battle = gameDataContainer.battle!!,
-                        boardWidth = gameDataContainer.boardWidth,
-                        boardHeight = gameDataContainer.boardHeight,
-                        invertNations = gameDataContainer.invertNations
+            kotlin.runCatching {
+                connection = RemoteConnection(
+                    fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
+                    httpClient = httpClient,
+                    dispatcher = Dispatchers.IO
+                ).apply {
+                    init(token)
+                    send(
+                        Json.encodeToString(
+                            CreateGameReceiveDTO(
+                                initiatorLogin = accountRepository.login!!,
+                                password = password,
+                                battle = gameDataContainer.battle!!,
+                                boardWidth = gameDataContainer.boardWidth,
+                                boardHeight = gameDataContainer.boardHeight,
+                                invertNations = gameDataContainer.invertNations
+                            )
+                        )
                     )
-                )
-            )
-            onConnectionInit()
+                }
+                onConnectionInit()
+            }.onFailure {
+                _stateLiveData.value = CreateGameStatus.UNAUTHORIZED to null
+            }
+
         }
 
     }
@@ -109,13 +115,17 @@ class CreateRemoteGameViewModel(
     }
 
     fun initSession() {
-        connection.shutdown()
-        Tools.currentConnection = RemoteConnection(
-            fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
-            httpClient = httpClient,
-            dispatcher = Dispatchers.IO,
-            token = accountRepository.token!!
-        )
+        val token = accountRepository.token ?: return
+        viewModelScope.launch {
+            connection.shutdown()
+            Tools.currentConnection = RemoteConnection(
+                fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
+                httpClient = httpClient,
+                dispatcher = Dispatchers.IO
+            ).apply {
+                init(token)
+            }
+        }
     }
 
     fun cancelConnection() {

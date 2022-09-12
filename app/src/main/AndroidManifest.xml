@@ -24,9 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChroniclesOfWW2">
-        <activity
-            android:name=".presentation.ui.activities.SinglePlayerGameActivity"
-            android:exported="false" />
+
         <activity
             android:name=".presentation.ui.activities.MainActivity"
             android:exported="true">
@@ -35,6 +33,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".presentation.ui.activities.MultiplayerGameActivity"/>
+
+        <activity
+            android:name=".presentation.ui.activities.SinglePlayerGameActivity"
+            android:exported="false" />
+
+        <activity android:name=".presentation.ui.activities.GameActivity"/>
+
     </application>
 
 </manifest>

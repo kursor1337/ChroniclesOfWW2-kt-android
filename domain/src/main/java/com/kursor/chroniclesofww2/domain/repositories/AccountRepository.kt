@@ -32,4 +32,5 @@ interface AccountRepository {
 
     suspend fun signedIn(): Boolean
 
+    suspend fun startTokenExpireTimer(millis: Long)
 }
