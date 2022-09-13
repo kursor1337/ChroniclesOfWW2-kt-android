@@ -22,6 +22,7 @@ class LoginUseCase(
                     accountRepository.token = loginResponseDTO.token
                     accountRepository.login = loginReceiveDTO.login
                     accountRepository.password = loginReceiveDTO.password
+                    accountRepository.refreshTokenInIntervals()
                 }
                 loginResponseDTO
             }

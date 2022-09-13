@@ -1,7 +1,6 @@
 package com.kursor.chroniclesofww2.viewModels.game.create
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +17,6 @@ import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
-import io.ktor.util.debug.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,12 +27,14 @@ class CreateLocalGameViewModel(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-
     lateinit var connection: LocalConnection
     lateinit var gameData: GameData
     private var hostAccepted = false
     private var gameDataContainer: GameDataViewModel.DataContainer? = null
     private var timerStarted = false
+
+    private val _statusLiveData = MutableLiveData<Pair<CreateGameStatus, Any?>>()
+    val statusLiveData: LiveData<Pair<CreateGameStatus, Any?>> get() = _statusLiveData
 
     private val serverListener = object : LocalServer.Listener {
         override fun onConnectionEstablished(connection: Connection) {
@@ -43,16 +43,18 @@ class CreateLocalGameViewModel(
         }
 
         override fun onListeningStartError(e: Exception) {
-            _stateLiveData.value = CreateGameStatus.ERROR to null
+            Log.d(TAG, "onListeningStartError:")
+            e.printStackTrace()
+            _statusLiveData.postValue(CreateGameStatus.ERROR to null)
         }
 
         override fun onStartedListening() {
-            _stateLiveData.postValue(CreateGameStatus.CREATED to null)
+            _statusLiveData.postValue(CreateGameStatus.CREATED to null)
             startTimeoutTimer()
         }
 
         override fun onFail() {
-            _stateLiveData.value = CreateGameStatus.ERROR to null
+            _statusLiveData.postValue(CreateGameStatus.ERROR to null)
         }
     }
 
@@ -70,13 +72,11 @@ class CreateLocalGameViewModel(
     fun uncreateGame() {
         viewModelScope.launch {
             localServer.stopListening()
-            _stateLiveData.value = CreateGameStatus.UNCREATED to null
+            _statusLiveData.value = CreateGameStatus.UNCREATED to null
             timerStarted = false
         }
     }
 
-    private val _stateLiveData = MutableLiveData<Pair<CreateGameStatus, Any?>>()
-    val statusLiveData: LiveData<Pair<CreateGameStatus, Any?>> get() = _stateLiveData
 
     fun onConnectionInit() {
         connection = Tools.currentConnection as LocalConnection
@@ -84,7 +84,7 @@ class CreateLocalGameViewModel(
             connection.observeIncoming().collect { string ->
                 when (string) {
                     Const.connection.REQUEST_FOR_ACCEPT -> {
-                        _stateLiveData.value =
+                        _statusLiveData.value =
                             CreateGameStatus.REQUEST_FOR_ACCEPT to connection.host
                     }
                     Const.connection.REQUEST_GAME_DATA -> {
@@ -107,13 +107,13 @@ class CreateLocalGameViewModel(
                         Log.i("Server", "Client sent ${Const.connection.REQUEST_GAME_DATA}")
                         val gameDataJson = Moshi.GAMEDATA_ADAPTER.toJson(gameData)
                         connection.send(gameDataJson)
-                        _stateLiveData.value = CreateGameStatus.GAME_DATA_REQUEST to null
+                        _statusLiveData.value = CreateGameStatus.GAME_DATA_REQUEST to null
                     }
                     Const.connection.CANCEL_CONNECTION -> {
                         Log.i("Server", Const.connection.CANCEL_CONNECTION)
                         connection.shutdown()
                         Log.i("Server", "Sent invalid json")
-                        _stateLiveData.value = CreateGameStatus.CANCEL_CONNECTION to null
+                        _statusLiveData.value = CreateGameStatus.CANCEL_CONNECTION to null
                     }
                     Const.connection.INVALID_JSON -> Log.i("Server", "Sent invalid json")
                     else -> {
@@ -149,13 +149,14 @@ class CreateLocalGameViewModel(
                 if (timerStarted) localServer.stopListening()
             }
             if (timerStarted) withContext(Dispatchers.Main) {
-                _stateLiveData.value = CreateGameStatus.TIMEOUT to null
+                _statusLiveData.value = CreateGameStatus.TIMEOUT to null
             }
         }
     }
 
     companion object {
         const val TIMEOUT = 300000L
+        const val TAG = "CreateLocalGameViewModel"
     }
 
 }

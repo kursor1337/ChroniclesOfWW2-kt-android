@@ -10,7 +10,7 @@ class CheckIsSignedInUseCase(
 
     suspend operator fun invoke() = kotlin.runCatching {
         withContext(Dispatchers.IO) {
-            accountRepository.signedIn()
+            accountRepository.isSignedIn()
         }
     }
 

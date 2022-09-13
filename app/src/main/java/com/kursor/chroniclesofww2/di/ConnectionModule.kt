@@ -18,7 +18,7 @@ import org.koin.dsl.module
 val connectionModule = module {
 
     single {
-        HttpClient(CIO) {
+        HttpClient(OkHttp) {
             install(WebSockets)
 
             install(ContentNegotiation) {

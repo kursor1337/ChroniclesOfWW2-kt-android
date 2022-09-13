@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.connection.local.LocalConnection
+import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.game.JoinGameStatus
@@ -17,15 +18,36 @@ import com.kursor.chroniclesofww2.objects.Tools
 import kotlinx.coroutines.launch
 
 class JoinLocalGameViewModel(
-    val localClient: LocalClient
+    private val localClient: LocalClient
 ) : ViewModel() {
 
-
-    private val _stateLiveData = MutableLiveData<Pair<JoinGameStatus, Any?>>()
-    val stateLiveData: LiveData<Pair<JoinGameStatus, Any?>> get() = _stateLiveData
+    private val _statusLiveData = MutableLiveData<Pair<JoinGameStatus, Any?>>()
+    val statusLiveData: LiveData<Pair<JoinGameStatus, Any?>> get() = _statusLiveData
 
     lateinit var connection: LocalConnection
     var isAccepted = false
+
+    private val localClientListener: LocalClient.Listener = object : LocalClient.Listener {
+        override fun onException(e: Exception) {
+            Log.d(TAG, "onException: ")
+            e.printStackTrace()
+            _statusLiveData.value = JoinGameStatus.ERROR to null
+        }
+
+        override fun onFail(errorCode: Int) {
+            Log.d(TAG, "onFail: errorCode = $errorCode")
+            _statusLiveData.value = JoinGameStatus.ERROR to null
+        }
+
+        override fun onConnectionEstablished(connection: Connection) {
+            Tools.currentConnection = connection
+            onConnectionInit()
+        }
+    }
+
+    init {
+        localClient.listener = localClientListener
+    }
 
     fun connectTo(host: Host) {
         viewModelScope.launch {
@@ -51,9 +73,9 @@ class JoinLocalGameViewModel(
                         isAccepted = true
                         connection.send(Const.connection.REQUEST_GAME_DATA)
                         Log.i("Client", Const.connection.REQUEST_GAME_DATA)
-                        _stateLiveData.value = JoinGameStatus.ACCEPTED to null
+                        _statusLiveData.value = JoinGameStatus.ACCEPTED to null
                     }
-                    Const.connection.REJECTED -> _stateLiveData.value =
+                    Const.connection.REJECTED -> _statusLiveData.value =
                         JoinGameStatus.REJECTED to null
                     else -> {
 
@@ -63,7 +85,7 @@ class JoinLocalGameViewModel(
                             connection.send(INVALID_JSON)
                             return@collect
                         }
-                        _stateLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
+                        _statusLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
                     }
                 }
             }
@@ -74,5 +96,9 @@ class JoinLocalGameViewModel(
         viewModelScope.launch {
             cancelConnection()
         }
+    }
+
+    companion object {
+        const val TAG = "JoinLocalGameViewModel"
     }
 }

@@ -53,21 +53,25 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
                         arg as String,
                         onAccept = {
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.ACCEPTED)
-                            val gameDataJson = arg
-                            val intent = Intent(activity, MultiplayerGameActivity::class.java)
-                            intent.putExtra(
-                                Const.game.MULTIPLAYER_GAME_MODE,
-                                Const.connection.CLIENT
+
+                            startActivity(
+                                Intent(
+                                    activity,
+                                    MultiplayerGameActivity::class.java
+                                )
                             )
-                                .putExtra(Const.game.BATTLE, gameDataJson)
-                            startActivity(intent)
                         },
                         onRefuse = {
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.REJECTED)
                         }
                     )
                 }
-                else -> {}
+                CreateGameStatus.UNCREATED -> TODO()
+                CreateGameStatus.GAME_DATA_REQUEST -> TODO()
+                CreateGameStatus.CANCEL_CONNECTION -> TODO()
+                CreateGameStatus.GAME_START -> TODO()
+                CreateGameStatus.UNAUTHORIZED -> TODO()
+                CreateGameStatus.ERROR -> TODO()
             }
         }
     }

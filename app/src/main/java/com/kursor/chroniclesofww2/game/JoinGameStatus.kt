@@ -6,6 +6,7 @@ enum class JoinGameStatus {
     REJECTED,
     GAME_DATA_OBTAINED,
     GAME_LIST_OBTAINED,
-    UNAUTHORIZED
+    UNAUTHORIZED,
+    ERROR
 
 }

@@ -30,7 +30,8 @@ interface AccountRepository {
 
     suspend fun checkToken(): Boolean
 
-    suspend fun signedIn(): Boolean
+    suspend fun isSignedIn(): Boolean
 
     suspend fun startTokenExpireTimer(millis: Long)
+    fun refreshTokenInIntervals()
 }

@@ -11,10 +11,10 @@ import com.kursor.chroniclesofww2.features.CreateGameResponseDTO
 import com.kursor.chroniclesofww2.features.GameFeaturesMessages
 import com.kursor.chroniclesofww2.features.Routes
 import com.kursor.chroniclesofww2.game.CreateGameStatus
+import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
-import com.squareup.moshi.JsonEncodingException
 import io.ktor.client.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,20 +29,21 @@ class CreateRemoteGameViewModel(
 ) : ViewModel() {
 
 
-    private val _stateLiveData = MutableLiveData<Pair<CreateGameStatus, Any?>>()
-    val statusLiveData: LiveData<Pair<CreateGameStatus, Any?>> get() = _stateLiveData
+    private val _statusLiveData = MutableLiveData<Pair<CreateGameStatus, Any?>>()
+    val statusLiveData: LiveData<Pair<CreateGameStatus, Any?>> get() = _statusLiveData
 
     var createdGameId = 0
 
     var password = ""
     var responseReceived = false
+    var gameData: GameData? = null
 
     private lateinit var connection: RemoteConnection
 
     fun createGame(gameDataContainer: GameDataViewModel.DataContainer) {
         val token = accountRepository.token
         if (token == null) {
-            _stateLiveData.value = CreateGameStatus.UNAUTHORIZED to null
+            _statusLiveData.value = CreateGameStatus.UNAUTHORIZED to null
             return
         }
         viewModelScope.launch {
@@ -68,7 +69,7 @@ class CreateRemoteGameViewModel(
                 }
                 onConnectionInit()
             }.onFailure {
-                _stateLiveData.value = CreateGameStatus.UNAUTHORIZED to null
+                _statusLiveData.value = CreateGameStatus.UNAUTHORIZED to null
             }
 
         }
@@ -82,7 +83,7 @@ class CreateRemoteGameViewModel(
                 try {
                     val createGameResponseDTO = Json.decodeFromString<CreateGameResponseDTO>(string)
                     createdGameId = createGameResponseDTO.gameId
-                    _stateLiveData.value = CreateGameStatus.CREATED to createdGameId
+                    _statusLiveData.value = CreateGameStatus.CREATED to createdGameId
                     responseReceived = true
                     return@collect
                 } catch (e: SerializationException) {
@@ -90,16 +91,18 @@ class CreateRemoteGameViewModel(
                 }
                 when {
                     string == GameFeaturesMessages.GAME_STARTED -> {
-                        _stateLiveData.value = CreateGameStatus.GAME_START to null
+                        _statusLiveData.value = CreateGameStatus.GAME_START to null
                     }
                     string == GameFeaturesMessages.SESSION_TIMED_OUT -> {
                         responseReceived = false
-                        _stateLiveData.value = CreateGameStatus.TIMEOUT to null
+                        _statusLiveData.value = CreateGameStatus.TIMEOUT to null
                     }
                     string.startsWith(GameFeaturesMessages.REQUEST_FOR_ACCEPT) -> {
-                        _stateLiveData.value =
-                            CreateGameStatus.REQUEST_FOR_ACCEPT to string.removePrefix(
-                                GameFeaturesMessages.REQUEST_FOR_ACCEPT
+                        _statusLiveData.value =
+                            CreateGameStatus.REQUEST_FOR_ACCEPT to listOf(
+                                string.removePrefix(
+                                    GameFeaturesMessages.REQUEST_FOR_ACCEPT
+                                )
                             )
                     }
                 }

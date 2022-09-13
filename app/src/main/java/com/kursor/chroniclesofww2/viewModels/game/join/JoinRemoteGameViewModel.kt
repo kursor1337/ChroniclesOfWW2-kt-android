@@ -30,8 +30,8 @@ class JoinRemoteGameViewModel(
 
     lateinit var connection: RemoteConnection
 
-    private val _stateLiveData = MutableLiveData<Pair<JoinGameStatus, Any?>>()
-    val stateLiveData: LiveData<Pair<JoinGameStatus, Any?>> get() = _stateLiveData
+    private val _statusLiveData = MutableLiveData<Pair<JoinGameStatus, Any?>>()
+    val statusLiveData: LiveData<Pair<JoinGameStatus, Any?>> get() = _statusLiveData
 
     private val _waitingGamesListLiveData = MutableLiveData<List<WaitingGameInfoDTO>>()
     val waitingGamesListLiveData: LiveData<List<WaitingGameInfoDTO>> get() = _waitingGamesListLiveData
@@ -47,10 +47,10 @@ class JoinRemoteGameViewModel(
                     waitingGamesList = it
                     Log.d("JoinRemoteGameViewModel", "obtainGameList: success ${waitingGamesList}")
                 }.onFailure {
-                    _stateLiveData.value = JoinGameStatus.UNAUTHORIZED to null
+                    _statusLiveData.value = JoinGameStatus.UNAUTHORIZED to null
                     return@launch
                 }
-            _stateLiveData.value = JoinGameStatus.GAME_LIST_OBTAINED to waitingGamesList
+            _statusLiveData.value = JoinGameStatus.GAME_LIST_OBTAINED to waitingGamesList
             _waitingGamesListLiveData.value = waitingGamesList
         }
     }
@@ -83,7 +83,7 @@ class JoinRemoteGameViewModel(
                 )
                 onConnectionInit()
             }.onFailure {
-                _stateLiveData.value = JoinGameStatus.UNAUTHORIZED to null
+                _statusLiveData.value = JoinGameStatus.UNAUTHORIZED to null
             }
 
         }
@@ -96,10 +96,10 @@ class JoinRemoteGameViewModel(
                 when (string) {
                     GameFeaturesMessages.ACCEPTED -> {
                         isAccepted = true
-                        _stateLiveData.value = JoinGameStatus.ACCEPTED to null
+                        _statusLiveData.value = JoinGameStatus.ACCEPTED to null
                     }
                     GameFeaturesMessages.REJECTED -> {
-                        _stateLiveData.value = JoinGameStatus.REJECTED to null
+                        _statusLiveData.value = JoinGameStatus.REJECTED to null
                     }
                     else -> {
                         val token = accountRepository.token ?: return@collect
@@ -117,7 +117,7 @@ class JoinRemoteGameViewModel(
                             init(token)
                             send(gameId.toString())
                         }
-                        _stateLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
+                        _statusLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
                     }
                 }
             }

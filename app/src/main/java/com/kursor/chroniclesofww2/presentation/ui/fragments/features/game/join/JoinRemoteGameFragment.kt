@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.adapters.WaitingGameAdapter
-import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
 import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
@@ -32,7 +31,7 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        joinRemoteGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
+        joinRemoteGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
                 JoinGameStatus.ACCEPTED -> {}
                 JoinGameStatus.REJECTED -> {
@@ -40,16 +39,22 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
                 }
                 JoinGameStatus.GAME_DATA_OBTAINED -> {
                     val gameDataJson = arg as String
-                    val intent = Intent(activity, MultiplayerGameActivity::class.java)
-                    intent.putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.CLIENT)
-                        .putExtra(Const.game.BATTLE, gameDataJson)
-                    startActivity(intent)
+                    startActivity(Intent(activity, MultiplayerGameActivity::class.java).apply {
+                        putExtra(Const.game.GAME_DATA, gameDataJson)
+                    })
                 }
                 JoinGameStatus.GAME_LIST_OBTAINED -> {}
                 JoinGameStatus.UNAUTHORIZED -> {
                     Toast.makeText(
                         requireContext(),
                         "Login first (in Settings)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                JoinGameStatus.ERROR -> {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.error_connectiong,
                         Toast.LENGTH_LONG
                     ).show()
                 }

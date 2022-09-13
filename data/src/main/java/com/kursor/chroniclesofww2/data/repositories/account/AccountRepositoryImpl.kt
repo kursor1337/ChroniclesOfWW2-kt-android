@@ -43,20 +43,26 @@ class AccountRepositoryImpl(
             sharedPreferences.edit().putString(PASSWORD, value).apply()
         }
 
-    private var tokenExpirationDate: Long = sharedPreferences.getLong(TOKEN_EXPIRATION_DATE, 0L)
+    private var tokenExpirationDate: Long = sharedPreferences.getLong(TOKEN_EXPIRATION_DATE, -1L)
         set(value) {
             field = value
             sharedPreferences.edit().putLong(TOKEN_EXPIRATION_DATE, value).apply()
         }
 
     init {
+        refreshTokenInIntervals()
+    }
+
+    override fun refreshTokenInIntervals() {
         coroutineScope.launch {
-            if (tokenExpirationDate < System.currentTimeMillis()) {
-                refreshToken()
-                startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
-            }
-            while (true) {
-                startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
+            kotlin.runCatching {
+                if (0L < tokenExpirationDate && tokenExpirationDate < System.currentTimeMillis()) {
+                    refreshToken()
+                    startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
+                }
+                while (true) {
+                    startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
+                }
             }
         }
     }
@@ -146,13 +152,12 @@ class AccountRepositoryImpl(
             httpClient.post(
                 Routes.Account.AUTH.absolutePath(serverUrl)
             ) {
-                contentType(ContentType.Application.Json)
                 bearerAuth(token ?: return false)
             }
         return response.status == HttpStatusCode.OK
     }
 
-    override suspend fun signedIn(): Boolean {
+    override suspend fun isSignedIn(): Boolean {
         return checkToken() || checkCredentials()
     }
 

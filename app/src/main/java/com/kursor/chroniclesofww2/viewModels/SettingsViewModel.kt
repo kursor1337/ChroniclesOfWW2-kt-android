@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.viewModels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import com.kursor.chroniclesofww2.domain.useCases.user.ChangeUsernameUseCase
 import com.kursor.chroniclesofww2.domain.useCases.user.LoginUseCase
 import com.kursor.chroniclesofww2.domain.useCases.user.LogoutUseCase
 import io.ktor.client.*
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -31,10 +33,12 @@ class SettingsViewModel(
         viewModelScope.launch {
             checkIsSignedInUseCase()
                 .onSuccess {
-                    _isSignedInLiveData.value = it to mutableListOf(accountRepository.login!!)
-                }
-                .onFailure {
-                    _isSignedInLiveData.value = false to emptyList()
+                    Log.d("SettingsViewModel", "onSuccess")
+                    _isSignedInLiveData.postValue(it to mutableListOf(accountRepository.login!!))
+                }.onFailure {
+                    Log.d("SettingsViewModel", "onFailure")
+                    it.printStackTrace()
+                    _isSignedInLiveData.postValue(false to emptyList())
                 }
         }
     }

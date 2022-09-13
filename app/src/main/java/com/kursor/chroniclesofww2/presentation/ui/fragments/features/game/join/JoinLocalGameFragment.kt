@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.domain.connection.Connection
-import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.objects.Const
-import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.adapters.HostAdapter
 import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
@@ -53,9 +50,7 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
             }
         }
 
-        joinLocalGameViewModel.localClient.listener = localClientListener
-
-        joinLocalGameViewModel.stateLiveData.observe(viewLifecycleOwner) { (status, arg) ->
+        joinLocalGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
                 JoinGameStatus.ACCEPTED -> {
                     buildMessageWaitingForAccepted(
@@ -77,11 +72,10 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
                 }
                 JoinGameStatus.GAME_DATA_OBTAINED -> {
                     val gameDataJson = arg as String
-                    val intent = Intent(activity, MultiplayerGameActivity::class.java)
-                    intent.putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.CLIENT)
-                        .putExtra(Const.game.BATTLE, gameDataJson)
                     hostDiscoveryViewModel.stopDiscovery()
-                    startActivity(intent)
+                    startActivity(Intent(activity, MultiplayerGameActivity::class.java).apply {
+                        putExtra(Const.game.GAME_DATA, gameDataJson)
+                    })
                 }
                 JoinGameStatus.UNAUTHORIZED -> {
                     Toast.makeText(
@@ -90,26 +84,14 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
+                JoinGameStatus.ERROR -> {
+                    Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
+                }
                 else -> {}
             }
         }
 
         obtainGamesList()
-    }
-
-    private val localClientListener: LocalClient.Listener = object : LocalClient.Listener {
-        override fun onException(e: Exception) {
-            Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onFail(errorCode: Int) {
-            Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onConnectionEstablished(connection: Connection) {
-            Tools.currentConnection = connection
-            joinLocalGameViewModel.onConnectionInit()
-        }
     }
 
     override fun checkConditionsForGame(): Boolean {

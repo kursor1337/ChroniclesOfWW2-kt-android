@@ -26,13 +26,7 @@ class App : Application() {
             androidContext(this@App)
             modules(dataModule, appModule, domainModule, connectionModule)
         }
-        val refreshTokenUseCase by inject<RefreshTokenUseCase>()
-        CoroutineScope(Dispatchers.IO).launch {
-            refreshTokenUseCase().onFailure {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@App, "Login failed", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
+        val accountRepository by inject<AccountRepository>()
+        accountRepository.refreshTokenInIntervals()
     }
 }

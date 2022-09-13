@@ -58,10 +58,9 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
                     )
                 }
                 CreateGameStatus.GAME_DATA_REQUEST -> {
-                    val intent = Intent(activity, MultiplayerGameActivity::class.java)
-                    intent.putExtra(Const.game.MULTIPLAYER_GAME_MODE, Const.connection.HOST)
-                        .putExtra(Const.game.GAME_DATA, gameDataJson)
-                    startActivity(intent)
+                    startActivity(Intent(activity, MultiplayerGameActivity::class.java).apply {
+                        putExtra(Const.game.GAME_DATA, gameDataJson)
+                    })
                 }
                 CreateGameStatus.TIMEOUT -> {
                     showReadyButton()
