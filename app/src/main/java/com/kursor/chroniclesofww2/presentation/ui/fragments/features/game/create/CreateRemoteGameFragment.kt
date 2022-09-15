@@ -16,6 +16,8 @@ import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActi
 import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.androidx.navigation.koinNavGraphViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -53,25 +55,34 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
                         arg as String,
                         onAccept = {
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.ACCEPTED)
-
-                            startActivity(
-                                Intent(
-                                    activity,
-                                    MultiplayerGameActivity::class.java
-                                )
-                            )
                         },
                         onRefuse = {
                             createRemoteGameViewModel.verdict(GameFeaturesMessages.REJECTED)
                         }
                     )
                 }
-                CreateGameStatus.UNCREATED -> TODO()
-                CreateGameStatus.GAME_DATA_REQUEST -> TODO()
-                CreateGameStatus.CANCEL_CONNECTION -> TODO()
-                CreateGameStatus.GAME_START -> TODO()
-                CreateGameStatus.UNAUTHORIZED -> TODO()
-                CreateGameStatus.ERROR -> TODO()
+                CreateGameStatus.GAME_DATA_OBTAINED -> {
+                    startActivity(
+                        Intent(
+                            activity,
+                            MultiplayerGameActivity::class.java
+                        ).apply {
+                            putExtra(Const.game.GAME_DATA, arg as String)
+                        }
+                    )
+                }
+                CreateGameStatus.UNCREATED -> {}
+                CreateGameStatus.GAME_DATA_REQUEST -> {}
+                CreateGameStatus.CANCEL_CONNECTION -> {
+                    Toast.makeText(requireContext(), "Connection cancelled", Toast.LENGTH_LONG).show()
+                }
+                CreateGameStatus.GAME_START -> {}
+                CreateGameStatus.UNAUTHORIZED -> {
+                    Toast.makeText(requireContext(), "Unauthorized", Toast.LENGTH_LONG).show()
+                }
+                CreateGameStatus.ERROR -> {
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

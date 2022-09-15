@@ -104,13 +104,15 @@ class JoinRemoteGameViewModel(
                     else -> {
                         val token = accountRepository.token ?: return@collect
                         if (!isAccepted) return@collect
-                        if (Moshi.GAMEDATA_ADAPTER.fromJson(string) == null) {
+                        val gameDataJson = Moshi.GAMEDATA_ADAPTER.fromJson(string)
+                        if (gameDataJson == null) {
                             connection.send(GameFeaturesMessages.INVALID_JSON)
                             return@collect
                         }
+                        _statusLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to gameDataJson
                         connection.shutdown()
                         Tools.currentConnection = RemoteConnection(
-                            fullUrl = Routes.Game.CREATE.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
+                            fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                             httpClient = httpClient,
                             dispatcher = Dispatchers.IO
                         ).apply {

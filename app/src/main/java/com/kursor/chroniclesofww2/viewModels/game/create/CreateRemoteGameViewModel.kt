@@ -13,9 +13,11 @@ import com.kursor.chroniclesofww2.features.Routes
 import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import io.ktor.client.*
+import io.ktor.util.Identity.decode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
@@ -89,6 +91,12 @@ class CreateRemoteGameViewModel(
                 } catch (e: SerializationException) {
                     e.printStackTrace()
                 }
+                try {
+                    gameData = Json.decodeFromString(string)
+                    _statusLiveData.value = CreateGameStatus.GAME_DATA_OBTAINED to Json.encodeToString(gameData)
+                } catch (e: SerializationException) {
+                    e.printStackTrace()
+                }
                 when {
                     string == GameFeaturesMessages.GAME_STARTED -> {
                         _statusLiveData.value = CreateGameStatus.GAME_START to null
@@ -99,11 +107,10 @@ class CreateRemoteGameViewModel(
                     }
                     string.startsWith(GameFeaturesMessages.REQUEST_FOR_ACCEPT) -> {
                         _statusLiveData.value =
-                            CreateGameStatus.REQUEST_FOR_ACCEPT to listOf(
-                                string.removePrefix(
-                                    GameFeaturesMessages.REQUEST_FOR_ACCEPT
-                                )
+                            CreateGameStatus.REQUEST_FOR_ACCEPT to string.removePrefix(
+                                GameFeaturesMessages.REQUEST_FOR_ACCEPT
                             )
+
                     }
                 }
             }
@@ -113,7 +120,9 @@ class CreateRemoteGameViewModel(
     fun verdict(string: String) {
         viewModelScope.launch {
             connection.send(string)
-            if (string == GameFeaturesMessages.ACCEPTED) initSession()
+            if (string == GameFeaturesMessages.ACCEPTED) {
+                initSession()
+            }
         }
     }
 

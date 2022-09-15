@@ -6,6 +6,7 @@ enum class CreateGameStatus {
     UNCREATED,
     REQUEST_FOR_ACCEPT,
     GAME_DATA_REQUEST,
+    GAME_DATA_OBTAINED,
     CANCEL_CONNECTION,
     TIMEOUT,
     GAME_START,
