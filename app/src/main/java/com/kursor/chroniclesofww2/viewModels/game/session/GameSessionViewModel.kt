@@ -21,6 +21,7 @@ import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -97,7 +98,7 @@ class GameSessionViewModel(
         }
 
         override fun onStartingSecond() {
-            TODO()
+
         }
     })
 

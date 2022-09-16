@@ -9,10 +9,7 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 
 
 class RemoteConnection(
@@ -52,6 +49,7 @@ class RemoteConnection(
         .receiveAsFlow()
         .filter { it is Frame.Text }
         .map { (it as Frame.Text).readText() }
+        .flowOn(Dispatchers.IO)
 
     companion object {
         const val TAG = "RemoteConnection"

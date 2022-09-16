@@ -19,7 +19,6 @@ class MultiplayerGameActivity : GameActivity() {
         divisionResourcesMe.setup(gameSessionViewModel.model.me)
         divisionResourcesEnemy.setup(gameSessionViewModel.model.enemy)
 
-
         boardView.setOnTileViewClickListener { i, j, tileView ->
             gameSessionViewModel.controller.processTileClick(i, j)
         }
@@ -48,7 +47,6 @@ class MultiplayerGameActivity : GameActivity() {
         gameSessionViewModel.gameEndLiveData.observe(this) { winner ->
             buildAlertMessageEndOfTheGame(winner.name == gameSessionViewModel.model.me.name)
         }
-
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.domain.connection.Connection
+import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
 import com.kursor.chroniclesofww2.viewModels.game.session.GameSessionViewModel
@@ -44,7 +45,7 @@ val appModule = module {
     }
 
     viewModel { parameters ->
-        GameSessionViewModel(Connection.CURRENT!!, parameters.get())
+        GameSessionViewModel(Tools.currentConnection!!, parameters.get())
     }
 
     viewModel { parameters ->

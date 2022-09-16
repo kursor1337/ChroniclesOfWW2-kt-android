@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/activity_game.xml" value="0.1716485507246377" />
         <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/activity_main.xml" value="0.1716485507246377" />
+        <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/adapter_waiting_game.xml" value="0.1" />
         <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/dialog_password.xml" value="0.1716485507246377" />
         <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_battle_choose.xml" value="0.1716485507246377" />
         <entry key="..\:/ChroniclesOfWW2/ChroniclesOfWW2-kt-android/app/src/main/res/layout/fragment_choose_multiplayer_game.xml" value="0.1716485507246377" />

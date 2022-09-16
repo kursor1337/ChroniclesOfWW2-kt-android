@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.viewModels.game.create
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,7 +46,7 @@ class CreateRemoteGameViewModel(
     fun createGame(gameDataContainer: GameDataViewModel.DataContainer) {
         val token = accountRepository.token
         if (token == null) {
-            _statusLiveData.value = CreateGameStatus.UNAUTHORIZED to null
+            _statusLiveData.postValue(CreateGameStatus.UNAUTHORIZED to null)
             return
         }
         viewModelScope.launch {
@@ -71,7 +72,7 @@ class CreateRemoteGameViewModel(
                 }
                 onConnectionInit()
             }.onFailure {
-                _statusLiveData.value = CreateGameStatus.UNAUTHORIZED to null
+                _statusLiveData.postValue(CreateGameStatus.UNAUTHORIZED to null)
             }
 
         }
@@ -82,10 +83,11 @@ class CreateRemoteGameViewModel(
         Tools.currentConnection = connection
         viewModelScope.launch {
             connection.observeIncoming().collect { string ->
+                Log.d(TAG, "onConnectionInit: collect: $string")
                 try {
                     val createGameResponseDTO = Json.decodeFromString<CreateGameResponseDTO>(string)
                     createdGameId = createGameResponseDTO.gameId
-                    _statusLiveData.value = CreateGameStatus.CREATED to createdGameId
+                    _statusLiveData.postValue(CreateGameStatus.CREATED to createdGameId)
                     responseReceived = true
                     return@collect
                 } catch (e: SerializationException) {
@@ -93,24 +95,29 @@ class CreateRemoteGameViewModel(
                 }
                 try {
                     gameData = Json.decodeFromString(string)
-                    _statusLiveData.value = CreateGameStatus.GAME_DATA_OBTAINED to Json.encodeToString(gameData)
+                    connection.shutdown()
+                    _statusLiveData.postValue(
+                        CreateGameStatus.GAME_DATA_OBTAINED to Json.encodeToString(
+                            gameData
+                        )
+                    )
                 } catch (e: SerializationException) {
                     e.printStackTrace()
                 }
                 when {
                     string == GameFeaturesMessages.GAME_STARTED -> {
-                        _statusLiveData.value = CreateGameStatus.GAME_START to null
+                        _statusLiveData.postValue(CreateGameStatus.GAME_START to null)
                     }
                     string == GameFeaturesMessages.SESSION_TIMED_OUT -> {
                         responseReceived = false
-                        _statusLiveData.value = CreateGameStatus.TIMEOUT to null
+                        _statusLiveData.postValue(CreateGameStatus.TIMEOUT to null)
                     }
                     string.startsWith(GameFeaturesMessages.REQUEST_FOR_ACCEPT) -> {
-                        _statusLiveData.value =
+                        _statusLiveData.postValue(
                             CreateGameStatus.REQUEST_FOR_ACCEPT to string.removePrefix(
                                 GameFeaturesMessages.REQUEST_FOR_ACCEPT
                             )
-
+                        )
                     }
                 }
             }
@@ -129,13 +136,13 @@ class CreateRemoteGameViewModel(
     fun initSession() {
         val token = accountRepository.token ?: return
         viewModelScope.launch {
-            connection.shutdown()
             Tools.currentConnection = RemoteConnection(
                 fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                 httpClient = httpClient,
                 dispatcher = Dispatchers.IO
             ).apply {
                 init(token)
+                send(createdGameId.toString())
             }
         }
     }
@@ -146,6 +153,10 @@ class CreateRemoteGameViewModel(
             connection.send(GameFeaturesMessages.CANCEL_CONNECTION)
             connection.disconnect()
         }
+    }
+
+    companion object {
+        const val TAG = "CreateRemoteGameViewModel"
     }
 
 }

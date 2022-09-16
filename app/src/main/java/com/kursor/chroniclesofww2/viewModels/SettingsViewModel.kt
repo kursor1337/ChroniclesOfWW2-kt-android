@@ -34,7 +34,11 @@ class SettingsViewModel(
             checkIsSignedInUseCase()
                 .onSuccess {
                     Log.d("SettingsViewModel", "onSuccess")
-                    _isSignedInLiveData.postValue(it to mutableListOf(accountRepository.login!!))
+                    _isSignedInLiveData.postValue(
+                        it to mutableListOf(
+                            accountRepository.login ?: ""
+                        )
+                    )
                 }.onFailure {
                     Log.d("SettingsViewModel", "onFailure")
                     it.printStackTrace()

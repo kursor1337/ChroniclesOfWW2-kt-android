@@ -31,12 +31,12 @@ class JoinLocalGameViewModel(
         override fun onException(e: Exception) {
             Log.d(TAG, "onException: ")
             e.printStackTrace()
-            _statusLiveData.value = JoinGameStatus.ERROR to null
+            _statusLiveData.postValue(JoinGameStatus.ERROR to null)
         }
 
         override fun onFail(errorCode: Int) {
             Log.d(TAG, "onFail: errorCode = $errorCode")
-            _statusLiveData.value = JoinGameStatus.ERROR to null
+            _statusLiveData.postValue(JoinGameStatus.ERROR to null)
         }
 
         override fun onConnectionEstablished(connection: Connection) {
@@ -73,7 +73,7 @@ class JoinLocalGameViewModel(
                         isAccepted = true
                         connection.send(Const.connection.REQUEST_GAME_DATA)
                         Log.i("Client", Const.connection.REQUEST_GAME_DATA)
-                        _statusLiveData.value = JoinGameStatus.ACCEPTED to null
+                        _statusLiveData.postValue(JoinGameStatus.ACCEPTED to null)
                     }
                     Const.connection.REJECTED -> _statusLiveData.value =
                         JoinGameStatus.REJECTED to null
@@ -85,7 +85,7 @@ class JoinLocalGameViewModel(
                             connection.send(INVALID_JSON)
                             return@collect
                         }
-                        _statusLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
+                        _statusLiveData.postValue(JoinGameStatus.GAME_DATA_OBTAINED to string)
                     }
                 }
             }

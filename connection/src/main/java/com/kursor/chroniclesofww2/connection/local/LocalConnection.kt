@@ -8,6 +8,7 @@ import com.kursor.chroniclesofww2.domain.connection.println
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.io.*
 
 class LocalConnection(
@@ -46,7 +47,7 @@ class LocalConnection(
             Log.d("Receiver", "RECEIVED ==> $string")
             emit(string)
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun send(string: String) {
         withContext(ioDispatcher) {

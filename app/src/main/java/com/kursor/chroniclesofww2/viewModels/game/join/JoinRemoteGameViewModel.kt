@@ -8,17 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.connection.remote.RemoteConnection
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.domain.useCases.game.LoadRemoteGameListUseCase
-import com.kursor.chroniclesofww2.features.GameFeaturesMessages
-import com.kursor.chroniclesofww2.features.JoinGameReceiveDTO
-import com.kursor.chroniclesofww2.features.Routes
-import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
+import com.kursor.chroniclesofww2.features.*
 import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
+import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
 import io.ktor.client.*
+import io.ktor.util.Identity.decode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -36,28 +36,30 @@ class JoinRemoteGameViewModel(
     private val _waitingGamesListLiveData = MutableLiveData<List<WaitingGameInfoDTO>>()
     val waitingGamesListLiveData: LiveData<List<WaitingGameInfoDTO>> get() = _waitingGamesListLiveData
 
+    private var waitingGamesList: List<WaitingGameInfoDTO> = emptyList()
+
     var password = ""
     var isAccepted = false
 
     fun obtainGameList() {
         viewModelScope.launch {
-            var waitingGamesList: List<WaitingGameInfoDTO> = emptyList()
             loadRemoteGameListUseCase()
                 .onSuccess {
                     waitingGamesList = it
-                    Log.d("JoinRemoteGameViewModel", "obtainGameList: success ${waitingGamesList}")
+                    Log.d(TAG, "obtainGameList: success $waitingGamesList")
                 }.onFailure {
-                    _statusLiveData.value = JoinGameStatus.UNAUTHORIZED to null
+                    _statusLiveData.postValue(JoinGameStatus.UNAUTHORIZED to null)
                     return@launch
                 }
-            _statusLiveData.value = JoinGameStatus.GAME_LIST_OBTAINED to waitingGamesList
-            _waitingGamesListLiveData.value = waitingGamesList
+            _statusLiveData.postValue(JoinGameStatus.GAME_LIST_OBTAINED to waitingGamesList)
+            _waitingGamesListLiveData.postValue(waitingGamesList)
         }
     }
 
     fun search(id: String) {
-        _waitingGamesListLiveData.value =
-            _waitingGamesListLiveData.value?.filter { it.id.toString().startsWith(id) }
+        _waitingGamesListLiveData.postValue(
+            waitingGamesList.filter { it.id.toString().startsWith(id) }
+        )
     }
 
     var gameId = 0
@@ -83,33 +85,35 @@ class JoinRemoteGameViewModel(
                 )
                 onConnectionInit()
             }.onFailure {
-                _statusLiveData.value = JoinGameStatus.UNAUTHORIZED to null
+                _statusLiveData.postValue(JoinGameStatus.UNAUTHORIZED to null)
             }
-
         }
     }
 
     fun onConnectionInit() {
+        Log.d(TAG, "onConnectionInit: ")
         Tools.currentConnection = connection
         viewModelScope.launch {
             connection.observeIncoming().collect { string ->
+                Log.d(TAG, "onConnectionInit: collect: $string")
                 when (string) {
                     GameFeaturesMessages.ACCEPTED -> {
                         isAccepted = true
-                        _statusLiveData.value = JoinGameStatus.ACCEPTED to null
+                        _statusLiveData.postValue(JoinGameStatus.ACCEPTED to null)
                     }
                     GameFeaturesMessages.REJECTED -> {
-                        _statusLiveData.value = JoinGameStatus.REJECTED to null
+                        _statusLiveData.postValue(JoinGameStatus.REJECTED to null)
                     }
                     else -> {
                         val token = accountRepository.token ?: return@collect
-                        if (!isAccepted) return@collect
-                        val gameDataJson = Moshi.GAMEDATA_ADAPTER.fromJson(string)
-                        if (gameDataJson == null) {
+                        val joinGameResponseDTO = Json.decodeFromString<JoinGameResponseDTO>(string)
+                        Log.d(TAG, "$joinGameResponseDTO")
+                        if (joinGameResponseDTO.message != GameFeaturesMessages.ACCEPTED) return@collect
+                        val gameData = joinGameResponseDTO.gameData
+                        if (gameData == null) {
                             connection.send(GameFeaturesMessages.INVALID_JSON)
                             return@collect
                         }
-                        _statusLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to gameDataJson
                         connection.shutdown()
                         Tools.currentConnection = RemoteConnection(
                             fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
@@ -119,11 +123,19 @@ class JoinRemoteGameViewModel(
                             init(token)
                             send(gameId.toString())
                         }
-                        _statusLiveData.value = JoinGameStatus.GAME_DATA_OBTAINED to string
+                        _statusLiveData.postValue(
+                            JoinGameStatus.GAME_DATA_OBTAINED to Json.encodeToString(
+                                gameData
+                            )
+                        )
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        const val TAG = "JoinRemoteGameViewModel"
     }
 
 }

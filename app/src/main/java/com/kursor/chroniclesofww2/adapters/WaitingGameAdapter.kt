@@ -37,14 +37,16 @@ class WaitingGameAdapter(
         return Holder(
             activity,
             LayoutInflater.from(activity)
-                .inflate(R.layout.recyclerview_hosts, LinearLayout(activity), false)
+                .inflate(R.layout.adapter_waiting_game, LinearLayout(activity), false)
         )
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val textView = holder.view.findViewById<TextView>(android.R.id.text1)
+        val loginTextView = holder.view.findViewById<TextView>(R.id.login_text_view)
+        val idTextView = holder.view.findViewById<TextView>(R.id.game_id_text_view)
         val game = gameList[position]
-        textView.text = game.initiatorLogin
+        loginTextView.text = game.initiatorLogin
+        idTextView.text = game.id.toString()
         holder.view.setOnClickListener {
             onItemClickListener?.onItemClick(
                 holder.view, position, game

@@ -72,7 +72,7 @@ class CreateLocalGameViewModel(
     fun uncreateGame() {
         viewModelScope.launch {
             localServer.stopListening()
-            _statusLiveData.value = CreateGameStatus.UNCREATED to null
+            _statusLiveData.postValue(CreateGameStatus.UNCREATED to null)
             timerStarted = false
         }
     }
@@ -84,8 +84,7 @@ class CreateLocalGameViewModel(
             connection.observeIncoming().collect { string ->
                 when (string) {
                     Const.connection.REQUEST_FOR_ACCEPT -> {
-                        _statusLiveData.value =
-                            CreateGameStatus.REQUEST_FOR_ACCEPT to connection.host
+                        _statusLiveData.postValue(CreateGameStatus.REQUEST_FOR_ACCEPT to connection.host)
                     }
                     Const.connection.REQUEST_GAME_DATA -> {
                         if (!hostAccepted) return@collect
@@ -107,13 +106,13 @@ class CreateLocalGameViewModel(
                         Log.i("Server", "Client sent ${Const.connection.REQUEST_GAME_DATA}")
                         val gameDataJson = Moshi.GAMEDATA_ADAPTER.toJson(gameData)
                         connection.send(gameDataJson)
-                        _statusLiveData.value = CreateGameStatus.GAME_DATA_REQUEST to null
+                        _statusLiveData.postValue(CreateGameStatus.GAME_DATA_REQUEST to null)
                     }
                     Const.connection.CANCEL_CONNECTION -> {
                         Log.i("Server", Const.connection.CANCEL_CONNECTION)
                         connection.shutdown()
                         Log.i("Server", "Sent invalid json")
-                        _statusLiveData.value = CreateGameStatus.CANCEL_CONNECTION to null
+                        _statusLiveData.postValue(CreateGameStatus.CANCEL_CONNECTION to null)
                     }
                     Const.connection.INVALID_JSON -> Log.i("Server", "Sent invalid json")
                     else -> {
@@ -146,10 +145,10 @@ class CreateLocalGameViewModel(
             withContext(Dispatchers.IO) {
                 timerStarted = true
                 delay(TIMEOUT)
-                if (timerStarted) localServer.stopListening()
-            }
-            if (timerStarted) withContext(Dispatchers.Main) {
-                _statusLiveData.value = CreateGameStatus.TIMEOUT to null
+                if (timerStarted) {
+                    localServer.stopListening()
+                    _statusLiveData.postValue(CreateGameStatus.TIMEOUT to null)
+                }
             }
         }
     }
