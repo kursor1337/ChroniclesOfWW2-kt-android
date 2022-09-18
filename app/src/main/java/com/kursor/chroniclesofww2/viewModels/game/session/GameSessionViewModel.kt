@@ -105,6 +105,7 @@ class GameSessionViewModel(
     init {
         viewModelScope.launch {
             connection.observeIncoming().collect { string ->
+                Log.d(TAG, string)
                 val gameSessionDTO = Json.decodeFromString<GameSessionDTO>(string)
                 when (gameSessionDTO.type) {
                     GameSessionMessageType.MOVE -> {
@@ -113,9 +114,14 @@ class GameSessionViewModel(
                         ).restore(model)
                         controller.processEnemyMove(move)
                     }
-                    GameSessionMessageType.DISCONNECT -> connection.shutdown()
+                    GameSessionMessageType.DISCONNECT -> {
+                        _systemMessagesLiveData.postValue()
+                        connection.shutdown()
+                    }
                     else -> {
-                        _systemMessagesLiveData.value = gameSessionDTO.message
+                        _systemMessagesLiveData.postValue(
+                            "${gameSessionDTO.type}: ${gameSessionDTO.message}"
+                        )
                     }
                 }
 
@@ -154,9 +160,7 @@ class GameSessionViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        viewModelScope.launch {
-            disconnect()
-        }
+        disconnect()
     }
 
     private fun Move.Simplified.restore(model: Model): Move {
@@ -180,6 +184,10 @@ class GameSessionViewModel(
             }
         }
         return move
+    }
+
+    companion object {
+        const val TAG = "GameSessionViewModel"
     }
 
 }

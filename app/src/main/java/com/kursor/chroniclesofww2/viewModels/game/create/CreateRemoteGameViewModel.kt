@@ -101,6 +101,7 @@ class CreateRemoteGameViewModel(
                             gameData
                         )
                     )
+                    initSession()
                 } catch (e: SerializationException) {
                     e.printStackTrace()
                 }
@@ -127,15 +128,13 @@ class CreateRemoteGameViewModel(
     fun verdict(string: String) {
         viewModelScope.launch {
             connection.send(string)
-            if (string == GameFeaturesMessages.ACCEPTED) {
-                initSession()
-            }
         }
     }
 
     fun initSession() {
         val token = accountRepository.token ?: return
         viewModelScope.launch {
+            connection.shutdown()
             Tools.currentConnection = RemoteConnection(
                 fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
                 httpClient = httpClient,

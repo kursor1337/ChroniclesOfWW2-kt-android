@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.presentation.ui.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
@@ -46,6 +47,9 @@ class MultiplayerGameActivity : GameActivity() {
 
         gameSessionViewModel.gameEndLiveData.observe(this) { winner ->
             buildAlertMessageEndOfTheGame(winner.name == gameSessionViewModel.model.me.name)
+        }
+        gameSessionViewModel.systemMessagesLiveData.observe(this) { string ->
+            Toast.makeText(this, string, Toast.LENGTH_LONG).show()
         }
     }
 
