@@ -22,6 +22,9 @@ class RemoteConnection(
     val dispatcher: CoroutineDispatcher
 ) : Connection {
 
+
+    val TAG = "RemoteConnection $fullUrl"
+
     override var sendListener: Connection.SendListener? = null
     override val shutdownListeners = mutableListOf<Connection.ShutdownListener>()
 
@@ -38,9 +41,8 @@ class RemoteConnection(
     }
 
     override suspend fun send(string: String) = withContext(Dispatchers.IO) {
-        withContext(dispatcher) {
-            webSocketSession.send(string)
-        }
+        Log.d(TAG, "sending: $string")
+        webSocketSession.send(string)
     }
 
     override fun shutdown() {
@@ -52,7 +54,7 @@ class RemoteConnection(
     override fun observeIncoming(): Flow<String> = webSocketSession.incoming
         .receiveAsFlow()
         .map { frame ->
-            Log.d("RemoteConnection", "$frame")
+            Log.d(TAG, "$frame")
             if (frame is Frame.Close) shutdownListeners.forEach { listener ->
                 listener.onConnectionDisposed()
                 return@map Frame.Text(
@@ -71,8 +73,6 @@ class RemoteConnection(
             (it as Frame.Text).readText()
         }.flowOn(Dispatchers.IO)
 
-    companion object {
-        const val TAG = "RemoteConnection"
-    }
+
 
 }

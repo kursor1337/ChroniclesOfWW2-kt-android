@@ -16,7 +16,7 @@ class MultiplayerGameActivity : GameActivity() {
 
         val gameSessionViewModel by viewModel<GameSessionViewModel> { parametersOf(gameData) }
 
-        boardView.board = gameSessionViewModel.model.board
+        boardView.init(gameSessionViewModel.model.board, gameData.meInitiator)
         divisionResourcesMe.setup(gameSessionViewModel.model.me)
         divisionResourcesEnemy.setup(gameSessionViewModel.model.enemy)
 

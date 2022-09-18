@@ -96,12 +96,12 @@ class CreateRemoteGameViewModel(
                 try {
                     gameData = Json.decodeFromString(string)
                     connection.shutdown()
+                    initSession()
                     _statusLiveData.postValue(
                         CreateGameStatus.GAME_DATA_OBTAINED to Json.encodeToString(
                             gameData
                         )
                     )
-                    initSession()
                 } catch (e: SerializationException) {
                     e.printStackTrace()
                 }
@@ -131,19 +131,18 @@ class CreateRemoteGameViewModel(
         }
     }
 
-    fun initSession() {
+    suspend fun initSession() {
         val token = accountRepository.token ?: return
-        viewModelScope.launch {
-            connection.shutdown()
-            Tools.currentConnection = RemoteConnection(
-                fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
-                httpClient = httpClient,
-                dispatcher = Dispatchers.IO
-            ).apply {
-                init(token)
-                send(createdGameId.toString())
-            }
+        connection.shutdown()
+        Tools.currentConnection = RemoteConnection(
+            fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
+            httpClient = httpClient,
+            dispatcher = Dispatchers.IO
+        ).apply {
+            init(token)
+            send(createdGameId.toString())
         }
+
     }
 
     fun cancelConnection() {

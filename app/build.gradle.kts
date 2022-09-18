@@ -43,9 +43,9 @@ android {
 dependencies {
 
 
-    //mu
-    implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:$model_version")
+    //my
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:$dtos_version")
+    implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:$model_version")
 
     implementation(project(":connection"))
     implementation(project(":data"))

@@ -17,7 +17,7 @@ class SinglePlayerGameActivity : GameActivity() {
 
         val singleHostGameViewModel by viewModel<SingleHostGameViewModel> { parametersOf(gameData) }
 
-        boardView.board = singleHostGameViewModel.model.board
+        boardView.init(singleHostGameViewModel.model.board, true)
         divisionResourcesMe.setup(singleHostGameViewModel.model.me)
         divisionResourcesEnemy.setup(singleHostGameViewModel.model.enemy)
 

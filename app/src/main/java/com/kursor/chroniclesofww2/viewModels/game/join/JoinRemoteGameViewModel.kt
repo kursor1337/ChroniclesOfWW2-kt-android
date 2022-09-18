@@ -92,7 +92,6 @@ class JoinRemoteGameViewModel(
 
     fun onConnectionInit() {
         Log.d(TAG, "onConnectionInit: ")
-        Tools.currentConnection = connection
         viewModelScope.launch {
             connection.observeIncoming().collect { string ->
                 Log.d(TAG, "onConnectionInit: collect: $string")
@@ -105,7 +104,6 @@ class JoinRemoteGameViewModel(
                         _statusLiveData.postValue(JoinGameStatus.REJECTED to null)
                     }
                     else -> {
-                        val token = accountRepository.token ?: return@collect
                         val joinGameResponseDTO = Json.decodeFromString<JoinGameResponseDTO>(string)
                         Log.d(TAG, "$joinGameResponseDTO")
                         if (joinGameResponseDTO.message != GameFeaturesMessages.ACCEPTED) return@collect
@@ -114,15 +112,7 @@ class JoinRemoteGameViewModel(
                             connection.send(GameFeaturesMessages.INVALID_JSON)
                             return@collect
                         }
-                        connection.shutdown()
-                        Tools.currentConnection = RemoteConnection(
-                            fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
-                            httpClient = httpClient,
-                            dispatcher = Dispatchers.IO
-                        ).apply {
-                            init(token)
-                            send(gameId.toString())
-                        }
+                        initSession()
                         _statusLiveData.postValue(
                             JoinGameStatus.GAME_DATA_OBTAINED to Json.encodeToString(
                                 gameData
@@ -131,6 +121,19 @@ class JoinRemoteGameViewModel(
                     }
                 }
             }
+        }
+    }
+
+    suspend fun initSession() {
+        val token = accountRepository.token ?: return
+        connection.shutdown()
+        Tools.currentConnection = RemoteConnection(
+            fullUrl = Routes.Game.SESSION.absolutePath(Const.connection.WEBSOCKET_SERVER_URL),
+            httpClient = httpClient,
+            dispatcher = Dispatchers.IO
+        ).apply {
+            init(token)
+            send(gameId.toString())
         }
     }
 

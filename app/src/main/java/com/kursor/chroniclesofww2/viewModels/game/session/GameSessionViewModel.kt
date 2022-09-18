@@ -115,7 +115,7 @@ class GameSessionViewModel(
                         controller.processEnemyMove(move)
                     }
                     GameSessionMessageType.DISCONNECT -> {
-                        _systemMessagesLiveData.postValue()
+                        _systemMessagesLiveData.postValue("DISCONNECT")
                         connection.shutdown()
                     }
                     else -> {

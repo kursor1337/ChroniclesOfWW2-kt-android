@@ -17,16 +17,9 @@ class BoardView(
     attributeSet: AttributeSet? = null
 ) : TableLayout(context, attributeSet) {
 
-    var board: Board? = null
-        set(value) {
-            if (value != null) init(value)
-            field = value
-        }
-
-
     lateinit var tileViews: List<List<TileView>>
 
-    private fun init(board: Board) {
+    fun init(board: Board, meInitiator: Boolean) {
         Log.i(TAG, "init: Start")
         tileViews = List(board.height) { i ->
             List(board.width) { j ->
@@ -60,7 +53,9 @@ class BoardView(
             Log.i(TAG, "init: New TileRow, index = $i")
             this.addView(currentTableRow)
             for (j in 0 until board.width) {
-                currentTableRow.addView(tileViews[i][j].apply {
+                val currentTileView = if (meInitiator) tileViews[i][j]
+                else tileViews[board.height - i - 1][board.width - j - 1]
+                currentTableRow.addView(currentTileView.apply {
                     layoutParams = tileViewLayoutParams
                 })
 
