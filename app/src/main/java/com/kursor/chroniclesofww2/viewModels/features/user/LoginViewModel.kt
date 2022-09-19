@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.viewModels.features
+package com.kursor.chroniclesofww2.viewModels.features.user
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

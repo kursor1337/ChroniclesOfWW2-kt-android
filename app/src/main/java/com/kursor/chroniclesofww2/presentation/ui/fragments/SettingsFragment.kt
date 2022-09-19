@@ -74,6 +74,10 @@ class SettingsFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_registerFragment)
         }
+
+        binding.changePasswordButton.setOnClickListener {
+
+        }
     }
 
 

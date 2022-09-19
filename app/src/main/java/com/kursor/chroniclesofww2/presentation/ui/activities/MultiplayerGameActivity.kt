@@ -5,7 +5,7 @@ import android.widget.Toast
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
-import com.kursor.chroniclesofww2.viewModels.game.session.GameSessionViewModel
+import com.kursor.chroniclesofww2.viewModels.features.game.session.GameSessionViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

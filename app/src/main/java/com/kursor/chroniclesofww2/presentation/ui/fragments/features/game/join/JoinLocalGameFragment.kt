@@ -14,7 +14,7 @@ import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.RecyclerViewViewModelObserver
-import com.kursor.chroniclesofww2.viewModels.game.join.JoinLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.features.game.join.JoinLocalGameViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.viewModels.game.join
+package com.kursor.chroniclesofww2.viewModels.features.game.join
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
-import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
+import com.kursor.chroniclesofww2.viewModels.features.game.create.CreateRemoteGameViewModel
 import io.ktor.client.*
 import io.ktor.util.Identity.decode
 import kotlinx.coroutines.Dispatchers

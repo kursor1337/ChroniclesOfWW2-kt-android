@@ -17,7 +17,7 @@ import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
 import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
-import com.kursor.chroniclesofww2.viewModels.game.create.CreateLocalGameViewModel
+import com.kursor.chroniclesofww2.viewModels.features.game.create.CreateLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.androidx.navigation.koinNavGraphViewModel

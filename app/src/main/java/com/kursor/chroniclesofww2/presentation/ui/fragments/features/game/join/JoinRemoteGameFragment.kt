@@ -14,7 +14,7 @@ import com.kursor.chroniclesofww2.adapters.WaitingGameAdapter
 import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
-import com.kursor.chroniclesofww2.viewModels.game.join.JoinRemoteGameViewModel
+import com.kursor.chroniclesofww2.viewModels.features.game.join.JoinRemoteGameViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JoinRemoteGameFragment : JoinAbstractGameFragment() {

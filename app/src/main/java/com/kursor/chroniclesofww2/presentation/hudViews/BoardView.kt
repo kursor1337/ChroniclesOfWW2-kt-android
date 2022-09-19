@@ -41,7 +41,6 @@ class BoardView(
 
         gravity = if (tileWidth * board.width < Tools.getScreenWidth()) Gravity.CENTER_HORIZONTAL
         else Gravity.CENTER_VERTICAL
-        Log.i(TAG, "init: tileWidth = $tileWidth")
         val tableRowLayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, tileWidth)
         val tileViewLayoutParams = TableRow.LayoutParams(tileWidth, tileWidth)
 
@@ -50,7 +49,6 @@ class BoardView(
                 layoutParams = tableRowLayoutParams
                 gravity = Gravity.CENTER_HORIZONTAL
             }
-            Log.i(TAG, "init: New TileRow, index = $i")
             this.addView(currentTableRow)
             for (j in 0 until board.width) {
                 val currentTileView = if (meInitiator) tileViews[i][j]

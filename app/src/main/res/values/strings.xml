@@ -76,5 +76,7 @@
     <string name="accept">Accept</string>
     <string name="refuse">Refuse</string>
     <string name="client_init_error_message_remote">Something went wrong</string>
+    <string name="change_password">Change password</string>
+    <string name="log_out">Log out</string>
 
 </resources>

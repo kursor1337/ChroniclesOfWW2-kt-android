@@ -13,7 +13,7 @@ import com.kursor.chroniclesofww2.features.GameFeaturesMessages
 import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
-import com.kursor.chroniclesofww2.viewModels.game.create.CreateRemoteGameViewModel
+import com.kursor.chroniclesofww2.viewModels.features.game.create.CreateRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import kotlinx.serialization.encodeToString

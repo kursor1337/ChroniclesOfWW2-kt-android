@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.kursor.chroniclesofww2.databinding.FragmentRegisterBinding
-import com.kursor.chroniclesofww2.viewModels.features.RegisterViewModel
+import com.kursor.chroniclesofww2.viewModels.features.user.RegisterViewModel
 import org.koin.android.ext.android.inject
 
 class RegisterFragment : Fragment() {

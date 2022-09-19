@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.kursor.chroniclesofww2.databinding.FragmentLoginBinding
-import com.kursor.chroniclesofww2.viewModels.features.LoginViewModel
+import com.kursor.chroniclesofww2.viewModels.features.user.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {

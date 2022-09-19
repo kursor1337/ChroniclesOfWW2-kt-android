@@ -35,34 +35,49 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/signed_in_layout"
-                android:visibility="gone"
-                >
+                android:orientation="vertical">
 
-                <TextView
-                    android:paddingStart="12sp"
-                    android:paddingEnd="34sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="22sp"
-                    android:text="Login: "
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/signed_in_layout"
+                    android:visibility="gone"
+                    >
 
-                <TextView
-                    android:id="@+id/login_text_view"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:maxLines="1"
-                    android:inputType="text"/>
+                    <TextView
+                        android:paddingStart="12sp"
+                        android:paddingEnd="34sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="22sp"
+                        android:text="Login: "
+                        />
+
+                    <TextView
+                        android:id="@+id/login_text_view"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:maxLines="1"
+                        android:textSize="22sp"
+                        />
+
+                    <Button
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/log_out_button"
+                        android:text="@string/log_out"
+                        />
+
+                </LinearLayout>
 
                 <Button
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/log_out_button"
-                    android:text="Log out"
+                    android:id="@+id/change_password_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_password"
                     />
 
             </LinearLayout>

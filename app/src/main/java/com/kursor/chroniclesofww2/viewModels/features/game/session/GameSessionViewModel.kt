@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.viewModels.game.session
+package com.kursor.chroniclesofww2.viewModels.features.game.session
 
 import android.util.Log
 import androidx.lifecycle.LiveData
