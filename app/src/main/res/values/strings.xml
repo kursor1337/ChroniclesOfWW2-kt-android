@@ -78,5 +78,9 @@
     <string name="client_init_error_message_remote">Something went wrong</string>
     <string name="change_password">Change password</string>
     <string name="log_out">Log out</string>
+    <string name="repeat_new_password">Repeat new password</string>
+    <string name="new_password">New password</string>
+    <string name="current_password">Current password</string>
+    <string name="ready">Ready</string>
 
 </resources>
