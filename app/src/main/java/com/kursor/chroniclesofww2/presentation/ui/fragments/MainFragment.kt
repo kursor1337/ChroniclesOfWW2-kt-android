@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
         binding.localGameButton.setOnClickListener(getOnClickListener(LOCAL))
         binding.webGameButton.setOnClickListener(getOnClickListener(WEB))
         binding.settingsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_navigation_settings)
         }
     }
 

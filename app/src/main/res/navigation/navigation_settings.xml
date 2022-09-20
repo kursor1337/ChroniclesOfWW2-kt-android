@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_settings"
+    app:startDestination="@id/settingsFragment">
+
+
+    <action
+        android:id="@+id/action_settingsFragment_to_loginFragment"
+        app:destination="@id/loginFragment" />
+    <action
+        android:id="@+id/action_settingsFragment_to_savedBattlesManagementFragment"
+        app:destination="@id/savedBattlesManagementFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.RegisterFragment"
+        tools:layout="@layout/fragment_register"
+        android:label="RegisterFragment" />
+    <action
+        android:id="@+id/action_settingsFragment_to_registerFragment"
+        app:destination="@id/registerFragment" />
+    <action
+        android:id="@+id/action_settingsFragment_to_savedBattlesManagementFragment3"
+        app:destination="@id/savedBattlesManagementFragment" />
+    <fragment
+        android:id="@+id/savedBattlesManagementFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.SavedBattlesManagementFragment"
+        tools:layout="@layout/fragment_saved_battles_management"
+        android:label="SavedBattlesManagementFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.SettingsFragment"
+        tools:layout="@layout/fragment_settings"
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_savedBattlesManagementFragment"
+            app:destination="@id/savedBattlesManagementFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_settingsFragment_to_loginFragment3"
+        app:destination="@id/loginFragment" />
+</navigation>

@@ -41,6 +41,7 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        settingsViewModel.checkIsSignedIn()
         settingsViewModel.isSignedInLiveData.observe(viewLifecycleOwner) { (isSignedIn, args) ->
             if (isSignedIn) {
                 binding.notSignedInLayout.visibility = View.GONE

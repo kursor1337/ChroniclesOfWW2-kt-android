@@ -29,7 +29,7 @@ class SettingsViewModel(
     private val _isSignedInLiveData = MutableLiveData<Pair<Boolean, List<String>>>()
     val isSignedInLiveData: LiveData<Pair<Boolean, List<String>>> get() = _isSignedInLiveData
 
-    init {
+    fun checkIsSignedIn() {
         viewModelScope.launch {
             checkIsSignedInUseCase()
                 .onSuccess {
@@ -53,6 +53,7 @@ class SettingsViewModel(
 
     fun logout() {
         logoutUseCase()
+        _isSignedInLiveData.value = false to emptyList()
     }
 
     fun save() {

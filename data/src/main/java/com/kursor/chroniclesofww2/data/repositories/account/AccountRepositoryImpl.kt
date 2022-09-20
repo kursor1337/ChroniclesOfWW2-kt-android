@@ -91,6 +91,14 @@ class AccountRepositoryImpl(
         return response.body()
     }
 
+    override suspend fun deleteAccount(deleteUserReceiveDTO: DeleteUserReceiveDTO): DeleteUserResponseDTO {
+        val response = httpClient.delete(Routes.Account.DELETE.absolutePath(serverUrl)) {
+            bearerAuth(token ?: "")
+            setBody(deleteUserReceiveDTO)
+        }
+        return response.body()
+    }
+
     override suspend fun refreshToken() {
         if (token == null) {
             if (password == null || login == null) return
