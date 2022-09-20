@@ -62,7 +62,7 @@ class RemoteCustomBattleRepositoryImpl(
             bearerAuth(token)
             setBody(saveBattleReceiveDTO)
         }
-        return response.body<SaveBattleResponseDTO>()
+        return response.body()
     }
 
     override suspend fun editBattle(

@@ -5,34 +5,6 @@
     android:id="@+id/navigation_settings"
     app:startDestination="@id/settingsFragment">
 
-
-    <action
-        android:id="@+id/action_settingsFragment_to_loginFragment"
-        app:destination="@id/loginFragment" />
-    <action
-        android:id="@+id/action_settingsFragment_to_savedBattlesManagementFragment"
-        app:destination="@id/savedBattlesManagementFragment" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.LoginFragment"
-        tools:layout="@layout/fragment_login"
-        android:label="LoginFragment" />
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.RegisterFragment"
-        tools:layout="@layout/fragment_register"
-        android:label="RegisterFragment" />
-    <action
-        android:id="@+id/action_settingsFragment_to_registerFragment"
-        app:destination="@id/registerFragment" />
-    <action
-        android:id="@+id/action_settingsFragment_to_savedBattlesManagementFragment3"
-        app:destination="@id/savedBattlesManagementFragment" />
-    <fragment
-        android:id="@+id/savedBattlesManagementFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.SavedBattlesManagementFragment"
-        tools:layout="@layout/fragment_saved_battles_management"
-        android:label="SavedBattlesManagementFragment" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.SettingsFragment"
@@ -47,8 +19,39 @@
         <action
             android:id="@+id/action_settingsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_deleteAccountFragment"
+            app:destination="@id/deleteAccountFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_settingsFragment_to_loginFragment3"
-        app:destination="@id/loginFragment" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="LoginFragment" />
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.RegisterFragment"
+        tools:layout="@layout/fragment_register"
+        android:label="RegisterFragment" />
+
+    <fragment
+        android:id="@+id/savedBattlesManagementFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.SavedBattlesManagementFragment"
+        tools:layout="@layout/fragment_saved_battles_management"
+        android:label="SavedBattlesManagementFragment" />
+
+    <fragment
+        android:id="@+id/deleteAccountFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.DeleteAccountFragment"
+        android:label="DeleteAccountFragment" />
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" />
 </navigation>

@@ -1,10 +1,14 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 val ktor_version: String by project
 val dtos_version: String by project
 val model_version: String by project
+val room_version: String by project
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -35,6 +39,11 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+
+    kapt("androidx.room:room-compiler:$room_version")
+    // To use Kotlin Symbol Processing (KSP)
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("io.ktor:ktor-client-core:$ktor_version")

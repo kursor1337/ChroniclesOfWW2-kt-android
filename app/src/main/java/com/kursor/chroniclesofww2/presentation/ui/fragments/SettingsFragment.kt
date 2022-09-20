@@ -52,6 +52,7 @@ class SettingsFragment : Fragment() {
                 binding.signedInLayout.visibility = View.GONE
             }
         }
+
         binding.usernameEditText.setText(settingsViewModel.usernameLiveData.value ?: "")
         binding.usernameEditText.doOnTextChanged { text, start, before, count ->
             settingsViewModel.changeUserName(text.toString())
@@ -77,7 +78,11 @@ class SettingsFragment : Fragment() {
         }
 
         binding.changePasswordButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_changePasswordFragment)
+        }
 
+        binding.deleteAccountButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_deleteAccountFragment)
         }
     }
 

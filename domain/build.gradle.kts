@@ -16,6 +16,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:$dtos_version")
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:$model_version")
+    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
 }
 
 configurations.all {

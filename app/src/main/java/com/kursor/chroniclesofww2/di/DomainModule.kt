@@ -1,9 +1,9 @@
 package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.domain.useCases.auth.*
-import com.kursor.chroniclesofww2.domain.useCases.battle.LoadLocalCustomBattleListUseCase
-import com.kursor.chroniclesofww2.domain.useCases.battle.LoadRemoteCustomBattleListUseCase
-import com.kursor.chroniclesofww2.domain.useCases.battle.LoadStandardBattleListUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.load.LoadLocalCustomBattleListUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.load.LoadRemoteCustomBattleListUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.load.LoadStandardBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.game.LoadRemoteGameListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.user.*
 import org.koin.dsl.module
