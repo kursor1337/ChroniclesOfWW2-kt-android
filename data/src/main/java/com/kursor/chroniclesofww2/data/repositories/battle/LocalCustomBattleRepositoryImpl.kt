@@ -1,82 +1,96 @@
 package com.kursor.chroniclesofww2.data.repositories.battle
 
 import android.content.Context
+import com.kursor.chroniclesofww2.data.repositories.database.daos.BattleDao
+import com.kursor.chroniclesofww2.data.repositories.database.entitiies.BattleDataEntity
+import com.kursor.chroniclesofww2.data.repositories.database.entitiies.BattleEntity
 import com.kursor.chroniclesofww2.domain.repositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.runBlocking
 
 class LocalCustomBattleRepositoryImpl(
-    context: Context
+    val context: Context,
+    val battleDao: BattleDao
 ) : LocalCustomBattleRepository {
-
 
     override val PREFIX = -1_000_000_000
 
-    private val moshi =
-        Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter<MutableList<Battle>>(
-            Types.newParameterizedType(MutableList::class.java, Battle::class.java)
-        )
+    override val battleList: List<Battle>
+        get() = runBlocking { getAllBattles() }
 
     private val sharedPreferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
-    private val _battleList: MutableList<Battle> = initCustomBattles()
-    override val battleList: List<Battle>
-        get() = _battleList
-    var nextBattleId = PREFIX + battleList.size
-        private set
 
+    private var nextBattleId = sharedPreferences.getInt(NEXT_BATTLE_ID, PREFIX)
+        set(value) {
+            field = value
+            sharedPreferences.edit().putInt(NEXT_BATTLE_ID, value).apply()
+        }
 
     override fun findBattleById(id: Int): Battle? {
-        val index = id - PREFIX
-        return battleList[index]
+        return runBlocking {
+            battleDao.get(id)
+        }
     }
 
     override fun nextBattleId(): Int {
         return nextBattleId
     }
 
-    override fun saveBattle(battle: Battle) {
-//        val battleData = Battle.Data(
-//            nextBattleId(),
-//            battle.data.nation1,
-//            battle.data.nation1divisions,
-//            battle.data.nation2,
-//            battle.data.nation2divisions
-//        )
-//        Battle(nextBattleId(), battle.name, battle.description, battle.data)
-        _battleList.add(battle)
-        updateStorage()
-        nextBattleId++
+    override suspend fun getAllBattles(): List<Battle> =
+        battleDao.getAll().map { it.toModelEntity() }
+
+    override suspend fun saveBattle(battle: Battle) {
+        battleDao.insert(battle.toDatabaseEntity())
     }
 
-    override fun deleteBattle(battle: Battle) {
-        _battleList.remove(battle)
-        updateStorage()
-        nextBattleId--
+    override suspend fun editBattle(battle: Battle) {
+        battleDao.update(battle.toDatabaseEntity())
     }
 
-    override fun deleteBattle(id: Int) {
-        val index = id - PREFIX
-        _battleList.removeAt(index)
-        updateStorage()
-        nextBattleId--
+    override suspend fun deleteBattle(battle: Battle) {
+        battleDao.delete(battle.toDatabaseEntity())
     }
 
-    fun updateStorage() {
-        sharedPreferences.edit().putString(KEY, moshi.toJson(_battleList)).apply()
+    override suspend fun deleteBattle(id: Int) {
+        battleDao.delete(findBattleById(id)?.toDatabaseEntity() ?: return)
     }
 
+    private fun Battle.toDatabaseEntity(): BattleEntity = BattleEntity(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        data = this.data.toDatabaseEntity()
+    )
 
-    private fun initCustomBattles(): MutableList<Battle> {
-        val listJson = sharedPreferences.getString(KEY, "")
-        if (listJson !is String) return mutableListOf()
-        if (listJson.isBlank()) return mutableListOf()
-        return moshi.nonNull().fromJson(listJson)!!
-    }
+    private fun BattleEntity.toModelEntity(): Battle = Battle(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        data = this.data.toModelEntity()
+    )
+
+    private fun Battle.Data.toDatabaseEntity(): BattleDataEntity = BattleDataEntity(
+        id = this.id,
+        nation1 = this.nation1,
+        nation1divisions = this.nation1divisions,
+        nation2 = this.nation2,
+        nation2divisions = this.nation2divisions
+    )
+
+    private fun BattleDataEntity.toModelEntity(): Battle.Data = Battle.Data(
+        id = this.id,
+        nation1 = this.nation1,
+        nation1divisions = this.nation1divisions,
+        nation2 = this.nation2,
+        nation2divisions = this.nation2divisions
+    )
 
     companion object {
         private const val PREF = "pref"
         private const val KEY = "CustomBattleRepository_key"
+        private const val NEXT_BATTLE_ID = "next battle id"
     }
 }

@@ -6,11 +6,13 @@ interface LocalCustomBattleRepository : BattleRepository {
 
     fun nextBattleId(): Int
 
-    fun saveBattle(battle: Battle)
+    suspend fun getAllBattles(): List<Battle>
 
-    fun editBattle(battle: Battle)
+    suspend fun saveBattle(battle: Battle)
 
-    fun deleteBattle(battle: Battle)
+    suspend fun editBattle(battle: Battle)
 
-    fun deleteBattle(id: Int)
+    suspend fun deleteBattle(battle: Battle)
+
+    suspend fun deleteBattle(id: Int)
 }
