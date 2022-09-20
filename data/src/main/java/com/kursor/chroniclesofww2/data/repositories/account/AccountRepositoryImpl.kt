@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.account
 
 import android.content.Context
+import android.util.Log
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.features.*
 import io.ktor.client.*
@@ -49,19 +50,18 @@ class AccountRepositoryImpl(
             sharedPreferences.edit().putLong(TOKEN_EXPIRATION_DATE, value).apply()
         }
 
-    init {
-        refreshTokenInIntervals()
+    private fun setTokenExpiration(millis: Long) {
+        tokenExpirationDate = System.currentTimeMillis() + millis * 2 / 3
+        coroutineScope.launch {
+            startTokenExpireTimer(millis * 2 / 3)
+        }
     }
 
     override fun refreshTokenInIntervals() {
         coroutineScope.launch {
             kotlin.runCatching {
-                if (0L < tokenExpirationDate && tokenExpirationDate < System.currentTimeMillis()) {
+                if (tokenExpirationDate < System.currentTimeMillis()) {
                     refreshToken()
-                    startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
-                }
-                while (true) {
-                    startTokenExpireTimer(tokenExpirationDate - System.currentTimeMillis())
                 }
             }
         }
@@ -100,6 +100,7 @@ class AccountRepositoryImpl(
     }
 
     override suspend fun refreshToken() {
+        Log.i("AccountRepository", "Refreshing token")
         if (token == null) {
             if (password == null || login == null) return
             auth()
@@ -125,7 +126,8 @@ class AccountRepositoryImpl(
         val loginResponseDTO = response.body<LoginResponseDTO>()
         if (loginResponseDTO.token != null) {
             token = loginResponseDTO.token
-            tokenExpirationDate = System.currentTimeMillis() + loginResponseDTO.expiresIn * 2 / 3
+            setTokenExpiration(loginResponseDTO.expiresIn)
+            Log.d("AccountRepository", "token expires in ${loginResponseDTO.expiresIn}")
         } else {
             password = null
             login = null
@@ -169,11 +171,12 @@ class AccountRepositoryImpl(
         return checkToken() || checkCredentials()
     }
 
-    override suspend fun startTokenExpireTimer(millis: Long) =
+    override suspend fun startTokenExpireTimer(millis: Long) {
         withContext(Dispatchers.IO) {
             delay(millis)
             refreshToken()
         }
+    }
 
     companion object {
         const val SETTINGS = "settings"

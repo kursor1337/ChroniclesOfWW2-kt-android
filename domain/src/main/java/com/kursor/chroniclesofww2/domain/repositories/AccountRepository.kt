@@ -32,5 +32,6 @@ interface AccountRepository {
     suspend fun isSignedIn(): Boolean
 
     suspend fun startTokenExpireTimer(millis: Long)
+
     fun refreshTokenInIntervals()
 }
