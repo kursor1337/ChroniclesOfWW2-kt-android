@@ -6,17 +6,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentSavedBattlesManagementBinding
-import com.kursor.chroniclesofww2.domain.repositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.adapters.BattleAdapter
 import com.kursor.chroniclesofww2.setTitleColor
-import org.koin.android.ext.android.inject
+import com.kursor.chroniclesofww2.viewModels.features.battle.SavedBattlesManagementViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SavedBattlesManagementFragment : Fragment() {
 
     lateinit var binding: FragmentSavedBattlesManagementBinding
 
-    val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
     lateinit var battleAdapter: BattleAdapter
+
+    val savedBattlesManagementViewModel by viewModel<SavedBattlesManagementViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,9 +31,12 @@ class SavedBattlesManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        savedBattlesManagementViewModel.battleListLiveData.observe(viewLifecycleOwner) { battleList ->
+            battleAdapter = BattleAdapter(requireActivity(), battleList)
+            binding.savedBattlesRecyclerView.adapter = battleAdapter
+        }
+
         binding.savedBattlesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        battleAdapter = BattleAdapter(requireActivity(), localCustomBattleRepository.battleList)
-        binding.savedBattlesRecyclerView.adapter = battleAdapter
         registerForContextMenu(binding.savedBattlesRecyclerView)
     }
 
@@ -51,8 +55,7 @@ class SavedBattlesManagementFragment : Fragment() {
         val pos = battleAdapter.contextMenuPosition
         when (item.itemId) {
             R.id.delete -> {
-                val battle = localCustomBattleRepository.battleList[pos]
-                localCustomBattleRepository.deleteBattle(battle)
+                savedBattlesManagementViewModel.deleteBattleByPosition(pos)
                 battleAdapter.notifyItemRemoved(pos)
             }
         }

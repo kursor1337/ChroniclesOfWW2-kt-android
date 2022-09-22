@@ -24,14 +24,19 @@ class BattleListViewModel(
     fun changeDataSource(index: Int) {
         when (index) {
             STANDARD -> battleLiveData.value = loadStandardBattleListUseCase()
-            LOCAL_CUSTOM -> battleLiveData.value = loadLocalCustomBattleListUseCase()
+            LOCAL_CUSTOM -> {
+                viewModelScope.launch {
+                    loadLocalCustomBattleListUseCase()
+                        .onSuccess {
+                            battleLiveData.postValue(it)
+                        }
+                }
+            }
             REMOTE_CUSTOM -> {
                 viewModelScope.launch {
                     loadRemoteCustomBattleListUseCase()
                         .onSuccess {
                             battleLiveData.value = it
-                        }.onFailure {
-
                         }
                 }
             }

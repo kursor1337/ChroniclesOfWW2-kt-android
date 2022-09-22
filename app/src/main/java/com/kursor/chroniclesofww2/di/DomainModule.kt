@@ -1,7 +1,14 @@
 package com.kursor.chroniclesofww2.di
 
 import com.kursor.chroniclesofww2.domain.useCases.auth.*
+import com.kursor.chroniclesofww2.domain.useCases.battle.crudLocal.DeleteLocalCustomBattleUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.crudLocal.EditLocalCustomBattleUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.crudLocal.SaveLocalCustomBattleUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.crudRemote.EditPublishedBattleUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.crudRemote.PublishBattleUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.crudRemote.UnpublishBattleUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.load.LoadLocalCustomBattleListUseCase
+import com.kursor.chroniclesofww2.domain.useCases.battle.load.LoadMyRemoteBattlesListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.load.LoadRemoteCustomBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.battle.load.LoadStandardBattleListUseCase
 import com.kursor.chroniclesofww2.domain.useCases.game.LoadRemoteGameListUseCase
@@ -60,6 +67,13 @@ val domainModule = module {
     }
 
     factory {
+        LoadMyRemoteBattlesListUseCase(
+            remoteCustomBattleRepository = get(),
+            accountRepository = get()
+        )
+    }
+
+    factory {
         LoadRemoteGameListUseCase(
             gameRepository = get(),
             accountRepository = get()
@@ -86,5 +100,37 @@ val domainModule = module {
         CheckIsSignedInUseCase(accountRepository = get())
     }
 
+    factory {
+        DeleteLocalCustomBattleUseCase(localCustomBattleRepository = get())
+    }
+
+    factory {
+        EditLocalCustomBattleUseCase(localCustomBattleRepository = get())
+    }
+
+    factory {
+        SaveLocalCustomBattleUseCase(localCustomBattleRepository = get())
+    }
+
+    factory {
+        EditPublishedBattleUseCase(
+            remoteCustomBattleRepository = get(),
+            accountRepository = get()
+        )
+    }
+
+    factory {
+        PublishBattleUseCase(
+            remoteCustomBattleRepository = get(),
+            accountRepository = get()
+        )
+    }
+
+    factory {
+        UnpublishBattleUseCase(
+            remoteCustomBattleRepository = get(),
+            accountRepository = get()
+        )
+    }
 
 }

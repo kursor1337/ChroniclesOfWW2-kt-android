@@ -3,6 +3,8 @@ package com.kursor.chroniclesofww2.di
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
+import com.kursor.chroniclesofww2.viewModels.features.battle.CreateNewBattleViewModel
+import com.kursor.chroniclesofww2.viewModels.features.battle.SavedBattlesManagementViewModel
 import com.kursor.chroniclesofww2.viewModels.features.game.session.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.user.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.user.RegisterViewModel
@@ -87,6 +89,19 @@ val appModule = module {
             checkIsSignedInUseCase = get(),
             changeUsernameUseCase = get(),
             logoutUseCase = get()
+        )
+    }
+
+    viewModel {
+        CreateNewBattleViewModel(
+            saveLocalCustomBattleUseCase = get()
+        )
+    }
+
+    viewModel {
+        SavedBattlesManagementViewModel(
+            loadLocalCustomBattleListUseCase = get(),
+            deleteLocalCustomBattleUseCase = get()
         )
     }
 }
