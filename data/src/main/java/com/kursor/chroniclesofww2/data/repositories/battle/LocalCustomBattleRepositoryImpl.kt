@@ -2,13 +2,9 @@ package com.kursor.chroniclesofww2.data.repositories.battle
 
 import android.content.Context
 import com.kursor.chroniclesofww2.data.repositories.database.daos.BattleDao
-import com.kursor.chroniclesofww2.data.repositories.database.entitiies.BattleDataEntity
 import com.kursor.chroniclesofww2.data.repositories.database.entitiies.BattleEntity
 import com.kursor.chroniclesofww2.domain.repositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.model.serializable.Battle
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.runBlocking
 
 class LocalCustomBattleRepositoryImpl(
@@ -31,12 +27,17 @@ class LocalCustomBattleRepositoryImpl(
 
     override fun findBattleById(id: Int): Battle? {
         return runBlocking {
-            battleDao.get(id)
+            getBattleById(id)
         }
     }
 
+
     override fun nextBattleId(): Int {
         return nextBattleId
+    }
+
+    override suspend fun getBattleById(id: Int): Battle? {
+        return battleDao.get(id)?.toModelEntity()
     }
 
     override suspend fun getAllBattles(): List<Battle> =
@@ -73,30 +74,23 @@ class LocalCustomBattleRepositoryImpl(
         id = this.id,
         name = this.name,
         description = this.description,
-        data = this.data.toDatabaseEntity()
+        nation1 = this.data.nation1,
+        nation1divisions = this.data.nation1divisions,
+        nation2 = this.data.nation2,
+        nation2divisions = this.data.nation2divisions
     )
 
     private fun BattleEntity.toModelEntity(): Battle = Battle(
         id = this.id,
         name = this.name,
         description = this.description,
-        data = this.data.toModelEntity()
-    )
-
-    private fun Battle.Data.toDatabaseEntity(): BattleDataEntity = BattleDataEntity(
-        id = this.id,
-        nation1 = this.nation1,
-        nation1divisions = this.nation1divisions,
-        nation2 = this.nation2,
-        nation2divisions = this.nation2divisions
-    )
-
-    private fun BattleDataEntity.toModelEntity(): Battle.Data = Battle.Data(
-        id = this.id,
-        nation1 = this.nation1,
-        nation1divisions = this.nation1divisions,
-        nation2 = this.nation2,
-        nation2divisions = this.nation2divisions
+        data = Battle.Data(
+            id = this.id,
+            nation1 = this.nation1,
+            nation1divisions = this.nation1divisions,
+            nation2 = this.nation2,
+            nation2divisions = this.nation2divisions
+        )
     )
 
     companion object {

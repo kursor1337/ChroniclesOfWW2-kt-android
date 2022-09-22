@@ -6,6 +6,8 @@ interface LocalCustomBattleRepository : BattleRepository {
 
     fun nextBattleId(): Int
 
+    suspend fun getBattleById(id: Int): Battle?
+
     suspend fun getAllBattles(): List<Battle>
 
     suspend fun saveBattle(battle: Battle)

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -116,6 +117,30 @@ class CreateNewBattleDialogFragment : DialogFragment() {
             findNavController().popBackStack(R.id.battleChooseFragment, inclusive = true)
             requireActivity().onBackPressed()
             requireActivity().onBackPressed()
+        }
+
+        binding.infantry1EditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setPlayer1Infantry(text.toString())
+        }
+
+        binding.armored1EditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setPlayer1Armored(text.toString())
+        }
+
+        binding.artillery1EditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setPlayer1Artillery(text.toString())
+        }
+
+        binding.infantry2EditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setPlayer2Infantry(text.toString())
+        }
+
+        binding.armored2EditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setPlayer2Armored(text.toString())
+        }
+
+        binding.artillery2EditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setPlayer2Artillery(text.toString())
         }
     }
 }
