@@ -43,7 +43,18 @@ class LocalCustomBattleRepositoryImpl(
         battleDao.getAll().map { it.toModelEntity() }
 
     override suspend fun saveBattle(battle: Battle) {
-        battleDao.insert(battle.toDatabaseEntity())
+        battleDao.insert(
+            Battle(
+                id = nextBattleId,
+                name = battle.name,
+                description = battle.description,
+                nation1 = battle.data.nation1,
+                nation1divisions = battle.data.nation1divisions,
+                nation2 = battle.data.nation2,
+                nation2divisions = battle.data.nation2divisions
+            ).toDatabaseEntity()
+        )
+        nextBattleId++
     }
 
     override suspend fun editBattle(battle: Battle) {

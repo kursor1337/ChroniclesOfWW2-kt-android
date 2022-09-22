@@ -16,7 +16,7 @@ interface BattleDao {
     fun getAll(): List<BattleEntity>
 
     @Query("SELECT * FROM BattleEntity WHERE id LIKE :id LIMIT 1")
-    fun get(id: Int): Battle?
+    fun get(id: Int): BattleEntity?
 
     @Insert
     fun insert(battleEntity: BattleEntity)

@@ -2,6 +2,7 @@ val ktor_version: String by project
 val koin_version: String by project
 val dtos_version: String by project
 val model_version: String by project
+val room_version: String by project
 
 plugins {
     id("com.android.application")
@@ -64,6 +65,7 @@ dependencies {
     //Koin di
     // Koin Core features
     implementation("io.insert-koin:koin-core:$koin_version")
+    implementation("androidx.room:room-ktx:$room_version")
     // Koin Test features
     testImplementation("io.insert-koin:koin-test:$koin_version")
     // Koin main features for Android

@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.domain.useCases.battle
+package com.kursor.chroniclesofww2.domain.useCases.battle.crudRemote
 
 import com.kursor.chroniclesofww2.domain.Moshi
 import com.kursor.chroniclesofww2.domain.UnauthorizedException

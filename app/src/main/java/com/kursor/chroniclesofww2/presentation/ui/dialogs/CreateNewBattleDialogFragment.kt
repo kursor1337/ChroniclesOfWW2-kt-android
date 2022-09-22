@@ -12,26 +12,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentCreateBattleBinding
-import com.kursor.chroniclesofww2.domain.repositories.LocalCustomBattleRepository
 import com.kursor.chroniclesofww2.model.game.Nation
-import com.kursor.chroniclesofww2.model.game.board.Division
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment
+import com.kursor.chroniclesofww2.viewModels.features.battle.CreateNewBattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateNewBattleDialogFragment : DialogFragment() {
 
     lateinit var binding: FragmentCreateBattleBinding
 
-    var nations: Array<Nation> = Nation.values()
-    private var nation1: Nation? = null
-    private var nation2: Nation? = null
-
     var navigationGraphId: Int? = null
-
-    val localCustomBattleRepository by inject<LocalCustomBattleRepository>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +43,36 @@ class CreateNewBattleDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val battleViewModel by navGraphViewModels<BattleViewModel>(navigationGraphId!!)
+        val createNewBattleViewModel by viewModel<CreateNewBattleViewModel>()
+
+        createNewBattleViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
+            when (status) {
+                CreateNewBattleViewModel.Status.SAME_NATIONS_AS_ENEMIES -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Same nations as enemies",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                CreateNewBattleViewModel.Status.TOO_LITTLE_DIVISIONS -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Too little divisions",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                CreateNewBattleViewModel.Status.BATTLE_CREATED -> {
+                    battleViewModel.battleLiveData.value = arg as Battle
+                }
+            }
+        }
 
         val adapter: ArrayAdapter<Nation> =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, nations)
+            ArrayAdapter(
+                requireActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                createNewBattleViewModel.nations
+            )
         binding.nation1Spinner.adapter = adapter
         binding.nation2Spinner.adapter = adapter
         binding.nation1Spinner.onItemSelectedListener =
@@ -64,11 +83,11 @@ class CreateNewBattleDialogFragment : DialogFragment() {
                     position: Int,
                     id: Long
                 ) {
-                    nation1 = Nation.values()[position]
+                    createNewBattleViewModel.setNation1ByPosition(position)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    nation1 = null
+                    createNewBattleViewModel.clearNation1()
                 }
             }
         binding.nation2Spinner.onItemSelectedListener = object :
@@ -79,74 +98,24 @@ class CreateNewBattleDialogFragment : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                nation2 = Nation.values()[position]
+                createNewBattleViewModel.setNation2ByPosition(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                nation2 = null
+                createNewBattleViewModel.clearNation2()
             }
         }
         binding.readyButton.setOnClickListener {
-            val battle = getBattleFromViews() ?: return@setOnClickListener
-            battleViewModel.battleLiveData.value = battle
+            createNewBattleViewModel.ready()
             requireActivity().onBackPressed()
             requireActivity().onBackPressed()
         }
 
         binding.readyAndSaveButton.setOnClickListener {
-            val battle = getBattleFromViews() ?: return@setOnClickListener
-            battleViewModel.battleLiveData.value = battle
-
-            localCustomBattleRepository.saveBattle(battle)
+            createNewBattleViewModel.readyAndSave()
             findNavController().popBackStack(R.id.battleChooseFragment, inclusive = true)
             requireActivity().onBackPressed()
             requireActivity().onBackPressed()
         }
-    }
-
-    fun getBattleFromViews(): Battle? {
-        if (nation1 == null || nation2 == null) return null
-        if (nation1 == nation2) {
-            Toast.makeText(
-                context,
-                "Страна не может воевать против самой себя!", Toast.LENGTH_LONG
-            ).show()
-            return null
-        }
-        val newMissionName = binding.nameEditText.text.toString().ifBlank { return null }
-        val newMissionIntro = binding.introEditText.text.toString()
-        val player1infantry = binding.infantry1EditText.text.toString().ifBlank { "0" }.toInt()
-        val player1armored = binding.armored1EditText.text.toString().ifBlank { "0" }.toInt()
-        val player1artillery = binding.artillery1EditText.text.toString().ifBlank { "0" }.toInt()
-        val player2infantry = binding.infantry2EditText.text.toString().ifBlank { "0" }.toInt()
-        val player2armored = binding.armored2EditText.text.toString().ifBlank { "0" }.toInt()
-        val player2artillery = binding.artillery2EditText.text.toString().ifBlank { "0" }.toInt()
-
-        if (player1infantry + player1armored + player1artillery < 1 ||
-            player2infantry + player2armored + player2artillery < 1
-        ) {
-            Toast.makeText(
-                context,
-                "Необходимо минимум по одной дивизии кождой стороне", Toast.LENGTH_LONG
-            ).show()
-            return null
-        }
-
-        val battle = Battle(
-            localCustomBattleRepository.nextBattleId(), newMissionName, newMissionIntro,
-            Battle.Data(
-                localCustomBattleRepository.nextBattleId(), nation1!!, mapOf(
-                    Division.Type.INFANTRY to player1infantry,
-                    Division.Type.ARMORED to player1armored,
-                    Division.Type.ARTILLERY to player1artillery
-                ),
-                nation2!!, mapOf(
-                    Division.Type.INFANTRY to player2infantry,
-                    Division.Type.ARMORED to player2armored,
-                    Division.Type.ARTILLERY to player2artillery
-                )
-            )
-        )
-        return battle
     }
 }
