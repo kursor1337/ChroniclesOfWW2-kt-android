@@ -31,8 +31,6 @@ class RegisterViewModel(val registerUseCase: RegisterUseCase) : ViewModel() {
                 )
             ).onSuccess {
                 _registerResponseLiveData.value = it
-            }.onFailure {
-
             }
         }
         return true

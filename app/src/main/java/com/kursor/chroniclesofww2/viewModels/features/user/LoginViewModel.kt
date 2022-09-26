@@ -27,7 +27,7 @@ class LoginViewModel(val loginUseCase: LoginUseCase) : ViewModel() {
                 )
             ).onSuccess {
                 _loginResponseLiveData.value = it
-            }.onFailure { }
+            }
 
         }
     }

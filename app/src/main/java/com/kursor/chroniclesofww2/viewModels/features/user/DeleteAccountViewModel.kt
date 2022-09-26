@@ -36,8 +36,10 @@ class DeleteAccountViewModel(
             deleteAccountUseCase(login, password)
                 .onSuccess {
                     _statusLiveData.postValue(it.message)
-                }.onFailure {
+                }.onConnectionFailure {
                     _statusLiveData.postValue("Server connection error")
+                }.onUnauthorized {
+                    _statusLiveData.postValue("Not authorized")
                 }
         }
     }

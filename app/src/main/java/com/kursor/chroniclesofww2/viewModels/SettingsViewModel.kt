@@ -41,9 +41,10 @@ class SettingsViewModel(
                             accountRepository.login ?: ""
                         )
                     )
-                }.onFailure {
+                }.onConnectionFailure {
                     Log.d("SettingsViewModel", "onFailure")
-                    it.printStackTrace()
+                    _isSignedInLiveData.postValue(false to emptyList())
+                }.onUnauthorized {
                     _isSignedInLiveData.postValue(false to emptyList())
                 }
         }

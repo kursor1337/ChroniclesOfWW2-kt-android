@@ -42,8 +42,10 @@ class ChangePasswordViewModel(
                 )
             ).onSuccess {
                 _statusLiveData.postValue(it.message)
-            }.onFailure {
-                _statusLiveData.postValue("Exception")
+            }.onConnectionFailure {
+                _statusLiveData.postValue("Couldn't connect to the network")
+            }.onUnauthorized {
+                _statusLiveData.postValue("Unauthorized")
             }
         }
     }
