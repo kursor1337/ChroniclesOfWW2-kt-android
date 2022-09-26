@@ -9,22 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:hint="Login"
-        android:id="@+id/login_edit_text" />
+        android:hint="@string/log_in"
+        android:id="@+id/login_edit_text"
+        android:inputType="text" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:hint="Username"
+        android:hint="@string/username"
         android:id="@+id/username_edit_text"
-        />
+        android:inputType="text" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:id="@+id/password_edit_text"
         />
@@ -33,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:hint="Repeat password"
+        android:hint="@string/repeat_password"
         android:inputType="textPassword"
         android:id="@+id/repeat_password_edit_text"
         />
@@ -41,6 +42,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:id="@+id/sign_up_button" />
 </LinearLayout>

@@ -9,19 +9,20 @@
         android:textSize="22sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Login"
-        android:id="@+id/login_edit_text"/>
+        android:hint="@string/log_in"
+        android:id="@+id/login_edit_text"
+        android:inputType="text" />
 
     <EditText
         android:textSize="22sp"
         android:id="@+id/password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"/>
 
     <Button
-        android:text="Sign In"
+        android:text="@string/sign_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sign_in_button"/>

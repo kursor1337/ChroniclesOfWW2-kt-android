@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/set_password"
         android:textAlignment="center"
-        android:lines="1">
+        android:lines="1"
+        android:inputType="textPassword">
     </EditText>
 
     <LinearLayout
@@ -40,7 +41,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="22sp"
-            android:text="Not chosen">
+            android:text="@string/not_chosen">
         </TextView>
 
 
