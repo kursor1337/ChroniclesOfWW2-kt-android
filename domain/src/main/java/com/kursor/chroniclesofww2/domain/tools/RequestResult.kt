@@ -2,6 +2,7 @@ package com.kursor.chroniclesofww2.domain.tools
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.net.ConnectException
 
 @JvmInline
 public value class RequestResult<T> internal constructor(
@@ -62,7 +63,7 @@ suspend fun <T> tryRequest(block: suspend () -> T): RequestResult<T> {
         requestResult = RequestResult(it)
     }.onFailure {
         requestResult = when (it) {
-            is ConnectionException -> RequestResult(RequestResult.ConnectionFailure())
+            is ConnectException -> RequestResult(RequestResult.ConnectionFailure())
             is UnauthorizedException -> RequestResult(RequestResult.Unauthorized())
             else -> throw it
         }

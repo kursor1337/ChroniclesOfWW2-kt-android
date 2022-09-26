@@ -88,7 +88,8 @@ val appModule = module {
             accountRepository = get(),
             checkIsSignedInUseCase = get(),
             changeUsernameUseCase = get(),
-            logoutUseCase = get()
+            logoutUseCase = get(),
+            getAccountInfoUseCase = get()
         )
     }
 

@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.domain.useCases.auth.CheckIsSignedInUseCase
-import com.kursor.chroniclesofww2.domain.useCases.user.ChangeUsernameUseCase
-import com.kursor.chroniclesofww2.domain.useCases.user.GetUserInfoListUseCase
-import com.kursor.chroniclesofww2.domain.useCases.user.LoginUseCase
-import com.kursor.chroniclesofww2.domain.useCases.user.LogoutUseCase
+import com.kursor.chroniclesofww2.domain.useCases.user.*
 import io.ktor.client.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -21,7 +18,7 @@ class SettingsViewModel(
     private val checkIsSignedInUseCase: CheckIsSignedInUseCase,
     private val changeUsernameUseCase: ChangeUsernameUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val getUserInfoListUseCase: GetUserInfoListUseCase
+    private val getAccountInfoUseCase: GetAccountInfoUseCase
 ) : ViewModel() {
 
     private val _usernameLiveData = MutableLiveData(accountRepository.username)
@@ -52,7 +49,10 @@ class SettingsViewModel(
 
     fun loadAccountData() {
         viewModelScope.launch {
-
+            getAccountInfoUseCase()
+                .onSuccess {
+                    _usernameLiveData.postValue(it.username)
+                }
         }
     }
 
