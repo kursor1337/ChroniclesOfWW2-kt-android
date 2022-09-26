@@ -56,17 +56,16 @@ public value class RequestResult<T> internal constructor(
 
 suspend fun <T> tryRequest(block: suspend () -> T): RequestResult<T> {
     var requestResult: RequestResult<T>? = null
-    withContext(Dispatchers.IO) {
-        runCatching(block)
-            .onSuccess {
-                requestResult = RequestResult<T>(it)
-            }.onFailure {
-                requestResult = when (it) {
-                    is ConnectionException -> RequestResult<T>(RequestResult.ConnectionFailure())
-                    is UnauthorizedException -> RequestResult<T>(RequestResult.Unauthorized())
-                    else -> throw it
-                }
-            }
+    runCatching {
+        block()
+    }.onSuccess {
+        requestResult = RequestResult(it)
+    }.onFailure {
+        requestResult = when (it) {
+            is ConnectionException -> RequestResult(RequestResult.ConnectionFailure())
+            is UnauthorizedException -> RequestResult(RequestResult.Unauthorized())
+            else -> throw it
+        }
     }
     return requestResult!!
 }

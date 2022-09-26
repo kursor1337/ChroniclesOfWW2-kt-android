@@ -2,6 +2,8 @@ package com.kursor.chroniclesofww2.domain.useCases.user
 
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.domain.repositories.UserRepository
+import com.kursor.chroniclesofww2.domain.tools.RequestResult
+import com.kursor.chroniclesofww2.domain.tools.tryRequest
 import com.kursor.chroniclesofww2.features.LoginReceiveDTO
 import com.kursor.chroniclesofww2.features.LoginResponseDTO
 import kotlinx.coroutines.Dispatchers
@@ -12,8 +14,8 @@ class LoginUseCase(
     val userRepository: UserRepository
 ) {
 
-    suspend operator fun invoke(loginReceiveDTO: LoginReceiveDTO): Result<LoginResponseDTO> =
-        runCatching {
+    suspend operator fun invoke(loginReceiveDTO: LoginReceiveDTO): RequestResult<LoginResponseDTO> =
+        tryRequest {
             val loginResponseDTO = withContext(Dispatchers.IO) {
                 userRepository.login(loginReceiveDTO)
             }

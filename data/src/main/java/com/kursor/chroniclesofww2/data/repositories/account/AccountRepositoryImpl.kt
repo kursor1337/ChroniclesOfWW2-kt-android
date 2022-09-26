@@ -134,6 +134,13 @@ class AccountRepositoryImpl(
         }
     }
 
+    override suspend fun getAccountInfo(): AccountInfo? {
+        if (token == null) return null
+        return httpClient.get(Routes.Account.GET_ACCOUNT_INFO.absolutePath(serverUrl)) {
+            bearerAuth(token!!)
+        }.body()
+    }
+
     override suspend fun checkCredentials(): Boolean {
         if (login == null || password == null) return false
         val response =

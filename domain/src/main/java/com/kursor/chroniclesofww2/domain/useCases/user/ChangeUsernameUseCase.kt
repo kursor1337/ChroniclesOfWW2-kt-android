@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.domain.useCases.user
 
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
+import com.kursor.chroniclesofww2.domain.tools.tryRequest
 import com.kursor.chroniclesofww2.features.UpdateUserInfoReceiveDTO
 import com.kursor.chroniclesofww2.features.UserInfo
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +17,7 @@ class ChangeUsernameUseCase(
         accountRepository.username = newUsername
         if (accountRepository.token == null) return@runCatching
         CoroutineScope(Dispatchers.IO).launch {
-            runCatching {
+            tryRequest {
                 accountRepository.updateUserInfo(
                     UpdateUserInfoReceiveDTO(UserInfo(newUsername))
                 )

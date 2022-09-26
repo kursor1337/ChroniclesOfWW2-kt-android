@@ -25,6 +25,8 @@ interface AccountRepository {
 
     suspend fun auth()
 
+    suspend fun getAccountInfo(): AccountInfo?
+
     suspend fun checkCredentials(): Boolean
 
     suspend fun checkToken(): Boolean
