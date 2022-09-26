@@ -84,5 +84,9 @@
     <string name="ready">Ready</string>
     <string name="delete_account">Delete account</string>
     <string name="login">Login</string>
+    <string name="saved">Saved</string>
+    <string name="published">Published</string>
+    <string name="publish">Publish</string>
+    <string name="select">Select</string>
 
 </resources>

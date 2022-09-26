@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.domain.useCases.game
 
-import com.kursor.chroniclesofww2.domain.UnauthorizedException
+import com.kursor.chroniclesofww2.domain.tools.UnauthorizedException
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.domain.repositories.RemoteGameRepository
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO

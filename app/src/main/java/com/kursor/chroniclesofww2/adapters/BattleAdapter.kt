@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.RecyclerviewBattlesBinding
@@ -13,7 +14,8 @@ import com.kursor.chroniclesofww2.model.serializable.Battle
 
 class BattleAdapter(
     private val activity: Activity,
-    private val battleList: List<Battle>
+    private val battleList: List<Battle>,
+    private val selectedBattles: MutableList<Int> = mutableListOf()
 ) : RecyclerView.Adapter<BattleAdapter.BattleHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
@@ -60,6 +62,12 @@ class BattleAdapter(
             contextMenuPosition = holder.adapterPosition
             false
         }
+        holder.binding.root.setBackgroundColor(
+            ContextCompat.getColor(
+                activity,
+                R.color.colorPrimary
+            )
+        )
     }
 
     override fun getItemCount(): Int = battleList.size

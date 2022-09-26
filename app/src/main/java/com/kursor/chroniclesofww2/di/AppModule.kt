@@ -4,7 +4,7 @@ import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
 import com.kursor.chroniclesofww2.viewModels.features.battle.CreateNewBattleViewModel
-import com.kursor.chroniclesofww2.viewModels.features.battle.SavedBattlesManagementViewModel
+import com.kursor.chroniclesofww2.viewModels.features.battle.BattlesManagementViewModel
 import com.kursor.chroniclesofww2.viewModels.features.game.session.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.user.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.user.RegisterViewModel
@@ -99,9 +99,12 @@ val appModule = module {
     }
 
     viewModel {
-        SavedBattlesManagementViewModel(
+        BattlesManagementViewModel(
             loadLocalCustomBattleListUseCase = get(),
-            deleteLocalCustomBattleUseCase = get()
+            deleteLocalCustomBattleUseCase = get(),
+            loadPublishedBattleUseCase = get(),
+            publishBattleUseCase = get(),
+            unpublishBattleUseCase = get()
         )
     }
 }

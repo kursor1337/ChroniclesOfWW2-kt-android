@@ -41,8 +41,8 @@
 
     <fragment
         android:id="@+id/savedBattlesManagementFragment"
-        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.SavedBattlesManagementFragment"
-        tools:layout="@layout/fragment_saved_battles_management"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattlesManagementFragment"
+        tools:layout="@layout/fragment_battles_management"
         android:label="SavedBattlesManagementFragment" />
 
     <fragment

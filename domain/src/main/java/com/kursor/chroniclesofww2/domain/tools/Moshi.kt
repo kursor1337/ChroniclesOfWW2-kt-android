@@ -1,4 +1,4 @@
-package com.kursor.chroniclesofww2.domain
+package com.kursor.chroniclesofww2.domain.tools
 
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import com.squareup.moshi.Moshi

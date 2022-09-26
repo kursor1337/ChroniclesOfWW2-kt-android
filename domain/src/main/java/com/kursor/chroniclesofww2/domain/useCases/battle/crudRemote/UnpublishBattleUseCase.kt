@@ -1,6 +1,6 @@
 package com.kursor.chroniclesofww2.domain.useCases.battle.crudRemote
 
-import com.kursor.chroniclesofww2.domain.UnauthorizedException
+import com.kursor.chroniclesofww2.domain.tools.UnauthorizedException
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.domain.repositories.RemoteCustomBattleRepository
 import com.kursor.chroniclesofww2.features.DeleteBattleReceiveDTO
