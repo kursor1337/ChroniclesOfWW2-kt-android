@@ -20,5 +20,6 @@
     <color name="colorBlack">#000000</color>
     <color name="transparentWhite_dd">#ddffffff</color>
     <color name="transparentWhite_aa">#aaffffff</color>
+    <color name="gray">#808080</color>
 
 </resources>

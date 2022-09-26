@@ -60,9 +60,7 @@ class AccountRepositoryImpl(
     override fun refreshTokenInIntervals() {
         coroutineScope.launch {
             kotlin.runCatching {
-                if (tokenExpirationDate < System.currentTimeMillis()) {
-                    refreshToken()
-                }
+                refreshToken()
             }
         }
     }

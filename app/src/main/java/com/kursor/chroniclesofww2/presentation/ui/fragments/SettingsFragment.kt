@@ -6,23 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentSettingsBinding
-import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
-import com.kursor.chroniclesofww2.domain.useCases.user.LogoutUseCase
-import com.kursor.chroniclesofww2.features.LoginReceiveDTO
-import com.kursor.chroniclesofww2.features.LoginResponseDTO
-import com.kursor.chroniclesofww2.features.Routes
-import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
@@ -43,9 +31,12 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         settingsViewModel.checkIsSignedIn()
         settingsViewModel.loadAccountData()
-        settingsViewModel.usernameLiveData.observe(viewLifecycleOwner) {
-            binding.usernameEditText.setText(it)
-        }
+        settingsViewModel.usernameLiveData.observe(viewLifecycleOwner, object : Observer<String> {
+            override fun onChanged(t: String?) {
+                settingsViewModel.usernameLiveData.removeObserver(this)
+                binding.usernameEditText.setText(t)
+            }
+        })
         settingsViewModel.isSignedInLiveData.observe(viewLifecycleOwner) { (isSignedIn, args) ->
             if (isSignedIn) {
                 binding.notSignedInLayout.visibility = View.GONE
@@ -61,6 +52,7 @@ class SettingsFragment : Fragment() {
         binding.usernameEditText.doOnTextChanged { text, start, before, count ->
             settingsViewModel.changeUserName(text.toString())
         }
+
         binding.saveButton.setOnClickListener {
             settingsViewModel.save()
         }

@@ -2,6 +2,7 @@ package com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kursor.chroniclesofww2.R
@@ -36,12 +37,43 @@ class BattlesManagementFragment : Fragment() {
             else binding.publishedBattlesButton.visibility = View.VISIBLE
         }
 
+        binding.publishedBattlesButton.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.gray
+            )
+        )
+
         binding.savedBattlesButton.setOnClickListener {
             battlesManagementViewModel.loadBattleList(BattlesManagementViewModel.DataSource.LOCAL)
+            binding.savedBattlesButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.colorPrimary
+                )
+            )
+            binding.publishedBattlesButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.gray
+                )
+            )
         }
 
         binding.publishedBattlesButton.setOnClickListener {
             battlesManagementViewModel.loadBattleList(BattlesManagementViewModel.DataSource.REMOTE)
+            binding.publishedBattlesButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.colorPrimary
+                )
+            )
+            binding.savedBattlesButton.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.gray
+                )
+            )
         }
 
         battlesManagementViewModel.battleListLiveData.observe(viewLifecycleOwner) { battleList ->
