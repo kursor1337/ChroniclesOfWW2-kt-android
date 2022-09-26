@@ -57,6 +57,7 @@ class SettingsViewModel(
     }
 
     fun changeUserName(username: String) {
+        if (username == usernameLiveData.value) return
         _usernameLiveData.value = username
     }
 

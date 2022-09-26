@@ -55,7 +55,7 @@ public value class RequestResult<T> internal constructor(
 
 }
 
-suspend fun <T> tryRequest(block: suspend () -> T): RequestResult<T> {
+suspend fun <T> tryRequest(block: suspend () -> T): RequestResult<T> = withContext(Dispatchers.IO) {
     var requestResult: RequestResult<T>? = null
     runCatching {
         block()
@@ -68,5 +68,5 @@ suspend fun <T> tryRequest(block: suspend () -> T): RequestResult<T> {
             else -> throw it
         }
     }
-    return requestResult!!
+    requestResult!!
 }
