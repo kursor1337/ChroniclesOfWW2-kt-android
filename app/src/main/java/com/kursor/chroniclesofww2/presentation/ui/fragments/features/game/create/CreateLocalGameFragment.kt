@@ -8,14 +8,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.domain.connection.Host
-import com.kursor.chroniclesofww2.domain.connection.LocalServer
 import com.kursor.chroniclesofww2.game.CreateGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.ACCEPTED
 import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
-import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.viewModels.features.game.create.CreateLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel

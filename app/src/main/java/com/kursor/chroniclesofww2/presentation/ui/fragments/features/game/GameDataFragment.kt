@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.kursor.chroniclesofww2.data.repositories.BattleManager
 import com.kursor.chroniclesofww2.databinding.FragmentGameDataBinding
 import com.kursor.chroniclesofww2.model.game.board.Board

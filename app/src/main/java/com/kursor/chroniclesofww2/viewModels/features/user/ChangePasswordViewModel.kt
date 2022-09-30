@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.domain.useCases.user.ChangePasswordUseCase
 import com.kursor.chroniclesofww2.features.ChangePasswordReceiveDTO
-import com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.ChangePasswordFragment
 import kotlinx.coroutines.launch
 
 class ChangePasswordViewModel(

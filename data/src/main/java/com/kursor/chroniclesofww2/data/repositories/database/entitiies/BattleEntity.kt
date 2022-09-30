@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
-import com.kursor.chroniclesofww2.model.serializable.Battle
 
 @Entity
 data class BattleEntity(

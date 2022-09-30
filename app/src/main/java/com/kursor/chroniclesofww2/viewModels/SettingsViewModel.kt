@@ -7,11 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.domain.useCases.auth.CheckIsSignedInUseCase
-import com.kursor.chroniclesofww2.domain.useCases.user.*
-import io.ktor.client.*
-import kotlinx.coroutines.async
+import com.kursor.chroniclesofww2.domain.useCases.user.ChangeUsernameUseCase
+import com.kursor.chroniclesofww2.domain.useCases.user.GetAccountInfoUseCase
+import com.kursor.chroniclesofww2.domain.useCases.user.LogoutUseCase
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 
 class SettingsViewModel(
     private val accountRepository: AccountRepository,

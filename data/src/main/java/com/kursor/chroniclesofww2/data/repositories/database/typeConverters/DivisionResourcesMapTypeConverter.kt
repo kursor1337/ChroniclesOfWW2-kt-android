@@ -4,10 +4,11 @@ import androidx.room.TypeConverter
 import com.kursor.chroniclesofww2.model.game.board.Division
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Types
+import java.lang.reflect.ParameterizedType
 
 class DivisionResourcesMapTypeConverter {
 
-    val type = Types.newParameterizedType(
+    val type: ParameterizedType = Types.newParameterizedType(
         Map::class.java,
         Division.Type::class.java,
         Int::class.javaObjectType

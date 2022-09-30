@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/log_in"
         android:id="@+id/login_edit_text"
-        android:inputType="text" />
+        android:inputType="text"
+        android:autofillHints="username" />
 
     <EditText
         android:textSize="22sp"
@@ -19,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:autofillHints="password" />
 
     <Button
         android:text="@string/sign_in"

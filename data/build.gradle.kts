@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 val ktor_version: String by project
 val dtos_version: String by project
 val model_version: String by project

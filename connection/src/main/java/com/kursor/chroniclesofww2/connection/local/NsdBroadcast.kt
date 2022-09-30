@@ -1,6 +1,5 @@
 package com.kursor.chroniclesofww2.connection.local
 
-import android.app.Activity
 import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo

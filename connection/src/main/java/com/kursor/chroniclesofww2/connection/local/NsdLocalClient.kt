@@ -5,14 +5,16 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.kursor.chroniclesofww2.domain.connection.Connection
-import com.kursor.chroniclesofww2.connection.HostImpl
 import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.LocalClient
 import com.kursor.chroniclesofww2.domain.connection.LocalClient.Listener
 import com.kursor.chroniclesofww2.domain.connection.println
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.*
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.net.Socket
 import java.net.UnknownHostException
 

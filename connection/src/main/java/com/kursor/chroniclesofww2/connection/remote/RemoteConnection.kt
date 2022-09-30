@@ -4,11 +4,9 @@ import android.util.Log
 import com.kursor.chroniclesofww2.domain.connection.Connection
 import com.kursor.chroniclesofww2.features.GameSessionDTO
 import com.kursor.chroniclesofww2.features.GameSessionMessageType
-import com.kursor.chroniclesofww2.features.Routes
 import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
-import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*

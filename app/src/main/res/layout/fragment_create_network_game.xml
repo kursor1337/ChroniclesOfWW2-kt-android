@@ -25,7 +25,8 @@
         android:hint="@string/set_password"
         android:textAlignment="center"
         android:lines="1"
-        android:inputType="textPassword">
+        android:inputType="textPassword"
+        android:importantForAutofill="no">
     </EditText>
 
     <LinearLayout

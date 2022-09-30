@@ -1,6 +1,7 @@
 package com.kursor.chroniclesofww2.data.repositories.account
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.features.*
@@ -16,9 +17,10 @@ class AccountRepositoryImpl(
     val serverUrl: String
 ) : AccountRepository {
 
-    val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    val sharedPreferences = context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE)
+    val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE)
 
     override var username: String = sharedPreferences.getString(USERNAME, "") ?: ""
         set(value) {

@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.data
 
+import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kursor.chroniclesofww2.data.repositories.battle.StandardBattleRepositoryImpl
@@ -13,7 +14,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class StandardBattleRepositoryTest {
 
-    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
 
     @Test

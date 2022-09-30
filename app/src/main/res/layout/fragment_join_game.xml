@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/find_game_by_id_edit_text"
             android:hint="@string/find_game_by_id"
-            android:inputType="number" />
+            android:inputType="number"
+            android:importantForAutofill="no" />
 
         <Button
             android:layout_width="wrap_content"

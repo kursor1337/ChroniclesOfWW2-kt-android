@@ -16,8 +16,6 @@ import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActi
 import com.kursor.chroniclesofww2.viewModels.features.game.create.CreateRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.koin.androidx.navigation.koinNavGraphViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

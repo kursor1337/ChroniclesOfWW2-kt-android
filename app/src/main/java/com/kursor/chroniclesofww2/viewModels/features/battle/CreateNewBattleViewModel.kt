@@ -1,6 +1,5 @@
 package com.kursor.chroniclesofww2.viewModels.features.battle
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
 import com.kursor.chroniclesofww2.model.serializable.Battle
 import kotlinx.coroutines.launch
-import kotlin.reflect.jvm.internal.impl.incremental.components.Position
 
 class CreateNewBattleViewModel(
     val saveLocalCustomBattleUseCase: SaveLocalCustomBattleUseCase

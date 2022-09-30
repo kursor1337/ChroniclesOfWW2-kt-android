@@ -14,7 +14,8 @@
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/intro_edit_text"
@@ -25,7 +26,8 @@
         android:maxLines="3"
         app:layout_constraintEnd_toEndOf="@+id/nation1_spinner"
         app:layout_constraintStart_toEndOf="@+id/nation1_spinner"
-        app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/name_edit_text"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/textView8"
@@ -57,7 +59,8 @@
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/infantry2_edit_text"
         app:layout_constraintEnd_toStartOf="@+id/infantry2_edit_text"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/armored1_edit_text"
@@ -67,7 +70,8 @@
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/armored2_edit_text"
         app:layout_constraintEnd_toStartOf="@+id/armored2_edit_text"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/artillery1_edit_text"
@@ -77,7 +81,8 @@
         android:inputType="number"
         app:layout_constraintBaseline_toBaselineOf="@+id/artillery2_edit_text"
         app:layout_constraintEnd_toStartOf="@+id/artillery2_edit_text"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
 
 
     <Spinner
@@ -96,7 +101,8 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/infantry1_edit_text"
-        app:layout_constraintTop_toBottomOf="@+id/nation1_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/nation1_spinner"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/armored2_edit_text"
@@ -106,7 +112,8 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/armored1_edit_text"
-        app:layout_constraintTop_toBottomOf="@+id/infantry1_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/infantry1_edit_text"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/artillery2_edit_text"
@@ -116,7 +123,8 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/artillery1_edit_text"
-        app:layout_constraintTop_toBottomOf="@+id/armored1_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/armored1_edit_text"
+        android:importantForAutofill="no" />
 
 
     <Button

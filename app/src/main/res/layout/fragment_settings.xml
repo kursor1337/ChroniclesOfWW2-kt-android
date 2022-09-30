@@ -23,7 +23,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:maxLines="1"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:autofillHints="username" />
 
     </LinearLayout>
 

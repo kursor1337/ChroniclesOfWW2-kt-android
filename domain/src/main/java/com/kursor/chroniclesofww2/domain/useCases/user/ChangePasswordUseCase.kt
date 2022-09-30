@@ -5,8 +5,6 @@ import com.kursor.chroniclesofww2.domain.tools.RequestResult
 import com.kursor.chroniclesofww2.domain.tools.tryRequest
 import com.kursor.chroniclesofww2.features.ChangePasswordReceiveDTO
 import com.kursor.chroniclesofww2.features.ChangePasswordResponseDTO
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class ChangePasswordUseCase(
     val accountRepository: AccountRepository
