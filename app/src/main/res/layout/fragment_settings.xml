@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp"
+    >
 
 
     <LinearLayout
@@ -24,7 +26,9 @@
             android:layout_height="match_parent"
             android:maxLines="1"
             android:inputType="text"
-            android:autofillHints="username" />
+            android:autofillHints="username"
+            android:hint="@string/username"
+            />
 
     </LinearLayout>
 
@@ -86,6 +90,10 @@
                         android:text="@string/change_password"
                         />
 
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="wrap_content"/>
+
                     <Button
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -114,6 +122,10 @@
                 android:text="@string/log_in"
                 />
 
+            <Space
+                android:layout_width="4dp"
+                android:layout_height="wrap_content"/>
+
             <Button
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -124,24 +136,13 @@
                 />
         </LinearLayout>
 
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-
-        </LinearLayout>
-
     </FrameLayout>
 
     <Button
         android:id="@+id/saved_battles_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/saved_battles"
+        android:text="@string/battles_management"
         />
 
     <Button

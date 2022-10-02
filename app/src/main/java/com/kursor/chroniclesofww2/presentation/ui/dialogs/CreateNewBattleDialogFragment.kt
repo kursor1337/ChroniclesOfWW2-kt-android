@@ -28,7 +28,7 @@ class CreateNewBattleDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        navigationGraphId = requireArguments().getInt(BattleChooseFragment.NAVIGATION_GRAPH_ID)
+        navigationGraphId = requireArguments().getInt(NAVIGATION_GRAPH_ID)
     }
 
     override fun onCreateView(
@@ -143,4 +143,9 @@ class CreateNewBattleDialogFragment : DialogFragment() {
             createNewBattleViewModel.setPlayer2Artillery(text.toString())
         }
     }
+
+    companion object {
+        const val NAVIGATION_GRAPH_ID = "navigation graph id"
+    }
+
 }

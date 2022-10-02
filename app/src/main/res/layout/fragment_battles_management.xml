@@ -18,7 +18,7 @@
 
         <Space
             android:layout_gravity="center_horizontal"
-            android:layout_width="10dp"
+            android:layout_width="8dp"
             android:layout_height="wrap_content"/>
 
         <Button
@@ -36,6 +36,7 @@
             android:contentDescription="@string/publish_battles"
             android:src="@drawable/ic_publish"
             android:padding="8dp"
+            android:layout_marginEnd="8dp"
             android:visibility="gone"
             />
 
@@ -46,5 +47,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/battles_recycler_view"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_battle"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/new_battle_button"
+            />
+
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

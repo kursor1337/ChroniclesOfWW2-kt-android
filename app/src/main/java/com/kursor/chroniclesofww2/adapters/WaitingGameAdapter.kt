@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
+import com.kursor.chroniclesofww2.databinding.AdapterWaitingGameBinding
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
+import com.kursor.chroniclesofww2.model.game.board.Division
 
 class WaitingGameAdapter(
     private val activity: ComponentActivity,
@@ -19,8 +21,8 @@ class WaitingGameAdapter(
 
     private var onItemClickListener: OnItemClickListener? = null
 
-    class Holder(private val activity: Activity, val view: View) :
-        RecyclerView.ViewHolder(view),
+    class Holder(private val activity: Activity, val binding: AdapterWaitingGameBinding) :
+        RecyclerView.ViewHolder(binding.root),
         View.OnCreateContextMenuListener {
 
         override fun onCreateContextMenu(
@@ -36,20 +38,39 @@ class WaitingGameAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
             activity,
-            LayoutInflater.from(activity)
-                .inflate(R.layout.adapter_waiting_game, LinearLayout(activity), false)
+            AdapterWaitingGameBinding.inflate(
+                LayoutInflater.from(activity),
+                LinearLayout(activity),
+                false
+            )
         )
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val loginTextView = holder.view.findViewById<TextView>(R.id.login_text_view)
-        val idTextView = holder.view.findViewById<TextView>(R.id.game_id_text_view)
         val game = gameList[position]
-        loginTextView.text = game.initiatorLogin
-        idTextView.text = game.id.toString()
-        holder.view.setOnClickListener {
+        holder.binding.loginTextView.text = game.initiatorLogin
+        holder.binding.gameIdTextView.text = game.id.toString()
+
+        holder.binding.nation1TextView.text = game.battleData.nation1.toString()
+        holder.binding.nation2TextView.text = game.battleData.nation2.toString()
+
+        holder.binding.infantry1TextView.text =
+            game.battleData.nation1divisions[Division.Type.INFANTRY].toString()
+        holder.binding.armored1TextView.text =
+            game.battleData.nation1divisions[Division.Type.ARMORED].toString()
+        holder.binding.artillery1TextView.text =
+            game.battleData.nation1divisions[Division.Type.ARTILLERY].toString()
+
+        holder.binding.infantry2TextView.text =
+            game.battleData.nation2divisions[Division.Type.INFANTRY].toString()
+        holder.binding.armored2TextView.text =
+            game.battleData.nation2divisions[Division.Type.ARMORED].toString()
+        holder.binding.artillery2TextView.text =
+            game.battleData.nation2divisions[Division.Type.ARTILLERY].toString()
+
+        holder.binding.root.setOnClickListener {
             onItemClickListener?.onItemClick(
-                holder.view, position, game
+                holder.binding.root, position, game
             )
         }
     }

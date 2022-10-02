@@ -43,7 +43,11 @@
         android:id="@+id/savedBattlesManagementFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattlesManagementFragment"
         tools:layout="@layout/fragment_battles_management"
-        android:label="SavedBattlesManagementFragment" />
+        android:label="SavedBattlesManagementFragment" >
+        <action
+            android:id="@+id/action_battlesManagementFragment_to_createNewBattleDialogFragment4"
+            app:destination="@id/createNewBattleDialogFragment4" />
+    </fragment>
 
     <fragment
         android:id="@+id/deleteAccountFragment"
@@ -54,4 +58,9 @@
         android:id="@+id/changePasswordFragment"
         android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.user.ChangePasswordFragment"
         android:label="ChangePasswordFragment" />
+    <dialog
+        tools:layout="@layout/fragment_create_battle"
+        android:id="@+id/createNewBattleDialogFragment4"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment"
+        android:label="CreateNewBattleDialogFragment" />
 </navigation>

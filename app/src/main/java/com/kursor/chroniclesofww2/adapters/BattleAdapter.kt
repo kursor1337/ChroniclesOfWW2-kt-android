@@ -22,7 +22,6 @@ class BattleAdapter(
     var contextMenuPosition: Int = 0
         private set
 
-
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         this.onItemClickListener = onItemClickListener
     }
