@@ -94,6 +94,16 @@
     <string name="username">Имя пользователя</string>
     <string name="sign_up">Зарегистрироваться</string>
     <string name="register">Зарегистрироваться</string>
+    <string name="battles_management">Управление битвами</string>
+    <string name="new_battle">Новая битва</string>
+    <string name="nation_britain">Великобритания</string>
+    <string name="nation_france">Франция</string>
+    <string name="nation_default">Стандарт</string>
+    <string name="nation_germany">Германия</string>
+    <string name="nation_italy">Италия</string>
+    <string name="nation_japan">Япония</string>
+    <string name="nation_usa">США</string>
+    <string name="nation_ussr">СССР</string>
 
 
 </resources>

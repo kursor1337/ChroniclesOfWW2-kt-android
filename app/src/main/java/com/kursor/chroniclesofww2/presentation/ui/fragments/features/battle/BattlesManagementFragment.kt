@@ -36,8 +36,8 @@ class BattlesManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         battlesManagementViewModel.selectedBattleIndexesListLiveData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) binding.publishedBattlesButton.visibility = View.GONE
-            else binding.publishedBattlesButton.visibility = View.VISIBLE
+            if (it.isEmpty()) binding.publishBattlesImageButton.visibility = View.GONE
+            else binding.publishBattlesImageButton.visibility = View.VISIBLE
         }
 
         binding.publishedBattlesButton.setBackgroundColor(

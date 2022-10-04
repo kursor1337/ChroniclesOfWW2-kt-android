@@ -19,19 +19,37 @@ fun Nation.getFlagResId() = when (this) {
     Nation.DEFAULT -> R.drawable.nation_default
 }
 
-fun Division.getDivisionResId() = when (type) {
+fun Nation.getNationNameStringResId() = when (this) {
+    Nation.DEFAULT -> R.string.nation_default
+    Nation.BRITAIN -> R.string.nation_britain
+    Nation.FRANCE -> R.string.nation_france
+    Nation.GERMANY -> R.string.nation_germany
+    Nation.ITALY -> R.string.nation_italy
+    Nation.JAPAN -> R.string.nation_japan
+    Nation.USA -> R.string.nation_usa
+    Nation.USSR -> R.string.nation_ussr
+}
+
+fun Division.getDivisionDrawableResId() = type.getDivisionTypeDrawableResId()
+
+fun Division.Type.getDivisionTypeDrawableResId() = when (this) {
     Division.Type.INFANTRY -> R.drawable.unit_infantry
     Division.Type.ARMORED -> R.drawable.unit_armored
     Division.Type.ARTILLERY -> R.drawable.unit_artillery
 }
+
+fun Division.Type.getDivisionTypeNameResId() = when (this) {
+    Division.Type.INFANTRY -> R.string.infantry
+    Division.Type.ARMORED -> R.string.armored
+    Division.Type.ARTILLERY -> R.string.artillery
+}
+
 
 fun MenuItem.setTitleColor(color: Int) {
     val hexColor = Integer.toHexString(color).uppercase(Locale.getDefault())
     val html = "<font color='#$hexColor'>$title</font>"
     this.title = html.parseAsHtml()
 }
-
-
 
 @Suppress("DEPRECATION")
 fun String.parseAsHtml(): Spanned {

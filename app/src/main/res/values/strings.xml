@@ -97,5 +97,13 @@
     <string name="register">Register</string>
     <string name="battles_management">Battles management</string>
     <string name="new_battle">New battle</string>
+    <string name="nation_britain">Great Britain</string>
+    <string name="nation_france">France</string>
+    <string name="nation_default">Default</string>
+    <string name="nation_germany">Germany</string>
+    <string name="nation_italy">Italy</string>
+    <string name="nation_japan">Japan</string>
+    <string name="nation_usa">USA</string>
+    <string name="nation_ussr">USSR</string>
 
 </resources>

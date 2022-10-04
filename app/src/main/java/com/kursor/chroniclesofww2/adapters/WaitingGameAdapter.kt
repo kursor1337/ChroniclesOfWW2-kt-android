@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
-import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.AdapterWaitingGameBinding
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
+import com.kursor.chroniclesofww2.getDivisionTypeNameResId
+import com.kursor.chroniclesofww2.getNationNameStringResId
+import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
+import org.w3c.dom.Text
 
 class WaitingGameAdapter(
     private val activity: ComponentActivity,
@@ -51,22 +55,19 @@ class WaitingGameAdapter(
         holder.binding.loginTextView.text = game.initiatorLogin
         holder.binding.gameIdTextView.text = game.id.toString()
 
-        holder.binding.nation1TextView.text = game.battleData.nation1.toString()
-        holder.binding.nation2TextView.text = game.battleData.nation2.toString()
+        drawNationBattleDataOnLayout(
+            nation = game.battleData.nation1,
+            divisionResources = game.battleData.nation1divisions,
+            layoutToDrawOn = holder.binding.battleDataLayout,
+            inverseViews = false
+        )
 
-        holder.binding.infantry1TextView.text =
-            game.battleData.nation1divisions[Division.Type.INFANTRY].toString()
-        holder.binding.armored1TextView.text =
-            game.battleData.nation1divisions[Division.Type.ARMORED].toString()
-        holder.binding.artillery1TextView.text =
-            game.battleData.nation1divisions[Division.Type.ARTILLERY].toString()
-
-        holder.binding.infantry2TextView.text =
-            game.battleData.nation2divisions[Division.Type.INFANTRY].toString()
-        holder.binding.armored2TextView.text =
-            game.battleData.nation2divisions[Division.Type.ARMORED].toString()
-        holder.binding.artillery2TextView.text =
-            game.battleData.nation2divisions[Division.Type.ARTILLERY].toString()
+        drawNationBattleDataOnLayout(
+            nation = game.battleData.nation2,
+            divisionResources = game.battleData.nation2divisions,
+            layoutToDrawOn = holder.binding.battleDataLayout,
+            inverseViews = true
+        )
 
         holder.binding.root.setOnClickListener {
             onItemClickListener?.onItemClick(
@@ -76,6 +77,29 @@ class WaitingGameAdapter(
     }
 
     override fun getItemCount(): Int = gameList.size
+
+    private fun drawNationBattleDataOnLayout(
+        nation: Nation,
+        divisionResources: Map<Division.Type, Int>,
+        layoutToDrawOn: LinearLayout,
+        inverseViews: Boolean
+    ) {
+
+        layoutToDrawOn.addView(TextView(activity).apply { setText(nation.getNationNameStringResId()) })
+
+        divisionResources.forEach { (type, quantity) ->
+            layoutToDrawOn.addView(LinearLayout(activity).apply {
+                orientation = LinearLayout.HORIZONTAL
+                if (inverseViews) {
+                    this.addView(TextView(activity).apply { text = quantity.toString() })
+                    this.addView(TextView(activity).apply { setText(type.getDivisionTypeNameResId()) })
+                } else {
+                    this.addView(TextView(activity).apply { setText(type.getDivisionTypeNameResId()) })
+                    this.addView(TextView(activity).apply { text = quantity.toString() })
+                }
+            })
+        }
+    }
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         this.onItemClickListener = onItemClickListener

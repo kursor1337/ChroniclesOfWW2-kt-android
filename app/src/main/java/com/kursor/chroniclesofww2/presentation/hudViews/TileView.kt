@@ -9,7 +9,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.kursor.chroniclesofww2.R
-import com.kursor.chroniclesofww2.getDivisionResId
+import com.kursor.chroniclesofww2.getDivisionDrawableResId
 import com.kursor.chroniclesofww2.model.game.board.Division
 import com.kursor.chroniclesofww2.model.game.board.Tile
 
@@ -50,9 +50,9 @@ class TileView(
                 Log.i(TAG, "onDivisionSet: ")
                 Log.i(
                     "TileView",
-                    "drawable resource = " + division.getDivisionResId()
+                    "drawable resource = " + division.getDivisionDrawableResId()
                 )
-                addLayer(division.getDivisionResId())
+                addLayer(division.getDivisionDrawableResId())
             }
 
             override fun onTileCleared() {

@@ -1,154 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout13"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="8dp"
     >
 
 
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/username_edit_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        />
+
+    <EditText
+        android:id="@+id/username_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="username"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/username_edit_text"
+        android:id="@+id/signed_in_layout"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/login"
+            android:textSize="22sp"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@+id/change_password_button"
+            app:layout_constraintEnd_toStartOf="@+id/login_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="12dp"
+            />
+
+        <TextView
+            android:id="@+id/login_text_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:maxLines="1"
+            android:textSize="22sp"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/delete_account_button"
+            app:layout_constraintEnd_toStartOf="@+id/log_out_button"
+            app:layout_constraintStart_toEndOf="@+id/textView24"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/log_out_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/log_out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/login_text_view"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/change_password_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_password"
+            app:layout_constraintEnd_toStartOf="@+id/delete_account_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/log_out_button"
+            android:layout_marginEnd="4dp"
+            />
+
+        <Button
+            android:id="@+id/delete_account_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/delete_account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/change_password_button"
+            app:layout_constraintTop_toBottomOf="@+id/log_out_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="4dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:id="@+id/not_signed_in_layout"
+        app:layout_constraintTop_toBottomOf="@id/signed_in_layout"
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/username"
-            android:textSize="22sp"/>
-
-        <EditText
-            android:id="@+id/username_edit_text"
+        <Button
+            android:id="@+id/login_button"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:maxLines="1"
-            android:inputType="text"
-            android:autofillHints="username"
-            android:hint="@string/username"
+            android:layout_height="wrap_content"
+            android:text="@string/log_in"
+            android:layout_marginEnd="4dp"
+            />
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:layout_marginStart="4dp"
             />
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/signed_in_layout"
-                    android:visibility="gone"
-                    >
-
-                    <TextView
-                        android:paddingStart="12sp"
-                        android:paddingEnd="34sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="22sp"
-                        android:text="@string/login"
-                        />
-
-                    <TextView
-                        android:id="@+id/login_text_view"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:maxLines="1"
-                        android:textSize="22sp"
-                        />
-
-                    <Button
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:id="@+id/log_out_button"
-                        android:text="@string/log_out"
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/change_password_button"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="@string/change_password"
-                        />
-
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="wrap_content"/>
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/delete_account_button"
-                        android:text="@string/delete_account" />
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/not_signed_in_layout"
-            >
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/login_button"
-                android:text="@string/log_in"
-                />
-
-            <Space
-                android:layout_width="4dp"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/register_button"
-                android:text="@string/register"
-
-                />
-        </LinearLayout>
-
-    </FrameLayout>
-
     <Button
         android:id="@+id/saved_battles_button"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/battles_management"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/not_signed_in_layout" />
 
     <Button
         android:id="@+id/save_button"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/save"/>
+        android:layout_marginBottom="445dp"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saved_battles_button" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
