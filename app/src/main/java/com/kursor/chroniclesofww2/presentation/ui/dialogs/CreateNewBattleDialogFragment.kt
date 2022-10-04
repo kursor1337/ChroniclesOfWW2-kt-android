@@ -109,14 +109,20 @@ class CreateNewBattleDialogFragment : DialogFragment() {
         binding.readyButton.setOnClickListener {
             createNewBattleViewModel.ready()
             requireActivity().onBackPressed()
-            requireActivity().onBackPressed()
         }
 
         binding.readyAndSaveButton.setOnClickListener {
             createNewBattleViewModel.readyAndSave()
             findNavController().popBackStack(R.id.battleChooseFragment, inclusive = true)
             requireActivity().onBackPressed()
-            requireActivity().onBackPressed()
+        }
+
+        binding.nameEditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setBattleName(text.toString())
+        }
+
+        binding.introEditText.doOnTextChanged { text, start, before, count ->
+            createNewBattleViewModel.setBattleDescription(text.toString())
         }
 
         binding.infantry1EditText.doOnTextChanged { text, start, before, count ->

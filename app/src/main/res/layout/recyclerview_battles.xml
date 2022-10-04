@@ -3,20 +3,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-
+    android:orientation="horizontal"
+    android:background="@drawable/drawable_default"
     >
 
-    <TextView
-        android:background="@drawable/drawable_default"
-        android:id="@+id/battle_name_text_view"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:gravity="center_vertical"
-        android:textColor="@color/black"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:textSize="22sp" />
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/battle_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/battle_data_layout"
+        >
+
+    </LinearLayout>
 
 </LinearLayout>
 

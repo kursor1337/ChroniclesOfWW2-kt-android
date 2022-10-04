@@ -1,9 +1,14 @@
 package com.kursor.chroniclesofww2
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import android.view.MenuItem
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.view.setPadding
 import com.kursor.chroniclesofww2.model.game.Nation
 import com.kursor.chroniclesofww2.model.game.board.Division
 import java.util.*
@@ -53,9 +58,67 @@ fun MenuItem.setTitleColor(color: Int) {
 
 @Suppress("DEPRECATION")
 fun String.parseAsHtml(): Spanned {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
-    } else {
-        Html.fromHtml(this)
-    }
+    return Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+}
+
+
+fun drawNationBattleDataOnLayout(
+    context: Context,
+    nation: Nation,
+    divisionResources: Map<Division.Type, Int>,
+    layoutToDrawOn: LinearLayout,
+    inverseViews: Boolean
+) {
+
+    layoutToDrawOn.addView(LinearLayout(context).apply {
+        setPadding(20)
+        orientation = LinearLayout.VERTICAL
+        addView(TextView(context).apply { setText(nation.getNationNameStringResId()) })
+        divisionResources.forEach { (type, quantity) ->
+            addView(LinearLayout(context).apply {
+                orientation = LinearLayout.HORIZONTAL
+                if (inverseViews) {
+                    this.addView(
+                        TextView(context).apply {
+                            text = quantity.toString()
+                            setTextColor(Color.BLACK)
+                        }
+                    )
+                    this.addView(
+                        TextView(context).apply {
+                            setText(type.getDivisionTypeNameResId())
+                            setTextColor(Color.BLACK)
+                            layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                1f
+                            )
+                            textAlignment = TextView.TEXT_ALIGNMENT_VIEW_END
+                            setPadding(20, 0, 0, 0)
+                        }
+                    )
+                } else {
+                    this.addView(
+                        TextView(context).apply {
+                            setText(type.getDivisionTypeNameResId())
+                            setTextColor(Color.BLACK)
+                        }
+                    )
+                    this.addView(
+                        TextView(context).apply {
+                            text = quantity.toString()
+                            setTextColor(Color.BLACK)
+                            layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                1f
+                            )
+                            textAlignment = TextView.TEXT_ALIGNMENT_VIEW_END
+                            setPadding(20, 0, 0, 0)
+                        }
+                    )
+                }
+            })
+        }
+    })
 }

@@ -11,6 +11,7 @@ import androidx.activity.ComponentActivity
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.databinding.AdapterWaitingGameBinding
+import com.kursor.chroniclesofww2.drawNationBattleDataOnLayout
 import com.kursor.chroniclesofww2.features.WaitingGameInfoDTO
 import com.kursor.chroniclesofww2.getDivisionTypeNameResId
 import com.kursor.chroniclesofww2.getNationNameStringResId
@@ -53,9 +54,10 @@ class WaitingGameAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val game = gameList[position]
         holder.binding.loginTextView.text = game.initiatorLogin
-        holder.binding.gameIdTextView.text = game.id.toString()
+        holder.binding.gameIdTextView.text = "id: ${game.id}"
 
         drawNationBattleDataOnLayout(
+            context = activity,
             nation = game.battleData.nation1,
             divisionResources = game.battleData.nation1divisions,
             layoutToDrawOn = holder.binding.battleDataLayout,
@@ -63,6 +65,7 @@ class WaitingGameAdapter(
         )
 
         drawNationBattleDataOnLayout(
+            context = activity,
             nation = game.battleData.nation2,
             divisionResources = game.battleData.nation2divisions,
             layoutToDrawOn = holder.binding.battleDataLayout,
@@ -78,28 +81,6 @@ class WaitingGameAdapter(
 
     override fun getItemCount(): Int = gameList.size
 
-    private fun drawNationBattleDataOnLayout(
-        nation: Nation,
-        divisionResources: Map<Division.Type, Int>,
-        layoutToDrawOn: LinearLayout,
-        inverseViews: Boolean
-    ) {
-
-        layoutToDrawOn.addView(TextView(activity).apply { setText(nation.getNationNameStringResId()) })
-
-        divisionResources.forEach { (type, quantity) ->
-            layoutToDrawOn.addView(LinearLayout(activity).apply {
-                orientation = LinearLayout.HORIZONTAL
-                if (inverseViews) {
-                    this.addView(TextView(activity).apply { text = quantity.toString() })
-                    this.addView(TextView(activity).apply { setText(type.getDivisionTypeNameResId()) })
-                } else {
-                    this.addView(TextView(activity).apply { setText(type.getDivisionTypeNameResId()) })
-                    this.addView(TextView(activity).apply { text = quantity.toString() })
-                }
-            })
-        }
-    }
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         this.onItemClickListener = onItemClickListener

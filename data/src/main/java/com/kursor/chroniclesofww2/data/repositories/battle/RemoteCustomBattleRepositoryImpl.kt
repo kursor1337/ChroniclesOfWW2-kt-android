@@ -58,6 +58,7 @@ class RemoteCustomBattleRepositoryImpl(
         saveBattleReceiveDTO: SaveBattleReceiveDTO
     ): SaveBattleResponseDTO {
         val response = httpClient.post(Routes.Battles.SAVE.absolutePath(serverUrl)) {
+            contentType(ContentType.Application.Json)
             bearerAuth(token)
             setBody(saveBattleReceiveDTO)
         }
@@ -69,6 +70,7 @@ class RemoteCustomBattleRepositoryImpl(
         editBattleReceiveDTO: EditBattleReceiveDTO
     ): EditBattleResponseDTO {
         val response = httpClient.put(Routes.Battles.UPDATE.absolutePath(serverUrl)) {
+            contentType(ContentType.Application.Json)
             bearerAuth(token)
             setBody(editBattleReceiveDTO)
         }
@@ -80,6 +82,7 @@ class RemoteCustomBattleRepositoryImpl(
         deleteBattleReceiveDTO: DeleteBattleReceiveDTO
     ): DeleteBattleResponseDTO {
         val response = httpClient.delete(Routes.Battles.DELETE.absolutePath(serverUrl)) {
+            contentType(ContentType.Application.Json)
             bearerAuth(token)
             setBody(deleteBattleReceiveDTO)
         }

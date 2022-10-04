@@ -1,5 +1,6 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -35,7 +36,7 @@ class BattlesManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        battlesManagementViewModel.selectedBattleIndexesListLiveData.observe(viewLifecycleOwner) {
+        battlesManagementViewModel.selectedBattleIndexesLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) binding.publishBattlesImageButton.visibility = View.GONE
             else binding.publishBattlesImageButton.visibility = View.VISIBLE
         }
@@ -85,10 +86,11 @@ class BattlesManagementFragment : Fragment() {
                     if (battlesManagementViewModel.currentDataSource == BattlesManagementViewModel.DataSource.LOCAL) {
                         battlesManagementViewModel.selectOrUnselectBattleIndex(position)
                         if (battlesManagementViewModel
-                                .selectedBattleIndexesListLiveData
+                                .selectedBattleIndexesLiveData
                                 .value?.contains(position) == true
-                        ) view.setBackgroundColor(Color.LTGRAY)
-                        else view.setBackgroundColor(0)
+                        ) {
+                            view.backgroundTintList = ColorStateList.valueOf(Color.DKGRAY)
+                        } else view.backgroundTintList = null
                     }
                 }
             }
@@ -105,6 +107,10 @@ class BattlesManagementFragment : Fragment() {
                     )
                 }
             )
+        }
+
+        binding.publishBattlesImageButton.setOnClickListener {
+            battlesManagementViewModel.publishSelectedBattles()
         }
 
         binding.battlesRecyclerView.layoutManager = LinearLayoutManager(requireContext())

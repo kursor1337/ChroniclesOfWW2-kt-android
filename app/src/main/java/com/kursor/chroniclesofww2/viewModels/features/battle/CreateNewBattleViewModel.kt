@@ -22,14 +22,14 @@ class CreateNewBattleViewModel(
     private var nation1: Nation? = null
     private var nation2: Nation? = null
 
-    var newBattleName = ""
-    var newBattleDescription = ""
-    var player1infantry = 0
-    var player1armored = 0
-    var player1artillery = 0
-    var player2infantry = 0
-    var player2armored = 0
-    var player2artillery = 0
+    private var newBattleName = ""
+    private var newBattleDescription = ""
+    private var player1infantry = 0
+    private var player1armored = 0
+    private var player1artillery = 0
+    private var player2infantry = 0
+    private var player2armored = 0
+    private var player2artillery = 0
 
     fun setNation1ByPosition(position: Int) {
         nation1 = nations[position]
@@ -45,6 +45,14 @@ class CreateNewBattleViewModel(
 
     fun clearNation2() {
         nation2 = null
+    }
+
+    fun setBattleName(name: String) {
+        newBattleName = name
+    }
+
+    fun setBattleDescription(description: String) {
+        newBattleDescription = description
     }
 
     fun setPlayer1Infantry(player1InfantryString: String) {

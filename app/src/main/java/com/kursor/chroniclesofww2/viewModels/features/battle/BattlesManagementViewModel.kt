@@ -23,8 +23,8 @@ class BattlesManagementViewModel(
     private val _battleListLiveData = MutableLiveData<List<Battle>>()
     val battleListLiveData: LiveData<List<Battle>> get() = _battleListLiveData
 
-    private val _selectedBattleIndexesListLiveData = MutableLiveData<List<Int>>()
-    val selectedBattleIndexesListLiveData: LiveData<List<Int>> get() = _selectedBattleIndexesListLiveData
+    private val _selectedBattleIndexesLiveData = MutableLiveData<Set<Int>>()
+    val selectedBattleIndexesLiveData: LiveData<Set<Int>> get() = _selectedBattleIndexesLiveData
 
     init {
         loadBattleList(DataSource.LOCAL)
@@ -34,20 +34,25 @@ class BattlesManagementViewModel(
         private set
 
     fun selectOrUnselectBattleIndex(index: Int) {
-        if (selectedBattleIndexesListLiveData.value?.contains(index) == true) {
+        if (selectedBattleIndexesLiveData.value?.contains(index) == true) {
             unselectBattleIndex(index)
         } else selectBattleIndex(index)
     }
 
     private fun selectBattleIndex(index: Int) {
         val selectedBattleList =
-            (selectedBattleIndexesListLiveData.value ?: emptyList()).toMutableList()
-        _selectedBattleIndexesListLiveData.value = selectedBattleList
+            (selectedBattleIndexesLiveData.value ?: emptySet()).toMutableSet().apply {
+                add(index)
+            }
+        _selectedBattleIndexesLiveData.value = selectedBattleList
     }
 
     private fun unselectBattleIndex(index: Int) {
-        val selectedBattleList = (selectedBattleIndexesListLiveData.value ?: emptyList()).toMutableList()
-        _selectedBattleIndexesListLiveData.value = selectedBattleList
+        val selectedBattleList =
+            (selectedBattleIndexesLiveData.value ?: emptySet()).toMutableSet().apply {
+                remove(index)
+            }
+        _selectedBattleIndexesLiveData.value = selectedBattleList
     }
 
     fun loadBattleList(dataSource: DataSource) {
@@ -83,7 +88,7 @@ class BattlesManagementViewModel(
 
     fun publishSelectedBattles() {
         viewModelScope.launch {
-            _selectedBattleIndexesListLiveData.value?.forEach {
+            _selectedBattleIndexesLiveData.value?.forEach {
                 val battle = battleListLiveData.value?.get(it) ?: return@launch
                 publishBattleUseCase(
                     battleName = battle.name,

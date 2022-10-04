@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.RecyclerviewBattlesBinding
+import com.kursor.chroniclesofww2.drawNationBattleDataOnLayout
 import com.kursor.chroniclesofww2.model.serializable.Battle
 
 class BattleAdapter(
@@ -51,7 +51,25 @@ class BattleAdapter(
     }
 
     override fun onBindViewHolder(holder: BattleHolder, position: Int) {
-        holder.binding.battleNameTextView.text = battleList[position].name
+        val battle = battleList[position]
+        holder.binding.battleNameTextView.text = battle.name
+
+        drawNationBattleDataOnLayout(
+            context = activity,
+            nation = battle.data.nation1,
+            divisionResources = battle.data.nation1divisions,
+            layoutToDrawOn = holder.binding.battleDataLayout,
+            inverseViews = false
+        )
+
+        drawNationBattleDataOnLayout(
+            context = activity,
+            nation = battle.data.nation2,
+            divisionResources = battle.data.nation2divisions,
+            layoutToDrawOn = holder.binding.battleDataLayout,
+            inverseViews = true
+        )
+
         holder.binding.root.setOnClickListener {
             onItemClickListener?.onItemClick(
                 holder.binding.root, position, battleList[position]
@@ -61,12 +79,6 @@ class BattleAdapter(
             contextMenuPosition = holder.adapterPosition
             false
         }
-        holder.binding.root.setBackgroundColor(
-            ContextCompat.getColor(
-                activity,
-                R.color.colorPrimary
-            )
-        )
     }
 
     override fun getItemCount(): Int = battleList.size
