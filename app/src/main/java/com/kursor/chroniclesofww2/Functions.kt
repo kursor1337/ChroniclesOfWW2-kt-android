@@ -73,7 +73,12 @@ fun drawNationBattleDataOnLayout(
     layoutToDrawOn.addView(LinearLayout(context).apply {
         setPadding(20)
         orientation = LinearLayout.VERTICAL
-        addView(TextView(context).apply { setText(nation.getNationNameStringResId()) })
+        addView(
+            TextView(context).apply {
+                setText(nation.getNationNameStringResId())
+                setTextColor(Color.BLACK)
+            }
+        )
         divisionResources.forEach { (type, quantity) ->
             addView(LinearLayout(context).apply {
                 orientation = LinearLayout.HORIZONTAL
