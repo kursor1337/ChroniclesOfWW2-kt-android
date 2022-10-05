@@ -19,6 +19,8 @@ class BoardView(
 
     lateinit var tileViews: List<List<TileView>>
 
+    var previousMove: Pair<TileView?, TileView?> = null to null
+
     fun init(board: Board, meInitiator: Boolean) {
         Log.i(TAG, "init: Start")
         tileViews = List(board.height) { i ->
@@ -96,7 +98,17 @@ class BoardView(
     }
 
     fun showLastMove(move: Move) {
-        //TODO()
+        val from = tileViews[move.destination.row][move.destination.column]
+        val to = if (move.type == Move.Type.MOTION) {
+            move as MotionMove
+            tileViews[move.start.row][move.start.column]
+        } else null
+
+        from.showIsPrevious()
+        to?.showIsPrevious()
+        previousMove.first?.hideIsPrevious()
+        previousMove.second?.hideIsPrevious()
+        previousMove = from to to
     }
 
     companion object {

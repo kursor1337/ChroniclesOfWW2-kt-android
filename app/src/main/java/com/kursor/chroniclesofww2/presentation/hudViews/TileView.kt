@@ -104,6 +104,16 @@ class TileView(
         setImage(R.drawable.empty)
     }
 
+    fun showIsPrevious() {
+        removeLayer(R.drawable.empty)
+        addLayer(R.drawable.previous_move)
+    }
+
+    fun hideIsPrevious() {
+        removeLayer(R.drawable.previous_move)
+        addLayer(R.drawable.empty)
+    }
+
     private fun hideIsLegal() {
         Log.i("TileView", "Hide is legal")
         removeLayer(R.drawable.legal)
