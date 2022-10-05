@@ -71,7 +71,7 @@ class NsdDiscovery(
             }
 
             override fun onDiscoveryStopped(serviceType: String) {
-                Log.i(TAG, "Discovery stopped: $serviceType")
+                Log.d(TAG, "Discovery stopped: $serviceType")
             }
 
             override fun onStartDiscoveryFailed(serviceType: String, errorCode: Int) {
@@ -91,16 +91,16 @@ class NsdDiscovery(
 
 
     fun startDiscovery() {
-        Log.i(TAG, "Start discovery")
+        Log.d(TAG, "Start discovery")
         nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, nsdDiscoveryListener)
     }
 
     fun stopDiscovery() {
-        Log.i(TAG, "Stop discovery")
+        Log.d(TAG, "Stop discovery")
         try {
             nsdManager.stopServiceDiscovery(nsdDiscoveryListener)
         } catch (e: Exception) {
-            Log.i(TAG, e.message!!)
+            Log.e(TAG, e.message!!)
         }
     }
 

@@ -5,13 +5,13 @@ import kotlinx.coroutines.withContext
 import java.net.ConnectException
 
 @JvmInline
-public value class RequestResult<T> internal constructor(
+value class RequestResult<T> internal constructor(
     inline val value: Any?
 ) {
 
-    public val isConnectionFailure: Boolean get() = value is ConnectionFailure
+    val isConnectionFailure: Boolean get() = value is ConnectionFailure
 
-    public val isUnauthorized: Boolean get() = value is Unauthorized
+    val isUnauthorized: Boolean get() = value is Unauthorized
 
     internal class Unauthorized {
         override fun equals(other: Any?): Boolean {
@@ -37,17 +37,17 @@ public value class RequestResult<T> internal constructor(
         }
     }
 
-    public inline fun onSuccess(action: (T) -> Unit): RequestResult<T> {
+    inline fun onSuccess(action: (T) -> Unit): RequestResult<T> {
         if (!isUnauthorized && !isConnectionFailure) action(value as T)
         return this
     }
 
-    public inline fun onUnauthorized(action: () -> Unit): RequestResult<T> {
+    inline fun onUnauthorized(action: () -> Unit): RequestResult<T> {
         if (isUnauthorized) action()
         return this
     }
 
-    public inline fun onConnectionFailure(action: () -> Unit): RequestResult<T> {
+    inline fun onConnectionFailure(action: () -> Unit): RequestResult<T> {
         if (isConnectionFailure) action()
         return this
     }

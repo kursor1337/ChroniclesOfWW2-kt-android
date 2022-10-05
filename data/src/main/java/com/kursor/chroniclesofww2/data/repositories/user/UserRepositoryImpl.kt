@@ -12,7 +12,7 @@ class UserRepositoryImpl(val serverUrl: String, val httpClient: HttpClient) :
     UserRepository {
 
     init {
-        Log.i("UserRepository", "init: serverUrl = $serverUrl")
+        Log.d("UserRepository", "init: serverUrl = $serverUrl")
     }
 
     override suspend fun login(loginReceiveDTO: LoginReceiveDTO): LoginResponseDTO {

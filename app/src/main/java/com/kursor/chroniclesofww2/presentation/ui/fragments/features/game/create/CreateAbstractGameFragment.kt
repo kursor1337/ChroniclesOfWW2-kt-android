@@ -1,7 +1,6 @@
 package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game.create
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,7 +61,6 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         battleViewModel.battleLiveData.observe(viewLifecycleOwner) { battle ->
             this.battle = battle
             gameDataViewModel.battleLiveData.value = battle
-            Log.i("CreateAbstractGameFragment", "set name battle")
             binding.gameDataFragment.visibility = View.VISIBLE
         }
 

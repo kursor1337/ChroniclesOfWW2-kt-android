@@ -22,7 +22,7 @@ class BoardView(
     var previousMove: Pair<TileView?, TileView?> = null to null
 
     fun init(board: Board, meInitiator: Boolean) {
-        Log.i(TAG, "init: Start")
+        Log.d(TAG, "init: Start")
         tileViews = List(board.height) { i ->
             List(board.width) { j ->
                 TileView(context).apply {

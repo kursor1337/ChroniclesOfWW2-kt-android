@@ -19,7 +19,6 @@ import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
-import com.kursor.chroniclesofww2.presentation.ui.activities.GameActivity
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -47,52 +46,39 @@ class GameSessionViewModel(
     val controller = TwoHostsController(model, object : Controller.Listener {
 
         override fun onMotionMoveComplete(motionMove: MotionMove, turn: Int) {
-            Log.i(GameActivity.TAG, "onMotionMoveComplete: start")
             _legalMovesLiveData.value = emptyList()
             _lastMoveLiveData.value = motionMove
             sendMove(motionMove)
         }
 
         override fun onAddMoveComplete(addMove: AddMove, turn: Int) {
-            Log.i(GameActivity.TAG, "onAddMoveComplete: ")
             _legalMovesLiveData.value = emptyList()
             _lastMoveLiveData.value = addMove
             sendMove(addMove)
         }
 
         override fun onEnemyMoveComplete(move: Move, turn: Int) {
-            Log.i(GameActivity.TAG, "onEnemyMoveComplete: ")
-            Log.i("EventListener", "onEnemyMoveComplete")
             _legalMovesLiveData.value = emptyList()
             _lastMoveLiveData.value = move
         }
 
         override fun onMotionMoveCanceled(i: Int, j: Int) {
-            Log.i(GameActivity.TAG, "onMotionMoveCanceled: ")
             _legalMovesLiveData.value = emptyList()
         }
 
         override fun onAddMoveCanceled() {
-            Log.i(GameActivity.TAG, "onAddMoveCanceled: ")
             _legalMovesLiveData.value = emptyList()
         }
 
         override fun onReserveClicked(reserve: Reserve, possibleMoves: List<AddMove>) {
-            Log.i(GameActivity.TAG, "onReserveClicked: ")
-            Log.i(
-                GameActivity.TAG,
-                "onReserveClicked: number of possible moves = ${possibleMoves.size}"
-            )
             _legalMovesLiveData.value = possibleMoves
         }
 
         override fun onTileClicked(tile: Tile, possibleMoves: List<MotionMove>) {
-            Log.i(GameActivity.TAG, "onTileClicked: ")
             _legalMovesLiveData.value = possibleMoves
         }
 
         override fun onGameEnd(meWon: Boolean) {
-            Log.i(GameActivity.TAG, "onGameEnd: ")
             _gameEndLiveData.value = if (meWon) model.me else model.enemy
         }
 

@@ -24,7 +24,7 @@ class LocalConnection(
     override val shutdownListeners = mutableListOf<Connection.ShutdownListener>()
 
     init {
-        Log.i("Connection", "Init connection")
+        Log.d("Connection", "Init connection")
     }
 
     override fun shutdown() {
@@ -52,13 +52,11 @@ class LocalConnection(
     override suspend fun send(string: String) {
         withContext(ioDispatcher) {
             try {
-                Log.d("Sender", "Connected, Sending: $string")
                 output.println(string)
                 output.flush()
                 if (sendListener != null) {
                     withContext(Dispatchers.IO) { sendListener?.onSendSuccess() }
                 }
-                Log.d("Sender", "Send Successful: $string")
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("Sender", "_____")

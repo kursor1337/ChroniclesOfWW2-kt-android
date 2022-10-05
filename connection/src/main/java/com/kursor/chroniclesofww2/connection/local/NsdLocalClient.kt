@@ -75,14 +75,14 @@ class NsdLocalClient(
             val name = host.name
             var socket: Socket? = null
             try {
-                Log.i("Client", "Before Connection")
+                Log.d("Client", "Before Connection")
                 socket = Socket(inetAddress, port)
-                Log.i("Client", "After Connection")
+                Log.d("Client", "After Connection")
                 val input = BufferedReader(InputStreamReader(socket.getInputStream()))
                 val output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
                 output.println(this@NsdLocalClient.name)
                 output.flush()
-                Log.i("Client", "Sent Client Info")
+                Log.d("Client", "Sent Client Info")
                 val connection =
                     LocalConnection(
                         input,
@@ -93,11 +93,11 @@ class NsdLocalClient(
                     ).apply {
                         shutdownListeners.add(Connection.ShutdownListener { socket.close() })
                     }
-                Log.i("Client", "Connection established")
+                Log.d("Client", "Connection established")
                 withContext(Dispatchers.Main) {
                     listener?.onConnectionEstablished(connection)
                 }
-                Log.i("Client", "Client shutdown")
+                Log.d("Client", "Client shutdown")
             } catch (e: UnknownHostException) {
                 Log.e("Client", "UnknownHostException")
             } catch (e: Exception) {

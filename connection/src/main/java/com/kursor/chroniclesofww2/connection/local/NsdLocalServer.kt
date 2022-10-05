@@ -41,13 +41,13 @@ class NsdLocalServer(
     override suspend fun startListening(name: String) {
         withContext(Dispatchers.IO) {
             waiting = true
-            Log.i("Server", "Thread Started")
+            Log.d("Server", "Thread Started")
             val socket: Socket
             try {
                 nsdBroadcast.registerService(name, serverSocket.localPort)
-                Log.i("Server", "Listening for connections")
+                Log.d("Server", "Listening for connections")
                 socket = serverSocket.accept()
-                Log.i("Server", "Connection accepted")
+                Log.d("Server", "Connection accepted")
                 val output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
                 val input = BufferedReader(InputStreamReader(socket.getInputStream()))
                 while (waiting) {
@@ -64,7 +64,7 @@ class NsdLocalServer(
                     withContext(Dispatchers.Main) {
                         listener?.onConnectionEstablished(connection)
                     }
-                    Log.i("Server", "Server Shutdown")
+                    Log.d("Server", "Server Shutdown")
                     waiting = false
                     break
                 }

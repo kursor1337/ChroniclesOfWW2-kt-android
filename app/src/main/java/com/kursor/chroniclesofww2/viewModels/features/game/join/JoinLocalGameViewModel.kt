@@ -69,17 +69,13 @@ class JoinLocalGameViewModel(
             connection.observeIncoming().collect { string ->
                 when (string) {
                     Const.connection.ACCEPTED -> {
-                        Log.i("Client", Const.connection.ACCEPTED)
                         isAccepted = true
                         connection.send(Const.connection.REQUEST_GAME_DATA)
-                        Log.i("Client", Const.connection.REQUEST_GAME_DATA)
                         _statusLiveData.postValue(JoinGameStatus.ACCEPTED to null)
                     }
                     Const.connection.REJECTED -> _statusLiveData.value =
                         JoinGameStatus.REJECTED to null
                     else -> {
-
-                        Log.i("Client", "Default branch")
                         if (!isAccepted) return@collect
                         if (Moshi.GAMEDATA_ADAPTER.fromJson(string) == null) {
                             connection.send(INVALID_JSON)

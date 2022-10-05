@@ -2,7 +2,6 @@ package com.kursor.chroniclesofww2.presentation.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.kursor.chroniclesofww2.R
@@ -73,7 +72,6 @@ abstract class GameActivity : AppCompatActivity() {
     }
 
     fun goToMainScreen() {
-        Log.i(TAG, "Going to main screen")
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         System.gc()

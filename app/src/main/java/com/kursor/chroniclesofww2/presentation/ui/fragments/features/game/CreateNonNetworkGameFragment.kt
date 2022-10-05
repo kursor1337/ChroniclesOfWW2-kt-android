@@ -2,7 +2,6 @@ package com.kursor.chroniclesofww2.presentation.ui.fragments.features.game
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,7 @@ import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.presentation.ui.activities.SinglePlayerGameActivity
-import com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment
 import com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment.Companion.NAVIGATION_GRAPH_ID
-import com.kursor.chroniclesofww2.presentation.ui.fragments.features.battle.BattleChooseFragment
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
 import org.koin.android.ext.android.inject
@@ -63,7 +60,6 @@ class CreateNonNetworkGameFragment : Fragment() {
         }
         battleViewModel.battleLiveData.observe(viewLifecycleOwner) { battle ->
             gameDataViewModel.battleLiveData.value = battle
-            Log.i("CreateAbstractGameFragment", "set name battle")
             binding.gameDataFragment.visibility = View.VISIBLE
         }
         binding.readyButton.setOnClickListener { v ->

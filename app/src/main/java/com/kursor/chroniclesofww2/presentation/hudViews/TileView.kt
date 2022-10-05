@@ -143,7 +143,7 @@ class TileView(
         layerDrawable = LayerDrawable(ds)
         Log.i(
             "TileView",
-            "Set image " + layerDrawable + " length = " + layerDrawable.getNumberOfLayers()
+            "Set image " + layerDrawable + " length = " + layerDrawable.numberOfLayers
         )
         setImageDrawable(layerDrawable)
     }

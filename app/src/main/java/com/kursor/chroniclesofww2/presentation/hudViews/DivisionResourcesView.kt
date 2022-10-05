@@ -3,14 +3,13 @@ package com.kursor.chroniclesofww2.presentation.hudViews
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
 import com.kursor.chroniclesofww2.getFlagResId
-import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.model.game.DivisionResources
 import com.kursor.chroniclesofww2.model.game.GamePlayer
 import com.kursor.chroniclesofww2.model.game.Reserve
+import com.kursor.chroniclesofww2.objects.Tools
 
 class DivisionResourcesView(
     context: Context,
@@ -42,10 +41,8 @@ class DivisionResourcesView(
         }
 
     private fun init(divisionResources: DivisionResources) {
-        Log.i(TAG, "init: Start")
         val tempReserveViews = mutableListOf<ReserveView>()
         val width = Tools.getScreenWidth() / divisionResources.reserves.size
-        Log.i(TAG, "init: width = $width")
         divisionResources.reserves.forEach { (_, reserve) ->
             val reserveView = ReserveView(context).apply { this.reserve = reserve }
             tempReserveViews.add(reserveView)
