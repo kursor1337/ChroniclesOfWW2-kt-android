@@ -62,7 +62,6 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
         battleViewModel.battleLiveData.observe(viewLifecycleOwner) { battle ->
             this.battle = battle
             gameDataViewModel.battleLiveData.value = battle
-            binding.chosenScenarioTextView.text = battle.name
             Log.i("CreateAbstractGameFragment", "set name battle")
             binding.gameDataFragment.visibility = View.VISIBLE
         }
