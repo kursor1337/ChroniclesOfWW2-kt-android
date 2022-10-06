@@ -17,10 +17,7 @@ import com.kursor.chroniclesofww2.objects.Const.connection.REJECTED
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class CreateLocalGameViewModel(
     val localServer: LocalServer,
@@ -77,7 +74,6 @@ class CreateLocalGameViewModel(
         }
     }
 
-
     fun onConnectionInit() {
         connection = Tools.currentConnection as LocalConnection
         viewModelScope.launch {
@@ -101,12 +97,17 @@ class CreateLocalGameViewModel(
 
                         gameData = gameDataContainer!!
                             .createGameData()!!
-                            .getVersionForAnotherPlayer()
 
                         Log.i("Server", "Client sent ${Const.connection.REQUEST_GAME_DATA}")
-                        val gameDataJson = Moshi.GAMEDATA_ADAPTER.toJson(gameData)
+                        val gameDataJson =
+                            Moshi.GAMEDATA_ADAPTER.toJson(gameData.getVersionForAnotherPlayer())
                         connection.send(gameDataJson)
-                        _statusLiveData.postValue(CreateGameStatus.GAME_DATA_REQUEST to null)
+                        _statusLiveData.postValue(
+                            CreateGameStatus.GAME_DATA_REQUEST to Moshi.GAMEDATA_ADAPTER.toJson(
+                                gameData
+                            )
+                        )
+                        this.coroutineContext.job.cancel()
                     }
                     Const.connection.CANCEL_CONNECTION -> {
                         Log.i("Server", Const.connection.CANCEL_CONNECTION)

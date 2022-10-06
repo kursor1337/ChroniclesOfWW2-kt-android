@@ -28,22 +28,25 @@ class NsdLocalClient(
 
     override val discoveryListeners = mutableListOf<LocalClient.DiscoveryListener>()
 
-    override val availableHosts = mutableListOf<Host>()
+    override val availableHosts: List<Host>
+        get() = availableHostMap.values.toMutableList()
+
+    private val availableHostMap = mutableMapOf<String, Host>()
 
     var name = ""
 
     private val nsdDiscovery = NsdDiscovery(context, object : NsdDiscovery.Listener {
         override fun onHostFound(host: Host) {
             handler.post {
-                availableHosts.add(host)
+                availableHostMap[host.name] = host
                 discoveryListeners.forEach { it.onHostDiscovered(host) }
             }
         }
 
-        override fun onHostLost(host: Host) {
+        override fun onHostLost(hostName: String) {
             handler.post {
-                availableHosts.remove(host)
-                discoveryListeners.forEach { it.onHostLost(host) }
+                val host = availableHostMap.remove(hostName)
+                discoveryListeners.forEach { it.onHostLost(host ?: return@forEach) }
             }
         }
 

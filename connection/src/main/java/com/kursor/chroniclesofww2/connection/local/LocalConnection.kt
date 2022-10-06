@@ -6,9 +6,7 @@ import com.kursor.chroniclesofww2.domain.connection.Connection.Companion.DISCONN
 import com.kursor.chroniclesofww2.domain.connection.Host
 import com.kursor.chroniclesofww2.domain.connection.println
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import java.io.*
 
 class LocalConnection(
@@ -23,8 +21,13 @@ class LocalConnection(
 
     override val shutdownListeners = mutableListOf<Connection.ShutdownListener>()
 
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+    private val receiveSharedFlow: Flow<String>
+
     init {
         Log.d("Connection", "Init connection")
+        receiveSharedFlow = startReceive()
     }
 
     override fun shutdown() {
@@ -38,7 +41,16 @@ class LocalConnection(
         }
     }
 
+    private var flowCounter = 0
+
     override fun observeIncoming(): Flow<String> = flow {
+        receiveSharedFlow.collect {
+            this.emit(it)
+        }
+    }.flowOn(Dispatchers.IO)
+
+
+    private fun startReceive() = flow {
         while (receiving) {
             val string = input.readLine()
             if (string == DISCONNECT) {
@@ -47,11 +59,16 @@ class LocalConnection(
             Log.d("Receiver", "RECEIVED ==> $string")
             emit(string)
         }
-    }.flowOn(Dispatchers.IO)
+    }.shareIn(
+        scope = coroutineScope,
+        started = SharingStarted.Lazily,
+        replay = 0
+    )
 
     override suspend fun send(string: String) {
         withContext(ioDispatcher) {
             try {
+                Log.d("LocalConnection", "sent $string")
                 output.println(string)
                 output.flush()
                 if (sendListener != null) {

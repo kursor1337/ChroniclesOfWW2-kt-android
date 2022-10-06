@@ -3,7 +3,7 @@ package com.kursor.chroniclesofww2.domain.connection
 
 interface LocalClient {
 
-    val availableHosts: MutableList<Host>
+    val availableHosts: List<Host>
     var listener: Listener?
     val discoveryListeners: MutableList<DiscoveryListener>
 

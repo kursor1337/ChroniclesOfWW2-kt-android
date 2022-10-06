@@ -22,7 +22,7 @@ class NsdDiscovery(
     interface Listener {
         fun onResolveFailed(errorCode: Int)
         fun onHostFound(host: Host)
-        fun onHostLost(host: Host)
+        fun onHostLost(hostName: String)
         fun onDiscoveryFailed(errorCode: Int)
 
     }
@@ -53,7 +53,7 @@ class NsdDiscovery(
                             }
 
                             override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                                Log.e(TAG, "Resolve Succeeded. $serviceInfo")
+                                Log.d(TAG, "Resolve Succeeded. $serviceInfo")
                                 if (serviceInfo.serviceName == serviceName) {
                                     Log.d(TAG, "Same IP.")
                                     return
@@ -67,7 +67,7 @@ class NsdDiscovery(
 
             override fun onServiceLost(serviceInfo: NsdServiceInfo) {
                 Log.e(TAG, "service lost $serviceInfo")
-                discoveryListener.onHostLost(HostImpl(serviceInfo)) //TODO(Peer list remove)
+                discoveryListener.onHostLost(HostImpl.formatName(serviceInfo.serviceName)) //TODO(Peer list remove)
             }
 
             override fun onDiscoveryStopped(serviceType: String) {

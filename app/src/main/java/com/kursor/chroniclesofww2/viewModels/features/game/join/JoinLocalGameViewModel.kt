@@ -13,8 +13,10 @@ import com.kursor.chroniclesofww2.game.JoinGameStatus
 import com.kursor.chroniclesofww2.objects.Const
 import com.kursor.chroniclesofww2.objects.Const.connection.CANCEL_CONNECTION
 import com.kursor.chroniclesofww2.objects.Const.connection.INVALID_JSON
+import com.kursor.chroniclesofww2.objects.Const.connection.REQUEST_FOR_ACCEPT
 import com.kursor.chroniclesofww2.objects.Moshi
 import com.kursor.chroniclesofww2.objects.Tools
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 
 class JoinLocalGameViewModel(
@@ -66,6 +68,7 @@ class JoinLocalGameViewModel(
     fun onConnectionInit() {
         connection = Tools.currentConnection as LocalConnection
         viewModelScope.launch {
+            connection.send(REQUEST_FOR_ACCEPT)
             connection.observeIncoming().collect { string ->
                 when (string) {
                     Const.connection.ACCEPTED -> {
@@ -82,6 +85,7 @@ class JoinLocalGameViewModel(
                             return@collect
                         }
                         _statusLiveData.postValue(JoinGameStatus.GAME_DATA_OBTAINED to string)
+                        this.coroutineContext.job.cancel()
                     }
                 }
             }

@@ -56,7 +56,7 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
                 }
                 CreateGameStatus.GAME_DATA_REQUEST -> {
                     startActivity(Intent(activity, MultiplayerGameActivity::class.java).apply {
-                        putExtra(Const.game.GAME_DATA, gameDataJson)
+                        putExtra(Const.game.GAME_DATA, arg as String)
                     })
                 }
                 CreateGameStatus.TIMEOUT -> {
