@@ -19,6 +19,7 @@ import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.objects.Tools
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -146,6 +147,7 @@ class GameSessionViewModel(
     override fun onCleared() {
         super.onCleared()
         disconnect()
+        Tools.currentConnection = null
     }
 
     private fun Move.Simplified.restore(model: Model): Move {
