@@ -40,7 +40,7 @@ object Const {
         const val USERNAME = "username"
 
 
-        const val SERVER_URL = "192.168.31.197"
+        const val SERVER_URL = "1052557-ct86910.tmweb.ru"
         const val PORT = 8080
         const val HTTP_SERVER_URL = "http://$SERVER_URL:$PORT"
         const val WEBSOCKET_SERVER_URL = "ws://$SERVER_URL:$PORT"

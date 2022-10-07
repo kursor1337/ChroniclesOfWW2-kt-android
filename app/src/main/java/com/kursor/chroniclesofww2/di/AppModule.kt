@@ -13,6 +13,8 @@ import com.kursor.chroniclesofww2.viewModels.features.game.create.CreateRemoteGa
 import com.kursor.chroniclesofww2.viewModels.features.game.join.JoinLocalGameViewModel
 import com.kursor.chroniclesofww2.viewModels.features.game.join.JoinRemoteGameViewModel
 import com.kursor.chroniclesofww2.viewModels.features.game.session.SingleHostGameViewModel
+import com.kursor.chroniclesofww2.viewModels.features.user.ChangePasswordViewModel
+import com.kursor.chroniclesofww2.viewModels.features.user.DeleteAccountViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleListViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.BattleViewModel
 import com.kursor.chroniclesofww2.viewModels.shared.GameDataViewModel
@@ -108,4 +110,17 @@ val appModule = module {
             unpublishBattleUseCase = get()
         )
     }
+
+    viewModel {
+        ChangePasswordViewModel(
+            changePasswordUseCase = get()
+        )
+    }
+
+    viewModel {
+        DeleteAccountViewModel(
+            deleteAccountUseCase = get()
+        )
+    }
+
 }
