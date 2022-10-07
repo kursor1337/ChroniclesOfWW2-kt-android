@@ -8,6 +8,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -48,6 +49,8 @@ dependencies {
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-dtos:$dtos_version")
     implementation("com.github.kursor1337:chronicles-of-ww2-kt-model:$model_version")
 
+    implementation("com.yandex.android:mobileads:5.3.0")
+
     implementation(project(":connection"))
     implementation(project(":data"))
     implementation(project(":domain"))
@@ -66,6 +69,8 @@ dependencies {
     // Koin Core features
     implementation("io.insert-koin:koin-core:$koin_version")
     implementation("androidx.room:room-ktx:$room_version")
+    implementation("com.google.firebase:firebase-analytics-ktx:21.1.0")
+    implementation("com.google.firebase:firebase-crashlytics-ktx:18.2.12")
     // Koin Test features
     testImplementation("io.insert-koin:koin-test:$koin_version")
     // Koin main features for Android

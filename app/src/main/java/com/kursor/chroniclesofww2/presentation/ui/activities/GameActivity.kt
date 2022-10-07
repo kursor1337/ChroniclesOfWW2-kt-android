@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.model.serializable.GameData
 import com.kursor.chroniclesofww2.objects.Const
@@ -16,6 +19,7 @@ abstract class GameActivity : AppCompatActivity() {
 
     //lateinit var binding: ActivityGameBinding
 
+    private lateinit var analytics: FirebaseAnalytics
 
     lateinit var boardView: BoardView
     lateinit var divisionResourcesMe: DivisionResourcesView
@@ -27,6 +31,7 @@ abstract class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_game)
+        analytics = Firebase.analytics
         //binding = ActivityGameBinding.inflate(layoutInflater)
         if (supportActionBar != null) supportActionBar!!.hide()
         boardView = findViewById(R.id.board_view)
