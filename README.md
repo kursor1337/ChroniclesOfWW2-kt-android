@@ -1,7 +1,7 @@
 # ChroniclesOfWW2-kt
 **Remake of my Chronicles of WWII game**
 ## Beta started!!! -> [beta-0.1](https://github.com/kursor1337/ChroniclesOfWW2-kt-android/releases/tag/beta-0.1)
-**Please report bugs and make suggestions [here](vk.com/gray_chiken) or in GitHub Issues**
+**Please report bugs and make suggestions [here](https://vk.com/gray_chiken) or in GitHub Issues**
 
 ### Check out my preview video
 [![Watch the video](https://img.youtube.com/vi/DLo3eyAUalo/maxresdefault.jpg)](https://youtu.be/DLo3eyAUalo)
