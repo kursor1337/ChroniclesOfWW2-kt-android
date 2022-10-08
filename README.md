@@ -4,8 +4,6 @@
 ### Check out my preview video
 [![Watch the video](https://img.youtube.com/vi/DLo3eyAUalo/maxresdefault.jpg)](https://youtu.be/DLo3eyAUalo)
 
-### Backend for this game -> [ChroniclesOfWW2-kt-Backend](https://github.com/kursor1337/ChroniclesOfWW2-kt-Backend)
-
 ## Stack
 * [Kotlin](https://kotlinlang.org/)
 * [Ktor](https://ktor.io/)
@@ -18,3 +16,5 @@
 * [MVVM](https://developer.android.com/topic/libraries/architecture/viewmodel)
 * [Clean Arch](https://developer.android.com/topic/architecture)
 * [YandexAds](https://yandex.ru/dev/mobile-ads/)
+
+### Backend for this game -> [ChroniclesOfWW2-kt-Backend](https://github.com/kursor1337/ChroniclesOfWW2-kt-Backend)
