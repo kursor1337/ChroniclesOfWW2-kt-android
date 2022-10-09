@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class BattlesManagementViewModel(
     val loadLocalCustomBattleListUseCase: LoadLocalCustomBattleListUseCase,
-    val loadPublishedBattleUseCase: LoadMyRemoteBattlesListUseCase,
+    val loadPublishedBattleListUseCase: LoadMyRemoteBattlesListUseCase,
     val deleteLocalCustomBattleUseCase: DeleteLocalCustomBattleUseCase,
     val unpublishBattleUseCase: UnpublishBattleUseCase,
     val publishBattleUseCase: PublishBattleUseCase
@@ -66,7 +66,7 @@ class BattlesManagementViewModel(
                         }
                 }
                 DataSource.REMOTE -> {
-                    loadPublishedBattleUseCase()
+                    loadPublishedBattleListUseCase()
                         .onSuccess {
                             _battleListLiveData.postValue(it)
                         }

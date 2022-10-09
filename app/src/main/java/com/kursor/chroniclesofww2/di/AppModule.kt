@@ -105,7 +105,7 @@ val appModule = module {
         BattlesManagementViewModel(
             loadLocalCustomBattleListUseCase = get(),
             deleteLocalCustomBattleUseCase = get(),
-            loadPublishedBattleUseCase = get(),
+            loadPublishedBattleListUseCase = get(),
             publishBattleUseCase = get(),
             unpublishBattleUseCase = get()
         )
