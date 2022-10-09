@@ -1,9 +1,11 @@
 package com.kursor.chroniclesofww2.presentation.ui.activities
 
 import android.os.Bundle
+import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.model.game.moves.AddMove
 import com.kursor.chroniclesofww2.model.game.moves.MotionMove
 import com.kursor.chroniclesofww2.model.game.moves.Move
+import com.kursor.chroniclesofww2.presentation.ui.dialogs.SimpleDialogFragment
 import com.kursor.chroniclesofww2.viewModels.features.game.session.SingleHostGameViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -59,4 +61,14 @@ class SinglePlayerGameActivity : GameActivity() {
             buildAlertMessageEndOfTheGame(winner.name == singleHostGameViewModel.model.me.name)
         }
     }
+
+    override fun buildAlertMessageEndOfTheGame(win: Boolean) {
+        val result = if (win) getString(R.string.first_player_have_won)
+        else getString(R.string.second_player_have_won)
+        val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(this)
+            .setMessage(result).setCancelable(false)
+            .setPositiveButton("Ок") { dialog, which -> goToMainScreen() }.build()
+        dialog.show(supportFragmentManager, "")
+    }
+
 }

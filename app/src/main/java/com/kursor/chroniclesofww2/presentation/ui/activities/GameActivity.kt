@@ -67,7 +67,7 @@ abstract class GameActivity : AppCompatActivity() {
         return simpleDialogFragment
     }
 
-    fun buildAlertMessageEndOfTheGame(win: Boolean) {
+    open fun buildAlertMessageEndOfTheGame(win: Boolean) {
         val result = if (win) getString(R.string.you_won)
         else getString(R.string.you_lose)
         val dialog: SimpleDialogFragment = SimpleDialogFragment.Builder(this)
@@ -79,7 +79,6 @@ abstract class GameActivity : AppCompatActivity() {
     fun goToMainScreen() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        System.gc()
         startActivity(intent)
     }
 

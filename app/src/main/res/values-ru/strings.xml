@@ -104,6 +104,8 @@
     <string name="nation_japan">Япония</string>
     <string name="nation_usa">США</string>
     <string name="nation_ussr">СССР</string>
+    <string name="first_player_have_won">Первый игрок победил</string>
+    <string name="second_player_have_won">Второй игрок победил</string>
 
 
 </resources>

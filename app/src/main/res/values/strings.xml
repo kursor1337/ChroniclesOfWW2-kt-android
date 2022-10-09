@@ -105,5 +105,7 @@
     <string name="nation_japan">Japan</string>
     <string name="nation_usa">USA</string>
     <string name="nation_ussr">USSR</string>
+    <string name="first_player_have_won">First player have won</string>
+    <string name="second_player_have_won">Second player have won</string>
 
 </resources>
