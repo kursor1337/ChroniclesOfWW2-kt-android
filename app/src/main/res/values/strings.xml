@@ -107,5 +107,9 @@
     <string name="nation_ussr">USSR</string>
     <string name="first_player_have_won">First player have won</string>
     <string name="second_player_have_won">Second player have won</string>
+    <string name="match">Match</string>
+    <string name="start_matching">Start matching</string>
+    <string name="found_a_match_for_you">Found a match for you</string>
+    <string name="stop_matching">Stop matching</string>
 
 </resources>

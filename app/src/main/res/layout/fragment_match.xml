@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/start_matching_button"
+        android:text="@string/start_matching"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_matching"
+        android:id="@+id/stop_matching_button"
+        app:layout_constraintTop_toBottomOf="@id/start_matching_button"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/match_suggestion_layout"
+        app:layout_constraintTop_toBottomOf="@+id/stop_matching_button"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/found_a_match_for_you"
+            android:id="@+id/found_match_text_view"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="22sp"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_text_view"
+            app:layout_constraintTop_toBottomOf="@id/found_match_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/found_match_text_view"
+            app:layout_constraintStart_toEndOf="@+id/login_text_view"
+            android:id="@+id/score_text_view"
+            android:textColor="@color/black"
+            android:padding="8dp"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/accept"
+            android:id="@+id/accept_button"
+            app:layout_constraintTop_toBottomOf="@id/login_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/reject_button"
+            android:layout_marginEnd="4dp"
+            />
+
+        <Button
+            android:layout_marginStart="4dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/refuse"
+            android:id="@+id/reject_button"
+            app:layout_constraintTop_toBottomOf="@id/score_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/accept_button"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/match_suggestion_layout"
+        android:id="@+id/matching_progress_bar"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
