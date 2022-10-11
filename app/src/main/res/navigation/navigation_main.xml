@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_mainFragment_to_navigation_settings"
             app:destination="@id/navigation_settings" />
+        <action
+            android:id="@+id/action_mainFragment_to_matchingGameDialogFragment"
+            app:destination="@id/matchingGameDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseMultiplayerGameFragment"
@@ -68,4 +71,9 @@
     <include app:graph="@navigation/navigation_non_network_game" />
     <include app:graph="@navigation/navigation_remote_game" />
     <include app:graph="@navigation/navigation_settings" />
+    <dialog
+        tools:layout="@layout/fragment_match"
+        android:id="@+id/matchingGameDialogFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.MatchingGameDialogFragment"
+        android:label="MatchingGameDialogFragment" />
 </navigation>

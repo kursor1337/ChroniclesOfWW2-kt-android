@@ -36,6 +36,9 @@ class MainFragment : Fragment() {
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_navigation_settings)
         }
+        binding.matchingGameButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_matchingGameDialogFragment)
+        }
     }
 
     private fun getOnClickListener(multiplayerType: String) = View.OnClickListener {

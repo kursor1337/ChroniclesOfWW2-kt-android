@@ -9,6 +9,7 @@ import com.kursor.chroniclesofww2.domain.repositories.AccountRepository
 import com.kursor.chroniclesofww2.features.*
 import com.kursor.chroniclesofww2.game.MatchGameStatus
 import com.kursor.chroniclesofww2.objects.Const
+import com.kursor.chroniclesofww2.objects.Tools
 import io.ktor.client.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -41,6 +42,7 @@ class MatchingGameViewModel(
         }
         viewModelScope.launch {
             connection.init(token)
+            onConnectionInit()
         }
     }
 
@@ -51,6 +53,20 @@ class MatchingGameViewModel(
         }
     }
 
+    fun accept() {
+        viewModelScope.launch {
+            connection.send(GameFeaturesMessages.ACCEPTED)
+        }
+    }
+
+    fun reject() {
+        viewModelScope.launch {
+            connection.send(GameFeaturesMessages.REJECTED)
+        }
+    }
+
+    var gameId = ""
+
     fun onConnectionInit() {
         viewModelScope.launch {
             connection.observeIncoming().collect { string ->
@@ -59,7 +75,22 @@ class MatchingGameViewModel(
                     MatchingGameMessageType.MESSAGE -> {
                         _messagesLiveData.postValue(matchingGameMessageDTO.message)
                     }
+                    MatchingGameMessageType.GAME_ID -> gameId =
+                        matchingGameMessageDTO.message
                     MatchingGameMessageType.GAME_DATA -> {
+                        val token = accountRepository.token ?: return@collect
+                        connection.shutdown()
+                        Tools.currentConnection = RemoteConnection(
+                            fullUrl = Routes.Game.SESSION
+                                .absolutePath(
+                                    Const.connection.WEBSOCKET_SERVER_URL
+                                ),
+                            httpClient = httpClient,
+                            dispatcher = Dispatchers.IO
+                        ).apply {
+                            init(token)
+                            send(gameId)
+                        }
                         _statusLiveData.postValue(MatchGameStatus.GAME_DATA_OBTAINED to matchingGameMessageDTO.message)
                     }
                     MatchingGameMessageType.TIMEOUT -> {
