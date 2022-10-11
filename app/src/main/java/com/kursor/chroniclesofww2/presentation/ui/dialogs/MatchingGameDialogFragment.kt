@@ -4,13 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentMatchBinding
+import com.kursor.chroniclesofww2.features.MatchingGameMessageDTO
+import com.kursor.chroniclesofww2.features.MatchingUserInfoDTO
+import com.kursor.chroniclesofww2.game.MatchGameStatus
+import com.kursor.chroniclesofww2.viewModels.features.game.MatchingGameViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MatchingGameDialogFragment : DialogFragment() {
 
     lateinit var binding: FragmentMatchBinding
 
+    val matchingGameViewModel by viewModel<MatchingGameViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +30,77 @@ class MatchingGameDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        matchingGameViewModel.messagesLiveData.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        }
+        matchingGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
+            when (status) {
+                MatchGameStatus.FOUND -> {
+                    showFoundMatch(arg as MatchingUserInfoDTO)
+                }
+                MatchGameStatus.TIMEOUT -> {
+                    Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_LONG).show()
+                }
+                MatchGameStatus.UNAUTHORIZED -> {
+                    Toast.makeText(requireContext(), "Unauthorized", Toast.LENGTH_LONG).show()
+                }
+                MatchGameStatus.ERROR -> {
 
+                }
+                MatchGameStatus.GAME_DATA_OBTAINED -> {
+
+                }
+                MatchGameStatus.REJECT -> {
+
+                }
+            }
+        }
+
+        binding.startMatchingButton.setOnClickListener {
+            matchingGameViewModel.startMatching()
+        }
+
+        binding.stopMatchingButton.setOnClickListener {
+            matchingGameViewModel.stopMatching()
+        }
+
+    }
+
+
+    fun showFoundMatch(matchingUserInfoDTO: MatchingUserInfoDTO) {
+        binding.loginTextView.text = matchingUserInfoDTO.login
+        binding.scoreTextView.text = matchingUserInfoDTO.score.toString()
+        binding.matchSuggestionLayout.visibility = View.VISIBLE
+        hideMatchingLayout()
+        hideStartMatchingButton()
+    }
+
+    fun hideFoundMatch() {
+        binding.matchSuggestionLayout.visibility = View.GONE
+        binding.loginTextView.text = ""
+        binding.scoreTextView.text = ""
+    }
+
+    fun showStartMatchingButton() {
+        binding.startMatchingButton.visibility = View.VISIBLE
+        hideFoundMatch()
+        hideMatchingLayout()
+    }
+
+    fun hideStartMatchingButton() {
+        binding.startMatchingButton.visibility = View.GONE
+    }
+
+    fun showMatchingLayout() {
+        binding.stopMatchingButton.visibility = View.VISIBLE
+        binding.matchingProgressBar.visibility = View.VISIBLE
+        hideFoundMatch()
+        hideStartMatchingButton()
+    }
+
+    fun hideMatchingLayout() {
+        binding.stopMatchingButton.visibility = View.GONE
+        binding.matchingProgressBar.visibility = View.GONE
     }
 
 }

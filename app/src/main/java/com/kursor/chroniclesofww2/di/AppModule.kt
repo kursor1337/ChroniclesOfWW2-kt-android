@@ -5,6 +5,7 @@ import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
 import com.kursor.chroniclesofww2.viewModels.features.battle.CreateNewBattleViewModel
 import com.kursor.chroniclesofww2.viewModels.features.battle.BattlesManagementViewModel
+import com.kursor.chroniclesofww2.viewModels.features.game.MatchingGameViewModel
 import com.kursor.chroniclesofww2.viewModels.features.game.session.GameSessionViewModel
 import com.kursor.chroniclesofww2.viewModels.features.user.LoginViewModel
 import com.kursor.chroniclesofww2.viewModels.features.user.RegisterViewModel
@@ -120,6 +121,13 @@ val appModule = module {
     viewModel {
         DeleteAccountViewModel(
             deleteAccountUseCase = get()
+        )
+    }
+
+    viewModel {
+        MatchingGameViewModel(
+            httpClient = get(),
+            accountRepository = get()
         )
     }
 
