@@ -9,11 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentMatchBinding
-import com.kursor.chroniclesofww2.features.MatchingGameMessageDTO
 import com.kursor.chroniclesofww2.features.MatchingUserInfoDTO
 import com.kursor.chroniclesofww2.game.MatchGameStatus
 import com.kursor.chroniclesofww2.objects.Const
-import com.kursor.chroniclesofww2.presentation.ui.activities.MainActivity
 import com.kursor.chroniclesofww2.presentation.ui.activities.MultiplayerGameActivity
 import com.kursor.chroniclesofww2.viewModels.features.game.MatchingGameViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,23 +34,43 @@ class MatchingGameDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         showStartMatchingButton()
         matchingGameViewModel.messagesLiveData.observe(viewLifecycleOwner) { message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                message,
+                Toast.LENGTH_LONG
+            ).show()
         }
         matchingGameViewModel.statusLiveData.observe(viewLifecycleOwner) { (status, arg) ->
             when (status) {
                 MatchGameStatus.FOUND -> {
-                    Toast.makeText(requireContext(), "Found match", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.found_match,
+                        Toast.LENGTH_LONG
+                    ).show()
                     showFoundMatch(arg as MatchingUserInfoDTO)
                 }
                 MatchGameStatus.TIMEOUT -> {
-                    Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.timeout,
+                        Toast.LENGTH_LONG
+                    ).show()
                     showStartMatchingButton()
                 }
                 MatchGameStatus.UNAUTHORIZED -> {
-                    Toast.makeText(requireContext(), "Unauthorized", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.unauthorized,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 MatchGameStatus.ERROR -> {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.error,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 MatchGameStatus.GAME_DATA_OBTAINED -> {
                     startActivity(
@@ -66,7 +84,11 @@ class MatchingGameDialogFragment : DialogFragment() {
                 }
                 MatchGameStatus.REJECT -> {
                     showStartMatchingButton()
-                    Toast.makeText(requireContext(), "Rejected", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.rejected,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

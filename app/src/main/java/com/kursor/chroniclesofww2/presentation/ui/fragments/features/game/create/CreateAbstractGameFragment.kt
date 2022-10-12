@@ -74,7 +74,7 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
             if (!checkConditionsForServerInit()) {
                 Toast.makeText(
                     requireContext(),
-                    "U need to connect to wi fi network",
+                    R.string.need_wi_fi,
                     Toast.LENGTH_LONG
                 ).show()
                 return@setOnClickListener

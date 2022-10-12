@@ -45,7 +45,11 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
                 }
                 CreateGameStatus.TIMEOUT -> {
                     Log.d("CreateRemoteGameFragment", "Timeout")
-                    Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.timeout,
+                        Toast.LENGTH_LONG
+                    ).show()
                     showReadyButton()
                 }
                 CreateGameStatus.REQUEST_FOR_ACCEPT -> {
@@ -72,14 +76,26 @@ class CreateRemoteGameFragment : CreateAbstractGameFragment() {
                 CreateGameStatus.UNCREATED -> {}
                 CreateGameStatus.GAME_DATA_REQUEST -> {}
                 CreateGameStatus.CANCEL_CONNECTION -> {
-                    Toast.makeText(requireContext(), "Connection cancelled", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.connection_cancelled,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 CreateGameStatus.GAME_START -> {}
                 CreateGameStatus.UNAUTHORIZED -> {
-                    Toast.makeText(requireContext(), "Unauthorized", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.unauthorized,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 CreateGameStatus.ERROR -> {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.error,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

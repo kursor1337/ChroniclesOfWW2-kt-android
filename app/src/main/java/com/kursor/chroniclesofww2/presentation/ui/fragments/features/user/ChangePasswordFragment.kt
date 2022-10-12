@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentChangePasswordBinding
 import com.kursor.chroniclesofww2.viewModels.features.user.ChangePasswordViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,7 +44,7 @@ class ChangePasswordFragment : Fragment() {
             if (binding.newPasswordEditText.text != binding.repeatPasswordEditText.text) {
                 Toast.makeText(
                     requireContext(),
-                    "Passwords don't match",
+                    R.string.not_same_password_and_repeat_password,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
@@ -52,7 +53,11 @@ class ChangePasswordFragment : Fragment() {
         }
 
         changePasswordViewModel.statusLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                it,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

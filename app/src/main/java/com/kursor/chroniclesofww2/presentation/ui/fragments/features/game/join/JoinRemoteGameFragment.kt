@@ -35,7 +35,11 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
             when (status) {
                 JoinGameStatus.ACCEPTED -> {}
                 JoinGameStatus.REJECTED -> {
-                    Toast.makeText(requireContext(), "Rejected", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.rejected,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 JoinGameStatus.GAME_DATA_OBTAINED -> {
                     val gameDataJson = arg as String
@@ -47,7 +51,7 @@ class JoinRemoteGameFragment : JoinAbstractGameFragment() {
                 JoinGameStatus.UNAUTHORIZED -> {
                     Toast.makeText(
                         requireContext(),
-                        "Login first (in Settings)",
+                        R.string.need_signed_in,
                         Toast.LENGTH_LONG
                     ).show()
                 }

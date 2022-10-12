@@ -49,7 +49,11 @@ class MultiplayerGameActivity : GameActivity() {
             buildAlertMessageEndOfTheGame(winner.name == gameSessionViewModel.model.me.name)
         }
         gameSessionViewModel.systemMessagesLiveData.observe(this) { string ->
-            Toast.makeText(this, string, Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                string,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import com.kursor.chroniclesofww2.R
 import com.kursor.chroniclesofww2.databinding.FragmentRegisterBinding
 import com.kursor.chroniclesofww2.viewModels.features.user.RegisterViewModel
 import org.koin.android.ext.android.inject
@@ -53,7 +54,7 @@ class RegisterFragment : Fragment() {
             val coroutineStarted = registerViewModel.register()
             if (!coroutineStarted) Toast.makeText(
                 requireContext(),
-                "Not same text in password and repeat password",
+                R.string.not_same_password_and_repeat_password,
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -61,7 +62,7 @@ class RegisterFragment : Fragment() {
         registerViewModel.registerResponseLiveData.observe(viewLifecycleOwner) { registerResponseDTO ->
             if (registerResponseDTO.token == null) Toast.makeText(
                 requireContext(),
-                "Something went wrong while registering: ${registerResponseDTO.message}",
+                "Something went wrong while registering: " + registerResponseDTO.message,
                 Toast.LENGTH_LONG
             ).show()
             else requireActivity().onBackPressed()

@@ -61,12 +61,16 @@ class CreateLocalGameFragment : CreateAbstractGameFragment() {
                 }
                 CreateGameStatus.TIMEOUT -> {
                     showReadyButton()
-                    Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.timeout,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 CreateGameStatus.ERROR -> {
                     Toast.makeText(
                         requireContext(),
-                        "Listening start error",
+                        R.string.listening_start_error,
                         Toast.LENGTH_LONG
                     ).show()
                 }

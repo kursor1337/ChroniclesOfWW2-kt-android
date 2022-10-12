@@ -113,5 +113,18 @@
     <string name="stop_matching">Stop matching</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="you">You</string>
+    <string name="found_match">Found match</string>
+    <string name="timeout">Timeout</string>
+    <string name="unauthorized">Unauthorized</string>
+    <string name="error">Error</string>
+    <string name="rejected">Rejected</string>
+    <string name="same_nations">Same nations as enemies</string>
+    <string name="too_little_divisions">Too little divisions</string>
+    <string name="game_data_not_obtained">Game data not obtained</string>
+    <string name="need_wi_fi">U need to connect to wi fi network</string>
+    <string name="need_signed_in">Login first (in Settings)</string>
+    <string name="listening_start_error">Listening start error</string>
+    <string name="connection_cancelled">Connection cancelled</string>
+    <string name="not_same_password_and_repeat_password">Not same text in password and repeat password</string>
 
 </resources>

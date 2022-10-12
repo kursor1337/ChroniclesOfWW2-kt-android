@@ -80,12 +80,16 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
                 JoinGameStatus.UNAUTHORIZED -> {
                     Toast.makeText(
                         requireContext(),
-                        "Login first (in Settings)",
+                        R.string.need_signed_in,
                         Toast.LENGTH_LONG
                     ).show()
                 }
                 JoinGameStatus.ERROR -> {
-                    Toast.makeText(activity, R.string.error_connectiong, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        R.string.error_connectiong,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 else -> {}
             }
@@ -105,8 +109,11 @@ class JoinLocalGameFragment : JoinAbstractGameFragment() {
 
     override fun obtainGamesList() {
         if (!checkConditionsForGame()) {
-            Toast.makeText(requireContext(), clientInitErrorMessageResId, Toast.LENGTH_LONG)
-                .show()
+            Toast.makeText(
+                requireContext(),
+                clientInitErrorMessageResId,
+                Toast.LENGTH_LONG
+            ).show()
             showError()
             return
         }

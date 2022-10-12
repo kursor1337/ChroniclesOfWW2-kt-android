@@ -51,14 +51,14 @@ class CreateNewBattleDialogFragment : DialogFragment() {
                 CreateNewBattleViewModel.Status.SAME_NATIONS_AS_ENEMIES -> {
                     Toast.makeText(
                         requireContext(),
-                        "Same nations as enemies",
+                        R.string.same_nations,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
                 CreateNewBattleViewModel.Status.TOO_LITTLE_DIVISIONS -> {
                     Toast.makeText(
                         requireContext(),
-                        "Too little divisions",
+                        R.string.too_little_divisions,
                         Toast.LENGTH_LONG
                     ).show()
                 }

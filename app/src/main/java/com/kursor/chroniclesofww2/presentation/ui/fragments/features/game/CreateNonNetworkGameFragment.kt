@@ -65,8 +65,11 @@ class CreateNonNetworkGameFragment : Fragment() {
         binding.readyButton.setOnClickListener { v ->
             val gameData = gameDataViewModel.createGameData()
             if (gameData == null) {
-                Toast.makeText(requireContext(), "Game data not obtained", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    requireContext(),
+                    R.string.game_data_not_obtained,
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
             startActivity(Intent(activity, SinglePlayerGameActivity::class.java).apply {
