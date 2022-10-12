@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_leaderboardFragment"
+            app:destination="@id/leaderboardFragment" />
     </fragment>
 
     <fragment
@@ -63,4 +66,9 @@
         android:id="@+id/createNewBattleDialogFragment4"
         android:name="com.kursor.chroniclesofww2.presentation.ui.dialogs.CreateNewBattleDialogFragment"
         android:label="CreateNewBattleDialogFragment" />
+    <fragment
+        tools:layout="@layout/fragment_leaderboard"
+        android:id="@+id/leaderboardFragment"
+        android:name="com.kursor.chroniclesofww2.presentation.ui.fragments.features.LeaderboardFragment"
+        android:label="LeaderboardFragment" />
 </navigation>

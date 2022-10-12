@@ -3,6 +3,7 @@ package com.kursor.chroniclesofww2.di
 import com.kursor.chroniclesofww2.objects.Tools
 import com.kursor.chroniclesofww2.viewModels.HostDiscoveryViewModel
 import com.kursor.chroniclesofww2.viewModels.SettingsViewModel
+import com.kursor.chroniclesofww2.viewModels.features.LeaderboardViewModel
 import com.kursor.chroniclesofww2.viewModels.features.battle.CreateNewBattleViewModel
 import com.kursor.chroniclesofww2.viewModels.features.battle.BattlesManagementViewModel
 import com.kursor.chroniclesofww2.viewModels.features.game.MatchingGameViewModel
@@ -128,6 +129,13 @@ val appModule = module {
         MatchingGameViewModel(
             httpClient = get(),
             accountRepository = get()
+        )
+    }
+
+    viewModel {
+        LeaderboardViewModel(
+            obtainLeaderBoardUseCase = get(),
+            getAccountInfoUseCase = get()
         )
     }
 

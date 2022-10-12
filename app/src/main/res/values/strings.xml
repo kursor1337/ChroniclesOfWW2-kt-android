@@ -112,5 +112,6 @@
     <string name="found_a_match_for_you">Found a match for you</string>
     <string name="stop_matching">Stop matching</string>
     <string name="leaderboard">Leaderboard</string>
+    <string name="you">You</string>
 
 </resources>

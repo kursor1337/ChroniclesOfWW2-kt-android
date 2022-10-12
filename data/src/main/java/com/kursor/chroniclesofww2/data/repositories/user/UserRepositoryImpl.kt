@@ -41,4 +41,16 @@ class UserRepositoryImpl(val serverUrl: String, val httpClient: HttpClient) :
             httpClient.get(Routes.Users.GET_BY_LOGIN(login).absolutePath(serverUrl))
         return response.body()
     }
+
+    override suspend fun getLeaderboard(
+        leaderboardInfoReceiveDTO: LeaderboardInfoReceiveDTO
+    ): LeaderboardInfoResponseDTO {
+        val response = httpClient.get(Routes.Users.LEADERBOARD.absolutePath(serverUrl)) {
+            contentType(ContentType.Application.Json)
+            setBody(leaderboardInfoReceiveDTO)
+        }
+        return response.body()
+    }
+
+
 }

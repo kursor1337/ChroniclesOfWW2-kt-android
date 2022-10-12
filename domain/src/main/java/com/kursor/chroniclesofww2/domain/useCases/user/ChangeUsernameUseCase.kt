@@ -19,7 +19,7 @@ class ChangeUsernameUseCase(
         CoroutineScope(Dispatchers.IO).launch {
             tryRequest {
                 accountRepository.updateUserInfo(
-                    UpdateUserInfoReceiveDTO(UserInfo(newUsername))
+                    UpdateUserInfoReceiveDTO(UserInfo(newUsername, -1))
                 )
             }
 

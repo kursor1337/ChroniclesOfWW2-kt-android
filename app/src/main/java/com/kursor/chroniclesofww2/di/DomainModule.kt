@@ -137,4 +137,8 @@ val domainModule = module {
         GetAccountInfoUseCase(accountRepository = get())
     }
 
+    factory {
+        ObtainLeaderBoardUseCase(userRepository = get())
+    }
+
 }

@@ -80,6 +80,10 @@ class SettingsFragment : Fragment() {
         binding.deleteAccountButton.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_deleteAccountFragment)
         }
+
+        binding.leaderBoardButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_leaderboardFragment)
+        }
     }
 
 

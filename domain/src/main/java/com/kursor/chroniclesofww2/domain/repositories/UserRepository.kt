@@ -13,5 +13,5 @@ interface UserRepository {
 
     suspend fun getUserInfoByLogin(login: String): UserInfo?
 
-
+    suspend fun getLeaderboard(leaderboardInfoReceiveDTO: LeaderboardInfoReceiveDTO): LeaderboardInfoResponseDTO
 }

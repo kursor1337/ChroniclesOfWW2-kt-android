@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:background="@drawable/drawable_default"
+    android:id="@+id/adapter_layout_leaderboard"
     >
 
     <TextView
