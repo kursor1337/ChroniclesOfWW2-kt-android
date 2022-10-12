@@ -133,13 +133,22 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/leader_board_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/leaderboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/not_signed_in_layout" />
+
+    <Button
         android:id="@+id/saved_battles_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/battles_management"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/not_signed_in_layout" />
+        app:layout_constraintTop_toBottomOf="@id/leader_board_button" />
 
     <Button
         android:id="@+id/save_button"
