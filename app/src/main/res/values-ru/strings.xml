@@ -10,7 +10,7 @@
     <string name="join">Присоединиться</string>
     <string name="new_scenario">Создать новый сценарий</string>
     <string name="show_mission_list">Список миссий</string>
-    <string name="choose_mission">Выберите миссию</string>
+    <string name="choose_battle">Выберите битву</string>
     <string name="scenario_title">Название сценария</string>
     <string name="scenario_intro">Интро к сценарию</string>
     <string name="nations">Страны</string>

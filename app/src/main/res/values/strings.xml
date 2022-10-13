@@ -14,7 +14,7 @@
     <string name="join">Join game</string>
     <string name="new_scenario">Create new scenario</string>
     <string name="show_mission_list">List of Missions</string>
-    <string name="choose_mission">Choose Mission</string>
+    <string name="choose_battle">Choose battle</string>
     <string name="scenario_title">Title of the scanario</string>
     <string name="scenario_intro">Intro of the scenario</string>
     <string name="nations">Nations</string>
