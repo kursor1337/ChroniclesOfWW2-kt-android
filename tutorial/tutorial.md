@@ -12,30 +12,29 @@ On some networks it does not work, on some searching for hosts takes to long, so
 Game on one device
 * Settings  
 Login, register, account and battles managements and leaderboard
-![Main screen](images/main_screen.jpg)
+<img src = "images/main_screen.jpg" width = 300>
 
 ## Playing with friends
-Here you can choose to join the game, or to create the game
-![Choose mode screen](images/choose_mode_screen.jpg)  
-
+Here you can choose to join the game, or to create the game 
+<img src = "images/choose_mode_screen.jpg" width = 300>
 ### Create game
 
 Here you can create the game  
-![Create game screen](images/create_game_screen.jpg)
+<img src = "images/create_game_screen.jpg" width = 300>
 You need to choose battle to create game
-![Choose battle screen](images/choose_battle_screen.jpg)
+<img src = "images/choose_battle_screen.jpg" width = 300>
 After it you can see settings for your game, board size, who will play what nation, etc.
-![Battle chosen screen](images/chosen_battle_create_game_screen.jpg)
+<img src = "images/chosen_battle_create_game_screen.jpg" width = 300>
 Press "Ready" to create the game  
 You will see the game id, tell it your friend, so he/she can connect to the right game
-![Game created screen](images/game_created_screen.jpg)
+<img src = "images/game_created_screen.jpg" width = 300>
 When your friend will try to connect to your game you will see the connection request on your screen
-![Connection request screen](images/connection_request_screen.jpg)
+<img src = "images/connection_request_screen.jpg" width = 300>
 
 
 ### Join game
 Joining the game is much easier than creating it. You just need to choose what game to connect
-![Join game screen](images/join_game_screen.jpg)
+<img src = "images/join_game_screen.jpg" width = 300>
 
 ## Game mechanics
 
@@ -52,24 +51,23 @@ Lets see how they differ
 
 ### Infantry
 Infantry divisions can move like a king in chess, one tile vertically, horizontally or diagonally
-![Infantry motion move](images/infantry_motion_move_screen.jpg)
+<img src = "images/infantry_motion_move_screen.jpg" width = 300>
 They attack the same as they move
-![Infantry attack](images/infantry_attack_screen.jpg)
+<img src = "images/infantry_attack_screen.jpg" width = 300>
 
 ### Armored
 Armored divisions are very fast, so they can move 2 tiles vertically or horizontally and 1 tile diagonally
-![Armored motion move](images/armored_motion_move_screen.jpg)
+<img src = "images/armored_motion_move_screen.jpg" width = 300>
 However, they can attack only one tile from them, excluding diagonally
-![Armored attack](images/armored_attack_screen.jpg)
-
+<img src = "images/armored_attack_screen.jpg" width = 300>
 ### Artillery
 Artillery divisions are very slow, but they can attack on long distances  
 They move just like Armored divisions attack, only one tile from them, excluding diagonally
-![Artillery motion move](images/artillery_motion_move_screen.jpg)
+<img src = "images/artillery_motion_move_screen.jpg" width = 300>
 But they can shoot very far, 3 tiles from them on the line, and 2 + 1 on the diagonal  
 The formula is abs(x + y) < 3
-![Artllery line attack](images/artillery_attack_screen2.jpg)
-![Artillery side attack](images/artillery_attack_screen.jpg)
+<img src = "images/artillery_attack_screen2.jpg" width = 300>
+<img src = "images/artillery_attack_screen.jpg" width = 300>
 
 ### Attack mechanics
 There are to different types of attack in game  
