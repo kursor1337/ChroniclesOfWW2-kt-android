@@ -3,6 +3,8 @@
 ## Beta started!!! -> [beta-0.2](https://github.com/kursor1337/ChroniclesOfWW2-kt-android/releases/tag/beta-0.2)
 **Please report bugs and make suggestions [here](https://vk.com/gray_chiken) or in GitHub Issues**
 
+## [Tutorial](tutorial/tutorial.md)
+
 ### Check out my preview video
 [![Watch the video](https://img.youtube.com/vi/DLo3eyAUalo/maxresdefault.jpg)](https://youtu.be/DLo3eyAUalo)
 
