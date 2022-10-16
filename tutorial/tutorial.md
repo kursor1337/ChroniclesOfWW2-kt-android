@@ -20,28 +20,29 @@ Here you can choose to join the game, or to create the game
 ### Create game
 
 <table>
-    <tr>
-        <td>
-            Here you can create the game  
-            <img src = "images/create_game_screen.jpg" width = 300> 
-        </td>
-        <td>
-            You need to choose battle to create game  
-            <img src = "images/choose_battle_screen.jpg" width = 300>  
-        </td>
+  <tr>
+    <td>
+      <p>Here you can create the game</p>  
+      <img src = "images/create_game_screen.jpg" width = 300> 
+    </td>
+      <td>
+        <p>You need to choose battle to create game</p>  
+        <img src = "images/choose_battle_screen.jpg" width = 300>  
+      </td>
     </tr>
     <tr>
-        <td>
-            After it you can see settings for your game, board size, who will play what nation, etc.  
-            <img src = "images/chosen_battle_create_game_screen.jpg" width = 300> 
-        </td>
-        <td>
-            Press "Ready" to create the game  
-            You will see the game id, tell it your friend, so he/she can connect to the right game  
-            <img src = "images/game_created_screen.jpg" width = 300>  
-        </td>
-    </tr>
-
+      <td>
+        <p>After it you can see settings for your game, board size, who will play what nation, etc.</p>  
+        <img src = "images/chosen_battle_create_game_screen.jpg" width = 300> 
+      </td>
+      <td>
+      <p>
+        Press "Ready" to create the game  
+        You will see the game id, tell it your friend, so he/she can connect to the right game  
+      </p>
+      <img src = "images/game_created_screen.jpg" width = 300>  
+    </td>
+  </tr>
 </table>
 
  
@@ -71,49 +72,56 @@ Lets see how they differ
 
 ### Infantry
 <table>
-    <tr>
-        <td>
-            Infantry divisions can move like a king in chess, one tile vertically, horizontally or diagonally  
-            <img src = "images/infantry_motion_move_screen.jpg" width = 300>  
-        </td>
-        <td>
-            They attack the same as they move  
-            <img src = "images/infantry_attack_screen.jpg" width = 300>  
-        </td>
-    </tr>
+  <tr>    
+    <td>
+      <p>
+        Infantry divisions can move like a king in chess.  
+        One tile vertically, horizontally or diagonally
+      </p> 
+      <img src = "images/infantry_motion_move_screen.jpg" width = 300>  
+    </td>
+    <td>
+      <p>They attack the same as they move</p>
+      <img src = "images/infantry_attack_screen.jpg" width = 300>  
+    </td>
+  </tr>
 </table>
 
 ### Armored
 <table>
-    <tr>
-        <td>
-            Armored divisions are very fast, so they can move 2 tiles vertically or horizontally and 1 tile diagonally    
-            <img src = "images/armored_motion_move_screen.jpg" width = 300>
-        </td>
-        <td>
-            However, they can attack only one tile from them, excluding diagonally  
-            <img src = "images/armored_attack_screen.jpg" width = 300>
-        </td>
-    </tr>
+  <tr>
+    <td>
+      <p>
+        Armored divisions are very fast, so they can move 2 tiles
+        vertically or horizontally and 1 tile diagonally
+      </p>
+      <img src = "images/armored_motion_move_screen.jpg" width = 300>
+    </td>
+    <td>
+      <p>However, they can attack only one tile from them, excluding diagonally</p>  
+      <img src = "images/armored_attack_screen.jpg" width = 300>
+    </td>
+  </tr>
 </table>
 
   
   
 ### Artillery
 Artillery divisions are very slow, but they can attack on long distances  
-They move just like Armored divisions attack, only one tile from them, excluding diagonally  
+They move just like Armored divisions attack,  
+only one tile from them, excluding diagonally  
 <img src = "images/artillery_motion_move_screen.jpg" width = 300>  
 But they can shoot very far, 3 tiles from them on the line, and 2 + 1 on the diagonal  
 The formula is abs(x + y) < 3  
 <table>
-    <tr>
-        <td>
-            <img src = "images/artillery_attack_screen2.jpg" width = 300> 
-        </td>
-        <td>
-            <img src = "images/artillery_attack_screen.jpg" width = 300> 
-        </td>
-    </tr>
+  <tr>
+    <td>
+      <img src = "images/artillery_attack_screen2.jpg" width = 300> 
+    </td>
+    <td>
+      <img src = "images/artillery_attack_screen.jpg" width = 300> 
+    </td>
+  </tr>
 </table>
 
 ### Attack mechanics
