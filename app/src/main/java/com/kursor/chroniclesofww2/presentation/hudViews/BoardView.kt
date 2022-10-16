@@ -75,10 +75,9 @@ class BoardView(
     }
 
     fun showPossibleAddMoves(addMoveList: List<AddMove>) {
-        addMoveList.forEach { move ->
-            val dest = move.destination
-            tileViews[dest.row][dest.column].state = TileView.State.LEGAL
-        }
+        addMoveList
+            .map { move -> move.destination }
+            .forEach { tileViews[it.row][it.column].state = TileView.State.LEGAL }
     }
 
     fun hideLegalMoves() {

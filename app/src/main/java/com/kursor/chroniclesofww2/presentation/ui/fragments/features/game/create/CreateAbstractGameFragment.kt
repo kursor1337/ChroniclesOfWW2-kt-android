@@ -79,7 +79,8 @@ abstract class CreateAbstractGameFragment : BundleFragment() {
                 ).show()
                 return@setOnClickListener
             }
-            if (!this::battle.isInitialized) return@setOnClickListener
+            if (!this::battle.isInitialized)
+                return@setOnClickListener
             gameDataJson =
                 Moshi.GAMEDATA_ADAPTER.toJson(gameDataViewModel.createGameData())
 

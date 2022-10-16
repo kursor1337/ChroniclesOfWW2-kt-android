@@ -39,23 +39,6 @@ abstract class GameActivity : AppCompatActivity() {
         divisionResourcesEnemy = findViewById(R.id.division_resources_enemy)
         gameData = Moshi.GAMEDATA_ADAPTER
             .fromJson(intent.getStringExtra(Const.game.GAME_DATA)!!)!!
-
-//        boardView.board = model.board
-//        divisionResourcesMe.setup(model.me)
-//        divisionResourcesEnemy.setup(model.enemy)
-
-
-//        boardView.setOnTileViewClickListener { i, j, tileView ->
-//            controller.processTileClick(i, j)
-//        }
-//
-//        divisionResourcesMe.setOnReserveClickListener {
-//            controller.processReserveClick(
-//                it.reserve!!.type,
-//                divisionResourcesMe.divisionResources?.playerName
-//                    ?: return@setOnReserveClickListener
-//            )
-//        }
     }
 
     fun showLoadingDialog(): SimpleDialogFragment {

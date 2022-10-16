@@ -70,10 +70,6 @@ abstract class JoinAbstractGameFragment : BundleFragment() {
                 R.string.cancel_request_for_accepted,
                 onNegativeButtonClickListener
             )
-//            { dialog, which ->
-//                Tools.currentConnection!!.send(CANCEL_CONNECTION)
-//                dialog.dismiss()
-//            }
             .build()
         dialog.show(parentFragmentManager, "WaitingForAccepted")
     }
