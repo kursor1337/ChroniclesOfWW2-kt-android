@@ -15,26 +15,26 @@ Login, register, account and battles managements and leaderboard
 <img src = "images/main_screen.jpg" width = 300>
 
 ## Playing with friends
-Here you can choose to join the game, or to create the game 
-<img src = "images/choose_mode_screen.jpg" width = 300>
+Here you can choose to join the game, or to create the game   
+<img src = "images/choose_mode_screen.jpg" width = 300>  
 ### Create game
 
 Here you can create the game  
-<img src = "images/create_game_screen.jpg" width = 300>
-You need to choose battle to create game
-<img src = "images/choose_battle_screen.jpg" width = 300>
-After it you can see settings for your game, board size, who will play what nation, etc.
-<img src = "images/chosen_battle_create_game_screen.jpg" width = 300>
+<img src = "images/create_game_screen.jpg" width = 300>  
+You need to choose battle to create game  
+<img src = "images/choose_battle_screen.jpg" width = 300>  
+After it you can see settings for your game, board size, who will play what nation, etc.  
+<img src = "images/chosen_battle_create_game_screen.jpg" width = 300>  
 Press "Ready" to create the game  
 You will see the game id, tell it your friend, so he/she can connect to the right game
-<img src = "images/game_created_screen.jpg" width = 300>
-When your friend will try to connect to your game you will see the connection request on your screen
-<img src = "images/connection_request_screen.jpg" width = 300>
+<img src = "images/game_created_screen.jpg" width = 300>  
+When your friend will try to connect to your game you will see the connection request on your screen  
+<img src = "images/connection_request_screen.jpg" width = 300>  
 
 
 ### Join game
-Joining the game is much easier than creating it. You just need to choose what game to connect
-<img src = "images/join_game_screen.jpg" width = 300>
+Joining the game is much easier than creating it. You just need to choose what game to connect  
+<img src = "images/join_game_screen.jpg" width = 300>  
 
 ## Game mechanics
 
@@ -50,24 +50,24 @@ The game has three different types of divisions
 Lets see how they differ  
 
 ### Infantry
-Infantry divisions can move like a king in chess, one tile vertically, horizontally or diagonally
-<img src = "images/infantry_motion_move_screen.jpg" width = 300>
-They attack the same as they move
-<img src = "images/infantry_attack_screen.jpg" width = 300>
+Infantry divisions can move like a king in chess, one tile vertically, horizontally or diagonally  
+<img src = "images/infantry_motion_move_screen.jpg" width = 300>  
+They attack the same as they move  
+<img src = "images/infantry_attack_screen.jpg" width = 300>  
 
 ### Armored
-Armored divisions are very fast, so they can move 2 tiles vertically or horizontally and 1 tile diagonally
-<img src = "images/armored_motion_move_screen.jpg" width = 300>
-However, they can attack only one tile from them, excluding diagonally
-<img src = "images/armored_attack_screen.jpg" width = 300>
+Armored divisions are very fast, so they can move 2 tiles vertically or horizontally and 1 tile diagonally  
+<img src = "images/armored_motion_move_screen.jpg" width = 300>  
+However, they can attack only one tile from them, excluding diagonally  
+<img src = "images/armored_attack_screen.jpg" width = 300>  
 ### Artillery
 Artillery divisions are very slow, but they can attack on long distances  
-They move just like Armored divisions attack, only one tile from them, excluding diagonally
-<img src = "images/artillery_motion_move_screen.jpg" width = 300>
+They move just like Armored divisions attack, only one tile from them, excluding diagonally  
+<img src = "images/artillery_motion_move_screen.jpg" width = 300>  
 But they can shoot very far, 3 tiles from them on the line, and 2 + 1 on the diagonal  
-The formula is abs(x + y) < 3
-<img src = "images/artillery_attack_screen2.jpg" width = 300>
-<img src = "images/artillery_attack_screen.jpg" width = 300>
+The formula is abs(x + y) < 3  
+<img src = "images/artillery_attack_screen2.jpg" width = 300>  
+<img src = "images/artillery_attack_screen.jpg" width = 300>  
 
 ### Attack mechanics
 There are to different types of attack in game  
