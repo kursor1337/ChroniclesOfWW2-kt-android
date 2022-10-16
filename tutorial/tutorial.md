@@ -19,15 +19,35 @@ Here you can choose to join the game, or to create the game
 <img src = "images/choose_mode_screen.jpg" width = 300>  
 ### Create game
 
-Here you can create the game  
-<img src = "images/create_game_screen.jpg" width = 300>  
-You need to choose battle to create game  
-<img src = "images/choose_battle_screen.jpg" width = 300>  
-After it you can see settings for your game, board size, who will play what nation, etc.  
-<img src = "images/chosen_battle_create_game_screen.jpg" width = 300>  
-Press "Ready" to create the game  
-You will see the game id, tell it your friend, so he/she can connect to the right game  
-<img src = "images/game_created_screen.jpg" width = 300>  
+<table>
+    <tr>
+        <td>
+            Here you can create the game  
+            <img src = "images/create_game_screen.jpg" width = 300> 
+        </td>
+        <td>
+            You need to choose battle to create game  
+            <img src = "images/choose_battle_screen.jpg" width = 300>  
+        </td>
+    </tr>
+    <tr>
+        <td>
+            After it you can see settings for your game, board size, who will play what nation, etc.  
+            <img src = "images/chosen_battle_create_game_screen.jpg" width = 300> 
+        </td>
+        <td>
+            Press "Ready" to create the game  
+            You will see the game id, tell it your friend, so he/she can connect to the right game  
+            <img src = "images/game_created_screen.jpg" width = 300>  
+        </td>
+    </tr>
+
+</table>
+
+ 
+
+ 
+
 When your friend will try to connect to your game you will see the connection request on your screen  
 <img src = "images/connection_request_screen.jpg" width = 300>  
 
@@ -50,16 +70,35 @@ The game has three different types of divisions
 Lets see how they differ  
 
 ### Infantry
-Infantry divisions can move like a king in chess, one tile vertically, horizontally or diagonally  
-<img src = "images/infantry_motion_move_screen.jpg" width = 300>  
-They attack the same as they move  
-<img src = "images/infantry_attack_screen.jpg" width = 300>  
+<table>
+    <tr>
+        <td>
+            Infantry divisions can move like a king in chess, one tile vertically, horizontally or diagonally  
+            <img src = "images/infantry_motion_move_screen.jpg" width = 300>  
+        </td>
+        <td>
+            They attack the same as they move  
+            <img src = "images/infantry_attack_screen.jpg" width = 300>  
+        </td>
+    </tr>
+</table>
 
 ### Armored
-Armored divisions are very fast, so they can move 2 tiles vertically or horizontally and 1 tile diagonally  
-<img src = "images/armored_motion_move_screen.jpg" width = 300>  
-However, they can attack only one tile from them, excluding diagonally  
-<img src = "images/armored_attack_screen.jpg" width = 300>  
+<table>
+    <tr>
+        <td>
+            Armored divisions are very fast, so they can move 2 tiles vertically or horizontally and 1 tile diagonally    
+            <img src = "images/armored_motion_move_screen.jpg" width = 300>
+        </td>
+        <td>
+            However, they can attack only one tile from them, excluding diagonally  
+            <img src = "images/armored_attack_screen.jpg" width = 300>
+        </td>
+    </tr>
+</table>
+
+  
+  
 ### Artillery
 Artillery divisions are very slow, but they can attack on long distances  
 They move just like Armored divisions attack, only one tile from them, excluding diagonally  
