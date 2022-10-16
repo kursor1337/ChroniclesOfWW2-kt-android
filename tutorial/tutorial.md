@@ -26,7 +26,7 @@ You need to choose battle to create game
 After it you can see settings for your game, board size, who will play what nation, etc.  
 <img src = "images/chosen_battle_create_game_screen.jpg" width = 300>  
 Press "Ready" to create the game  
-You will see the game id, tell it your friend, so he/she can connect to the right game
+You will see the game id, tell it your friend, so he/she can connect to the right game  
 <img src = "images/game_created_screen.jpg" width = 300>  
 When your friend will try to connect to your game you will see the connection request on your screen  
 <img src = "images/connection_request_screen.jpg" width = 300>  
@@ -66,8 +66,16 @@ They move just like Armored divisions attack, only one tile from them, excluding
 <img src = "images/artillery_motion_move_screen.jpg" width = 300>  
 But they can shoot very far, 3 tiles from them on the line, and 2 + 1 on the diagonal  
 The formula is abs(x + y) < 3  
-<img src = "images/artillery_attack_screen2.jpg" width = 300>  
-<img src = "images/artillery_attack_screen.jpg" width = 300>  
+<table>
+    <tr>
+        <td>
+            <img src = "images/artillery_attack_screen2.jpg" width = 300> 
+        </td>
+        <td>
+            <img src = "images/artillery_attack_screen.jpg" width = 300> 
+        </td>
+    </tr>
+</table>
 
 ### Attack mechanics
 There are to different types of attack in game  
